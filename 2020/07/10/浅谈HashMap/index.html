@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>浅谈HashMap | topone233</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HashMap 什么是哈希表 HashMap的实现原理 为何HashMap的数组长度一定是2的次幂 重写equals方法需同时重写hashCode方法 JDK1.8中HashMap的性能优化    参考自：https:&#x2F;&#x2F;blog.csdn.net&#x2F;woshimaxiao1&#x2F;article&#x2F;details&#x2F;83661464 1.什么是哈希表讨论哈希表之前，先大概了解下其他数据结构 数组采用一段连续">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈HashMap">
+<meta property="og:url" content="https://topone233.github.io/2020/07/10/%E6%B5%85%E8%B0%88HashMap/index.html">
+<meta property="og:site_name" content="topone233">
+<meta property="og:description" content="HashMap 什么是哈希表 HashMap的实现原理 为何HashMap的数组长度一定是2的次幂 重写equals方法需同时重写hashCode方法 JDK1.8中HashMap的性能优化    参考自：https:&#x2F;&#x2F;blog.csdn.net&#x2F;woshimaxiao1&#x2F;article&#x2F;details&#x2F;83661464 1.什么是哈希表讨论哈希表之前，先大概了解下其他数据结构 数组采用一段连续">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-10T09:07:59.392Z">
+<meta property="article:modified_time" content="2020-07-05T09:59:55.026Z">
+<meta property="article:author" content="QSX1C">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="topone233" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">topone233</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://topone233.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-浅谈HashMap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/10/%E6%B5%85%E8%B0%88HashMap/" class="article-date">
+  <time datetime="2020-07-10T09:07:59.392Z" itemprop="datePublished">2020-07-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浅谈HashMap
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h1><ul>
+<li>什么是哈希表</li>
+<li>HashMap的实现原理</li>
+<li>为何HashMap的数组长度一定是2的次幂</li>
+<li>重写equals方法需同时重写hashCode方法</li>
+<li>JDK1.8中HashMap的性能优化  </li>
+</ul>
+<p>参考自：<a href="https://blog.csdn.net/woshimaxiao1/article/details/83661464" target="_blank" rel="noopener">https://blog.csdn.net/woshimaxiao1/article/details/83661464</a></p>
+<h4 id="1-什么是哈希表"><a href="#1-什么是哈希表" class="headerlink" title="1.什么是哈希表"></a>1.什么是哈希表</h4><p>讨论哈希表之前，先大概了解下其他数据结构</p>
+<h5 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h5><p>采用一段连续的存储单元来存储数据。</p>
+<p>通过指定下标查找，时间复杂度为O(1)；</p>
+<p>通过给定值查找，需要遍历数组，逐一对比给定关键字和数组元素，时间复杂度O(n)。</p>
+<p>对于有序数组，则可采用二分查找、插值查找、斐波那契查找等方式，可将复杂度提高到O(logn)；一般的插入删除操作，涉及到数组元素的移动，评价复杂度也为O(n)。</p>
+<h5 id="线性链表"><a href="#线性链表" class="headerlink" title="线性链表"></a>线性链表</h5><p>对于链表的新增、删除等操作，在找到指定操作位置后，仅需处理结点间的引用即可，时间复杂度为O(1),而查找操作需要遍历链表逐一进行对比，复杂度为O(n)。</p>
+<h5 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h5><p>对一棵相对平衡的有序二叉树，CRUD，平均复杂度均为O(logn)。</p>
+<h5 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h5><p>哈希表(hash table)进行CRUD，性能十分之高，不考虑哈希冲突的情况下，仅需一次定位即可完成，时间复杂度为O(1)。</p>
+<p>数据结构的物理存储结构只有两种：顺序存储结构和链式存储结构。栈、队列、树、图等都是从逻辑结构去抽象，映射到内存中，也是这两种物理组织形式。</p>
+<p>哈希表主干是数组。<br>如果要新增或查找某个元素，把元素的关键字，通过某个函数映射到数组中的某个位置，通过数组下标一次定位就可以完成。这个函数可以简单描述为：存储位置=f(关键字)。函数f一般成为哈希函数，直接影响到哈希表的优劣。</p>
+<h5 id="哈希冲突"><a href="#哈希冲突" class="headerlink" title="哈希冲突"></a>哈希冲突</h5><p>如果两个不同的元素，通过哈希函数得出的实际存储地址相同；或者元素哈希运算得到一个存储地址，进行插入的时候发现已经被其他元素占用了，这就是所谓的哈希冲突，也叫哈希碰撞。 </p>
+<p>好的哈希函数会尽可能使计算简单和散列地址分布均匀。但是，数组是一块连续的固定长度的内存空间，再好的哈希函数也不能保证得到的存储地址绝对不发生冲突。  </p>
+<p>哈希冲突的解决方案有多种：开放定址法(发生冲突，继续寻找下一块未被占用的存储地址)、再散列函数法、链地址法。HashMap采用的即是链地址法，也就是数组+链表的方式。 </p>
+<h4 id="2-HashMap的实现原理"><a href="#2-HashMap的实现原理" class="headerlink" title="2.HashMap的实现原理"></a>2.HashMap的实现原理</h4><p>HashMap的主干是一个Entry数组。Entry是HashMap的基本组成单元，每一个Entry包含一个key-value键值对。（其实所谓的Map就是保存了两个对象之间的映射关系的一种集合）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;主干是一个Entry数组，初始值为空数组，长度一定是2的次幂</span><br><span class="line">transient Entry&lt;K,V&gt;[] table &#x3D; (Entry&lt;K,V&gt;[]) EMPty_TABLE;</span><br></pre></td></tr></table></figure>
+<p>Entry是HashMap中的一个静态内部类。代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">    final K key;</span><br><span class="line">    V value;</span><br><span class="line">    &#x2F;&#x2F;存储执向下一个Entry的引用，单链表结构</span><br><span class="line">    Entry&lt;K,V&gt; next; </span><br><span class="line">    &#x2F;&#x2F;对key的hashcode值进行hash运算后得到的值，存储在Entry，避免重复计算</span><br><span class="line">    int hash; </span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F;creats new entry</span><br><span class="line">    Entry(int h, k K, V v, Entry&lt;K,V&gt; n) &#123;</span><br><span class="line">        value &#x3D; v;</span><br><span class="line">        next &#x3D; n;</span><br><span class="line">        key &#x3D; k;</span><br><span class="line">        hash &#x3D; h;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="总结一下："><a href="#总结一下：" class="headerlink" title="总结一下："></a>总结一下：</h6><p>HashMap由数组+链表组成，Entry数组是HashMap的主体，链表用于解决哈希冲突。如果定位到的数组位置不含链表(当前entry的next指向null)，那么CRUD很快，O(1)，仅需一次寻址即可；如果定位到的数组包含链表，添加操作，复杂度O(n)，先遍历链表，存在即覆盖，否则新增；查找操作，仍需遍历链表，然后通过key对象的equals方法逐一对比查找。所以，HashMap中的链表出现越少，性能越好。 </p>
+<p>HashMap的4个构造器size、threshold、loadFactor、modCount</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;实际存储key-value键值对的个数</span><br><span class="line">transient int size;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;阈值，当table &#x3D;&#x3D; &#123;&#125;时，该值为初始容量(默认16)</span><br><span class="line">&#x2F;&#x2F;当table被填充了，也就是为table分配内存空间后，threshold一般为capacity*loadFactory</span><br><span class="line">&#x2F;&#x2F;HashMap在进行扩容时需要参考threshold</span><br><span class="line">int threshold;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;负载因子，代表了table的填充度，默认是0.75</span><br><span class="line">&#x2F;&#x2F;负载因子存在的原因，还是为了减缓哈希冲突</span><br><span class="line">&#x2F;&#x2F;如果初始桶为16，等到满16个才扩容，某些桶可能就有不止一个元素了</span><br><span class="line">&#x2F;&#x2F;所以加载因子默认为0.75，也就是说大小为16的HashMap，到了第13个元素，就会扩容成32</span><br><span class="line">final float loadFactor;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;HashMap被改变的次数</span><br><span class="line">&#x2F;&#x2F;由于HashMap非线程安全，在对HashMap进行迭代时，如果其他线程的参与导致HashMap的结构发生了变化(put、remove等操作)，需要抛出异常ConcurrentModificationException</span><br><span class="line">transient int modeCount;</span><br></pre></td></tr></table></figure>
+
+<p>示例代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public HashMap(int initialCapacity, float loadFactor) &#123;</span><br><span class="line">　　　　&#x2F;&#x2F;此处对传入的初始容量进行校验，最大不能超过MAXIMUM_CAPACITY &#x3D; 1&lt;&lt;30(230)</span><br><span class="line">        if (initialCapacity &lt; 0)</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +</span><br><span class="line">                                               initialCapacity);</span><br><span class="line">        if (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">            initialCapacity &#x3D; MAXIMUM_CAPACITY;</span><br><span class="line">        if (loadFactor &lt;&#x3D; 0 || Float.isNaN(loadFactor))</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +</span><br><span class="line">                                               loadFactor);</span><br><span class="line"></span><br><span class="line">        this.loadFactor &#x3D; loadFactor;</span><br><span class="line">        threshold &#x3D; initialCapacity;</span><br><span class="line">　　　　　</span><br><span class="line">        &#x2F;&#x2F;init方法在HashMap中没有实际实现，不过在其子类如 linkedHashMap中就会有对应实现</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>从上面这段代码我们可以看出，在常规构造器中，没有为数组table分配内存空间（有一个入参为指定Map的构造器例外），而是在执行put操作的时候才真正构建table数组  </p>
+<p>put操作的实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public V put(K key, V value) &#123;</span><br><span class="line">        &#x2F;&#x2F;如果table数组为空数组&#123;&#125;，进行数组填充（为table分配实际内存空间），入参为threshold，</span><br><span class="line">        &#x2F;&#x2F;此时threshold为initialCapacity 默认是1&lt;&lt;4(24&#x3D;16)</span><br><span class="line">        if (table &#x3D;&#x3D; EMPTY_TABLE) &#123;</span><br><span class="line">            inflateTable(threshold);</span><br><span class="line">        &#125;</span><br><span class="line">       &#x2F;&#x2F;如果key为null，存储位置为table[0]或table[0]的冲突链上</span><br><span class="line">        if (key &#x3D;&#x3D; null)</span><br><span class="line">            return putForNullKey(value);</span><br><span class="line">        int hash &#x3D; hash(key);&#x2F;&#x2F;对key的hashcode进一步计算，确保散列均匀</span><br><span class="line">        int i &#x3D; indexFor(hash, table.length);&#x2F;&#x2F;获取在table中的实际位置</span><br><span class="line">        for (Entry&lt;K,V&gt; e &#x3D; table[i]; e !&#x3D; null; e &#x3D; e.next) &#123;</span><br><span class="line">        &#x2F;&#x2F;如果该对应数据已存在，执行覆盖操作。用新value替换旧value，并返回旧value</span><br><span class="line">            Object k;</span><br><span class="line">            if (e.hash &#x3D;&#x3D; hash &amp;&amp; ((k &#x3D; e.key) &#x3D;&#x3D; key || key.equals(k))) &#123;</span><br><span class="line">                V oldValue &#x3D; e.value;</span><br><span class="line">                e.value &#x3D; value;</span><br><span class="line">                e.recordAccess(this);</span><br><span class="line">                return oldValue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        modCount++;&#x2F;&#x2F;保证并发访问时，若HashMap内部结构发生变化，快速响应失败</span><br><span class="line">        addEntry(hash, key, value, i);&#x2F;&#x2F;新增一个entry</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>inflateTable这个方法用于为主干数组table在内存中分配存储空间，通过roundUpToPowerOf2(toSize)可以确保capacity为大于或等于toSize的最接近toSize的二次幂，比如toSize=13,则capacity=16;to_size=16,capacity=16;to_size=17,capacity=32。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private void inflateTable(int toSize) &#123;</span><br><span class="line">        &#x2F;&#x2F;capacity一定是2的次幂</span><br><span class="line">        int capacity &#x3D; roundUpToPowerOf2(toSize);</span><br><span class="line">        &#x2F;&#x2F;此处为threshold赋值，取capacity*loadFactor和MAXIMUM_CAPACITY+1的最小值，</span><br><span class="line">        &#x2F;&#x2F;capaticy一定不会超过MAXIMUM_CAPACITY，除非loadFactor大于1 </span><br><span class="line">        threshold &#x3D; (int) Math.min(capacity * loadFactor, MAXIMUM_CAPACITY + 1);</span><br><span class="line">        table &#x3D; new Entry[capacity];</span><br><span class="line">        initHashSeedAsNeeded(capacity);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>roundUpToPowerOf2中的这段处理使得数组长度一定为2的次幂，Integer.highestOneBit是用来获取最左边的bit（其他bit位为0）所代表的数值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private static int roundUpToPowerOf2(int number) &#123;</span><br><span class="line">       &#x2F;&#x2F; assert number &gt;&#x3D; 0 : &quot;number must be non-negative&quot;;</span><br><span class="line">       return number &gt;&#x3D; MAXIMUM_CAPACITY</span><br><span class="line">               ? MAXIMUM_CAPACITY</span><br><span class="line">               : (number &gt; 1) ? Integer.highestOneBit((number - 1) &lt;&lt; 1) : 1;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>hash函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;这是一个神奇的函数，用了很多的异或，移位等运算</span><br><span class="line">&#x2F;&#x2F;对key的hashcode进一步进行计算以及二进制位的调整等来保证最终获取的存储位置尽量分布均匀</span><br><span class="line">final int hash(Object k) &#123;</span><br><span class="line">        int h &#x3D; hashSeed;</span><br><span class="line">        if (0 !&#x3D; h &amp;&amp; k instanceof String) &#123;</span><br><span class="line">            return sun.misc.Hashing.stringHash32((String) k);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        h ^&#x3D; k.hashCode();</span><br><span class="line"></span><br><span class="line">        h ^&#x3D; (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);</span><br><span class="line">        return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>以上hash函数计算出的值，通过indexFor进一步处理来获取实际的存储位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;返回数组下标</span><br><span class="line">static int indexFor(int h, int length) &#123;</span><br><span class="line">    return h &amp; (length-1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>h&amp;（length-1）保证获取的index一定在数组范围内，举个例子，默认容量16，length-1=15，h=18,转换成二进制计算为index=2。位运算对计算机来说，性能更高一些（HashMap中有大量位运算）  </p>
+<p>所以最终存储位置的确定流程是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    hashCode()              hash()      indexFor()</span><br><span class="line">key ----------&gt; hashcode ----------&gt; h ------------&gt;  存储下标</span><br><span class="line">                                        h&amp;(length-1)</span><br></pre></td></tr></table></figure>
+
+
+<p>再来看看addEntry的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void addEntry(int hash, K key, V value, int bucketIndex) &#123;</span><br><span class="line">        if ((size &gt;&#x3D; threshold) &amp;&amp; (null !&#x3D; table[bucketIndex])) &#123;</span><br><span class="line">            &#x2F;&#x2F;当size超过临界阈值threshold，并且即将发生哈希冲突时进行扩容</span><br><span class="line">            resize(2 * table.length);</span><br><span class="line">            hash &#x3D; (null !&#x3D; key) ? hash(key) : 0;</span><br><span class="line">            bucketIndex &#x3D; indexFor(hash, table.length);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        createEntry(hash, key, value, bucketIndex);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>通过以上代码能够得知，当发生哈希冲突并且size大于阈值的时候，需要进行数组扩容，扩容时，需要新建一个长度为之前数组2倍的新的数组，然后将当前的Entry数组中的元素全部传输过去，扩容后的新数组长度为之前的2倍，所以扩容相对来说是个耗资源的操作</p>
+<h5 id="3-为何HashMap的数组长度一定是2的次幂"><a href="#3-为何HashMap的数组长度一定是2的次幂" class="headerlink" title="3.为何HashMap的数组长度一定是2的次幂"></a>3.为何HashMap的数组长度一定是2的次幂</h5><p>我们来继续看上面提到的resize方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">void resize(int newCapacity) &#123;</span><br><span class="line">        Entry[] oldTable &#x3D; table;</span><br><span class="line">        int oldCapacity &#x3D; oldTable.length;</span><br><span class="line">        if (oldCapacity &#x3D;&#x3D; MAXIMUM_CAPACITY) &#123;</span><br><span class="line">            threshold &#x3D; Integer.MAX_VALUE;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Entry[] newTable &#x3D; new Entry[newCapacity];</span><br><span class="line">        transfer(newTable, initHashSeedAsNeeded(newCapacity));</span><br><span class="line">        table &#x3D; newTable;</span><br><span class="line">        threshold &#x3D; (int)Math.min(newCapacity * loadFactor, MAXIMUM_CAPACITY + 1);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>如果数组进行扩容，数组长度发生变化，而存储位置 index = h&amp;(length-1),index也可能会发生变化，需要重新计算index，我们先来看看transfer这个方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void transfer(Entry[] newTable, boolean rehash) &#123;</span><br><span class="line">        int newCapacity &#x3D; newTable.length;</span><br><span class="line">　　　　　&#x2F;&#x2F;for循环中的代码，逐个遍历链表，重新计算索引位置，将老数组数据复制到新数组中去（数组不存储实际数据，所以仅仅是拷贝引用而已）</span><br><span class="line">        for (Entry&lt;K,V&gt; e : table) &#123;</span><br><span class="line">            while(null !&#x3D; e) &#123;</span><br><span class="line">                Entry&lt;K,V&gt; next &#x3D; e.next;</span><br><span class="line">                if (rehash) &#123;</span><br><span class="line">                    e.hash &#x3D; null &#x3D;&#x3D; e.key ? 0 : hash(e.key);</span><br><span class="line">                &#125;</span><br><span class="line">                int i &#x3D; indexFor(e.hash, newCapacity);</span><br><span class="line">                &#x2F;&#x2F;将当前entry的next链指向新的索引位置,newTable[i]有可能为空，有可能也是个entry链，如果是entry链，直接在链表头部插入。</span><br><span class="line">                e.next &#x3D; newTable[i];</span><br><span class="line">                newTable[i] &#x3D; e;</span><br><span class="line">                e &#x3D; next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法将老数组中的数据逐个链表地遍历，扔到新的扩容后的数组中，我们的数组索引位置的计算是通过 对key值的hashcode进行hash扰乱运算后，再通过和 length-1进行位运算得到最终数组索引位置。</p>
+<p>HashMap的数组长度一定保持2的次幂，比如16的二进制表示为 10000，那么length-1就是15，二进制为01111，同理扩容后的数组长度为32，二进制表示为100000，length-1为31，二进制表示为011111。从下图可以我们也能看到这样会保证低位全为1，而扩容后只有一位差异，也就是多出了最左位的1，这样在通过 h&amp;(length-1)的时候，只要h对应的最左边的那一个差异位为0，就能保证得到的新的数组索引和老数组索引一致(大大减少了之前已经散列良好的老数组的数据位置重新调换)，个人理解。</p>
+<p>还有，数组长度保持2的次幂，length-1的低位都为1，会使得获得的数组索引index更加均匀</p>
+<p>我们看到，上面的&amp;运算，高位是不会对结果产生影响的（hash函数采用各种位运算可能也是为了使得低位更加散列），我们只关注低位bit，如果低位全部为1，那么对于h低位部分来说，任何一位的变化都会对结果产生影响，也就是说，要得到index=21这个存储位置，h的低位只有这一种组合。这也是数组长度设计为必须为2的次幂的原因。</p>
+<p>如果不是2的次幂，也就是低位不是全为1此时，要使得index=21，h的低位部分不再具有唯一性了，哈希冲突的几率会变的更大，同时，index对应的这个bit位无论如何不会等于1了，而对应的那些数组位置也就被白白浪费了。</p>
+<p>get方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public V get(Object key) &#123;</span><br><span class="line">　　　　 &#x2F;&#x2F;如果key为null,则直接去table[0]处去检索即可。</span><br><span class="line">       if (key &#x3D;&#x3D; null)</span><br><span class="line">           return getForNullKey();</span><br><span class="line">       Entry&lt;K,V&gt; entry &#x3D; getEntry(key);</span><br><span class="line">       return null &#x3D;&#x3D; entry ? null : entry.getValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>get方法通过key值返回对应value，如果key为null，直接去table[0]处检索。</p>
+<p>我们再看一下getEntry方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">final Entry&lt;K,V&gt; getEntry(Object key) &#123;</span><br><span class="line">            </span><br><span class="line">        if (size &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;通过key的hashcode值计算hash值</span><br><span class="line">        int hash &#x3D; (key &#x3D;&#x3D; null) ? 0 : hash(key);</span><br><span class="line">        &#x2F;&#x2F;indexFor (hash&amp;length-1) 获取最终数组索引，然后遍历链表，通过equals方法比对找出对应记录</span><br><span class="line">        for (Entry&lt;K,V&gt; e &#x3D; table[indexFor(hash, table.length)];</span><br><span class="line">             e !&#x3D; null;</span><br><span class="line">             e &#x3D; e.next) &#123;</span><br><span class="line">            Object k;</span><br><span class="line">            if (e.hash &#x3D;&#x3D; hash &amp;&amp; </span><br><span class="line">                ((k &#x3D; e.key) &#x3D;&#x3D; key || (key !&#x3D; null &amp;&amp; key.equals(k))))</span><br><span class="line">                return e;</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，get方法的实现相对简单，key(hashcode)–&gt;hash–&gt;indexFor–&gt;最终索引位置，找到对应位置table[i]，再查看是否有链表，遍历链表，通过key的equals方法比对查找对应的记录。要注意的是，有人觉得上面在定位到数组位置之后然后遍历链表的时候，e.hash == hash这个判断没必要，仅通过equals判断就可以。其实不然，试想一下，如果传入的key对象重写了equals方法却没有重写hashCode，而恰巧此对象定位到这个数组位置，如果仅仅用equals判断可能是相等的，但其hashCode和当前对象不一致，这种情况，根据Object的hashCode的约定，不能返回当前对象，而应该返回null，后面的例子会做出进一步解释。</p>
+<h5 id="4-重写equals方法需同时重写hashCode方法"><a href="#4-重写equals方法需同时重写hashCode方法" class="headerlink" title="4.重写equals方法需同时重写hashCode方法"></a>4.重写equals方法需同时重写hashCode方法</h5><p>先来看下如果重写equals而不重写hashcode会发生什么:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    private static class Person&#123;</span><br><span class="line">        int idCard;</span><br><span class="line">        String name;</span><br><span class="line"></span><br><span class="line">        public Person(int idCard, String name) &#123;</span><br><span class="line">            this.idCard &#x3D; idCard;</span><br><span class="line">            this.name &#x3D; name;</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean equals(Object o) &#123;</span><br><span class="line">            if (this &#x3D;&#x3D; o) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            if (o &#x3D;&#x3D; null || getClass() !&#x3D; o.getClass())&#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            Person person &#x3D; (Person) o;</span><br><span class="line">            &#x2F;&#x2F;两个对象是否等值，通过idCard来确定</span><br><span class="line">            return this.idCard &#x3D;&#x3D; person.idCard;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String []args)&#123;</span><br><span class="line">        HashMap&lt;Person,String&gt; map &#x3D; new HashMap&lt;Person, String&gt;();</span><br><span class="line">        Person person &#x3D; new Person(1234,&quot;乔峰&quot;);</span><br><span class="line">        &#x2F;&#x2F;put到hashmap中去</span><br><span class="line">        map.put(person,&quot;天龙八部&quot;);</span><br><span class="line">        &#x2F;&#x2F;get取出，从逻辑上讲应该能输出“天龙八部”</span><br><span class="line">        System.out.println(&quot;结果:&quot;+map.get(new Person(1234,&quot;萧峰&quot;)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">实际输出结果：null</span><br></pre></td></tr></table></figure>
+<p>如果我们已经对HashMap的原理有了一定了解，这个结果就不难理解了。尽管我们在进行get和put操作的时候，使用的key从逻辑上讲是等值的（通过equals比较是相等的），但由于没有重写hashCode方法，所以put操作时，key(hashcode1)–&gt;hash–&gt;indexFor–&gt;最终索引位置 ，而通过key取出value的时候 key(hashcode1)–&gt;hash–&gt;indexFor–&gt;最终索引位置，由于hashcode1不等于hashcode2，导致没有定位到一个数组位置而返回逻辑上错误的值null(也有可能碰巧定位到一个数组位置，但是也会判断其entry的hash值是否相等，上面get方法中有提到)  </p>
+<p>所以，在重写equals的方法的时候，必须注意重写hashCode方法，同时还要保证通过equals判断相等的两个对象，调用hashCode方法要返回同样的整数值。而如果equals判断不相等的两个对象，其hashCode可以相同(只不过会发生哈希冲突，应尽量避免)</p>
+<h5 id="5-JDK1-8中HashMap的性能优化"><a href="#5-JDK1-8中HashMap的性能优化" class="headerlink" title="5.JDK1.8中HashMap的性能优化"></a>5.JDK1.8中HashMap的性能优化</h5><p>假如一个数组槽位上链上数据过多（即拉链过长的情况）导致性能下降该怎么办？  </p>
+<p>JDK1.8在JDK1.7的基础上针对增加了红黑树来进行优化。即当链表超过8时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能，其中会用到红黑树的插入、删除、查找等算法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://topone233.github.io/2020/07/10/%E6%B5%85%E8%B0%88HashMap/" data-id="ckcg06n1z0003ac21dooo5hje" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/07/10/HashMap%20%E9%9D%A2%E8%AF%95%E5%BF%85%E9%97%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HashMap 面试必问的数据结构相关知识总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">二叉树的四种遍历方式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/">HashMap 剖析 (基于 jdk1.8)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/HashMap%20%E9%9D%A2%E8%AF%95%E5%BF%85%E9%97%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">HashMap 面试必问的数据结构相关知识总结</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/%E6%B5%85%E8%B0%88HashMap/">浅谈HashMap</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F/">二叉树的四种遍历方式</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/10/Hello%20World%EF%BC%81%EF%BC%88hexo%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95%EF%BC%89/">Hello World！（hexo配置记录）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 QSX1C<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
