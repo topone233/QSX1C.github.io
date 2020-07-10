@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#3.0-beta1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+  <title>九大常见数据结构 - QSX1C</title>
+  
+
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+    <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  
+
+  <!-- import link -->
+  
+
+  
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  
+  
+</head>
+
+<body>
+  
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post' style="display: none;">
+      <div class='cover-body'>
+  <div class='a'>
+    
+    
+      <p class="title">Volantis</p>
+    
+    
+      <p class="subtitle">A Wonderful Theme for Hexo</p>
+    
+  </div>
+  <div class='b'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <ul class='cover-list-h'>
+        
+          
+            <li>
+              <a class="nav home"
+                href="https://volantis.js.org/getting-started/"
+                
+                
+                id="https:volantisjsorggetting-started">
+                <i class='fas fa-book fa-fw'></i>文档
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://volantis.js.org/archives/"
+                
+                
+                id="https:volantisjsorgarchives">
+                <i class='fas fa-rss fa-fw'></i>博文
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://volantis.js.org/examples/"
+                
+                
+                id="https:volantisjsorgexamples">
+                <i class='fas fa-play-circle fa-fw'></i>示例
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://github.com/theme-volantis/hexo-theme-volantis/"
+                
+                  rel="external nofollow noopener noreferrer"
+                
+                
+                  target="_blank"
+                
+                id="https:githubcomtheme-volantishexo-theme-volantis">
+                <i class='fas fa-file-code fa-fw'></i>源码
+              </a>
+            </li>
+          
+            <li>
+              <a class="nav home"
+                href="https://volantis.js.org/contributors/"
+                
+                
+                id="https:volantisjsorgcontributors">
+                <i class='fas fa-handshake fa-fw'></i>鸣谢
+              </a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+      <div class="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+    </cover>
+    <header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            VOLANTIS <b><sup style='color:#ff9800'>3.0-beta1</sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  </div>
+  
+
+  <div class="l_body nocover">
+    <div class='body-wrapper' id="pjax-container">
+      
+        <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+
+
+<div id="pjax-data" style="display: none">
+  <div id="pjax-ispage">true</div>
+  <div id="pjax-pageTitle">九大常见数据结构</div>
+  <div id="pjax-enable-cover">true</div>
+  
+  <div id="valine-path">none</div>
+  <div id="valine-placeholder">none</div>
+  
+  
+</div>
+
+
+<script>
+  // 处理封面 此时 jquery 还没加载
+  if ("none" == "none") { // 移除封面
+    document.getElementsByClassName('cover')[0].style.display = "none";
+    document.getElementsByClassName('l_body')[0].classList.add("nocover");
+    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.add("show");
+  } else {
+    if ("none" == "blog") { // 半屏
+      document.getElementsByClassName('cover')[0].classList.remove("full");
+      document.getElementsByClassName('cover')[0].classList.add("half");
+      document.getElementsByClassName('scroll-down')[0].style.display = "none";
+    } else if ("none" == "docs") { // 全屏
+      document.getElementsByClassName('cover')[0].classList.remove("half");
+      document.getElementsByClassName('cover')[0].classList.add("full");
+      document.getElementsByClassName('scroll-down')[0].style.display = "";
+    }
+    document.getElementsByClassName('cover')[0].style.display = "";
+    document.getElementsByClassName('l_body', 'show')[0].classList.remove("nocover");
+    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.remove("show");
+  }
+</script>
+
+      
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+      
+      
+      <div class="meta" id="header-meta">
+        
+          
+  <h1 class="title">
+    <a href="/2020/07/10/%E4%B9%9D%E5%A4%A7%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+      九大常见数据结构
+    </a>
+  </h1>
+
+
+        
+        <div class='new-meta-box'>
+          
+            
+          
+            
+              
+<div class='new-meta-item author'>
+  <a href="https://xaoxuu.com" target="_blank" rel="nofollow noopener">
+    <img no-lazy src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
+    <p>Mr. X</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+            
+              <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jul 10, 2020</p>
+  </a>
+</div>
+
+            
+          
+            
+              
+
+            
+          
+        </div>
+        
+          <hr>
+        
+      </div>
+    
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          
+          <p>数据结构想必大家都不会陌生，对于一个成熟的程序员而言，熟悉和掌握数据结构和算法也是基本功之一。数据结构本身其实不过是数据按照特点关系进行存储或者组织的集合，特殊的结构在不同的应用场景中往往会带来不一样的处理效率。</p>
+<p>常用的数据结构可根据数据访问的特点分为线性结构和非线性结构。线性结构包括常见的链表、栈、队列等，非线性结构包括树、图等。数据结构种类繁多，本文将通过图解的方式对常用的数据结构进行理论上的介绍和讲解，以方便大家掌握常用数据结构的基本知识。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKVS8MxpGWic6icVhGKa9n04QRp4I14F6JiayfrY7E7HtHErxry5lmsoOsQ/640?wx_fmt=png" alt="">本文提纲</p>
+<h2 id="1-数组"><a href="#1-数组" class="headerlink" title=" 1  数组"></a> 1  数组</h2><p>数组可以说是最基本最常见的数据结构。数组一般用来存储相同类型的数据，可通过数组名和下标进行数据的访问和更新。数组中元素的存储是按照先后顺序进行的，同时在内存中也是按照这个顺序进行连续存放。数组相邻元素之间的内存地址的间隔一般就是数组数据类型的大小。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKhhVl0iaBRe7ibIoOs2mkZIr8y2Pe4MslT3SrwengScwadlRrBu9j2QUw/640?wx_fmt=jpeg" alt=""></p>
+<h2 id="2-链表"><a href="#2-链表" class="headerlink" title=" 2  链表"></a> 2  链表</h2><p>链表相较于数组，除了数据域，还增加了指针域用于构建链式的存储数据。链表中每一个节点都包含此节点的数据和指向下一节点地址的指针。由于是通过指针进行下一个数据元素的查找和访问，使得链表的自由度更高。</p>
+<p>这表现在对节点进行增加和删除时，只需要对上一节点的指针地址进行修改，而无需变动其它的节点。不过事物皆有两极，指针带来高自由度的同时，自然会牺牲数据查找的效率和多余空间的使用。</p>
+<p>一般常见的是有头有尾的单链表，对指针域进行反向链接，还可以形成双向链表或者循环链表。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKSQuZiadmMbuvIlk9pHdtcHnRnm0zEfEa6aMVznfVsceGCL2Uhr6Bsow/640?wx_fmt=jpeg" alt=""></p>
+<h4 id="链表和数组对比"><a href="#链表和数组对比" class="headerlink" title="链表和数组对比"></a>链表和数组对比</h4><p>链表和数组在实际的使用过程中需要根据自身的优劣势进行选择。链表和数组的异同点也是面试中高频的考察点之一。这里对单链表和数组的区别进行了对比和总结。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKibiaBqW3ppH3FhrOvIKmEPTRyp6gQxqI36RsQld7ZzEMAIOBRkaVwLWQ/640?wx_fmt=png" alt=""></p>
+<h2 id="3-跳表"><a href="#3-跳表" class="headerlink" title=" 3  跳表"></a> 3  跳表</h2><p>从上面的对比中可以看出，链表虽然通过增加指针域提升了自由度，但是却导致数据的查询效率恶化。特别是当链表长度很长的时候，对数据的查询还得从头依次查询，这样的效率会更低。跳表的产生就是为了解决链表过长的问题，通过增加链表的多级索引来加快原始链表的查询效率。这样的方式可以让查询的时间复杂度从 O(n) 提升至 O(logn)。  </p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCK6G5wwE7z1RfMqdNUypjjvq4DibFBgiayVwhtIDMR2fuy4XfqVJPtJzng/640?wx_fmt=jpeg" alt=""></p>
+<p>跳表通过增加的多级索引能够实现高效的动态插入和删除，其效率和红黑树和平衡二叉树不相上下。目前 redis 和 levelDB 都有用到跳表。</p>
+<p>从上图可以看出，索引级的指针域除了指向下一个索引位置的指针，还有一个 down 指针指向低一级的链表位置，这样才能实现跳跃查询的目的。</p>
+<h2 id="4-栈"><a href="#4-栈" class="headerlink" title=" 4  栈"></a> 4  栈</h2><p>栈是一种比较简单的数据结构，常用一句话描述其特性，后进先出。栈本身是一种线性结构，但是在这个结构中只有一个口子允许数据的进出。这种模式可以参考腔肠动物… 即进食和排泄都用一个口…</p>
+<p>栈的常用操作包括入栈 push 和出栈 pop，对应于数据的压入和压出。还有访问栈顶数据、判断栈是否为空和判断栈的大小等。由于栈后进先出的特性，常可以作为数据操作的临时容器，对数据的顺序进行调控，与其它数据结构相结合可获得许多灵活的处理。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKGnHQrX7Z1xF4BncrEv8nUf8icSMK69bmp2mCDcDLY6kZ6fLwjq4IcTg/640?wx_fmt=gif" alt=""></p>
+<h2 id="5-队列"><a href="#5-队列" class="headerlink" title=" 5  队列"></a> 5  队列</h2><p>队列是栈的兄弟结构，与栈的后进先出相对应，队列是一种先进先出的数据结构。顾名思义，队列的数据存储是如同排队一般，先存入的数据先被压出。常与栈一同配合，可发挥最大的实力。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKNibekBDiasFHnZZ76Cp8FqOk4fw9pV8NCBia1fe8PkBka7RIoyA20RibqA/640?wx_fmt=gif" alt=""></p>
+<h2 id="6-树"><a href="#6-树" class="headerlink" title=" 6  树"></a> 6  树</h2><p>树作为一种树状的数据结构，其数据节点之间的关系也如大树一样，将有限个节点根据不同层次关系进行排列，从而形成数据与数据之间的父子关系。常见的数的表示形式更接近 “倒挂的树”，因为它将根朝上，叶朝下。</p>
+<p>树是图的一种，树与图的区别在于：树是没有环的，而图是可以有环的。</p>
+<p>树的数据存储在结点中，每个结点有零个或者多个子结点。没有父结点的结点在最顶端，成为根节点；没有非根结点有且只有一个父节点；每个非根节点又可以分为多个不相交的子树。</p>
+<p>这意味着树是具备层次关系的，父子关系清晰，家庭血缘关系明朗；这也是树与图之间最主要的区别。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKNavoC9v9mnicvMRnTHJ1Zu3MkORhxuChe9gQOicYGSfHNLZQ53RKuKYA/640?wx_fmt=jpeg" alt=""></p>
+<p>别看树好像很高级，其实可看作是链表的高配版。树的实现就是对链表的指针域进行了扩充，增加了多个地址指向子结点。同时将 “链表” 竖起来，从而凸显了结点之间的层次关系，更便于分析和理解。</p>
+<p>树可以衍生出许多的结构，若将指针域设置为双指针，那么即可形成最常见的二叉树，即每个结点最多有两个子树的树结构。二叉树根据结点的排列和数量还可进一度划分为完全二叉树、满二叉树、平衡二叉树、红黑树等。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKfZB3ze2WZYvbyLVhVqpZzJ6JaS10OcLdW24ichbHhSzL8M1oQSV70zw/640?wx_fmt=jpeg" alt=""></p>
+<blockquote>
+<p><strong>完全二叉树</strong>：除了最后一层结点，其它层的结点数都达到了最大值；同时最后一层的结点都是按照从左到右依次排布。</p>
+</blockquote>
+<blockquote>
+<p><strong>满二叉树</strong>：除了最后一层，其它层的结点都有两个子结点。</p>
+</blockquote>
+<h4 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h4><p>平衡二叉树又被称为 AVL 树，它是一棵二叉排序树，且具有以下性质：它是一棵空树或它的左右两个子树的高度差的绝对值不超过 1，并且左右两个子树都是一棵平衡二叉树。</p>
+<blockquote>
+<p><strong>二叉排序树</strong>：是一棵空树，或者：若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值；若它的右子树不空，则右子树上所有结点的值均大于它的根结点的值；它的左、右子树也分别为二叉排序树。</p>
+</blockquote>
+<blockquote>
+<p><strong>树的高度</strong>：结点层次的最大值</p>
+</blockquote>
+<blockquote>
+<p><strong>平衡因子</strong>：左子树高度 - 右子树高度</p>
+</blockquote>
+<p>二叉排序树意味着二叉树中的数据是排好序的，顺序为左结点 &lt;根节点&lt;右结点，这表明二叉排序树的中序遍历结果是有序的。</p>
+<p>（二叉树四种遍历方式[前序遍历、中序遍历、后序遍历、层序遍历] ）</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKXDYaRrlvtia2iacadRSIFEicxkO4unHOiaw0V9UE5gDwYDCrWpVawSu55A/640?wx_fmt=jpeg" alt=""></p>
+<p>平衡二叉树的产生是为了解决二叉排序树在插入时发生线性排列的现象。由于二叉排序树本身为有序，当插入一个有序程度十分高的序列时，生成的二叉排序树会持续在某个方向的字数上插入数据，导致最终的二叉排序树会退化为链表，从而使得二叉树的查询和插入效率恶化。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKfaAibcB63OAwzlzkLufia2QF3rtlwT1psViaeiaIYO9mwMqnHrG4mmKsKA/640?wx_fmt=jpeg" alt=""></p>
+<p>平衡二叉树的出现能够解决上述问题，但是在构造平衡二叉树时，却需要采用不同的调整方式，使得二叉树在插入数据后保持平衡。主要的四种调整方式有 LL（左旋）、RR（右旋）、LR（先左旋再右旋）、RL（先右旋再左旋）。这里先给大家介绍下简单的单旋转操作，左旋和右旋。LR 和 RL 本质上只是 LL 和 RR 的组合。</p>
+<blockquote>
+<p>在插入一个结点后应该沿搜索路径将路径上的结点平衡因子进行修改，当平衡因子大于 1 时，就需要进行平衡化处理。从发生不平衡的结点起，沿刚才回溯的路径取直接下两层的结点，如果这三个结点在一条直线上，则采用<strong>单旋转</strong>进行平衡化，如果这三个结点位于一条折线上，则采用<strong>双旋转</strong>进行平衡化。</p>
+</blockquote>
+<p>左旋：S 为当前需要左旋的结点，E 为当前结点的父节点。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKBGHvdV70GdaQuysibYfzDXP364jf2q1dk697fZNXPHZeia9WxMpr8kqg/640?wx_fmt=jpeg" alt=""></p>
+<p>左旋的操作可以用一句话简单表示：将当前结点 S 的左孩子旋转为当前结点父结点 E 的右孩子，同时将父结点 E 旋转为当前结点 S 的左孩子。可用动画表示：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKasKia4NJPZwkLmLZavnj40iaHqThkFkib891Z7TONfY9c3fka7hjJKQIw/640?wx_fmt=gif" alt=""></p>
+<p>右旋：S 为当前需要左旋的结点，E 为当前结点的父节点。右单旋是左单旋的镜像旋转。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKELZnqtJE1Pib6MR8J1mgQxEmVcZAVEjLX3H7ODgMVMpDBPdx6UsGfRg/640?wx_fmt=jpeg" alt=""></p>
+<p>左旋的操作同样可以用一句话简单表示：将当前结点 S 的左孩子 E 的右孩子旋转为当前结点 S 的左孩子，同时将当前结点 S 旋转为左孩子 E 的右孩子。可用动画表示：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/TdGLaSU675gwBawZm4AtKbyUUqEHRqCK3DUia4OX340ze9SzDdIicfz50xRiaHAKq0PCDiaPicWEqeGGEkYcxDic1ekQ/640?wx_fmt=gif" alt=""></p>
+<h4 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h4><p>平衡二叉树（AVL）为了追求高度平衡，需要通过平衡处理使得左右子树的高度差必须小于等于 1。高度平衡带来的好处是能够提供更高的搜索效率，其最坏的查找时间复杂度都是 O(logN)。但是由于需要维持这份高度平衡，所付出的代价就是当对树种结点进行插入和删除时，需要经过多次旋转实现复衡。这导致 AVL 的插入和删除效率并不高。</p>
+<p>为了解决这样的问题，能不能找一种结构能够兼顾搜索和插入删除的效率呢？这时候红黑树便申请出战了。</p>
+<p>红黑树具有五个特性：</p>
+<blockquote>
+<ol>
+<li><p>每个结点要么是红的要么是黑的。</p>
+</li>
+<li><p>根结点是黑的。</p>
+</li>
+<li><p>每个叶结点（叶结点即指树尾端 NIL 指针或 NULL 结点）都是黑的。</p>
+</li>
+<li><p>如果一个结点是红的，那么它的两个儿子都是黑的。</p>
+</li>
+<li><p>对于任意结点而言，其到叶结点树尾端 NIL 指针的每条路径都包含相同数目的黑结点。</p>
+</li>
+</ol>
+</blockquote>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKWgj3kfnUh77iavcPOWMPTPsPHVicqc3xJEPKX3pBe6mQI3CzfLsY0BJA/640?wx_fmt=jpeg" alt="">红黑树通过将结点进行红黑着色，使得原本高度平衡的树结构被稍微打乱，平衡程度降低。红黑树不追求完全平衡，只要求达到部分平衡。这是一种折中的方案，大大提高了结点删除和插入的效率。C++ 中的 STL 就常用到红黑树作为底层的数据结构。</p>
+<h4 id="红黑树-VS-平衡二叉树"><a href="#红黑树-VS-平衡二叉树" class="headerlink" title="红黑树 VS 平衡二叉树"></a>红黑树 VS 平衡二叉树</h4><p><img src="https://mmbiz.qpic.cn/mmbiz_png/TdGLaSU675gwBawZm4AtKbyUUqEHRqCK5hPCbpd8CzpmiaUWFT6F8ZLfClgnpEpz3TgnHhgc1nKh3TIaK5fK71Q/640?wx_fmt=png" alt=""></p>
+<p>除了上面所提及的树结构，还有许多广泛应用在数据库、磁盘存储等场景下的树结构。比如 B 树、B + 树等。这里就先不介绍了诶，下次在讲述相关存储原理的时候将会着重介绍。（其实是因为懒）</p>
+<h4 id="B树（B-tree）"><a href="#B树（B-tree）" class="headerlink" title="B树（B-tree）"></a>B树（B-tree）</h4><p>B树和平衡二叉树稍有不同的是B树属于多叉树又名平衡多路查找树（查找路径不只两个），数据库索引技术里大量使用者B树和B+树的数据结构。B树相对于平衡二叉树，每个节点包含的关键字增多了，特别是在B树应用到数据库中的时候，数据库充分利用了磁盘块的原理（磁盘数据存储是采用块的形式存储的，每个块的大小为4K，每次IO进行数据读取时，同一个磁盘块的数据可以一次性读取出来）把节点大小限制和充分使用在磁盘快大小范围；把树的节点关键字增多后树的层级比原来的二叉树少了，减少数据查找的次数和复杂度;</p>
+<p>规则：</p>
+<ol>
+<li><p>排序方式：所有节点关键字是按递增次序排列，并遵循左小右大原则；</p>
+</li>
+<li><p>子节点数：非叶节点的子节点数&gt;1，且&lt;=M ，且M&gt;=2，空树除外（注：M阶代表一个树节点最多有多少个查找路径，M=M路,当M=2则是2叉树,M=3则是3叉）；</p>
+</li>
+<li><p>关键字数：枝节点的关键字数量大于等于ceil(m/2)-1个且小于等于M-1个（注：ceil()是个朝正无穷方向取整的函数 如ceil(1.1)结果为2)；</p>
+</li>
+<li><p>所有叶子节点均在同一层、叶子节点除了包含了关键字和关键字记录的指针外也有指向其子节点的指针只不过其指针地址都为null对应下图最后一层节点的空格子;</p>
+<p><img src="https://pic2.zhimg.com/v2-2c2264cc1c6c603dfeca4f84a2575901_r.jpg" alt="preview"></p>
+</li>
+</ol>
+<p>查询：</p>
+<p>如上图我要从上图中找到E字母，查找流程如下</p>
+<ol>
+<li>获取根节点的关键字进行比较，当前根节点关键字为M，E&lt;M（26个字母顺序），所以往找到指向左边的子节点（二分法规则，左小右大，左边放小于当前节点值的子节点、右边放大于当前节点值的子节点）；</li>
+<li>拿到关键字D和G，D&lt;E&lt;G 所以直接找到D和G中间的节点；</li>
+<li>拿到E和F，因为E=E 所以直接返回关键字和指针信息（如果树结构里面没有包含所要查找的节点则返回null）；</li>
+</ol>
+<p>插入：</p>
+<ol>
+<li>节点拆分规则：当前是要组成一个5路查找树，那么此时m=5,关键字数必须&lt;=5-1（这里关键字数&gt;4就要进行节点拆分）；</li>
+<li>排序规则：满足节点本身比左边节点大，比右边节点小的排序规则;</li>
+</ol>
+<p>删除：</p>
+<ol>
+<li>节点合并规则：当前是要组成一个5路查找树，那么此时m=5,关键字数必须大于等于ceil（5/2）（这里关键字数&lt;2就要进行节点合并）；</li>
+<li>满足节点本身比左边节点大，比右边节点小的排序规则;</li>
+<li>关键字数小于二时先从子节点取，子节点没有符合条件时就向向父节点取，取中间值往父节点放；</li>
+</ol>
+<h4 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h4><p>B+树是B树的一个升级版，相对于B树来说B+树更充分的利用了节点的空间，让查询速度更加稳定，其速度完全接近于二分法查找。查找的效率要比B树更高、更稳定。</p>
+<p>规则：</p>
+<ol>
+<li>B+跟B树不同B+树的<strong>非叶子</strong>节点不保存关键字记录的指针，只进行数据索引，这样使得B+树每个<strong>非叶子</strong>节点所能保存的关键字大大增加；</li>
+<li>B+树<strong>叶子</strong>节点保存了父节点的所有关键字记录的指针，所有数据地址必须要到叶子节点才能获取到。所以每次数据查询的次数都一样；</li>
+<li>B+树叶子节点的关键字从小到大有序排列，左边结尾数据都会保存右边节点开始数据的指针。</li>
+<li>非叶子节点的子节点数=关键字数（来源百度百科）（根据各种资料 这里有两种算法的实现方式，另一种为非叶节点的关键字数=子节点数-1（来源维基百科)，虽然他们数据排列结构不一样，但其原理还是一样的Mysql 的B+树是用第一种方式实现）;</li>
+</ol>
+<p><img src="https://pic2.zhimg.com/v2-9644d1a1f83d3e45da779f2e63c35d55_r.jpg" alt="preview"></p>
+<p>特点：</p>
+<ol>
+<li>B+<strong>树的层级更少</strong>：相较于B树B+每个<strong>非叶子</strong>节点存储的关键字数更多，树的层级更少所以查询数据更快；</li>
+<li>B+<strong>树查询速度更稳定</strong>：B+所有关键字数据地址都存在<strong>叶子</strong>节点上，所以每次查找的次数都相同所以查询速度要比B树更稳定;</li>
+<li>B+<strong>树天然具备排序功能：</strong>B+树所有的<strong>叶子</strong>节点数据构成了一个有序链表，在查询大小区间的数据时候更方便，数据紧密性很高，缓存的命中率也会比B树高。</li>
+<li>B+<strong>树全节点遍历更快：</strong>B+树遍历整棵树只需要遍历所有的<strong>叶子</strong>节点即可，，而不需要像B树一样需要对每一层进行遍历，这有利于数据库做全表扫描。</li>
+</ol>
+<p><strong>B树</strong>相对于<strong>B+树</strong>的优点是，如果经常访问的数据离根节点很近，而<strong>B树</strong>的<strong>非叶子</strong>节点本身存有关键字其数据的地址，所以这种数据检索的时候会要比<strong>B+树</strong>快。</p>
+<h2 id="7-堆"><a href="#7-堆" class="headerlink" title="7  堆"></a>7  堆</h2><p>了解完二叉树，再来理解堆就不是什么难事了。堆通常是一个可以被看做一棵树的数组对象。堆的具体实现一般不通过指针域，而是通过构建一个一维数组与二叉树的父子结点进行对应，因此堆总是一颗完全二叉树。</p>
+<p>对于任意一个父节点的序号 n 来说（这里 n 从 0 算），它的子节点的序号一定是 2n+1，2n+2，因此可以直接用数组来表示一个堆。</p>
+<p>不仅如此，堆还有一个性质：堆中某个节点的值总是不大于或不小于其父节点的值。将根节点最大的堆叫做最大堆或大根堆，根节点最小的堆叫做最小堆或小根堆。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKPFK7qibDibUPQE1hmoXf3J2uhibD0IVqvOolw3XgtiaorEsyJDYpBby3jg/640?wx_fmt=jpeg" alt=""></p>
+<p>堆常用来实现优先队列，在面试中经常考的问题都是与排序有关，比如堆排序、topK 问题等。由于堆的根节点是序列中最大或者最小值，因而可以在建堆以及重建堆的过程中，筛选出数据序列中的极值，从而达到排序或者挑选 topK 值的目的。</p>
+<h2 id="8-散列表"><a href="#8-散列表" class="headerlink" title=" 8  散列表"></a> 8  散列表</h2><p>散列表也叫哈希表，是一种通过键值对直接访问数据的机构。在初中，我们就学过一种能够将一个 x 值通过一个函数获得对应的一个 y 值的操作，叫做映射。散列表的实现原理正是映射的原理，通过设定的一个关键字和一个映射函数，就可以直接获得访问数据的地址，实现 O(1) 的数据访问效率。在映射的过程中，事先设定的函数就是一个映射表，也可以称作散列函数或者哈希函数。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKs2VE1D9tRL8XrqJCwiaLGY66PiagrRy2M6oLnB22pBtU5qZ6XricqnXeA/640?wx_fmt=jpeg" alt=""></p>
+<p>散列表的实现最关键的就是散列函数的定义和选择。一般常用的有以下几种散列函数：</p>
+<blockquote>
+<p><strong>直接寻址法</strong>：取关键字或关键字的某个线性函数值为散列地址。</p>
+<p><strong>数字分析法</strong>：通过对数据的分析，发现数据中冲突较少的部分，并构造散列地址。例如同学们的学号，通常同一届学生的学号，其中前面的部分差别不太大，所以用后面的部分来构造散列地址。</p>
+<p><strong>平方取中**</strong>法**：当无法确定关键字里哪几位的分布相对比较均匀时，可以先求出关键字的平方值，然后按需要取平方值的中间几位作为散列地址。这是因为：计算平方之后的中间几位和关键字中的每一位都相关，所以不同的关键字会以较高的概率产生不同的散列地址。</p>
+<p><strong>取随机数法</strong>：使用一个随机函数，取关键字的随机值作为散列地址，这种方式通常用于关键字长度不同的场合。</p>
+<p><strong>除留取余法</strong>：取关键字被某个不大于散列表的表长 n 的数 m 除后所得的余数 p 为散列地址。这种方式也可以在用过其他方法后再使用。该函数对 m 的选择很重要，一般取素数或者直接用 n。</p>
+</blockquote>
+<p>确定好散列函数之后，通过某个<code>key</code>值的确会得到一个唯一的<code>value</code>地址。但是却会出现一些特殊情况。即通过不同的<code>key</code>值可能会访问到同一个地址，这个现象称之为冲突。</p>
+<p>冲突在发生之后，当在对不同的<code>key</code>值进行操作时会使得造成相同地址的数据发生覆盖或者丢失，是非常危险的。所以在设计散列表往往还需要采用冲突解决的办法。</p>
+<p>常用的冲突处理方式有很多，常用的包括以下几种：</p>
+<blockquote>
+<p><strong>开放地址法</strong>（也叫开放寻址法）：实际上就是当需要存储值时，对 Key 哈希之后，发现这个地址已经有值了，这时该怎么办？不能放在这个地址，不然之前的映射会被覆盖。这时对计算出来的地址进行一个探测再哈希，比如往后移动一个地址，如果没人占用，就用这个地址。如果超过最大长度，则可以对总长度取余。这里移动的地址是产生冲突时的增列序量。</p>
+<p><strong>再哈希法</strong>：在产生冲突之后，使用关键字的其他部分继续计算地址，如果还是有冲突，则继续使用其他部分再计算地址。这种方式的缺点是时间增加了。</p>
+<p><strong>链地址法</strong>：链地址法其实就是对 Key 通过哈希之后落在同一个地址上的值，做一个链表。其实在很多高级语言的实现当中，也是使用这种方式处理冲突的。</p>
+<p><strong>公共溢出区</strong>：这种方式是建立一个公共溢出区，当地址存在冲突时，把新的地址放在公共溢出区里。</p>
+</blockquote>
+<p>目前比较常用的冲突解决方法是链地址法，一般可以通过数组和链表的结合达到冲突数据缓存的目的。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKtm3chgpF29leIl4TcNQhLR9JariaUuhicgDgBI6rB3WcIdhJ2Xf2ib90g/640?wx_fmt=jpeg" alt=""></p>
+<p>左侧数组的每个成员包括一个指针，指向一个链表的头。每发生一个冲突的数据，就将该数据作为链表的节点链接到链表尾部。这样一来，就可以保证冲突的数据能够区分并顺利访问。  </p>
+<p>考虑到链表过长造成的问题，还可以使用红黑树替换链表进行冲突数据的处理操作，来提高散列表的查询稳定性。</p>
+<h2 id="9-图"><a href="#9-图" class="headerlink" title=" 9  图"></a> 9  图</h2><p>图相较于上文的几个结构可能接触的不多，但是在实际的应用场景中却经常出现。比方说交通中的线路图，常见的思维导图都可以看作是图的具体表现形式。</p>
+<p>图结构一般包括顶点和边，顶点通常用圆圈来表示，边就是这些圆圈之间的连线。边还可以根据顶点之间的关系设置不同的权重，默认权重相同皆为 1。此外根据边的方向性，还可将图分为有向图和无向图。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKo1hPoa84A4tFXEP5dU99GHibHN5XwLsFp1wPMf3QZoZqXR5IF8PRibVw/640?wx_fmt=jpeg" alt=""></p>
+<p>图结构用抽象的图线来表示十分简单，顶点和边之间的关系非常清晰明了。但是在具体的代码实现中，为了将各个顶点和边的关系存储下来，却不是一件易事。</p>
+<h4 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h4><p>目前常用的图存储方式为邻接矩阵，通过所有顶点的二维矩阵来存储两个顶点之间是否相连，或者存储两顶点间的边权重。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKgbQHiaeI0ibicpTrzIXwvKOzwwUfxoJJ1ytFHWaQI6tGsEL3JiavurKUjw/640?wx_fmt=jpeg" alt=""></p>
+<p>无向图的邻接矩阵是一个对称矩阵，是因为边不具有方向性，若能从此顶点能够到达彼顶点，那么彼顶点自然也能够达到此顶点。此外，由于顶点本身与本身相连没有意义，所以在邻接矩阵中对角线上皆为 0。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKPEKEAhpnQfzsYXOhCtPbXiaF4x1kXoicexOVic8BXSC8Ex9CZBHnClaxw/640?wx_fmt=jpeg" alt=""></p>
+<p>有向图由于边具有方向性，因此彼此顶点之间并不能相互达到，所以其邻接矩阵的对称性不再。  </p>
+<p>用邻接矩阵可以直接从二维关系中获得任意两个顶点的关系，可直接判断是否相连。但是在对矩阵进行存储时，却需要完整的一个二维数组。若图中顶点数过多，会导致二维数组的大小剧增，从而占用大量的内存空间。</p>
+<p>而根据实际情况可以分析得，图中的顶点并不是任意两个顶点间都会相连，不是都需要对其边上权重进行存储。那么存储的邻接矩阵实际上会存在大量的 0。虽然可以通过稀疏表示等方式对稀疏性高的矩阵进行关键信息的存储，但是却增加了图存储的复杂性。</p>
+<p>因此，为了解决上述问题，一种可以只存储相连顶点关系的邻接表应运而生。</p>
+<h4 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h4><p>在邻接表中，图的每一个顶点都是一个链表的头节点，其后连接着该顶点能够直接达到的相邻顶点。相较于无向图，有向图的情况更为复杂，因此这里采用有向图进行实例分析。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKGjr7y7PpruuiaBuo6R6Q2JRYwKPVSLQ3R8wx8fj9YDZnJJb52TMZO7A/640?wx_fmt=jpeg" alt="">在邻接表中，每一个顶点都对应着一条链表，链表中存储的是顶点能够达到的相邻顶点。存储的顺序可以按照顶点的编号顺序进行。比如上图中对于顶点 B 来说，其通过有向边可以到达顶点 A 和顶点 E，那么其对应的邻接表中的顺序即 B-&gt;A-&gt;E，其它顶点亦如此。</p>
+<p>通过邻接表可以获得从某个顶点出发能够到达的顶点，从而省去了对不相连顶点的存储空间。然而，这还不够。对于有向图而言，图中有效信息除了从顶点 “指出去” 的信息，还包括从别的顶点 “指进来” 的信息。这里的 “指出去” 和“指进来”可以用出度和入度来表示。</p>
+<blockquote>
+<p>入度：有向图的某个顶点作为终点的次数和。</p>
+<p>出度：有向图的某个顶点作为起点的次数和。</p>
+</blockquote>
+<p>由此看出，在对有向图进行表示时，邻接表只能求出图的出度，而无法求出入度。这个问题很好解决，那就是增加一个表用来存储能够到达某个顶点的相邻顶点。这个表称作逆邻接表。</p>
+<h4 id="逆邻接表"><a href="#逆邻接表" class="headerlink" title="逆邻接表"></a>逆邻接表</h4><p>逆邻接表与邻接表结构类似，只不过图的顶点链接着能够到达该顶点的相邻顶点。也就是说，邻接表时顺着图中的箭头寻找相邻顶点，而逆邻接表时逆着图中的箭头寻找相邻顶点。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKqLv4dnM8ibblfCzdabl2RV52ZCiaZlHGobcxp6ydoOzXxalor9mDN8dA/640?wx_fmt=jpeg" alt=""></p>
+<p>邻接表和逆邻接表的共同使用下，就能够把一个完整的有向图结构进行表示。可以发现，邻接表和逆邻接表实际上有一部分数据时重合的，因此可以将两个表合二为一，从而得到了所谓的十字链表。</p>
+<h4 id="十字链表"><a href="#十字链表" class="headerlink" title="十字链表"></a>十字链表</h4><p>十字链表似乎很简单，只需要通过相同的顶点分别链向以该顶点为终点和起点的相邻顶点即可。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKORBfPSQiblo2CLzrahdcNeqMvzm93kKiaybG4iaCD2TKH4vs8IkxRmppw/640?wx_fmt=jpeg" alt=""></p>
+<p>但这并不是最优的表示方式。虽然这样的方式共用了中间的顶点存储空间，但是邻接表和逆邻接表的链表节点中重复出现的顶点并没有得到重复利用，反而是进行了再次存储。因此，上图的表示方式还可以进行进一步优化。</p>
+<p>十字链表优化后，可通过扩展的顶点结构和边结构来进行正逆邻接表的存储：（下面的弧头可看作是边的箭头那端，弧尾可看作是边的圆点那端）</p>
+<blockquote>
+<p><strong>data</strong>：用于存储该顶点中的数据；</p>
+<p><strong>firstin 指针</strong>：用于连接以当前顶点为弧头的其他顶点构成的链表，即从别的顶点指进来的顶点；</p>
+<p><strong>firstout 指针</strong>：用于连接以当前顶点为弧尾的其他顶点构成的链表，即从该顶点指出去的顶点；</p>
+</blockquote>
+<p>边结构通过存储两个顶点来确定一条边，同时通过分别代表这两个顶点的指针来与相邻顶点进行链接：</p>
+<blockquote>
+<p><strong>tailvex</strong>：用于存储作为弧尾的顶点的编号；</p>
+<p><strong>headvex</strong>：用于存储作为弧头的顶点的编号；</p>
+<p><strong>headlink</strong> <strong>指针</strong>：用于链接下一个存储作为弧头的顶点的节点；</p>
+<p><strong>taillink</strong> <strong>指针</strong>：用于链接下一个存储作为弧尾的顶点的节点；</p>
+</blockquote>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TdGLaSU675gwBawZm4AtKbyUUqEHRqCKsPXqiaIeicYpPEBPrs3jVRs795hLAUQ44748sjFLWhnsZ7fGL2OkicJ6g/640?wx_fmt=jpeg" alt=""></p>
+<p>以上图为例子，对于顶点 A 而言，其作为起点能够到达顶点 E。因此在邻接表中顶点 A 要通过边<code>AE</code>（即边 04）指向顶点 E，顶点 A 的<code>firstout</code>指针需要指向边 04 的<code>tailvex</code>。同时，从 B 出发能够到达 A，所以在逆邻接表中顶点 A 要通过边<code>AB</code>（即边 10）指向 B，顶点 A 的<code>firstin</code>指针需要指向边 10 的弧头，即<code>headlink</code>指针。依次类推。</p>
+<p>十字链表采用了一种看起来比较繁乱的方式对边的方向性进行了表示，能够在尽可能降低存储空间的情况下增加指针保留顶点之间的方向性。具体的操作可能一时间不好弄懂，建议多看几次上图，弄清指针指向的意义，明白正向和逆向邻接表的表示。</p>
+<h2 id="10-总结"><a href="#10-总结" class="headerlink" title=" 10  总结"></a> 10  总结</h2><p>数据结构博大精深，没有高等数学的讳莫如深，也没有量子力学的玄乎其神，但是其在计算机科学的各个领域都具有强大的力量。本文试图采用图解的方式对九种数据结构进行理论上的介绍，但是其实这都是不够的。</p>
+<p>即便是简单的数组、栈、队列等结构，在实际使用以及底层实现上都会有许多优化设计以及使用技巧，这意味着还需要真正把它们灵活的用起来，才能够算是真正意义上的熟悉和精通。但是本文可以作为常见数据结构的一个总结，当你对某些结构有些淡忘的时候，不妨重新回来看看。</p>
+
+          
+            <div class='article_footer'>
+              
+                
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+
+
+  
+
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=https://topone233.github.io/2020/07/10/%E4%B9%9D%E5%A4%A7%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/>https://topone233.github.io/2020/07/10/%E4%B9%9D%E5%A4%A7%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
+        
+          height='64px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+              
+            </div>
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-10T17:22:00+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jul 10, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://topone233.github.io/2020/07/10/%E4%B9%9D%E5%A4%A7%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=九大常见数据结构 - QSX1C&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://topone233.github.io/2020/07/10/%E4%B9%9D%E5%A4%A7%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=九大常见数据结构 - QSX1C&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://topone233.github.io/2020/07/10/%E4%B9%9D%E5%A4%A7%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/&title=九大常见数据结构 - QSX1C&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2020/07/10/%E6%B5%85%E8%B0%88HashMap/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>浅谈HashMap</p>
+                <p class='content'>HashMap
+什么是哈希表
+HashMap的实现原理
+为何HashMap的数组长度一定是2的次幂
+重写equals方法需同时重写hashCode方法
+JDK1.8中HashMap的性能优化  ...</p>
+              </a>
+            
+            
+              <a class='next' href='/2020/07/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F/'>
+                <p class='title'>二叉树的四种遍历方式<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>
+原文地址 www.cnblogs.com
+
+二叉树的四种遍历方式：
+
+二叉树的遍历（traversing binary tree）是指从根结点出发，按照某种次序依次访问二叉树中所有的结点，使得...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    
+  <article class="post white-box reveal comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      <section id="comments">
+        <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+      </section>
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-数组"><span class="toc-text"> 1  数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-链表"><span class="toc-text"> 2  链表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#链表和数组对比"><span class="toc-text">链表和数组对比</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-跳表"><span class="toc-text"> 3  跳表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-栈"><span class="toc-text"> 4  栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-队列"><span class="toc-text"> 5  队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-树"><span class="toc-text"> 6  树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#平衡二叉树"><span class="toc-text">平衡二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#红黑树"><span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#红黑树-VS-平衡二叉树"><span class="toc-text">红黑树 VS 平衡二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B树（B-tree）"><span class="toc-text">B树（B-tree）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-树"><span class="toc-text">B+树</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-堆"><span class="toc-text">7  堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-散列表"><span class="toc-text"> 8  散列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-图"><span class="toc-text"> 9  图</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#邻接矩阵"><span class="toc-text">邻接矩阵</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#邻接表"><span class="toc-text">邻接表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#逆邻接表"><span class="toc-text">逆邻接表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#十字链表"><span class="toc-text">十字链表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-总结"><span class="toc-text"> 10  总结</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+    </div>
+    
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+  
+    <meting-js
+      theme='#1BCDFC'
+      autoplay='false'
+      volume='0.7'
+      loop='all'
+      order='list'
+      fixed='false'
+      list-max-height='340px'
+      server='netease'
+      type='playlist'
+      id='3175833810'
+      list-folded='true'>
+    </meting-js>
+  
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/atom.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:me@xaoxuu.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://github.com/xaoxuu"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://music.163.com/#/user/home?id=63035382"
+                class="social fas fa-headphones-alt flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme, total visits
+          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+          times
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="https://xaoxuu.com" target="_blank" rel="noopener">Copyright © 2017-2020 Mr. X</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <div>
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+<!-- 评论 （PS：只对 valine 做了 Pjax 兼容） -->
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    var valinePath = $.trim($('#valine-path').text()) === "none" ?
+            window.location.pathname : $.trim($('#valine-path').text());
+
+    var valinePlaceholder = $.trim($('#valine-placeholder').text()) === "none" ?
+            "快来评论吧~" : $.trim($('#valine-placeholder').text());
+
+    var ALLPATH = '';
+    if(ALLPATH != '') valinePath = ALLPATH;
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: valinePlaceholder,
+      path: valinePath,
+      appId: "dogUA2FSKGTo029M1SEwGROT-MdYXbMMI",
+      appKey: "u0NdtQ8nvHoMdJPSYqm1LRxE",
+      pageSize: '10',
+      avatar: 'robohash',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+<!-- darkmodejs -->
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+
+    function pjax_initCopyCode() {
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        var clipboard = new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+                return trigger.nextElementSibling
+            }
+        });
+        clipboard.on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+</script>
+
+
+<!-- scrollreveal -->
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    function pjax_scrollrebeal() {
+      ScrollReveal().reveal('.l_main .reveal', {
+        distance: '32px',
+        duration: '800',
+        interval: '20',
+        scale: '1',
+        easing: 'ease-out'
+      });
+    }
+
+    $(function () {
+      pjax_scrollrebeal();
+    });
+  </script>
+
+<!-- ******************************** -->
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  function pjax_fancybox() {
+    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".article-entry").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  $(function () {
+    pjax_fancybox();
+  });
+</script>
+
+<!-- ******************************** -->
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+
+  
+    
+<script src="/js/search.js"></script>
+
+  
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js" data-pjax></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function () {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+
+
+
+
+    
+      
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+<!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
+    <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+    <div id="loading-bar-wrapper"><script>NProgress.configure({parent:"#loading-bar-wrapper",trickleSpeed: 100})</script></div>
+    <script>
+      window.ShowLoading = function() {
+        NProgress.start();
+      };
+      window.HideLoading = function() {
+        NProgress.done();
+      }
+    </script>
+  
+</div>
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          "#pjax-container"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+  
+    document.addEventListener('pjax:send', function (e) {
+      window.stop(); // 相当于点击了浏览器的停止按钮
+      var currentUrl = window.location.pathname;
+      var targetUrl = e.triggerElement.href;
+      var banUrl = [""];
+      if (banUrl[0] != "") {
+        banUrl.forEach(item => {
+          if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+            window.location.href = targetUrl;
+          }
+        });
+      }
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+      $.fancybox.close();    // 关闭弹窗
+      $('.nav-main').find('.list-v').not('.menu-phone').css("display","none"); // 移除小尾巴
+      $('.menu-phone.list-v').css("display","none"); // 移除小尾巴
+      $('.l_header .switcher .s-search').removeClass('active'); // 关闭移动端激活的搜索框
+      $('.l_header').removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      $('.wrapper').removeClass('sub'); // 跳转页面时关闭二级导航
+      $(window).unbind('resize');    // 解绑
+      $(window).unbind('scroll');    // 解绑
+      $(window).unbind('click');     // 解绑
+      $(document).unbind('scroll');  // 解绑
+      window.ShowLoading();
+    });
+  
+    document.addEventListener('pjax:complete', function () {
+      // 关于百度统计对 SPA 页面的处理：
+      // 方案一：百度统计>管理>单页应用设置中，打开开启按钮即可对SPA进行统计。 https://tongji.baidu.com/web/help/article?id=324
+      // 方案二：取消注释下列代码。 https://tongji.baidu.com/web/help/article?id=235
+      // 
+  
+      // 关于谷歌统计对 SPA 页面的处理：
+      // 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+      // https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+      
+      
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+  
+      try{
+        pjax_fancybox();
+        
+          
+          if ('.cover') {
+            $('.cover').backstretch("resize");
+          } else {
+            $.backstretch("resize");
+          }
+        
+        
+          pjax_scrollrebeal();
+        
+        
+          pjax_initCopyCode();
+        
+        
+          pjax_valine();
+        
+        
+        
+      } catch (e) {
+        console.log(e);
+      }
+      window.HideLoading();
+    });
+  
+    document.addEventListener('pjax:error', function (e) { 
+      window.HideLoading(); 
+      window.location.href = e.triggerElement.href; 
+    }); 
+</script>
+  
+    
+  </div>
+</body>
+</html>
