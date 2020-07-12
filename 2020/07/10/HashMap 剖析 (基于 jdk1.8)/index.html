@@ -1,585 +1,740 @@
-<!DOCTYPE html>
-<html>
-<head hexo-theme='https://volantis.js.org/#3.0-beta1'>
-  <meta charset="utf-8">
-  <!-- SEO相关 -->
-  
-    
-  
-  <!-- 渲染优化 -->
-  <meta name="renderer" content="webkit">
-  <meta name="force-rendering" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <meta name="HandheldFriendly" content="True" >
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <!-- 页面元数据 -->
-  
-  <title>HashMap 剖析 (基于 jdk1.8) - QSX1C</title>
-  
-
-  
-
-  <!-- feed -->
-  
-
-  <!-- import meta -->
-  
-
-  <!-- link -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13/css/all.min.css">
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+<!DOCTYPE HTML>
+<html lang="en">
 
 
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="HashMap 剖析 (基于 jdk1.8), QSX1C">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
 
-  
 
-  
-    <link rel="shortcut icon" type='image/x-icon' href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
-  
+    <title>HashMap 剖析 (基于 jdk1.8) | QSX1C</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
 
-  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
-  
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
 
-  
+    <script src="/libs/jquery/jquery.min.js"></script>
 
-  <!-- import link -->
-  
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
-  
-  
-    
-<link rel="stylesheet" href="/css/style.css">
-
-  
-
-  
-  
-</head>
 
 <body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">QSX1C</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
   
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
   
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
   
-  <div class="cover-wrapper">
-    <cover class='cover post' style="display: none;">
-      <div class='cover-body'>
-  <div class='a'>
+  <li class="hide-on-med-and-down nav-item">
     
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
     
-      <p class="title">Volantis</p>
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
     
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
     
-      <p class="subtitle">A Wonderful Theme for Hexo</p>
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
     
-  </div>
-  <div class='b'>
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
     
-      <div class="m_search">
-        <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="" />
-          <i class="icon fas fa-search fa-fw"></i>
-        </form>
-      </div>
-    
-    <div class='menu navigation'>
-      <ul class='cover-list-h'>
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
         
-          
-            <li>
-              <a class="nav home"
-                href="https://volantis.js.org/getting-started/"
-                
-                
-                id="https:volantisjsorggetting-started">
-                <i class='fas fa-book fa-fw'></i>文档
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://volantis.js.org/archives/"
-                
-                
-                id="https:volantisjsorgarchives">
-                <i class='fas fa-rss fa-fw'></i>博文
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://volantis.js.org/examples/"
-                
-                
-                id="https:volantisjsorgexamples">
-                <i class='fas fa-play-circle fa-fw'></i>示例
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://github.com/theme-volantis/hexo-theme-volantis/"
-                
-                  rel="external nofollow noopener noreferrer"
-                
-                
-                  target="_blank"
-                
-                id="https:githubcomtheme-volantishexo-theme-volantis">
-                <i class='fas fa-file-code fa-fw'></i>源码
-              </a>
-            </li>
-          
-            <li>
-              <a class="nav home"
-                href="https://volantis.js.org/contributors/"
-                
-                
-                id="https:volantisjsorgcontributors">
-                <i class='fas fa-handshake fa-fw'></i>鸣谢
-              </a>
-            </li>
-          
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
         
-      </ul>
+        <div class="logo-name">QSX1C</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
     </div>
-  </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
 </div>
 
-      <div class="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
-    </cover>
-    <header class="l_header shadow blur">
-  <div class='container'>
-  <div class='wrapper'>
-    <div class='nav-sub'>
-      <p class="title"></p>
-      <ul class='switcher nav-list-h'>
-        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
-        
-          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
-        
-      </ul>
-    </div>
-		<div class="nav-main">
-      
-        
-        <a class="title flat-box" target="_self" href='/'>
-          
-          
-          
-          
-            VOLANTIS <b><sup style='color:#ff9800'>3.0-beta1</sup></b>
-          
-        </a>
-      
 
-			<div class='menu navigation'>
-				<ul class='nav-list-h'>
-          
-          
-          
-            
-            
-              <li>
-                <a class="flat-box" href=/
-                  
-                  
-                  
-                    id="home"
-                  >
-                  <i class='fas fa-rss fa-fw'></i>博客
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="flat-box" href=/categories/
-                  
-                  
-                  
-                    id="categories"
-                  >
-                  <i class='fas fa-folder-open fa-fw'></i>分类
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="flat-box" href=/tags/
-                  
-                  
-                  
-                    id="tags"
-                  >
-                  <i class='fas fa-tags fa-fw'></i>标签
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="flat-box" href=/archives/
-                  
-                  
-                  
-                    id="archives"
-                  >
-                  <i class='fas fa-archive fa-fw'></i>归档
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="flat-box" href=/friends/
-                  
-                  
-                  
-                    id="friends"
-                  >
-                  <i class='fas fa-link fa-fw'></i>友链
-                </a>
-                
-              </li>
-            
-          
-          
-            
-            
-              <li>
-                <a class="flat-box" href=/about/
-                  
-                  
-                  
-                    id="about"
-                  >
-                  <i class='fas fa-info-circle fa-fw'></i>关于
-                </a>
-                
-              </li>
-            
-          
-          
-				</ul>
-			</div>
+        </div>
 
-      <div class="m_search">
-        <form name="searchform" class="form u-search-form">
-          <i class="icon fas fa-search fa-fw"></i>
-          <input type="text" class="input u-search-input" placeholder="Search..." />
-        </form>
-      </div>
+        
+    </nav>
 
-			<ul class='switcher nav-list-h'>
-				
-					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
-				
-				<li>
-          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
-          <ul class="menu-phone list-v navigation white-box">
-            
-              
-            
-              <li>
-                <a class="flat-box" href=/
-                  
-                  
-                  
-                    id="home"
-                  >
-                  <i class='fas fa-rss fa-fw'></i>博客
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="flat-box" href=/categories/
-                  
-                  
-                  
-                    id="categories"
-                  >
-                  <i class='fas fa-folder-open fa-fw'></i>分类
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="flat-box" href=/tags/
-                  
-                  
-                  
-                    id="tags"
-                  >
-                  <i class='fas fa-tags fa-fw'></i>标签
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="flat-box" href=/archives/
-                  
-                  
-                  
-                    id="archives"
-                  >
-                  <i class='fas fa-archive fa-fw'></i>归档
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="flat-box" href=/friends/
-                  
-                  
-                  
-                    id="friends"
-                  >
-                  <i class='fas fa-link fa-fw'></i>友链
-                </a>
-                
-              </li>
-            
-          
-            
-              
-            
-              <li>
-                <a class="flat-box" href=/about/
-                  
-                  
-                  
-                    id="about"
-                  >
-                  <i class='fas fa-info-circle fa-fw'></i>关于
-                </a>
-                
-              </li>
-            
-          
-            
-          </ul>
-        </li>
-			</ul>
-		</div>
-	</div>
-  </div>
 </header>
 
-  </div>
-  
-
-  <div class="l_body nocover">
-    <div class='body-wrapper' id="pjax-container">
-      
-        <!--此文件用来存放一些不方便取值的变量-->
-<!--思路大概是将值藏到重加载的区域内-->
-
-
-
-<div id="pjax-data" style="display: none">
-  <div id="pjax-ispage">true</div>
-  <div id="pjax-pageTitle">HashMap 剖析 (基于 jdk1.8)</div>
-  <div id="pjax-enable-cover">true</div>
-  
-  <div id="valine-path">none</div>
-  <div id="valine-placeholder">none</div>
-  
-  
-</div>
-
-
-<script>
-  // 处理封面 此时 jquery 还没加载
-  if ("none" == "none") { // 移除封面
-    document.getElementsByClassName('cover')[0].style.display = "none";
-    document.getElementsByClassName('l_body')[0].classList.add("nocover");
-    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.add("show");
-  } else {
-    if ("none" == "blog") { // 半屏
-      document.getElementsByClassName('cover')[0].classList.remove("full");
-      document.getElementsByClassName('cover')[0].classList.add("half");
-      document.getElementsByClassName('scroll-down')[0].style.display = "none";
-    } else if ("none" == "docs") { // 全屏
-      document.getElementsByClassName('cover')[0].classList.remove("half");
-      document.getElementsByClassName('cover')[0].classList.add("full");
-      document.getElementsByClassName('scroll-down')[0].style.display = "";
-    }
-    document.getElementsByClassName('cover')[0].style.display = "";
-    document.getElementsByClassName('l_body', 'show')[0].classList.remove("nocover");
-    document.getElementsByClassName('l_header', 'cover-wrapper')[0].classList.remove("show");
-  }
-</script>
-
-      
-      
-
-<div class='l_main'>
-  
-
-  
-    <article id="post" class="post white-box reveal shadow article-type-post" itemscope itemprop="blogPost">
-      
-
-
-  <section class='meta'>
     
-      
-      
-      <div class="meta" id="header-meta">
-        
-          
-  <h1 class="title">
-    <a href="/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/">
-      HashMap 剖析 (基于 jdk1.8)
-    </a>
-  </h1>
 
 
-        
-        <div class='new-meta-box'>
-          
-            
-          
-            
-              
-<div class='new-meta-item author'>
-  <a href="https://xaoxuu.com" target="_blank" rel="nofollow noopener">
-    <img no-lazy src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
-    <p>Mr. X</p>
-  </a>
-</div>
 
-            
-          
-            
-              
-
-            
-          
-            
-              <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jul 10, 2020</p>
-  </a>
-</div>
-
-            
-          
-            
-              
-
-            
-          
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">HashMap 剖析 (基于 jdk1.8)</h1>
+                </div>
+            </div>
         </div>
-        
-          <hr>
-        
-      </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
     
-  </section>
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
 
+    #articleContent :focus {
+        outline: none;
+    }
 
-      <section class="article typo">
-        <div class="article-entry" itemprop="articleBody">
-          
-          
-          <p>原文地址 <a href="https://www.cnblogs.com/Young111/p/11471049.html" target="_blank" rel="noopener">www.cnblogs.com</a></p>
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2020-07-10
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>原文地址 <a href="https://www.cnblogs.com/Young111/p/11471049.html" target="_blank" rel="noopener">www.cnblogs.com</a></p>
 <p>本文的源码是基于 JDK1.8 版本，在学习 HashMap 之前，先了解数组和链表的知识。</p>
-<p><strong>数组：</strong><br>数组具有遍历快，增删慢的特点。数组在堆中是一块连续的存储空间，遍历时数组的首地址是知道的（首地址 = 首地址 + 元素字节数 * 下标），所以遍历快（数组遍历的时间复杂度为 O(1) ）；增删慢是因为，当在中间插入或删除元素时，会造成该元素后面所有元素地址的改变，所以增删慢（增删的时间复杂度为 O(n) ）。</p>
-<p><strong>链表：</strong><br>链表具有增删快，遍历慢的特点。链表中各元素的内存空间是不连续的，一个节点至少包含节点数据与后继节点的引用，所以在插入删除时，只需修改该位置的前驱节点与后继节点即可，链表在插入删除时的时间复杂度为 O(1)。但是在遍历时，get(n) 元素时，需要从第一个开始，依次拿到后面元素的地址，进行遍历，直到遍历到第 n 个元素（时间复杂度为 O(n) ），所以效率极低。</p>
-<p><strong>HashMap:</strong><br>Hash 表是一个数组 + 链表的结构，这种结构能够保证在遍历与增删的过程中，如果不产生 hash 碰撞，仅需一次定位就可完成，时间复杂度能保证在 O(1)。  在 jdk1.7 中，只是单纯的数组 + 链表的结构，但是如果散列表中的 hash 碰撞过多时，会造成效率的降低，所以在 JKD1.8 中对这种情况进行了控制，当一个 hash 值上的链表长度大于 8 时，该节点上的数据就不再以链表进行存储，而是转成了一个红黑树。</p>
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><p>数组具有遍历快，增删慢的特点。数组在堆中是一块连续的存储空间，遍历时数组的首地址是知道的（首地址 = 首地址 + 元素字节数 * 下标），所以遍历快（数组遍历的时间复杂度为 O(1) ）；增删慢是因为，当在中间插入或删除元素时，会造成该元素后面所有元素地址的改变，所以增删慢（增删的时间复杂度为 O(n) ）。</p>
+<h4 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h4><p>链表具有增删快，遍历慢的特点。链表中各元素的内存空间是不连续的，一个节点至少包含节点数据与后继节点的引用，所以在插入删除时，只需修改该位置的前驱节点与后继节点即可，链表在插入删除时的时间复杂度为 O(1)。但是在遍历时，get(n) 元素时，需要从第一个开始，依次拿到后面元素的地址，进行遍历，直到遍历到第 n 个元素（时间复杂度为 O(n) ），所以效率极低。</p>
+<h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><p>Hash 表是一个数组 + 链表的结构，这种结构能够保证在遍历与增删的过程中，如果不产生 hash 碰撞，仅需一次定位就可完成，时间复杂度能保证在 O(1)。  在 jdk1.7 中，只是单纯的数组 + 链表的结构，但是如果散列表中的 hash 碰撞过多时，会造成效率的降低，所以在 JKD1.8 中对这种情况进行了控制，当一个 hash 值上的链表长度大于 8 时，该节点上的数据就不再以链表进行存储，而是转成了一个红黑树。</p>
 <p>红黑树:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static final class TreeNode&lt;K,V&gt; extends LinkedHashMap.Entry&lt;K,V&gt; &#123;</span><br><span class="line">    TreeNode&lt;K,V&gt; parent;  &#x2F;&#x2F; red-black tree links</span><br><span class="line">    TreeNode&lt;K,V&gt; left;</span><br><span class="line">    TreeNode&lt;K,V&gt; right;</span><br><span class="line">    TreeNode&lt;K,V&gt; prev;    &#x2F;&#x2F; needed to unlink next upon deletion</span><br><span class="line">    boolean red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p><strong>hash 碰撞：</strong><br>hash 是指，两个元素通过 hash 函数计算出的值是一样的，是同一个存储地址。当后面的元素要插入到这个地址时，发现已经被占用了，这时候就产生了 hash 冲突</p>
-<p><strong>hash 冲突的解决方法：</strong><br>开放定址法 (查询产生冲突的地址的下一个地址是否被占用，直到寻找到空的地址)，再散列法，链地址法等。hashmap 采用的就是链地址法，jdk1.7 中，当冲突时，在冲突的地址上生成一个链表，将冲突的元素的 key，通过 equals 进行比较，相同即覆盖，不同则添加到链表上，此时如果链表过长，效率就会大大降低，查找和添加操作的时间复杂度都为 O(n)；但是在 jdk1.8 中如果链表长度大于 8，链表就会转化为红黑树，下图就是 1.8 版本的（图片来源 <a href="https://segmentfault.com/a/1190000012926722" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012926722</a>），时间复杂度也降为了 O(logn)，性能得到了很大的优化。</p>
+<pre><code>static final class TreeNode&lt;K,V&gt; extends LinkedHashMap.Entry&lt;K,V&gt; {
+    TreeNode&lt;K,V&gt; parent;  // red-black tree links
+    TreeNode&lt;K,V&gt; left;
+    TreeNode&lt;K,V&gt; right;
+    TreeNode&lt;K,V&gt; prev;    // needed to unlink next upon deletion
+    boolean red;
+}
+</code></pre><h4 id="hash-碰撞"><a href="#hash-碰撞" class="headerlink" title="hash 碰撞"></a>hash 碰撞</h4><p>hash 是指，两个元素通过 hash 函数计算出的值是一样的，是同一个存储地址。当后面的元素要插入到这个地址时，发现已经被占用了，这时候就产生了 hash 冲突</p>
+<h4 id="hash-冲突的解决方法"><a href="#hash-冲突的解决方法" class="headerlink" title="hash 冲突的解决方法"></a>hash 冲突的解决方法</h4><p>开放定址法 (查询产生冲突的地址的下一个地址是否被占用，直到寻找到空的地址)，再散列法，链地址法等。hashmap 采用的就是链地址法，jdk1.7 中，当冲突时，在冲突的地址上生成一个链表，将冲突的元素的 key，通过 equals 进行比较，相同即覆盖，不同则添加到链表上，此时如果链表过长，效率就会大大降低，查找和添加操作的时间复杂度都为 O(n)；但是在 jdk1.8 中如果链表长度大于 8，链表就会转化为红黑树，下图就是 1.8 版本的（图片来源 <a href="https://segmentfault.com/a/1190000012926722" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012926722</a>），时间复杂度也降为了 O(logn)，性能得到了很大的优化。</p>
 <p><img src="https://img2018.cnblogs.com/blog/1408728/201909/1408728-20190906090342350-1437652164.png" alt=""></p>
-<p><strong>下面通过源码分析一下，HashMap 的底层实现</strong></p>
-<p>首先，hashMap 的主干是一个 Node 数组（jdk1.7 及之前为 Entry 数组）每一个 Node 包含一个 key 与 value 的键值对，与一个 next 指向下一个 node，hashMap 由多个 Node 对象组成。</p>
+<h4 id="HashMap-的底层实现"><a href="#HashMap-的底层实现" class="headerlink" title="HashMap 的底层实现"></a>HashMap 的底层实现</h4><p>首先，hashMap 的主干是一个 Node 数组（jdk1.7 及之前为 Entry 数组）每一个 Node 包含一个 key 与 value 的键值对，与一个 next 指向下一个 node，hashMap 由多个 Node 对象组成。</p>
 <p>Node 是 HhaspMap 中的一个静态内部类 ：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">         final int hash;</span><br><span class="line">         final K key;</span><br><span class="line">         V value;</span><br><span class="line">         Node&lt;K,V&gt; next;</span><br><span class="line"> </span><br><span class="line">         Node(int hash, K key, V value, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">            this.hash &#x3D; hash;</span><br><span class="line">             this.key &#x3D; key;</span><br><span class="line">             this.value &#x3D; value;</span><br><span class="line">             this.next &#x3D; next;</span><br><span class="line">         &#125;</span><br><span class="line"> </span><br><span class="line">         public final K getKey()        &#123; return key; &#125;</span><br><span class="line">         public final V getValue()      &#123; return value; &#125;</span><br><span class="line">         public final String toString() &#123; return key + &quot;&#x3D;&quot; + value; &#125;</span><br><span class="line"> </span><br><span class="line">        &#x2F;&#x2F;hashCode等其他代码</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
+         final int hash;
+         final K key;
+         V value;
+         Node&lt;K,V&gt; next;
+
+         Node(int hash, K key, V value, Node&lt;K,V&gt; next) {
+            this.hash = hash;
+             this.key = key;
+             this.value = value;
+             this.next = next;
+         }
+
+         public final K getKey()        { return key; }
+         public final V getValue()      { return value; }
+         public final String toString() { return key + &quot;=&quot; + value; }
+
+        //hashCode等其他代码
+     }
+</code></pre><p>再看下 hashMap 中几个重要的字段：</p>
+<pre><code>//默认初始容量为16，0000 0001 左移4位 0001 0000为16，主干数组的初始容量为16，而且这个数组
+//必须是2的倍数(后面说为什么是2的倍数)
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+
+//最大容量为int的最大值除2
+static final int MAXIMUM_CAPACITY = 1 &lt;&lt; 30;
+
+//默认加载因子为0.75
+static final float DEFAULT_LOAD_FACTOR = 0.75f;
+
+//阈值，如果主干数组上的链表的长度大于8，链表转化为红黑树
+ static final int TREEIFY_THRESHOLD = 8;
+
+//hash表扩容后，如果发现某一个红黑树的长度小于6，则会重新退化为链表
+ static final int UNTREEIFY_THRESHOLD = 6;
+
+//当hashmap容量大于64时，链表才能转成红黑树
+ static final int MIN_TREEIFY_CAPACITY = 64;
+
+//临界值=主干数组容量*负载因子
+int threshold；
+</code></pre><h4 id="HashMap-的构造方法"><a href="#HashMap-的构造方法" class="headerlink" title="HashMap 的构造方法"></a>HashMap 的构造方法</h4><pre><code>//initialCapacity为初始容量，loadFactor为负载因子
+public HashMap(int initialCapacity, float loadFactor) {
+        //初始容量小于0，抛出非法数据异常
+        if (initialCapacity &lt; 0)
+            throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +
+                                               initialCapacity);
+        //初始容量最大为MAXIMUM_CAPACITY
+        if (initialCapacity &gt; MAXIMUM_CAPACITY)
+            initialCapacity = MAXIMUM_CAPACITY;
+        //负载因子必须大于0，并且是合法数字
+        if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+            throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +
+                                               loadFactor);
+
+        this.loadFactor = loadFactor;
+        //将初始容量转成2次幂
+        this.threshold = tableSizeFor(initialCapacity);
+    }
+
+    //tableSizeFor的作用就是，如果传入A，当A大于0，小于定义的最大容量时，
+    //如果A是2次幂则返回A，否则将A转化为一个比A大且差距最小的2次幂。  
+    //例如传入7返回8，传入8返回8，传入9返回16
+  static final int tableSizeFor(int cap) {
+        int n = cap - 1;
+        n |= n &gt;&gt;&gt; 1;
+        n |= n &gt;&gt;&gt; 2;
+        n |= n &gt;&gt;&gt; 4;
+        n |= n &gt;&gt;&gt; 8;
+        n |= n &gt;&gt;&gt; 16;
+        return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }
 
 
-<p>再看下 hashMap 中几个重要的字段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;默认初始容量为16，0000 0001 左移4位 0001 0000为16，主干数组的初始容量为16，而且这个数组</span><br><span class="line">&#x2F;&#x2F;必须是2的倍数(后面说为什么是2的倍数)</span><br><span class="line">static final int DEFAULT_INITIAL_CAPACITY &#x3D; 1 &lt;&lt; 4; &#x2F;&#x2F; aka 16</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;最大容量为int的最大值除2</span><br><span class="line">static final int MAXIMUM_CAPACITY &#x3D; 1 &lt;&lt; 30;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;默认加载因子为0.75</span><br><span class="line">static final float DEFAULT_LOAD_FACTOR &#x3D; 0.75f;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;阈值，如果主干数组上的链表的长度大于8，链表转化为红黑树</span><br><span class="line"> static final int TREEIFY_THRESHOLD &#x3D; 8;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;hash表扩容后，如果发现某一个红黑树的长度小于6，则会重新退化为链表</span><br><span class="line"> static final int UNTREEIFY_THRESHOLD &#x3D; 6;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;当hashmap容量大于64时，链表才能转成红黑树</span><br><span class="line"> static final int MIN_TREEIFY_CAPACITY &#x3D; 64;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;临界值&#x3D;主干数组容量*负载因子</span><br><span class="line">int threshold；</span><br></pre></td></tr></table></figure>
+    //调用上面的构造方法，自定义初始容量，负载因子为默认的0.75
+ public HashMap(int initialCapacity) {
+        this(initialCapacity, DEFAULT_LOAD_FACTOR);
+    }
 
 
-<p><strong>HashMap 的构造方法：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;initialCapacity为初始容量，loadFactor为负载因子</span><br><span class="line">public HashMap(int initialCapacity, float loadFactor) &#123;</span><br><span class="line">        &#x2F;&#x2F;初始容量小于0，抛出非法数据异常</span><br><span class="line">        if (initialCapacity &lt; 0)</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +</span><br><span class="line">                                               initialCapacity);</span><br><span class="line">        &#x2F;&#x2F;初始容量最大为MAXIMUM_CAPACITY</span><br><span class="line">        if (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">            initialCapacity &#x3D; MAXIMUM_CAPACITY;</span><br><span class="line">        &#x2F;&#x2F;负载因子必须大于0，并且是合法数字</span><br><span class="line">        if (loadFactor &lt;&#x3D; 0 || Float.isNaN(loadFactor))</span><br><span class="line">            throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +</span><br><span class="line">                                               loadFactor);</span><br><span class="line">        </span><br><span class="line">        this.loadFactor &#x3D; loadFactor;</span><br><span class="line">        &#x2F;&#x2F;将初始容量转成2次幂</span><br><span class="line">        this.threshold &#x3D; tableSizeFor(initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    &#x2F;&#x2F;tableSizeFor的作用就是，如果传入A，当A大于0，小于定义的最大容量时，</span><br><span class="line">    &#x2F;&#x2F;如果A是2次幂则返回A，否则将A转化为一个比A大且差距最小的2次幂。  </span><br><span class="line">    &#x2F;&#x2F;例如传入7返回8，传入8返回8，传入9返回16</span><br><span class="line">  static final int tableSizeFor(int cap) &#123;</span><br><span class="line">        int n &#x3D; cap - 1;</span><br><span class="line">        n |&#x3D; n &gt;&gt;&gt; 1;</span><br><span class="line">        n |&#x3D; n &gt;&gt;&gt; 2;</span><br><span class="line">        n |&#x3D; n &gt;&gt;&gt; 4;</span><br><span class="line">        n |&#x3D; n &gt;&gt;&gt; 8;</span><br><span class="line">        n |&#x3D; n &gt;&gt;&gt; 16;</span><br><span class="line">        return (n &lt; 0) ? 1 : (n &gt;&#x3D; MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    &#x2F;&#x2F;调用上面的构造方法，自定义初始容量，负载因子为默认的0.75</span><br><span class="line"> public HashMap(int initialCapacity) &#123;</span><br><span class="line">        this(initialCapacity, DEFAULT_LOAD_FACTOR);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    &#x2F;&#x2F;默认构造方法，负载因子为0.75，初始容量为DEFAULT_INITIAL_CAPACITY&#x3D;16，初始容量在第一次put时才会初始化</span><br><span class="line"> public HashMap() &#123;</span><br><span class="line">        this.loadFactor &#x3D; DEFAULT_LOAD_FACTOR; &#x2F;&#x2F; all other fields defaulted</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    &#x2F;&#x2F;传入一个MAP集合的构造方法</span><br><span class="line"> public HashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;</span><br><span class="line">        this.loadFactor &#x3D; DEFAULT_LOAD_FACTOR;</span><br><span class="line">        putMapEntries(m, false);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+    //默认构造方法，负载因子为0.75，初始容量为DEFAULT_INITIAL_CAPACITY=16，初始容量在第一次put时才会初始化
+ public HashMap() {
+        this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted
+    }
 
 
-<p><strong>HashMap 的 put() 方法</strong></p>
-<p>put 方法的源码分析是本篇的一个重点，因为通过该方法我们可以窥探到 HashMap 在内部是如何进行数据存储的，所谓的数组 + 链表 + 红黑树的存储结构是如何形成的，又是在何种情况下将链表转换成红黑树来优化性能的。带着一系列的疑问，我们看这个 put 方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public V put(K key, V value) &#123;</span><br><span class="line">       return putVal(hash(key), key, value, false, true);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    //传入一个MAP集合的构造方法
+ public HashMap(Map&lt;? extends K, ? extends V&gt; m) {
+        this.loadFactor = DEFAULT_LOAD_FACTOR;
+        putMapEntries(m, false);
+    }
+</code></pre><h4 id="HashMap-的-put-方法"><a href="#HashMap-的-put-方法" class="headerlink" title="HashMap 的 put() 方法"></a>HashMap 的 put() 方法</h4><p>put 方法的源码分析是本篇的一个重点，因为通过该方法我们可以窥探到 HashMap 在内部是如何进行数据存储的，所谓的数组 + 链表 + 红黑树的存储结构是如何形成的，又是在何种情况下将链表转换成红黑树来优化性能的。带着一系列的疑问，我们看这个 put 方法：</p>
+<pre><code>public V put(K key, V value) {
+       return putVal(hash(key), key, value, false, true);
+}
+</code></pre><p>也就是 put 方法调用了 putVal 方法，其中传入一个参数位 hash(key)，我们首先来看看 hash() 这个方法。</p>
+<pre><code> static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
+    }
+</code></pre><p>此处如果传入的 int 类型的值：①向一个 Object 类型赋值一个 int 的值时，会将 int 值自动封箱为 Integer。②integer 类型的 hashcode 都是他自身的值，即 h=key；h &gt;&gt;&gt; 16 为无符号右移 16 位，低位挤走，高位补 0；^ 为按位异或，即转成二进制后，相异为 1，相同为 0，由此可发现，当传入的值小于  2 的 16 次方 - 1 时，调用这个方法返回的值，都是自身的值。<br>然后再执行 putVal 方法：</p>
+<pre><code>//onlyIfAbsent是true的话，不要改变现有的值
+//evict为true的话，表处于创建模式 
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+//如果主干上的table为空，长度为0，调用resize方法，调整table的长度（resize方法在下图中）
+        if ((tab = table) == null || (n = tab.length) == 0)
+            /* 这里调用resize，其实就是第一次put时，对数组进行初始化。
+               如果是默认构造方法会执行resize中的这几句话：
+               newCap = DEFAULT_INITIAL_CAPACITY;  新的容量等于默认值16
+               newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);            
+               threshold = newThr;   临界值等于16*0.75
+               Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap]; 
+               table = newTab; 将新的node数组赋值给table，然后return newTab
 
-<p>也就是 put 方法调用了 putVal 方法，其中传入一个参数位 hash(key)，我们首先来看看 hash() 这个方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static final int hash(Object key) &#123;</span><br><span class="line">       int h;</span><br><span class="line">       return (key &#x3D;&#x3D; null) ? 0 : (h &#x3D; key.hashCode()) ^ (h &gt;&gt;&gt; 16);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<p>此处如果传入的 int 类型的值：①向一个 Object 类型赋值一个 int 的值时，会将 int 值自动封箱为 Integer。②integer 类型的 hashcode 都是他自身的值，即 h=key；h &gt;&gt;&gt; 16 为无符号右移 16 位，低位挤走，高位补 0；^ 为按位异或，即转成二进制后，相异为 1，相同为 0，由此可发现，当传入的值小于  2 的 16 次方 - 1 时，调用这个方法返回的值，都是自身的值。<br>然后再执行 putVal 方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;onlyIfAbsent是true的话，不要改变现有的值</span><br><span class="line">&#x2F;&#x2F;evict为true的话，表处于创建模式 </span><br><span class="line">final V putVal(int hash, K key, V value, boolean onlyIfAbsent,</span><br><span class="line">                   boolean evict) &#123;</span><br><span class="line">        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;</span><br><span class="line">&#x2F;&#x2F;如果主干上的table为空，长度为0，调用resize方法，调整table的长度（resize方法在下图中）</span><br><span class="line">        if ((tab &#x3D; table) &#x3D;&#x3D; null || (n &#x3D; tab.length) &#x3D;&#x3D; 0)</span><br><span class="line">            &#x2F;* 这里调用resize，其实就是第一次put时，对数组进行初始化。</span><br><span class="line">               如果是默认构造方法会执行resize中的这几句话：</span><br><span class="line">               newCap &#x3D; DEFAULT_INITIAL_CAPACITY;  新的容量等于默认值16</span><br><span class="line">               newThr &#x3D; (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);            </span><br><span class="line">               threshold &#x3D; newThr;   临界值等于16*0.75</span><br><span class="line">               Node&lt;K,V&gt;[] newTab &#x3D; (Node&lt;K,V&gt;[])new Node[newCap]; </span><br><span class="line">               table &#x3D; newTab; 将新的node数组赋值给table，然后return newTab</span><br><span class="line">                </span><br><span class="line">                如果是自定义的构造方法则会执行resize中的： </span><br><span class="line">                int oldThr &#x3D; threshold;   </span><br><span class="line">                newCap &#x3D; oldThr;   新的容量等于threshold，这里的threshold都是2的倍数，原因在    </span><br><span class="line">                于传入的数都经过tableSizeFor方法，返回了一个新值，上面解释过</span><br><span class="line">                float ft &#x3D; (float)newCap * loadFactor; </span><br><span class="line">                newThr &#x3D; (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?</span><br><span class="line">                (int)ft : Integer.MAX_VALUE); </span><br><span class="line">                 threshold &#x3D; newThr; 新的临界值等于 (int)(新的容量*负载因子)</span><br><span class="line">                Node&lt;K,V&gt;[] newTab &#x3D; (Node&lt;K,V&gt;[])new Node[newCap];</span><br><span class="line">                table &#x3D; newTab; return newTab;</span><br><span class="line">            *&#x2F;</span><br><span class="line">            n &#x3D; (tab &#x3D; resize()).length;  &#x2F;&#x2F;将调用resize后构造的数组的长度赋值给n</span><br><span class="line">        if ((p &#x3D; tab[i &#x3D; (n - 1) &amp; hash]) &#x3D;&#x3D; null) &#x2F;&#x2F;将数组长度与计算得到的hash值比较</span><br><span class="line">            tab[i] &#x3D; newNode(hash, key, value, null);&#x2F;&#x2F;位置为空，将i位置上赋值一个node对象</span><br><span class="line">        else &#123;  &#x2F;&#x2F;位置不为空</span><br><span class="line">            Node&lt;K,V&gt; e; K k;</span><br><span class="line">            if (p.hash &#x3D;&#x3D; hash &amp;&amp;  &#x2F;&#x2F; 如果这个位置的old节点与new节点的key完全相同</span><br><span class="line">                ((k &#x3D; p.key) &#x3D;&#x3D; key || (key !&#x3D; null &amp;&amp; key.equals(k)))) </span><br><span class="line">                e &#x3D; p;             &#x2F;&#x2F; 则e&#x3D;p</span><br><span class="line">            else if (p instanceof TreeNode) &#x2F;&#x2F; 如果p已经是树节点的一个实例，既这里已经是树了</span><br><span class="line">                e &#x3D; ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);</span><br><span class="line">            else &#123;  &#x2F;&#x2F;p与新节点既不完全相同，p也不是treenode的实例</span><br><span class="line">                for (int binCount &#x3D; 0; ; ++binCount) &#123;  &#x2F;&#x2F;一个死循环</span><br><span class="line">                    if ((e &#x3D; p.next) &#x3D;&#x3D; null) &#123;   &#x2F;&#x2F;e&#x3D;p.next,如果p的next指向为null</span><br><span class="line">                        p.next &#x3D; newNode(hash, key, value, null);  &#x2F;&#x2F;指向一个新的节点</span><br><span class="line">                        if (binCount &gt;&#x3D; TREEIFY_THRESHOLD - 1) &#x2F;&#x2F; 如果链表长度大于等于8</span><br><span class="line">                            treeifyBin(tab, hash);  &#x2F;&#x2F;将链表转为红黑树</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">       if (e.hash &#x3D;&#x3D; hash &amp;&amp;  &#x2F;&#x2F;如果遍历过程中链表中的元素与新添加的元素完全相同，则跳出循环</span><br><span class="line">                        ((k &#x3D; e.key) &#x3D;&#x3D; key || (key !&#x3D; null &amp;&amp; key.equals(k))))</span><br><span class="line">                        break;</span><br><span class="line">                    p &#x3D; e; &#x2F;&#x2F;将p中的next赋值给p,即将链表中的下一个node赋值给p，</span><br><span class="line">                           &#x2F;&#x2F;继续循环遍历链表中的元素</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (e !&#x3D; null) &#123; &#x2F;&#x2F;这个判断中代码作用为：如果添加的元素产生了hash冲突，那么调用                </span><br><span class="line">                             &#x2F;&#x2F;put方法时，会将他在链表中他的上一个元素的值返回</span><br><span class="line">                V oldValue &#x3D; e.value;</span><br><span class="line">                if (!onlyIfAbsent || oldValue &#x3D;&#x3D; null)  &#x2F;&#x2F;判断条件成立的话，将oldvalue替换        </span><br><span class="line">                &#x2F;&#x2F;为newvalue，返回oldvalue；不成立则不替换，然后返回oldvalue</span><br><span class="line">                    e.value &#x3D; value;</span><br><span class="line">                afterNodeAccess(e);  &#x2F;&#x2F;这个方法在后面说</span><br><span class="line">                return oldValue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ++modCount;  &#x2F;&#x2F;记录修改次数</span><br><span class="line">        if (++size &gt; threshold)   &#x2F;&#x2F;如果元素数量大于临界值，则进行扩容</span><br><span class="line">            resize();   &#x2F;&#x2F;下面说</span><br><span class="line">        afterNodeInsertion(evict);  </span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>在 Java 8 中，如果一个桶中的元素个数超过 TREEIFY_THRESHOLD(默认是 8)，就使用红黑树来替换链表，从而提高速度。上诉代码这个替换的方法叫 treeifyBin() 即树形化。</p>
+                如果是自定义的构造方法则会执行resize中的： 
+                int oldThr = threshold;   
+                newCap = oldThr;   新的容量等于threshold，这里的threshold都是2的倍数，原因在    
+                于传入的数都经过tableSizeFor方法，返回了一个新值，上面解释过
+                float ft = (float)newCap * loadFactor; 
+                newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+                (int)ft : Integer.MAX_VALUE); 
+                 threshold = newThr; 新的临界值等于 (int)(新的容量*负载因子)
+                Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+                table = newTab; return newTab;
+            */
+            n = (tab = resize()).length;  //将调用resize后构造的数组的长度赋值给n
+        if ((p = tab[i = (n - 1) &amp; hash]) == null) //将数组长度与计算得到的hash值比较
+            tab[i] = newNode(hash, key, value, null);//位置为空，将i位置上赋值一个node对象
+        else {  //位置不为空
+            Node&lt;K,V&gt; e; K k;
+            if (p.hash == hash &amp;&amp;  // 如果这个位置的old节点与new节点的key完全相同
+                ((k = p.key) == key || (key != null &amp;&amp; key.equals(k)))) 
+                e = p;             // 则e=p
+            else if (p instanceof TreeNode) // 如果p已经是树节点的一个实例，既这里已经是树了
+                e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+            else {  //p与新节点既不完全相同，p也不是treenode的实例
+                for (int binCount = 0; ; ++binCount) {  //一个死循环
+                    if ((e = p.next) == null) {   //e=p.next,如果p的next指向为null
+                        p.next = newNode(hash, key, value, null);  //指向一个新的节点
+                        if (binCount &gt;= TREEIFY_THRESHOLD - 1) // 如果链表长度大于等于8
+                            treeifyBin(tab, hash);  //将链表转为红黑树
+                        break;
+                    }
+       if (e.hash == hash &amp;&amp;  //如果遍历过程中链表中的元素与新添加的元素完全相同，则跳出循环
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                        break;
+                    p = e; //将p中的next赋值给p,即将链表中的下一个node赋值给p，
+                           //继续循环遍历链表中的元素
+                }
+            }
+            if (e != null) { //这个判断中代码作用为：如果添加的元素产生了hash冲突，那么调用                
+                             //put方法时，会将他在链表中他的上一个元素的值返回
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)  //判断条件成立的话，将oldvalue替换        
+                //为newvalue，返回oldvalue；不成立则不替换，然后返回oldvalue
+                    e.value = value;
+                afterNodeAccess(e);  //这个方法在后面说
+                return oldValue;
+            }
+        }
+        ++modCount;  //记录修改次数
+        if (++size &gt; threshold)   //如果元素数量大于临界值，则进行扩容
+            resize();   //下面说
+        afterNodeInsertion(evict);  
+        return null;
+    }
+</code></pre><p>在 Java 8 中，如果一个桶中的元素个数超过 TREEIFY_THRESHOLD(默认是 8)，就使用红黑树来替换链表，从而提高速度。上诉代码这个替换的方法叫 treeifyBin() 即树形化。</p>
 <p>看一下 treeifyBin() 的源码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;将桶内所有的 链表节点 替换成 红黑树节点</span><br><span class="line"> final void treeifyBin(Node&lt;K,V&gt;[] tab, int hash) &#123;</span><br><span class="line">   int n, index; Node&lt;K,V&gt; e;</span><br><span class="line">    &#x2F;&#x2F;如果当前哈希表为空，或者哈希表中元素的个数小于 进行树形化的阈值(默认为 64)，就去新建&#x2F;扩容</span><br><span class="line">   if (tab &#x3D;&#x3D; null || (n &#x3D; tab.length) &lt; MIN_TREEIFY_CAPACITY)</span><br><span class="line">        resize();</span><br><span class="line">    else if ((e &#x3D; tab[index &#x3D; (n - 1) &amp; hash]) !&#x3D; null) &#123;</span><br><span class="line">        &#x2F;&#x2F;如果哈希表中的元素个数超过了 树形化阈值，进行树形化</span><br><span class="line">        &#x2F;&#x2F; e 是哈希表中指定位置桶里的链表节点，从第一个开始</span><br><span class="line">        TreeNode&lt;K,V&gt; hd &#x3D; null, tl &#x3D; null; &#x2F;&#x2F;红黑树的头、尾节点</span><br><span class="line">        do &#123;</span><br><span class="line">            &#x2F;&#x2F;新建一个树形节点，内容和当前链表节点 e 一致</span><br><span class="line">            TreeNode&lt;K,V&gt; p &#x3D; replacementTreeNode(e, null);</span><br><span class="line">            if (tl &#x3D;&#x3D; null) &#x2F;&#x2F;确定树头节点</span><br><span class="line">                hd &#x3D; p;</span><br><span class="line">           else &#123;</span><br><span class="line">               p.prev &#x3D; tl;</span><br><span class="line">                tl.next &#x3D; p;</span><br><span class="line">            &#125;</span><br><span class="line">            tl &#x3D; p;</span><br><span class="line">        &#125; while ((e &#x3D; e.next) !&#x3D; null); </span><br><span class="line">        &#x2F;&#x2F;让桶的第一个元素指向新建的红黑树头结点，以后这个桶里的元素就是红黑树而不是链表了</span><br><span class="line">        if ((tab[index] &#x3D; hd) !&#x3D; null)</span><br><span class="line">            hd.treeify(tab);</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line">    TreeNode&lt;K,V&gt; replacementTreeNode(Node&lt;K,V&gt; p, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">    return new TreeNode&lt;&gt;(p.hash, p.key, p.value, next);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<pre><code>//将桶内所有的 链表节点 替换成 红黑树节点
+ final void treeifyBin(Node&lt;K,V&gt;[] tab, int hash) {
+   int n, index; Node&lt;K,V&gt; e;
+    //如果当前哈希表为空，或者哈希表中元素的个数小于 进行树形化的阈值(默认为 64)，就去新建/扩容
+   if (tab == null || (n = tab.length) &lt; MIN_TREEIFY_CAPACITY)
+        resize();
+    else if ((e = tab[index = (n - 1) &amp; hash]) != null) {
+        //如果哈希表中的元素个数超过了 树形化阈值，进行树形化
+        // e 是哈希表中指定位置桶里的链表节点，从第一个开始
+        TreeNode&lt;K,V&gt; hd = null, tl = null; //红黑树的头、尾节点
+        do {
+            //新建一个树形节点，内容和当前链表节点 e 一致
+            TreeNode&lt;K,V&gt; p = replacementTreeNode(e, null);
+            if (tl == null) //确定树头节点
+                hd = p;
+           else {
+               p.prev = tl;
+                tl.next = p;
+            }
+            tl = p;
+        } while ((e = e.next) != null); 
+        //让桶的第一个元素指向新建的红黑树头结点，以后这个桶里的元素就是红黑树而不是链表了
+        if ((tab[index] = hd) != null)
+            hd.treeify(tab);
+    }
+ }
+    TreeNode&lt;K,V&gt; replacementTreeNode(Node&lt;K,V&gt; p, Node&lt;K,V&gt; next) {
+    return new TreeNode&lt;&gt;(p.hash, p.key, p.value, next);
+ }
+</code></pre><p>注释已经很详细了，咱们说一下这个初始化的问题</p>
+<pre><code>//如果 table 还未被初始化，那么初始化它
+if ((tab = table) == null || (n = tab.length) == 0)
+n = (tab = resize()).length;
+</code></pre><p>resize() 扩容机制，单元素如何散列到新的数组中，链表中的元素如何散列到新的数组中，红黑树中的元素如何散列到新的数组中？</p>
+<pre><code> //上图中说了默认构造方法与自定义构造方法第一次执行resize的过程，这里再说一下扩容的过程   
+ final Node&lt;K,V&gt;[] resize() {
+        Node&lt;K,V&gt;[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+        if (oldCap &gt; 0) {  //扩容肯定执行这个分支
+            if (oldCap &gt;= MAXIMUM_CAPACITY) {   //当容量超过最大值时，临界值设置为int最大值
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+                     oldCap &gt;= DEFAULT_INITIAL_CAPACITY) //扩容容量为2倍，临界值为2倍
+                newThr = oldThr &lt;&lt; 1;
+        }
+        else if (oldThr &gt; 0) // 不执行
+            newCap = oldThr;
+        else {                // 不执行
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (newThr == 0) {  // 不执行
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;    //将新的临界值赋值赋值给threshold
+        @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+            Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+        table = newTab;   //新的数组赋值给table
+
+        //扩容后，重新计算元素新的位置
+        if (oldTab != null) {   //原数组
+            for (int j = 0; j &lt; oldCap; ++j) {   //通过原容量遍历原数组
+                Node&lt;K,V&gt; e;
+                if ((e = oldTab[j]) != null) {   //判断node是否为空，将j位置上的节点
+                //保存到e,然后将oldTab置为空，这里为什么要把他置为空呢，置为空有什么好处吗？？
+                //难道是吧oldTab变为一个空数组，便于垃圾回收？？ 这里不是很清楚
+                    oldTab[j] = null;
+                    if (e.next == null)          //判断node上是否有链表
+                        newTab[e.hash &amp; (newCap - 1)] = e; //无链表，确定元素存放位置，
+                    //扩容前的元素地址为 (oldCap - 1) &amp; e.hash ,所以这里的新的地址只有两种可能，一是地址不变，
+                    //二是变为 老位置+oldCap
+                    else if (e instanceof TreeNode)
+                        ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+                    else { // preserve order
+                        Node&lt;K,V&gt; loHead = null, loTail = null;
+                        Node&lt;K,V&gt; hiHead = null, hiTail = null;
+                        Node&lt;K,V&gt; next;
 
 
-<p>注释已经很详细了，咱们说一下这个初始化的问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;如果 table 还未被初始化，那么初始化它</span><br><span class="line">if ((tab &#x3D; table) &#x3D;&#x3D; null || (n &#x3D; tab.length) &#x3D;&#x3D; 0)</span><br><span class="line">n &#x3D; (tab &#x3D; resize()).length;</span><br></pre></td></tr></table></figure>
+/* 这里如果判断成立，那么该元素的地址在新的数组中就不会改变。因为oldCap的最高位的1，在e.hash对应的位上为0，所以扩容后得到的地址是一样的，位置不会改变 ，在后面的代码的执行中会放到loHead中去，最后赋值给newTab[j]；
+如果判断不成立，那么该元素的地址变为 原下标位置+oldCap，也就是lodCap最高位的1，在e.hash对应的位置上也为1，所以扩容后的地址改变了，在后面的代码中会放到hiHead中，最后赋值给newTab[j + oldCap]
+             举个栗子来说一下上面的两种情况：
+            设：oldCap=16 二进制为：0001 0000
+                oldCap-1=15 二进制为：0000 1111
+                e1.hash=10 二进制为：0000 1010
+                e2.hash=26 二进制为：0101 1010
+            e1在扩容前的位置为：e1.hash &amp; oldCap-1  结果为：0000 1010 
+            e2在扩容前的位置为：e2.hash &amp; oldCap-1  结果为：0000 1010 
+            结果相同，所以e1和e2在扩容前在同一个链表上，这是扩容之前的状态。
 
-<p>resize() 扩容机制，单元素如何散列到新的数组中，链表中的元素如何散列到新的数组中，红黑树中的元素如何散列到新的数组中？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F;上图中说了默认构造方法与自定义构造方法第一次执行resize的过程，这里再说一下扩容的过程   </span><br><span class="line"> final Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line">        Node&lt;K,V&gt;[] oldTab &#x3D; table;</span><br><span class="line">        int oldCap &#x3D; (oldTab &#x3D;&#x3D; null) ? 0 : oldTab.length;</span><br><span class="line">        int oldThr &#x3D; threshold;</span><br><span class="line">        int newCap, newThr &#x3D; 0;</span><br><span class="line">        if (oldCap &gt; 0) &#123;  &#x2F;&#x2F;扩容肯定执行这个分支</span><br><span class="line">            if (oldCap &gt;&#x3D; MAXIMUM_CAPACITY) &#123;   &#x2F;&#x2F;当容量超过最大值时，临界值设置为int最大值</span><br><span class="line">                threshold &#x3D; Integer.MAX_VALUE;</span><br><span class="line">                return oldTab;</span><br><span class="line">            &#125;</span><br><span class="line">            else if ((newCap &#x3D; oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;</span><br><span class="line">                     oldCap &gt;&#x3D; DEFAULT_INITIAL_CAPACITY) &#x2F;&#x2F;扩容容量为2倍，临界值为2倍</span><br><span class="line">                newThr &#x3D; oldThr &lt;&lt; 1;</span><br><span class="line">        &#125;</span><br><span class="line">        else if (oldThr &gt; 0) &#x2F;&#x2F; 不执行</span><br><span class="line">            newCap &#x3D; oldThr;</span><br><span class="line">        else &#123;                &#x2F;&#x2F; 不执行</span><br><span class="line">            newCap &#x3D; DEFAULT_INITIAL_CAPACITY;</span><br><span class="line">            newThr &#x3D; (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</span><br><span class="line">        &#125;</span><br><span class="line">        if (newThr &#x3D;&#x3D; 0) &#123;  &#x2F;&#x2F; 不执行</span><br><span class="line">            float ft &#x3D; (float)newCap * loadFactor;</span><br><span class="line">            newThr &#x3D; (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?</span><br><span class="line">                      (int)ft : Integer.MAX_VALUE);</span><br><span class="line">        &#125;</span><br><span class="line">        threshold &#x3D; newThr;    &#x2F;&#x2F;将新的临界值赋值赋值给threshold</span><br><span class="line">        @SuppressWarnings(&#123;&quot;rawtypes&quot;,&quot;unchecked&quot;&#125;)</span><br><span class="line">            Node&lt;K,V&gt;[] newTab &#x3D; (Node&lt;K,V&gt;[])new Node[newCap];</span><br><span class="line">        table &#x3D; newTab;   &#x2F;&#x2F;新的数组赋值给table</span><br><span class="line"> </span><br><span class="line">        &#x2F;&#x2F;扩容后，重新计算元素新的位置</span><br><span class="line">        if (oldTab !&#x3D; null) &#123;   &#x2F;&#x2F;原数组</span><br><span class="line">            for (int j &#x3D; 0; j &lt; oldCap; ++j) &#123;   &#x2F;&#x2F;通过原容量遍历原数组</span><br><span class="line">                Node&lt;K,V&gt; e;</span><br><span class="line">                if ((e &#x3D; oldTab[j]) !&#x3D; null) &#123;   &#x2F;&#x2F;判断node是否为空，将j位置上的节点</span><br><span class="line">                &#x2F;&#x2F;保存到e,然后将oldTab置为空，这里为什么要把他置为空呢，置为空有什么好处吗？？</span><br><span class="line">                &#x2F;&#x2F;难道是吧oldTab变为一个空数组，便于垃圾回收？？ 这里不是很清楚</span><br><span class="line">                    oldTab[j] &#x3D; null;</span><br><span class="line">                    if (e.next &#x3D;&#x3D; null)          &#x2F;&#x2F;判断node上是否有链表</span><br><span class="line">                        newTab[e.hash &amp; (newCap - 1)] &#x3D; e; &#x2F;&#x2F;无链表，确定元素存放位置，</span><br><span class="line">                    &#x2F;&#x2F;扩容前的元素地址为 (oldCap - 1) &amp; e.hash ,所以这里的新的地址只有两种可能，一是地址不变，</span><br><span class="line">                    &#x2F;&#x2F;二是变为 老位置+oldCap</span><br><span class="line">                    else if (e instanceof TreeNode)</span><br><span class="line">                        ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);</span><br><span class="line">                    else &#123; &#x2F;&#x2F; preserve order</span><br><span class="line">                        Node&lt;K,V&gt; loHead &#x3D; null, loTail &#x3D; null;</span><br><span class="line">                        Node&lt;K,V&gt; hiHead &#x3D; null, hiTail &#x3D; null;</span><br><span class="line">                        Node&lt;K,V&gt; next;</span><br><span class="line"> </span><br><span class="line">                      </span><br><span class="line">&#x2F;* 这里如果判断成立，那么该元素的地址在新的数组中就不会改变。因为oldCap的最高位的1，在e.hash对应的位上为0，所以扩容后得到的地址是一样的，位置不会改变 ，在后面的代码的执行中会放到loHead中去，最后赋值给newTab[j]；</span><br><span class="line">如果判断不成立，那么该元素的地址变为 原下标位置+oldCap，也就是lodCap最高位的1，在e.hash对应的位置上也为1，所以扩容后的地址改变了，在后面的代码中会放到hiHead中，最后赋值给newTab[j + oldCap]</span><br><span class="line">             举个栗子来说一下上面的两种情况：</span><br><span class="line">            设：oldCap&#x3D;16 二进制为：0001 0000</span><br><span class="line">                oldCap-1&#x3D;15 二进制为：0000 1111</span><br><span class="line">                e1.hash&#x3D;10 二进制为：0000 1010</span><br><span class="line">                e2.hash&#x3D;26 二进制为：0101 1010</span><br><span class="line">            e1在扩容前的位置为：e1.hash &amp; oldCap-1  结果为：0000 1010 </span><br><span class="line">            e2在扩容前的位置为：e2.hash &amp; oldCap-1  结果为：0000 1010 </span><br><span class="line">            结果相同，所以e1和e2在扩容前在同一个链表上，这是扩容之前的状态。</span><br><span class="line">            </span><br><span class="line">    现在扩容后，需要重新计算元素的位置，在扩容前的链表中计算地址的方式为e.hash &amp; oldCap-1</span><br><span class="line">    那么在扩容后应该也这么计算呀，扩容后的容量为oldCap*2&#x3D;32 0010 0000 newCap&#x3D;32，新的计算</span><br><span class="line">    方式应该为</span><br><span class="line">    e1.hash &amp; newCap-1 </span><br><span class="line">    即：0000 1010 &amp; 0001 1111 </span><br><span class="line">    结果为0000 1010与扩容前的位置完全一样。</span><br><span class="line">    e2.hash &amp; newCap-1 </span><br><span class="line">    即：0101 1010 &amp; 0001 1111 </span><br><span class="line">    结果为0001 1010,为扩容前位置+oldCap。</span><br><span class="line">    而这里却没有e.hash &amp; newCap-1 而是 e.hash &amp; oldCap，其实这两个是等效的，都是判断倒数第五位</span><br><span class="line">    是0，还是1。如果是0，则位置不变，是1则位置改变为扩容前位置+oldCap。</span><br><span class="line">            再来分析下loTail loHead这两个的执行过程（假设(e.hash &amp; oldCap) &#x3D;&#x3D; 0成立）：</span><br><span class="line">            第一次执行：</span><br><span class="line">            e指向oldTab[j]所指向的node对象，即e指向该位置上链表的第一个元素</span><br><span class="line">            loTail为空,所以loHead指向与e相同的node对象，然后loTail也指向了同一个node对象。</span><br><span class="line">            最后，在判断条件e指向next，就是指向oldTab链表中的第二个元素</span><br><span class="line">            第二次执行：</span><br><span class="line">            lotail不为null，所以lotail.next指向e，这里其实是lotail指向的node对象的next指向e，</span><br><span class="line">            也可以说是，loHead的next指向了e，就是指向了oldTab链表中第二个元素。此时loHead指向        </span><br><span class="line">            的node变成了一个长度为2的链表。然后lotail&#x3D;e也就是指向了链表中第二个元素的地址。</span><br><span class="line">            第三次执行：</span><br><span class="line">            与第二次执行类似，loHead上的链表长度变为3，又增加了一个node，loTail指向新增的node</span><br><span class="line">               ......</span><br><span class="line">            hiTail与hiHead的执行过程与以上相同，这里就不再做解释了。</span><br><span class="line">            由此可以看出，loHead是用来保存新链表上的头元素的，loTail是用来保存尾元素的，直到遍            </span><br><span class="line">            历完链表。   这是(e.hash &amp; oldCap) &#x3D;&#x3D; 0成立的时候。</span><br><span class="line">            (e.hash &amp; oldCap) &#x3D;&#x3D; 0不成立的情况也相同，其实就是把oldCap遍历成两个新的链表，</span><br><span class="line">            通过loHead和hiHead来保存链表的头结点，然后将两个头结点放到newTab[j]与 </span><br><span class="line">            newTab[j+oldCap]上面去      </span><br><span class="line">*&#x2F;</span><br><span class="line">                              do &#123;</span><br><span class="line">                                next &#x3D; e.next;</span><br><span class="line">                            if ((e.hash &amp; oldCap) &#x3D;&#x3D; 0) &#123;  </span><br><span class="line">                                if (loTail &#x3D;&#x3D; null)</span><br><span class="line">                                    loHead &#x3D; e;</span><br><span class="line">                                else</span><br><span class="line">                                    loTail.next &#x3D; e;</span><br><span class="line">                                loTail &#x3D; e;</span><br><span class="line">                            &#125;</span><br><span class="line">                            else &#123;</span><br><span class="line">                                if (hiTail &#x3D;&#x3D; null)</span><br><span class="line">                                    hiHead &#x3D; e;</span><br><span class="line">                                else</span><br><span class="line">                                    hiTail.next &#x3D; e;</span><br><span class="line">                                hiTail &#x3D; e;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; while ((e &#x3D; next) !&#x3D; null);</span><br><span class="line">                        if (loTail !&#x3D; null) &#123;</span><br><span class="line">                            loTail.next &#x3D; null;   &#x2F;&#x2F;尾节点的next设置为空</span><br><span class="line">                            newTab[j] &#x3D; loHead;</span><br><span class="line">                        &#125;</span><br><span class="line">                        if (hiTail !&#x3D; null) &#123;</span><br><span class="line">                            hiTail.next &#x3D; null;   &#x2F;&#x2F;尾节点的next设置为空</span><br><span class="line">                            newTab[j + oldCap] &#x3D; hiHead;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return newTab;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>有关 JDK1.7 扩容出现的死循环的问题:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line">* Transfers all entries from current table to newTable.</span><br><span class="line">*&#x2F;</span><br><span class="line">void transfer(Entry[] newTable) &#123;</span><br><span class="line"> Entry[] src &#x3D; table;</span><br><span class="line"> int newCapacity &#x3D; newTable.length;</span><br><span class="line"> for (int j &#x3D; 0; j &lt; src.length; j++) &#123;</span><br><span class="line">   Entry&lt;K,V&gt; e &#x3D; src[j];</span><br><span class="line">   if (e !&#x3D; null) &#123;</span><br><span class="line">       src[j] &#x3D; null;</span><br><span class="line">       do &#123;</span><br><span class="line">           &#x2F;&#x2F; B线程执行到这里之后就暂停了</span><br><span class="line">           Entry&lt;K,V&gt; next &#x3D; e.next;</span><br><span class="line">           int i &#x3D; indexFor(e.hash, newCapacity);</span><br><span class="line">           e.next &#x3D; newTable[i];</span><br><span class="line">           newTable[i] &#x3D; e;</span><br><span class="line">           e &#x3D; next;</span><br><span class="line">       &#125; while (e !&#x3D; null);</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>并发下的 Rehash</p>
+    现在扩容后，需要重新计算元素的位置，在扩容前的链表中计算地址的方式为e.hash &amp; oldCap-1
+    那么在扩容后应该也这么计算呀，扩容后的容量为oldCap*2=32 0010 0000 newCap=32，新的计算
+    方式应该为
+    e1.hash &amp; newCap-1 
+    即：0000 1010 &amp; 0001 1111 
+    结果为0000 1010与扩容前的位置完全一样。
+    e2.hash &amp; newCap-1 
+    即：0101 1010 &amp; 0001 1111 
+    结果为0001 1010,为扩容前位置+oldCap。
+    而这里却没有e.hash &amp; newCap-1 而是 e.hash &amp; oldCap，其实这两个是等效的，都是判断倒数第五位
+    是0，还是1。如果是0，则位置不变，是1则位置改变为扩容前位置+oldCap。
+            再来分析下loTail loHead这两个的执行过程（假设(e.hash &amp; oldCap) == 0成立）：
+            第一次执行：
+            e指向oldTab[j]所指向的node对象，即e指向该位置上链表的第一个元素
+            loTail为空,所以loHead指向与e相同的node对象，然后loTail也指向了同一个node对象。
+            最后，在判断条件e指向next，就是指向oldTab链表中的第二个元素
+            第二次执行：
+            lotail不为null，所以lotail.next指向e，这里其实是lotail指向的node对象的next指向e，
+            也可以说是，loHead的next指向了e，就是指向了oldTab链表中第二个元素。此时loHead指向        
+            的node变成了一个长度为2的链表。然后lotail=e也就是指向了链表中第二个元素的地址。
+            第三次执行：
+            与第二次执行类似，loHead上的链表长度变为3，又增加了一个node，loTail指向新增的node
+               ......
+            hiTail与hiHead的执行过程与以上相同，这里就不再做解释了。
+            由此可以看出，loHead是用来保存新链表上的头元素的，loTail是用来保存尾元素的，直到遍            
+            历完链表。   这是(e.hash &amp; oldCap) == 0成立的时候。
+            (e.hash &amp; oldCap) == 0不成立的情况也相同，其实就是把oldCap遍历成两个新的链表，
+            通过loHead和hiHead来保存链表的头结点，然后将两个头结点放到newTab[j]与 
+            newTab[j+oldCap]上面去      
+*/
+                              do {
+                                next = e.next;
+                            if ((e.hash &amp; oldCap) == 0) {  
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        if (loTail != null) {
+                            loTail.next = null;   //尾节点的next设置为空
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;   //尾节点的next设置为空
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+</code></pre><p>有关 JDK1.7 扩容出现的死循环的问题:</p>
+<pre><code>/**
+* Transfers all entries from current table to newTable.
+*/
+void transfer(Entry[] newTable) {
+ Entry[] src = table;
+ int newCapacity = newTable.length;
+ for (int j = 0; j &lt; src.length; j++) {
+   Entry&lt;K,V&gt; e = src[j];
+   if (e != null) {
+       src[j] = null;
+       do {
+           // B线程执行到这里之后就暂停了
+           Entry&lt;K,V&gt; next = e.next;
+           int i = indexFor(e.hash, newCapacity);
+           e.next = newTable[i];
+           newTable[i] = e;
+           e = next;
+       } while (e != null);
+   }
+ }
+}
+</code></pre><p>并发下的 Rehash</p>
 <p>　　1）假设我们有两个线程。我用红色和浅蓝色标注了一下。我们再回头看一下我们的 transfer 代码中的这个细节：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line"></span><br><span class="line">    Entry&lt;K,V&gt; next &#x3D; e.next; &#x2F;&#x2F; &lt;--假设线程一执行到这里就被调度挂起了</span><br><span class="line"></span><br><span class="line">    int i &#x3D; indexFor(e.hash, newCapacity);</span><br><span class="line"></span><br><span class="line">    e.next &#x3D; newTable[i];</span><br><span class="line"></span><br><span class="line">    newTable[i] &#x3D; e;</span><br><span class="line"></span><br><span class="line">    e &#x3D; next;</span><br><span class="line"></span><br><span class="line">&#125; while (e !&#x3D; null);</span><br></pre></td></tr></table></figure>
+<pre><code>do {
 
+    Entry&lt;K,V&gt; next = e.next; // &lt;--假设线程一执行到这里就被调度挂起了
 
-<p>而我们的线程二执行完成了。于是我们有下面的这个样子。</p>
+    int i = indexFor(e.hash, newCapacity);
+
+    e.next = newTable[i];
+
+    newTable[i] = e;
+
+    e = next;
+
+} while (e != null);
+</code></pre><p>而我们的线程二执行完成了。于是我们有下面的这个样子。</p>
 <p><img src="https://img2018.cnblogs.com/blog/1408728/201909/1408728-20190906092302379-1053929400.png" alt=""></p>
 <p>注意，因为 Thread1 的 e 指向了 key(3)，而 next 指向了 key(7)，其在线程二 rehash 后，指向了线程二重组后的链表。我们可以看到链表的顺序被反转后。</p>
 <p>2）线程一被调度回来执行。</p>
@@ -598,22 +753,46 @@
 <p> <img src="https://img2018.cnblogs.com/blog/1408728/201909/1408728-20190906092444871-1558486337.png" alt=""></p>
 <p> 于是，当我们的线程一调用到，HashTable.get(11) 时，悲剧就出现了——Infinite Loop。</p>
 <p>因为 HashMap 本来就不支持并发。要并发就用 ConcurrentHashmap</p>
-<p><strong>HashMap 的 get() 方法</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public V get(Object key) &#123;</span><br><span class="line">    Node&lt;K,V&gt; e;</span><br><span class="line">    &#x2F;&#x2F;直接调用了getNode()</span><br><span class="line">    return (e &#x3D; getNode(hash(key), key)) &#x3D;&#x3D; null ? null : e.value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">final Node&lt;K,V&gt; getNode(int hash, Object key) &#123;</span><br><span class="line">      Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;</span><br><span class="line">     &#x2F;&#x2F;先判断数组是否为空，长度是否大于0，那个node节点是否存在</span><br><span class="line">     if ((tab &#x3D; table) !&#x3D; null &amp;&amp; (n &#x3D; tab.length) &gt; 0 &amp;&amp;</span><br><span class="line">          (first &#x3D; tab[(n - 1) &amp; hash]) !&#x3D; null) &#123;</span><br><span class="line">          &#x2F;&#x2F;如果找到，直接返回</span><br><span class="line">          if (first.hash &#x3D;&#x3D; hash &amp;&amp; &#x2F;&#x2F; always check first node</span><br><span class="line">              ((k &#x3D; first.key) &#x3D;&#x3D; key || (key !&#x3D; null &amp;&amp; key.equals(k))))</span><br><span class="line">              return first;</span><br><span class="line">         if ((e &#x3D; first.next) !&#x3D; null) &#123;</span><br><span class="line">             &#x2F;&#x2F;如果是红黑树，去红黑树找</span><br><span class="line">             if (first instanceof TreeNode)</span><br><span class="line">                 return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);</span><br><span class="line">             &#x2F;&#x2F;链表找</span><br><span class="line">             do &#123;</span><br><span class="line">                 if (e.hash &#x3D;&#x3D; hash &amp;&amp;</span><br><span class="line">                     ((k &#x3D; e.key) &#x3D;&#x3D; key || (key !&#x3D; null &amp;&amp; key.equals(k))))</span><br><span class="line">                     return e;</span><br><span class="line">             &#125; while ((e &#x3D; e.next) !&#x3D; null);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     return null;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>这里关于<code>first = tab[(n - 1) &amp; hash]</code></p>
+<h4 id="HashMap-的-get-方法"><a href="#HashMap-的-get-方法" class="headerlink" title="HashMap 的 get() 方法"></a>HashMap 的 get() 方法</h4><pre><code>public V get(Object key) {
+    Node&lt;K,V&gt; e;
+    //直接调用了getNode()
+    return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+</code></pre><pre><code>final Node&lt;K,V&gt; getNode(int hash, Object key) {
+      Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;
+     //先判断数组是否为空，长度是否大于0，那个node节点是否存在
+     if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;
+          (first = tab[(n - 1) &amp; hash]) != null) {
+          //如果找到，直接返回
+          if (first.hash == hash &amp;&amp; // always check first node
+              ((k = first.key) == key || (key != null &amp;&amp; key.equals(k))))
+              return first;
+         if ((e = first.next) != null) {
+             //如果是红黑树，去红黑树找
+             if (first instanceof TreeNode)
+                 return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);
+             //链表找
+             do {
+                 if (e.hash == hash &amp;&amp;
+                     ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                     return e;
+             } while ((e = e.next) != null);
+         }
+     }
+     return null;
+ }
+</code></pre><p>这里关于<code>first = tab[(n - 1) &amp; hash]</code></p>
 <p>这里通过<code>(n - 1)&amp; hash</code>即可算出桶的在桶数组中的位置，可能有的朋友不太明白这里为什么这么做，这里简单解释一下。HashMap 中桶数组的大小 length 总是 2 的幂，此时，<code>(n - 1) &amp; hash</code> 等价于对 length 取余。但取余的计算效率没有位运算高，所以<code>(n - 1) &amp; hash</code>也是一个小的优化。举个例子说明一下吧，假设 hash = 185，n = 16。计算过程示意图如下</p>
 <p><img src="https://img2018.cnblogs.com/blog/1408728/201909/1408728-20190906095115131-234992109.png" alt=""></p>
 <p> 在上面源码中，除了查找相关逻辑，还有一个计算 hash 的方法。这个方法源码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 计算键的 hash 值</span><br><span class="line"> *&#x2F;</span><br><span class="line">static final int hash(Object key) &#123;</span><br><span class="line">    int h;</span><br><span class="line">    return (key &#x3D;&#x3D; null) ? 0 : (h &#x3D; key.hashCode()) ^ (h &gt;&gt;&gt; 16);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>看这个方法的逻辑好像是通过位运算重新计算 hash，那么这里为什么要这样做呢？为什么不直接用键的 hashCode 方法产生的 hash 呢？大家先可以思考一下，我把答案写在下面。</p>
+<pre><code>/**
+ * 计算键的 hash 值
+ */
+static final int hash(Object key) {
+    int h;
+    return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);
+}
+</code></pre><p>看这个方法的逻辑好像是通过位运算重新计算 hash，那么这里为什么要这样做呢？为什么不直接用键的 hashCode 方法产生的 hash 呢？大家先可以思考一下，我把答案写在下面。</p>
 <p>这样做有两个好处，我来简单解释一下。我们再看一下上面求余的计算图，图中的 hash 是由键的 hashCode 产生。计算余数时，由于 n 比较小，hash 只有低 4 位参与了计算，高位的计算可以认为是无效的。这样导致了计算结果只与低位信息有关，高位数据没发挥作用。为了处理这个缺陷，我们可以上图中的 hash 高 4 位数据与低 4 位数据进行异或运算，即 <code>hash ^ (hash &gt;&gt;&gt; 4)</code>。通过这种方式，让高位数据与低位数据进行异或，以此加大低位信息的随机性，变相的让高位数据参与到计算中。此时的计算过程如下：</p>
 <p><img src="https://img2018.cnblogs.com/blog/1408728/201909/1408728-20190906095432574-555473243.png" alt=""></p>
 <p>在 Java 中，hashCode 方法产生的 hash 是 int 类型，32 位宽。前 16 位为高位，后 16 位为低位，所以要右移 16 位。</p>
@@ -626,772 +805,578 @@
 <p><a href="https://segmentfault.com/a/1190000012926722" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012926722</a></p>
 <p><a href="https://blog.csdn.net/pange1991/article/details/82377980" target="_blank" rel="noopener">https://blog.csdn.net/pange1991/article/details/82377980</a></p>
 
-          
-            <div class='article_footer'>
-              
-                
-  
-    
-    
-
-
-
-  
-
-  
-    
-    
-
-
-
-  
-
-  
-    
-    
-
-<section class="widget copyright  desktop mobile">
-  <div class='content'>
-    
-      <blockquote>
-        
-          
-            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
-
-          
-        
-          
-            <p>本文永久链接是：<a href=https://topone233.github.io/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/>https://topone233.github.io/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/</a></p>
-          
-        
-      </blockquote>
-    
-  </div>
-</section>
-
-  
-
-  
-    
-    
-
-<section class="widget qrcode  desktop mobile">
-  
-
-  <div class='content article-entry'>
-    
-      
-        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
-        
-          height='64px'
-        ></div>
-      
-    
-      
-        <div class='fancybox'><img src='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/qrcode/wiki_volantis.png'
-        
-          height='64px'
-        ></div>
-      
-    
-  </div>
-</section>
-
-  
-
-
-              
             </div>
-          
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        Author:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">QSX1C</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        Link:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://topone233.github.io/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/">https://topone233.github.io/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        Reprint policy:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    All articles in this blog are used except for special statements
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    reprint polocy. If reproduced, please indicate source
+                    <a href="/about" target="_blank">QSX1C</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>Copied successfully, please follow the reprint policy of this article</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">more</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '86bc018a7b861fd65d72',
+        clientSecret: '6806b59a1dbc8efcd585a8c36a7a881fb0fd24f2',
+        repo: 'topone233.github.io',
+        owner: 'topone233',
+        admin: "topone233",
+        id: '2020-07-10T17-07-59',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2020/07/10/Hello%20World%EF%BC%81%EF%BC%88hexo%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95%EF%BC%89/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Hello World！（hexo配置记录）">
+                        
+                        <span class="card-title">Hello World！（hexo配置记录）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Hello World！（hexo配置记录）以前在网上冲浪的时候只是不经意间发现许多让人眼前一亮的blog，由此萌生了create my blog的想法。
+目前的blog搭建：
+
+CSDN/博客园平台  
+ 但我个人不是很喜欢这种，首先是太
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-10
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
         </div>
         
-          
-
-
-  <section class='meta' id="footer-meta">
-    <div class='new-meta-box'>
-      
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-07-08T15:11:31+08:00">
-  <a class='notlink'>
-    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jul 8, 2020</p>
-  </a>
-</div>
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-  <div class="new-meta-item share -mob-share-list">
-  <div class="-mob-share-list share-body">
-    
-      
-        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://topone233.github.io/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/&title=HashMap 剖析 (基于 jdk1.8) - QSX1C&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
-          
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://topone233.github.io/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/&title=HashMap 剖析 (基于 jdk1.8) - QSX1C&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
-          
-          href="http://service.weibo.com/share/share.php?url=https://topone233.github.io/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/&title=HashMap 剖析 (基于 jdk1.8) - QSX1C&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
-          
-        </a>
-      
-    
-  </div>
-</div>
-
-
-
-        
-      
-    </div>
-  </section>
-
-
-        
-        
-          <div class="prev-next">
-            
-              <a class='prev' href='/2020/07/10/Hello%20World%EF%BC%81%EF%BC%88hexo%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95%EF%BC%89/'>
-                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Hello World！（hexo配置记录）</p>
-                <p class='content'>
-title: Hello World！（hexo配置记录）
-date: 2020-07-01 12:00:00
-description: Hello World！（hexo配置记录）
-
-Hel...</p>
-              </a>
-            
-            
-              <a class='next' href='/2020/07/10/HashMap%20%E9%9D%A2%E8%AF%95%E5%BF%85%E9%97%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/'>
-                <p class='title'>HashMap 面试必问的数据结构相关知识总结<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-                <p class='content'>
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/07/10/HashMap%20%E9%9D%A2%E8%AF%95%E5%BF%85%E9%97%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="HashMap 面试必问的数据结构相关知识总结">
+                        
+                        <span class="card-title">HashMap 面试必问的数据结构相关知识总结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
 原文地址 www.cnblogs.com
 
-1：HashMap 的数据结构？
-​        哈希表结构（链表散列：数组 + 链表）实现，结合数组和链表的优点。当链表长度超过 8 时，链表转...</p>
-              </a>
-            
-          </div>
+1.HashMap 的数据结构？​        哈希表结构（链表散列：数组 + 链表）实现，结合数组和链表的优点。当链表长度超过 8 时，链表转换为红黑树。transient Node&lt;
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
         
-      </section>
-    </article>
-  
-
-  
-    
-  <article class="post white-box reveal comments shadow">
-    <section class="article typo">
-      <p ct><i class='fas fa-comments'></i> 评论</p>
-      
-      <section id="comments">
-        <div id="valine_container" class="valine_thread">
-  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
-</div>
-
-      </section>
-    </section>
-  </article>
-
-
-  
-
-
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
+    </div>
+</article>
 
 </div>
-<aside class='l_side'>
-  
-  
-
-  
-    
-    
 
 
 
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
 
-  
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
 
 
-</aside>
+<!-- 代码块复制 -->
 
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
 
 
     </div>
-    
-  
-  <footer class="clearfix">
-    <br><br>
-    
-      
-        <div class="aplayer-container">
-          
-
-  
-    <meting-js
-      theme='#1BCDFC'
-      autoplay='false'
-      volume='0.7'
-      loop='all'
-      order='list'
-      fixed='false'
-      list-max-height='340px'
-      server='netease'
-      type='playlist'
-      id='3175833810'
-      list-folded='true'>
-    </meting-js>
-  
-
-
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
         </div>
-      
-    
-      
-        <br>
-        <div class="social-wrapper">
-          
-            
-              <a href="/atom.xml"
-                class="social fas fa-rss flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="mailto:me@xaoxuu.com"
-                class="social fas fa-envelope flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="https://github.com/xaoxuu"
-                class="social fab fa-github flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-            
-              <a href="https://music.163.com/#/user/home?id=63035382"
-                class="social fas fa-headphones-alt flat-btn"
-                target="_blank"
-                rel="external nofollow noopener noreferrer">
-              </a>
-            
-          
-        </div>
-      
-    
-      
-        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+    </div>
 </div>
-      
-    
-      
-        Use
-        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
-        as theme, total visits
-          <span id="busuanzi_value_site_pv"><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-          times
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('3'),
+            headingSelector: 'h2, h3, h4, h5'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
         
-      
-    
-      
-        <div class='copyright'>
-        <p><a href="https://xaoxuu.com" target="_blank" rel="noopener">Copyright © 2017-2020 Mr. X</a></p>
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
 
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='true'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2020</span>
+            <a href="/about" target="_blank">QSX1C</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2020";
+                    var startMonth = "7";
+                    var startDate = "1";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
         </div>
-      
-    
-  </footer>
-
-
-    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
-  </div>
-  <div>
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
 
 
 
-  <script>
-    
-    var SEARCH_SERVICE = "hexo" || "hexo";
-    var ROOT = "/" || "/";
-    if (!ROOT.endsWith('/')) ROOT += '/';
-  </script>
+    <a href="mailto:li-674e@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
 
 
 
 
 
-  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
 
 
-
-  
-  
-  
-    
-<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
-
-    <script type="text/javascript">
-      $(function(){
-        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
-        if ('true' == 'true') {
-          function shuffle(arr){
-            /*From countercurrent-time*/
-            var n = arr.length;
-            while(n--) {
-              var index = Math.floor(Math.random() * n);
-              var temp = arr[index];
-              arr[index] = arr[n];
-              arr[n] = temp;
-            }
-          }
-          shuffle(imgs);
-        }
-        if ('.cover') {
-          $('.cover').backstretch(
-            imgs,
-          {
-            duration: "20000",
-            fade: "1500"
-          });
-        } else {
-          $.backstretch(
-            imgs,
-          {
-            duration: "20000",
-            fade: "1500"
-          });
-        }
-      });
-    </script>
-  
-
-
-
-  
-    
-<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
-
-  
-    
-<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
-
-  
-
-
-<!-- 评论 （PS：只对 valine 做了 Pjax 兼容） -->
-
-  
-  
-<script src="/js/valine.js"></script>
-
-
-<script>
-  var GUEST_INFO = ['nick', 'mail', 'link'];
-  var meta = 'nick,mail,link'.split(',').filter(function (item) {
-    return GUEST_INFO.indexOf(item) > -1
-  });
-  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
-  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
-    return REQUIRED_FIELDS.indexOf(item) > -1
-  });
-
-  function emoji(path, idx, ext) {
-    return path + "/" + path + "-" + idx + "." + ext;
-  }
-
-  var emojiMaps = {};
-  for (var i = 1; i <= 54; i++) {
-    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
-  }
-  for (var i = 1; i <= 101; i++) {
-    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
-  }
-  for (var i = 1; i <= 116; i++) {
-    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
-  }
-  for (var i = 1; i <= 125; i++) {
-    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
-  }
-  for (var i = 1; i <= 4; i++) {
-    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
-  }
-
-  function pjax_valine() {
-    var valinePath = $.trim($('#valine-path').text()) === "none" ?
-            window.location.pathname : $.trim($('#valine-path').text());
-
-    var valinePlaceholder = $.trim($('#valine-placeholder').text()) === "none" ?
-            "快来评论吧~" : $.trim($('#valine-placeholder').text());
-
-    var ALLPATH = '';
-    if(ALLPATH != '') valinePath = ALLPATH;
-
-    var valine = new Valine();
-    valine.init({
-      el: '#valine_container',
-      meta: meta,
-      placeholder: valinePlaceholder,
-      path: valinePath,
-      appId: "dogUA2FSKGTo029M1SEwGROT-MdYXbMMI",
-      appKey: "u0NdtQ8nvHoMdJPSYqm1LRxE",
-      pageSize: '10',
-      avatar: 'robohash',
-      lang: 'zh-cn',
-      visitor: 'true',
-      highlight: 'true',
-      mathJax: 'false',
-      enableQQ: 'true',
-      requiredFields: requiredFields,
-      emojiCDN: 'https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/emoji/valine/',
-      emojiMaps: emojiMaps
-    })
-  }
-
-  $(function () {
-    pjax_valine();
-  });
-</script>
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=809549807" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 809549807" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
 
 
 
 
-<!-- darkmodejs -->
 
 
 
-<!-- 复制 -->
+</div>
+    </div>
+</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script>
-    function wait(callback, seconds) {
-        var timelag = null;
-        timelag = window.setTimeout(callback, seconds)
-    }
-
-    function pjax_initCopyCode() {
-        var copyHtml = '';
-        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
-        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
-        copyHtml += '</button>';
-        $(".highlight .code pre").before(copyHtml);
-        $(".article pre code").before(copyHtml);
-        var clipboard = new ClipboardJS('.btn-copy', {
-            target: function (trigger) {
-                return trigger.nextElementSibling
-            }
-        });
-        clipboard.on('success', function (e) {
-            let $btn = $(e.trigger);
-            $btn.addClass('copied');
-            let $icon = $($btn.find('i'));
-            $icon.removeClass('fa-copy');
-            $icon.addClass('fa-check-circle');
-            let $span = $($btn.find('span'));
-            $span[0].innerText = 'COPIED';
-            wait(function () {
-                $icon.removeClass('fa-check-circle');
-                $icon.addClass('fa-copy');
-                $span[0].innerText = 'COPY'
-            }, 2000)
-        });
-        clipboard.on('error', function (e) {
-            e.clearSelection();
-            let $btn = $(e.trigger);
-            $btn.addClass('copy-failed');
-            let $icon = $($btn.find('i'));
-            $icon.removeClass('fa-copy');
-            $icon.addClass('fa-times-circle');
-            let $span = $($btn.find('span'));
-            $span[0].innerText = 'COPY FAILED';
-            wait(function () {
-                $icon.removeClass('fa-times-circle');
-                $icon.addClass('fa-copy');
-                $span[0].innerText = 'COPY'
-            }, 2000)
-        })
-    }
-    $(function () {
-        pjax_initCopyCode()
-    });
-</script>
+<div class="progress-bar"></div>
 
 
-<!-- scrollreveal -->
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
-  <script type="text/javascript">
-    function pjax_scrollrebeal() {
-      ScrollReveal().reveal('.l_main .reveal', {
-        distance: '32px',
-        duration: '800',
-        interval: '20',
-        scale: '1',
-        easing: 'ease-out'
-      });
-    }
-
-    $(function () {
-      pjax_scrollrebeal();
-    });
-  </script>
-
-<!-- ******************************** -->
-
-<!-- fancybox -->
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-<script>
-  function pjax_fancybox() {
-    $(".article-entry").find("img").not('.inline').not('a img').each(function () { //渲染 fancybox
-      var element = document.createElement("a"); // a 标签
-      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
-      $(element).attr("href", $(this).attr("src"));
-      if ($(this).attr("data-original")) {
-        $(element).attr("href", $(this).attr("data-original"));
-      }
-      $(element).attr("data-fancybox", "images");
-      var caption = "";   // 描述信息
-      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
-        $(element).attr('data-caption', $(this).attr('alt'));
-        caption = $(this).attr('alt');
-      }
-      var div = document.createElement("div");
-      $(div).addClass("fancybox");
-      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
-      var span = document.createElement("span");
-      $(span).addClass("image-caption");
-      $(span).text(caption); // 加描述
-      $(this).after(span);  // 再套一层描述
-      $(this).wrap(element);  // 最后套 a 标签
-    })
-    $(".article-entry").find("img").fancybox({
-      selector: '[data-fancybox="images"]',
-      hash: false,
-      loop: false,
-      closeClick: true,
-      helpers: {
-        overlay: {closeClick: true}
-      },
-      buttons: [
-        "zoom",
-        "close"
-      ]
-    });
-  };
-  $(function () {
-    pjax_fancybox();
-  });
-</script>
-
-<!-- ******************************** -->
-
-
-  
-<script src="/js/app.js"></script>
-
-
-
-
-  
-    
 <script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
 
-  
-
-
-
-  <script defer src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js" data-pjax></script>
-
-
-
-  
-<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
-
-  <script type="text/javascript">
-    $(function () {
-      Waves.attach('.flat-btn', ['waves-button']);
-      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
-      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
-      Waves.attach('.flat-box', ['waves-block']);
-      Waves.attach('.float-box', ['waves-block', 'waves-float']);
-      Waves.attach('.waves-image');
-      Waves.init();
-    });
-  </script>
-
-
-
-  
-<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
-
-
-
-
-
-
-
-    
-      
-
-
-<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
-
-<!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
-
-<div class="pjax-animate">
-  
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css">
-    <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
-    <div id="loading-bar-wrapper"><script>NProgress.configure({parent:"#loading-bar-wrapper",trickleSpeed: 100})</script></div>
-    <script>
-      window.ShowLoading = function() {
-        NProgress.start();
-      };
-      window.HideLoading = function() {
-        NProgress.done();
-      }
-    </script>
-  
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
 </div>
 
-<script>
-    var pjax;
-    document.addEventListener('DOMContentLoaded', function () {
-      pjax = new Pjax({
-        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
-        selectors: [
-          "title",
-          "#pjax-container"
-        ],
-        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
-        timeout: 5000
-      });
-    });
-  
-    document.addEventListener('pjax:send', function (e) {
-      window.stop(); // 相当于点击了浏览器的停止按钮
-      var currentUrl = window.location.pathname;
-      var targetUrl = e.triggerElement.href;
-      var banUrl = [""];
-      if (banUrl[0] != "") {
-        banUrl.forEach(item => {
-          if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
-            window.location.href = targetUrl;
-          }
-        });
-      }
-      window.subData = null; // 移除标题（用于一二级导航栏切换处）
-      $.fancybox.close();    // 关闭弹窗
-      $('.nav-main').find('.list-v').not('.menu-phone').css("display","none"); // 移除小尾巴
-      $('.menu-phone.list-v').css("display","none"); // 移除小尾巴
-      $('.l_header .switcher .s-search').removeClass('active'); // 关闭移动端激活的搜索框
-      $('.l_header').removeClass('z_search-open'); // 关闭移动端激活的搜索框
-      $('.wrapper').removeClass('sub'); // 跳转页面时关闭二级导航
-      $(window).unbind('resize');    // 解绑
-      $(window).unbind('scroll');    // 解绑
-      $(window).unbind('click');     // 解绑
-      $(document).unbind('scroll');  // 解绑
-      window.ShowLoading();
-    });
-  
-    document.addEventListener('pjax:complete', function () {
-      // 关于百度统计对 SPA 页面的处理：
-      // 方案一：百度统计>管理>单页应用设置中，打开开启按钮即可对SPA进行统计。 https://tongji.baidu.com/web/help/article?id=324
-      // 方案二：取消注释下列代码。 https://tongji.baidu.com/web/help/article?id=235
-      // 
-  
-      // 关于谷歌统计对 SPA 页面的处理：
-      // 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
-      // https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
-      
-      
-      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
-      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
-      $('script[data-pjax], .pjax-reload script').each(function () {
-        $(this).parent().append($(this).remove());
-      });
-  
-      try{
-        pjax_fancybox();
-        
-          
-          if ('.cover') {
-            $('.cover').backstretch("resize");
-          } else {
-            $.backstretch("resize");
-          }
-        
-        
-          pjax_scrollrebeal();
-        
-        
-          pjax_initCopyCode();
-        
-        
-          pjax_valine();
-        
-        
-        
-      } catch (e) {
-        console.log(e);
-      }
-      window.HideLoading();
-    });
-  
-    document.addEventListener('pjax:error', function (e) { 
-      window.HideLoading(); 
-      window.location.href = e.triggerElement.href; 
-    }); 
-</script>
-  
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
     
-  </div>
+   <!-- yinghua -->
+   <script type="text/javascript">
+    var windowWidth = $(window).width();
+    if (windowWidth > 768) {
+         document.write('<script type="text/javascript" src="/js/yinghua.js"><\/script>');
+     }
+    </script>
+
+    <!-- tianqi -->
+    <script type="text/javascript">
+    WIDGET = {FID: 'MEEyXDqUjZ'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
 </body>
+
 </html>
