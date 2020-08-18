@@ -428,7 +428,7 @@
                 if (array[j] &lt; array[minIndex]) //找到最小的数
                     minIndex = j; //将最小数的索引保存
             }
-            if (minIndex != 1) {
+            if (minIndex != i) {
                 int temp = array[minIndex];
                 array[minIndex] = array[i];
                 array[i] = temp;
@@ -447,25 +447,42 @@
 <li>重复步骤 2~5。</li>
 </ul>
 <h4 id="4-2-动图演示"><a href="#4-2-动图演示" class="headerlink" title="4.2 动图演示"></a>4.2 动图演示</h4><p><img src="https://images2017.cnblogs.com/blog/849589/201710/849589-20171015225645277-1151100000.gif" alt=""></p>
-<h4 id="4-3-代码实现"><a href="#4-3-代码实现" class="headerlink" title="4.3 代码实现"></a>4.3 代码实现</h4><pre><code>　　/**
-     * 插入排序
+<h4 id="4-3-代码实现"><a href="#4-3-代码实现" class="headerlink" title="4.3 代码实现"></a>4.3 代码实现</h4><p>提供两种写法，一种是移位法，一种是交换法。移位法是完全按照以上算法描述实，再插入过程中将有序序列中比待插入数字大的数据向后移动，由于移动时会覆盖待插入数据，所以需要额外的临时变量保存待插入数据，代码实现如下：</p>
+<pre><code>　　/**
+     * 插入排序-移位法
      * @param array
      * @return
      */
-    public static int[] insertionSort(int[] array) {
+    public static int[] insertionSort(int[] arr) {
         if (arr == null || arr.length == 0) {
-            return array;
+            return arr;
         }
-        for (int i = 0; i &lt; array.length - 1; i++) {
-            int current = array[i + 1];
-            int preIndex = i;
-            while (preIndex &gt;= 0 &amp;&amp; current &lt; array[preIndex]) {
-                array[preIndex + 1] = array[preIndex];
-                preIndex--;
+        for (int i = 0; i &lt; arr.length; i++) {
+            int j = i - 1;
+            int temp = a[i]; // 先取出待插入数据保存，因为向后移位过程中会把覆盖掉待插入数
+            // 如果待是比待插入数据大，就后移
+            while (j &gt;= 0 &amp;&amp; temp &lt; arr[j]) {
+                arr[j + 1] = arr[j];
+                j--;
             }
-            array[preIndex + 1] = current;
+            // 找到比待插入数据小的位置，将待插入数据插入
+            arr[j + 1] = temp;
         }
-        return array;
+        return arr;
+    }</code></pre><p>而交换法不需求额外的保存待插入数据，通过不停的向前交换带插入数据，类似冒泡法，直到找到比它小的值，也就是待插入数据找到了自己的位置:</p>
+<pre><code>    public static void insertionSort(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return;
+        }
+        for (int i = 1; i &lt; arr.length; i++) {
+            int j = i - 1;
+             while (j &gt;= 0 &amp;&amp; arr[j] &gt; arr[i]) {
+                arr[j + 1] = arr[j] + arr[j+1];      //只要大就交换操作
+                arr[j] = arr[j + 1] - arr[j];
+                arr[j + 1] = arr[j + 1] - arr[j];
+                System.out.println(&quot;Sorting:  &quot; + Arrays.toString(arr));
+             }
+        }
     }</code></pre><h4 id="4-4-算法分析"><a href="#4-4-算法分析" class="headerlink" title="4.4 算法分析"></a>4.4 <strong>算法分析</strong></h4><p><strong>最佳情况： O(n)   最坏情况： O(n^2)   平均情况： O(n^2)    空间复杂度：O(1)</strong></p>
 <h3 id="5-希尔排序（Shell-Sort）"><a href="#5-希尔排序（Shell-Sort）" class="headerlink" title="5.希尔排序（Shell Sort）"></a>5.希尔排序（Shell Sort）</h3><p>希尔排序是希尔（Donald Shell）于 1959 年提出的一种排序算法。希尔排序也是一种插入排序，它是简单插入排序经过改进之后的一个更高效的版本，也称为<strong>缩小增量排序</strong>，同时该算法是冲破 O(n2）的第一批算法之一。它与插入排序的不同之处在于，<strong>它会优先比较距离较远的元素</strong>; 直接插入排序是稳定的；而希尔排序是不稳定的。希尔排序又叫缩小增量排序。</p>
 <p>希尔排序是把记录按一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至 1 时，整个文件恰被分成一组，算法便终止。</p>
@@ -1095,7 +1112,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
                    type="playlist"
                    id="868551820"
                    fixed='true'
-                   autoplay='true'
+                   autoplay='false'
                    theme='#42b983'
                    loop='all'
                    order='random'
