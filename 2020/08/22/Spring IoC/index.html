@@ -1,0 +1,881 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Spring IoC, QSX1C">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Spring IoC | QSX1C</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <span class="logo-span">QSX1C</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <div class="logo-name">QSX1C</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Spring IoC</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2020-08-22
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="1-IoC-的基本概念"><a href="#1-IoC-的基本概念" class="headerlink" title="1. IoC 的基本概念"></a>1. IoC 的基本概念</h3><blockquote>
+<p>IoC（Inversion of Control，控制反转）是一个比较抽象的概念，是Spring框架的核心，用来消减程序的耦合问题。DI（Dependency Injection，依赖注入）是IoC的另外一种说法，只是从不同的角度描述相同的概念。</p>
+</blockquote>
+<p>想吃面包，你可以自己做。也可以选择在面包店下单，告诉店家你的需求，然后等着吃就行。</p>
+<p>上面的例子包含了控制反转的思想：把制作面包的主动权交给面包店。</p>
+<p>当某个Java对象（调用者，例如我），需要调用另一个Java对象（被调用者，即被依赖对象，例如面包）时，以前我们通常会“new 被调用者”来创建对象（例如我们自己做面包）。这种方式会增加调用者与被调用者之间的耦合性，不利于后期代码的升级和维护。</p>
+<p>Spring出现后，对象的实例由Spring容器（例如面包店）来创建。Spring容器会负责控制程序之间的关系（例如面包店负责控制我们与面包的关系）。这样控制权就由调用者转移到Spring容器，控制权发生了反转。</p>
+<p>依赖注入：Spring容器负责将依赖对象赋值给调用者的成员变量，相当于为调用者注入它所依赖的实例。这就是依赖注入。</p>
+<p>综上所述，控制反转是一种通过描述（XML或者注解）并通过第三方去产生或获取特定对象的方式。实现控制反转的是IoC容器，其实现方式是依赖注入。</p>
+<h3 id="2-IoC-容器"><a href="#2-IoC-容器" class="headerlink" title="2.IoC 容器"></a>2.IoC 容器</h3><p>前面我们知道，实现控制反转的是IoC容器。IoC容器的设计主要是基于BeanFactory 和 ApplicationContext 两个接口。</p>
+<h4 id="2-1-BeanFactory-接口"><a href="#2-1-BeanFactory-接口" class="headerlink" title="2.1 BeanFactory 接口"></a>2.1 BeanFactory 接口</h4><p>BeanFactory 由org.springframework.beans.factory.BeanFactory接口定义，提供了完整的IoC服务支持，是一个管理Bean的工厂，主要负责初始化各种Bean。</p>
+<p>BeanFactory接口有很多实现类，常用的是XmlBeanFactory，根据XML配置文件中的定义来配置Bean。</p>
+<p>使用BeanFactory实例加载Spring配置文件实际并不多见，仅作了解。</p>
+<h4 id="2-2-ApplicationContext-接口"><a href="#2-2-ApplicationContext-接口" class="headerlink" title="2.2 ApplicationContext 接口"></a>2.2 ApplicationContext 接口</h4><p>ApplicationContext 是BeanFactory的子接口，也称应用上下文。除了包含BeanFactory的所有功能以外，还添加了对国际化、资源访问、事件传播等内容的支持。</p>
+<p>创建ApplicationContext接口实例通常有以下三种方法：</p>
+<h5 id="2-2-1-通过ClassPathXmlApplicationContext"><a href="#2-2-1-通过ClassPathXmlApplicationContext" class="headerlink" title="2.2.1 通过ClassPathXmlApplicationContext"></a>2.2.1 通过ClassPathXmlApplicationContext</h5><pre><code>public static void main(String[] args) {
+    // 初始化Spring容器ApplicationContext，加载指定的XML配置文件
+    ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+    // 通过容器获取test实例
+    TestDao tt = (TestDao)appCon.getBean(&quot;test&quot;);
+    tt.sayHello();
+}</code></pre><h5 id="2-2-2通过FileSystemXmlApplicationContext创建"><a href="#2-2-2通过FileSystemXmlApplicationContext创建" class="headerlink" title="2.2.2通过FileSystemXmlApplicationContext创建"></a>2.2.2通过FileSystemXmlApplicationContext创建</h5><pre><code>// 仅需要修改这一行代码
+ApplicationContext appCon = new FileSystemXmlApplicationContext(&quot;D:\test\applicationContext.xml&quot;);</code></pre><p>FileSystemXmlApplicationContext 将从指定文件的绝对路径中寻找XML配置文件，但是绝对路径会导致程序的灵活性变差，不推荐使用。通常Spring的Java应用采用ClassPathXmlApplicationContext类来实例化ApplicationContext容器，而Web应用中，将交给Web服务器完成。</p>
+<h5 id="2-2-3通过Web服务器实例化ApplicationContext容器"><a href="#2-2-3通过Web服务器实例化ApplicationContext容器" class="headerlink" title="2.2.3通过Web服务器实例化ApplicationContext容器"></a>2.2.3通过Web服务器实例化ApplicationContext容器</h5><p>Web服务器实例化ApplicationContext容器时，一般使用基于org.springframework.web.context.ContextLoaderListener的实现方式。</p>
+<pre><code>&lt;context-param&gt;
+    &lt;!-- 加载src目录下的applicationContext.xml文件 --&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;
+        classpath:applicationContext.xml
+    &lt;/param-value&gt;
+&lt;/context-param&gt;
+
+&lt;!-- 指定以ContextLoaderListener方式启动Spring容器 --&gt;
+&lt;listener&gt;
+    &lt;listener-class&gt;
+        org.springframework.web.context.ContextLoaderListener
+    &lt;/listener-class&gt;
+&lt;/listener&gt;</code></pre><h3 id="3-依赖注入"><a href="#3-依赖注入" class="headerlink" title="3.依赖注入"></a>3.依赖注入</h3><blockquote>
+<p>Spring中实现IoC容器的方法是依赖注入。依赖注入的作用是在使用Spring创建对象时，动态地将其所依赖的对象（例如属性值）注入Bean组件中。</p>
+</blockquote>
+<h4 id="3-1使用属性的setter方法注入"><a href="#3-1使用属性的setter方法注入" class="headerlink" title="3.1使用属性的setter方法注入"></a>3.1使用属性的setter方法注入</h4><p>依赖注入通常有两种实现方式：构造方法注入、属性的setter方法注入。（这两种方式都是基于Java的<strong>反射</strong>机制）。</p>
+<p>使用setter方法注入是Spring中最主流的注入方式，利用Java Bean规范所定义的setter方法来完成注入，灵活且可读性高。</p>
+<p>下面将两者放在一起进行，方便对比。</p>
+<h5 id="3-1-1创建dao包"><a href="#3-1-1创建dao包" class="headerlink" title="3.1.1创建dao包"></a>3.1.1创建dao包</h5><p>在dao包创建TestDIDao接口及其实现类TestDIDaoImpl</p>
+<pre><code>package dao;
+public interface TestDIDao {
+    public void sayHello();
+}</code></pre><pre><code>package dao;
+public class TestDIDaoImpl implements TestDIDao {
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;TestDIDao say: Hello&quot;);
+    }
+}</code></pre><h5 id="3-1-2创建service包"><a href="#3-1-2创建service包" class="headerlink" title="3.1.2创建service包"></a>3.1.2创建service包</h5><p>service包中创建TestDIService接口及其实现类TestDIServiceImpl</p>
+<pre><code>package service;
+public interface TestDIService {
+    public void sayHello();
+}</code></pre><pre><code>package service;
+import dao.TestDIDao;
+public class TestDIServiceImpl implements TestDIService {
+    private TestDIDao testDIDao;
+    // 添加testDIDao属性的setter方法，用于实现依赖注入
+    public void setTestDIDao(TestDIDao testDIDao) {
+        this.testDIDao = testDIDao;
+    }
+    /* 构造方法，用于实现依赖注入接口对象testDIDao
+    public TestDIServiceImpl(TestDIDao testDIDao) {
+        super();
+        this.testDIDao = testDIDao;
+    }
+    */
+    @Override
+    public void sayHello() {
+        // 调用testDIDao中的sayHelllo方法
+        testDIDao.sayHello();
+        System.out.println(&quot;TestDIService setter方法注入 say: Hello&quot;);
+    }
+}</code></pre><h5 id="3-1-3编写配置文件"><a href="#3-1-3编写配置文件" class="headerlink" title="3.1.3编写配置文件"></a>3.1.3编写配置文件</h5><p>在src根目录下创建Spring配置文件 applicationContext.xml。将TestDIServiceImpl类托管给Spring，让Spring创建其对象，同时调用其setter方法完成依赖注入。</p>
+<pre><code>&lt;!-- 将TestDIDaoImpl类配置给Spring，让Spring创建其实例 --&gt;
+&lt;bean id=&quot;myTestDIDao&quot; class=&quot;dao.TestDIDaoImpl&quot;/&gt;
+
+&lt;!-- 使用setter方法注入 --&gt;
+&lt;bean id=&quot;testDIService&quot; class=&quot;service.TestDIServiceImpl&quot;&gt;
+    &lt;!-- 调用TestDIServiceImpl类的setter方法，将myTestDIDao注入到TestDIServiceImpl类的属性testDIDao上--&gt;
+    &lt;property name=&quot;testDIDao&quot; ref=&quot;myTestDIDao&quot;/&gt;
+&lt;/bean&gt;
+
+/*
+&lt;!-- 使用构造方法注入 --&gt;
+&lt;bean id=&quot;testDIService&quot; class=&quot;service.TestDIServiceImpl&quot;&gt;
+    &lt;!-- 将myTestDIDao注入到TestDIServiceImpl类的属性testDIDao上--&gt;
+    &lt;!-- constructor-arg元素用于定义类构造方法的参数，index定义参数的位置--&gt;
+    &lt;!-- ref指定某个实例的引用，如果参数是常量值，ref由value代替--&gt;
+    &lt;constructor-arg index=&quot;o&quot; ref=&quot;myTestDIDao&quot;/&gt;
+&lt;/bean&gt;
+*/</code></pre><h5 id="3-1-4测试"><a href="#3-1-4测试" class="headerlink" title="3.1.4测试"></a>3.1.4测试</h5><p>创建test包，并创建TestDI测试类</p>
+<pre><code>package test;
+public class TestDI {
+    public static void main(String[] args) {
+        ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;)
+        TestDIservice ts = (TestDIService)appCon.getBean(&quot;testDIService&quot;);
+        ts.sayHello();
+    }
+}</code></pre>
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '86bc018a7b861fd65d72',
+        clientSecret: '6806b59a1dbc8efcd585a8c36a7a881fb0fd24f2',
+        repo: 'topone233.github.io',
+        owner: 'topone233',
+        admin: "topone233",
+        id: '2020-08-22T16-09-05',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2020/08/22/Spring%20IoC/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Spring IoC">
+                        
+                        <span class="card-title">Spring IoC</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            1. IoC 的基本概念
+IoC（Inversion of Control，控制反转）是一个比较抽象的概念，是Spring框架的核心，用来消减程序的耦合问题。DI（Dependency Injection，依赖注入）是IoC的另外一种说法，
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/08/20/CORS%20RESTful%20Web%20Service/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="CORS RESTful Web Service">
+                        
+                        <span class="card-title">CORS RESTful Web Service</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Enabling Cross Origin Requests for a RESTful Web Service
+直奔主题，将使用Spring Boot快速构建项目部分省略，如果需要请访问：https://spring.io/guides/
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('3'),
+            headingSelector: 'h2, h3, h4, h5'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2020</span>
+            <a href="/about" target="_blank">QSX1C</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2020";
+                    var startMonth = "7";
+                    var startDate = "1";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:li-674e@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=809549807" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 809549807" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+    
+   <!-- yinghua -->
+   <script type="text/javascript">
+    var windowWidth = $(window).width();
+    if (windowWidth > 768) {
+         document.write('<script type="text/javascript" src="/js/yinghua.js"><\/script>');
+     }
+    </script>
+
+    <!-- tianqi -->
+    <script type="text/javascript">
+    WIDGET = {FID: 'MEEyXDqUjZ'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
