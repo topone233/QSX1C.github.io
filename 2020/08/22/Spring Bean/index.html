@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Spring IoC, QSX1C">
+    <meta name="keywords" content="Spring Bean, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Spring IoC | QSX1C</title>
+    <title>Spring Bean | QSX1C</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -198,12 +198,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Spring IoC</h1>
+                    <h1 class="description center-align post-title">Spring Bean</h1>
                 </div>
             </div>
         </div>
@@ -348,110 +348,186 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="1-IoC-的基本概念"><a href="#1-IoC-的基本概念" class="headerlink" title="1. IoC 的基本概念"></a>1. IoC 的基本概念</h3><blockquote>
-<p>IoC（Inversion of Control，控制反转）是一个比较抽象的概念，是Spring框架的核心，用来消减程序的耦合问题。DI（Dependency Injection，依赖注入）是IoC的另外一种说法，只是从不同的角度描述相同的概念。</p>
+                <blockquote>
+<p>Spring IoC容器可以创建、装配、配置应用组件对象，这里的组件对象称为Bean。</p>
 </blockquote>
-<p>想吃面包，你可以自己做。也可以选择在面包店下单，告诉店家你的需求，然后等着吃就行。</p>
-<p>上面的例子包含了控制反转的思想：把制作面包的主动权交给面包店。</p>
-<p>当某个Java对象（调用者，例如我），需要调用另一个Java对象（被调用者，即被依赖对象，例如面包）时，以前我们通常会“new 被调用者”来创建对象（例如我们自己做面包）。这种方式会增加调用者与被调用者之间的耦合性，不利于后期代码的升级和维护。</p>
-<p>Spring出现后，对象的实例由Spring容器（例如面包店）来创建。Spring容器会负责控制程序之间的关系（例如面包店负责控制我们与面包的关系）。这样控制权就由调用者转移到Spring容器，控制权发生了反转。</p>
-<p>依赖注入：Spring容器负责将依赖对象赋值给调用者的成员变量，相当于为调用者注入它所依赖的实例。这就是依赖注入。</p>
-<p>综上所述，控制反转是一种通过描述（XML或者注解）并通过第三方去产生或获取特定对象的方式。实现控制反转的是IoC容器，其实现方式是依赖注入。</p>
-<h3 id="2-IoC-容器"><a href="#2-IoC-容器" class="headerlink" title="2.IoC 容器"></a>2.IoC 容器</h3><p>前面我们知道，实现控制反转的是IoC容器。IoC容器的设计主要是基于BeanFactory 和 ApplicationContext 两个接口。</p>
-<h4 id="2-1-BeanFactory-接口"><a href="#2-1-BeanFactory-接口" class="headerlink" title="2.1 BeanFactory 接口"></a>2.1 BeanFactory 接口</h4><p>BeanFactory 由org.springframework.beans.factory.BeanFactory接口定义，提供了完整的IoC服务支持，是一个管理Bean的工厂，主要负责初始化各种Bean。</p>
-<p>BeanFactory接口有很多实现类，常用的是XmlBeanFactory，根据XML配置文件中的定义来配置Bean。</p>
-<p>使用BeanFactory实例加载Spring配置文件实际并不多见，仅作了解。</p>
-<h4 id="2-2-ApplicationContext-接口"><a href="#2-2-ApplicationContext-接口" class="headerlink" title="2.2 ApplicationContext 接口"></a>2.2 ApplicationContext 接口</h4><p>ApplicationContext 是BeanFactory的子接口，也称应用上下文。除了包含BeanFactory的所有功能以外，还添加了对国际化、资源访问、事件传播等内容的支持。</p>
-<p>创建ApplicationContext接口实例通常有以下三种方法：</p>
-<h5 id="2-2-1-通过ClassPathXmlApplicationContext"><a href="#2-2-1-通过ClassPathXmlApplicationContext" class="headerlink" title="2.2.1 通过ClassPathXmlApplicationContext"></a>2.2.1 通过ClassPathXmlApplicationContext</h5><pre><code>public static void main(String[] args) {
-    // 初始化Spring容器ApplicationContext，加载指定的XML配置文件
-    ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
-    // 通过容器获取test实例
-    TestDao tt = (TestDao)appCon.getBean(&quot;test&quot;);
-    tt.sayHello();
-}</code></pre><h5 id="2-2-2通过FileSystemXmlApplicationContext创建"><a href="#2-2-2通过FileSystemXmlApplicationContext创建" class="headerlink" title="2.2.2通过FileSystemXmlApplicationContext创建"></a>2.2.2通过FileSystemXmlApplicationContext创建</h5><pre><code>// 仅需要修改这一行代码
-ApplicationContext appCon = new FileSystemXmlApplicationContext(&quot;D:\test\applicationContext.xml&quot;);</code></pre><p>FileSystemXmlApplicationContext 将从指定文件的绝对路径中寻找XML配置文件，但是绝对路径会导致程序的灵活性变差，不推荐使用。通常Spring的Java应用采用ClassPathXmlApplicationContext类来实例化ApplicationContext容器，而Web应用中，将交给Web服务器完成。</p>
-<h5 id="2-2-3通过Web服务器实例化ApplicationContext容器"><a href="#2-2-3通过Web服务器实例化ApplicationContext容器" class="headerlink" title="2.2.3通过Web服务器实例化ApplicationContext容器"></a>2.2.3通过Web服务器实例化ApplicationContext容器</h5><p>Web服务器实例化ApplicationContext容器时，一般使用基于org.springframework.web.context.ContextLoaderListener的实现方式。</p>
-<pre><code>&lt;context-param&gt;
-    &lt;!-- 加载src目录下的applicationContext.xml文件 --&gt;
-    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
-    &lt;param-value&gt;
-        classpath:applicationContext.xml
-    &lt;/param-value&gt;
-&lt;/context-param&gt;
-
-&lt;!-- 指定以ContextLoaderListener方式启动Spring容器 --&gt;
-&lt;listener&gt;
-    &lt;listener-class&gt;
-        org.springframework.web.context.ContextLoaderListener
-    &lt;/listener-class&gt;
-&lt;/listener&gt;</code></pre><h3 id="3-依赖注入"><a href="#3-依赖注入" class="headerlink" title="3.依赖注入"></a>3.依赖注入</h3><blockquote>
-<p>Spring中实现IoC容器的方法是依赖注入。依赖注入的作用是在使用Spring创建对象时，动态地将其所依赖的对象（例如属性值）注入Bean组件中。</p>
-</blockquote>
-<h4 id="3-1使用属性的setter方法注入"><a href="#3-1使用属性的setter方法注入" class="headerlink" title="3.1使用属性的setter方法注入"></a>3.1使用属性的setter方法注入</h4><p>依赖注入通常有两种实现方式：构造方法注入、属性的setter方法注入。（这两种方式都是基于Java的<strong>反射</strong>机制）。</p>
-<p>使用setter方法注入是Spring中最主流的注入方式，利用Java Bean规范所定义的setter方法来完成注入，灵活且可读性高。</p>
-<p>下面将两者放在一起进行，方便对比。</p>
-<h5 id="3-1-1创建dao包"><a href="#3-1-1创建dao包" class="headerlink" title="3.1.1创建dao包"></a>3.1.1创建dao包</h5><p>在dao包创建TestDIDao接口及其实现类TestDIDaoImpl</p>
-<pre><code>package dao;
-public interface TestDIDao {
-    public void sayHello();
-}</code></pre><pre><code>package dao;
-public class TestDIDaoImpl implements TestDIDao {
-    @Override
-    public void sayHello() {
-        System.out.println(&quot;TestDIDao say: Hello&quot;);
+<h3 id="1-Bean-的配置"><a href="#1-Bean-的配置" class="headerlink" title="1.Bean 的配置"></a>1.Bean 的配置</h3><p>Spring可以看作一个工厂，用于生产和管理Spring容器中的Bean。</p>
+<p>如果要使用这个工厂生产和管理Bean，需要将Bean配置在Spring的配置文件中。支持 XML 和 Properties 两种格式的配置文件，常用 XML格式。</p>
+<p><bean>元素的常用属性及其子元素：</p>
+<table>
+<thead>
+<tr>
+<th align="center">属性或子元素</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">id</td>
+<td align="left">Bean在BeanFactory中的唯一标识，在代码中通过BeanFactory获取Bean实例时需要依次作为索引名称</td>
+</tr>
+<tr>
+<td align="center">class</td>
+<td align="left">Bean的具体实现类，例如dao.TestDIDaoImpl</td>
+</tr>
+<tr>
+<td align="center">scope</td>
+<td align="left">指定Bean实例的作用域</td>
+</tr>
+<tr>
+<td align="center"><property></td>
+<td align="left">用于设置一个属性。name 指定Bean实例中相应的属性名称、value 指定Bean的属性值、ref 指定属性对BeanFactory中其他Bean的引用关系</td>
+</tr>
+<tr>
+<td align="center"><constructor-arg></td>
+<td align="left">使用构造方法注入，指定构造方法的参数。index指定参数的序号，ref指定对BeanFactory中其他Bean的引用关系，type指定参数类型，value指定参数的常量值</td>
+</tr>
+<tr>
+<td align="center"><map>、<set></td>
+<td align="left"><property>的子元素，封装对应类型的依赖注入</td>
+</tr>
+<tr>
+<td align="center"><list></td>
+<td align="left"><property>的子元素，封装List 、数组类型的依赖注入</td>
+</tr>
+<tr>
+<td align="center"><entry></td>
+<td align="left"><map>的子元素，用于设置一个键值对</td>
+</tr>
+</tbody></table>
+<h3 id="2-Bean-的实例化"><a href="#2-Bean-的实例化" class="headerlink" title="2.Bean 的实例化"></a>2.Bean 的实例化</h3><p>在面向对象编程时，如果要使用某个对象，需要事先实例化该对象。Spring中，也需要先实例化Bean。</p>
+<p>有3种方式：构造方法实例化、静态工厂实例化、实例工厂实例化。<strong>最常用构造方法实例化</strong>。</p>
+<h4 id="2-1构造方法实例化"><a href="#2-1构造方法实例化" class="headerlink" title="2.1构造方法实例化"></a>2.1构造方法实例化</h4><p>Spring容器调用Bean对应类中的无参数构造方法来实例化Bean。</p>
+<p>创建BeanClass类</p>
+<pre><code>package instance;
+public class BeanClass {
+    public String message;
+    public BeanClass() {
+        message = &quot;构造方法实例化Bean&quot;;
     }
-}</code></pre><h5 id="3-1-2创建service包"><a href="#3-1-2创建service包" class="headerlink" title="3.1.2创建service包"></a>3.1.2创建service包</h5><p>service包中创建TestDIService接口及其实现类TestDIServiceImpl</p>
-<pre><code>package service;
-public interface TestDIService {
-    public void sayHello();
-}</code></pre><pre><code>package service;
-import dao.TestDIDao;
-public class TestDIServiceImpl implements TestDIService {
-    private TestDIDao testDIDao;
-    // 添加testDIDao属性的setter方法，用于实现依赖注入
-    public void setTestDIDao(TestDIDao testDIDao) {
-        this.testDIDao = testDIDao;
+    public BeanClass(String s) {
+        message = s;
     }
-    /* 构造方法，用于实现依赖注入接口对象testDIDao
-    public TestDIServiceImpl(TestDIDao testDIDao) {
-        super();
-        this.testDIDao = testDIDao;
-    }
-    */
-    @Override
-    public void sayHello() {
-        // 调用testDIDao中的sayHelllo方法
-        testDIDao.sayHello();
-        System.out.println(&quot;TestDIService setter方法注入 say: Hello&quot;);
-    }
-}</code></pre><h5 id="3-1-3编写配置文件"><a href="#3-1-3编写配置文件" class="headerlink" title="3.1.3编写配置文件"></a>3.1.3编写配置文件</h5><p>在src根目录下创建Spring配置文件 applicationContext.xml。将TestDIServiceImpl类托管给Spring，让Spring创建其对象，同时调用其setter方法完成依赖注入。</p>
-<pre><code>&lt;!-- 将TestDIDaoImpl类配置给Spring，让Spring创建其实例 --&gt;
-&lt;bean id=&quot;myTestDIDao&quot; class=&quot;dao.TestDIDaoImpl&quot;/&gt;
-
-&lt;!-- 使用setter方法注入 --&gt;
-&lt;bean id=&quot;testDIService&quot; class=&quot;service.TestDIServiceImpl&quot;&gt;
-    &lt;!-- 调用TestDIServiceImpl类的setter方法，将myTestDIDao注入到TestDIServiceImpl类的属性testDIDao上--&gt;
-    &lt;property name=&quot;testDIDao&quot; ref=&quot;myTestDIDao&quot;/&gt;
-&lt;/bean&gt;
-
-/*
-&lt;!-- 使用构造方法注入 --&gt;
-&lt;bean id=&quot;testDIService&quot; class=&quot;service.TestDIServiceImpl&quot;&gt;
-    &lt;!-- 将myTestDIDao注入到TestDIServiceImpl类的属性testDIDao上--&gt;
-    &lt;!-- constructor-arg元素用于定义类构造方法的参数，index定义参数的位置--&gt;
-    &lt;!-- ref指定某个实例的引用，如果参数是常量值，ref由value代替--&gt;
-    &lt;constructor-arg index=&quot;o&quot; ref=&quot;myTestDIDao&quot;/&gt;
-&lt;/bean&gt;
-*/</code></pre><h5 id="3-1-4测试"><a href="#3-1-4测试" class="headerlink" title="3.1.4测试"></a>3.1.4测试</h5><p>创建test包，并创建TestDI测试类</p>
+}</code></pre><p>创建配置文件applicationContext.xml</p>
+<pre><code>&lt;!-- 构造方法实例化Bean --&gt;
+&lt;bean id=&quot;demo&quot; class=&quot;instance.BeanClass&quot;/&gt;</code></pre><p>创建测试类</p>
 <pre><code>package test;
-public class TestDI {
-    public static void main(String[] args) {
-        ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;)
-        TestDIservice ts = (TestDIService)appCon.getBean(&quot;testDIService&quot;);
-        ts.sayHello();
+public class TestInstance {
+    public static void mani(String[] args) {
+        ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+        BeanClass b = (BeanClass)appCon.getBean(&quot;demo&quot;);
+        System.out.println(b1 + b1.message);
     }
-}</code></pre>
+}
+
+结果：instance.BeanClass@490ab905构造方法实例化Bean</code></pre><h3 id="3-Bean的作用域"><a href="#3-Bean的作用域" class="headerlink" title="3.Bean的作用域"></a>3.Bean的作用域</h3><table>
+<thead>
+<tr>
+<th>scope参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>singleton</td>
+<td>默认的作用域，定义的Bean在Spring容器中只有一个Bean实例（返回同一个）</td>
+</tr>
+<tr>
+<td>prototype</td>
+<td>Spring容器每次获取Bean，都将创建一个新的Bean实例（每次都返回新的）</td>
+</tr>
+<tr>
+<td>request</td>
+<td>每次HTTP请求都会返回一个Bean实例</td>
+</tr>
+<tr>
+<td>session</td>
+<td>在一个session中，将返回同一个Bean实例</td>
+</tr>
+<tr>
+<td>application</td>
+<td>为每个ServletContext对象创建一个实例，即同一个应用共享一个</td>
+</tr>
+<tr>
+<td>websocket</td>
+<td>为每个WebSocket对象创建一个实例</td>
+</tr>
+</tbody></table>
+<p>singleton 与 prototype是最常用的，后面4种仅在Web Spring应用上下文中使用。</p>
+<h3 id="4-Bean的生命周期"><a href="#4-Bean的生命周期" class="headerlink" title="4.Bean的生命周期"></a>4.Bean的生命周期</h3><p>一个对象的生命周期包括：创建（实例化与初始化）、使用、销毁。Bean也遵循这一过程。但是Spring通过了许多对外接口，允许开发者对 实例化（开辟空间）、初始化（属性初始化）、销毁 3个过程的前后做一些操作。</p>
+<p>Spring容器可以管理singleton作用域下Bean的生命周期，能够精确知道Bean何时被创建，何时初始化完成，何时被销毁。而对于prototype作用域下的Bean，Spring只负责创建。创建之后Bean实例就交给客户端的代码管理，Spring将不再跟踪其生命周期，也不会管理这些Bean。</p>
+<p>Bean的生命周期：</p>
+<ol>
+<li><p>根据Bean的配置情况<strong>实例化</strong>一个Bean。</p>
+</li>
+<li><p>根据Spring上下文对实例化的Bean进行<strong>依赖注入</strong>，即对Bean的属性进行<strong>初始化</strong>。</p>
+</li>
+<li><p>如果Bean实现了 BeanNameAware接口，将调用它实现的 setBeanName(String beanId)方法，此处参数传递的是Bean的id，让实现这个接口的Bean知道自己在Spring容器中的的名字。</p>
+</li>
+<li><p>如果Bean实现了 BeanFactoryAware接口，将调用它实现的 setBeanFactory方法，此处参数传递的是当前Spring工厂实例的引用。此接口是在Bean实例化后、Setter方法之前调用。可以使得Bean获取容器的内部信息，从而进行某些定制化的操作。</p>
+</li>
+<li><p>如果Bean实现了 ApplicationContextAware接口，将调用它实现的setApplicationContext(ApplicationContext)方法，此处参数传递的是Spring上下文实例的引用。该方法会将容器本身作为参数传给该方法，将Spring传入的参数赋给该类对象的applicationContext实例变量，接下来可以通过该变量来访问容器本身。</p>
+</li>
+<li><p>如果Bean关联了 BeanPostProcessor接口，将调用初始化方法 postProcessBeforeInitialization(Object obj, String beanName)对Bean进行前置处理。BeanFactoryPostProcessor是Bean属性处理容器，管理所有未实例化的数据（修改属性）。</p>
+</li>
+<li><p>如果Bean实现了 InitializingBean接口，将调用 afterPropertiesSet方法。</p>
+</li>
+<li><p>如果Bean在Spring配置文件中配置了 init-method属性，将自动调用其配置的初始化方法。</p>
+<p><strong>注意</strong>：Spring为Bean提供了两种初始化方式：实现InitializingBean接口、init-method指定。</p>
+<p>​           两种方式可以同时使用，但如果调用afterPropertiesSet时出错，则不会调用init-method指定的方法。</p>
+<p>​           通过反射调用init-method指定的方法效率相对较低，但是消除了对Spring的依赖。</p>
+</li>
+<li><p>如果Bean关联了 BeanPostProcessor接口，将调用 postProcessAfterInitialization(Object obj, String beanName)方法进行后置处理，由于是在Bean初始化结束时调用After方法，也可用于内存或缓存技术。</p>
+<p><strong>注意</strong>：此时已经可以使用该Bean，由于该Bean的作用域是singleton，所以调用的是同一个Bean实例。</p>
+</li>
+<li><p>当Bean不再需要时将进入销毁阶段，如果Bean实现了 DisposableBean接口，则调用其实现的destroy方法将Bean销毁</p>
+</li>
+<li><p>如果在配置文件中通过 destroy-method属性指定了Bean的销毁方法，将调用其配置的销毁方法进行销毁</p>
+</li>
+</ol>
+<p>实例演示：</p>
+<pre><code>package life;
+public class BeanLife {
+    public void initMyself() {
+        System.out.println(this.getClass().getName() + &quot;执行自定义的初始化方法&quot;);
+    }
+    public void destroyMyself() {
+        System.out.println(this.getClass().getName() + &quot;执行自定义的销毁方法&quot;)；
+    }
+}</code></pre><pre><code>&lt;!-- 使用init-method属性指定初始化方法，使用destroy-method属性指定销毁方法--&gt;
+&lt;bean id=&quot;beanLife&quot; class=&quot;life.BeanLife&quot; init-method=&quot;initMyself&quot; destroy-method=&quot;destroyMyself&quot;/&gt;</code></pre><pre><code>package test;
+public class TestLife {
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+        BeanLife blife = (BeanLife)ctx.genBean(&quot;beanLife&quot;);
+        System.out.println(&quot;获得对象后&quot; + blife);
+        // 关闭容器，销毁Bean对象
+        ctx.close();
+    }
+}</code></pre><h3 id="5-Bean的装配"><a href="#5-Bean的装配" class="headerlink" title="5.Bean的装配"></a>5.Bean的装配</h3><p>Bean的装配可以理解为将Bean依赖注入到Spring容器中。Spring容器支持：基于XML配置、基于注解、自动装配等多种装配方式，最常见的是基于注解。</p>
+<h4 id="5-1基于注解的装配"><a href="#5-1基于注解的装配" class="headerlink" title="5.1基于注解的装配"></a>5.1基于注解的装配</h4><p>尽管使用XML配置文件可以很简单的装配Bean，但如果有大量的Bean，会导致XML配置文件过于庞大，不方便升级与维护，因此更推荐使用注解（annotation）。</p>
+<ul>
+<li><p>@Repository</p>
+<p>将数据访问层（DAO）的类标识为Bean。</p>
+</li>
+<li><p>@Service</p>
+<p>将业务逻辑组件类（Service层）标注为Bean。</p>
+</li>
+<li><p>@Controller</p>
+<p>将控制器组件类标注为Bean。</p>
+</li>
+<li><p>@Component</p>
+<p>可以作用在任何层次上，标注一个Bean。为了更加层次化，不推荐使用。</p>
+</li>
+<li><p>@Autowired</p>
+<p>对<strong>类成员变量、方法、构造方法</strong>进行标注，完成自动装配工作。可以消除setter和getter方法。默认按照Bean的类型进行装配，如果想按照名称装配，需要和@Qualifier 一起使用</p>
+</li>
+<li><p>@Resource(name=” “)</p>
+<p>与@Autowired 功能一样，区别在于该注解默认是按照名称来装配注入的，只有找不到与名称匹配的Bean时才会按照Bean的类型来装配注入。@Resource有两个属性：name、type。name指定Bean实例名称，即按照名称来装配；type指定类型，即按照类型来装配。</p>
+</li>
+<li><p>@Qualifier</p>
+<p>与@Autowired配合使用，当需要按照名称装配时。Bean的实例名称由@Qualifier 的参数指定。</p>
+</li>
+</ul>
+
             </div>
             <hr/>
 
@@ -503,7 +579,7 @@ public class TestDI {
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-08-22T16-09-05',
+        id: '2020-08-22T16-14-36',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -527,9 +603,10 @@ public class TestDI {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/08/22/Spring%20Bean/">
                     <div class="card-image">
@@ -551,9 +628,9 @@ Spring IoC容器可以创建、装配、配置应用组件对象，这里的组�
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -562,6 +639,7 @@ Spring IoC容器可以创建、装配、配置应用组件对象，这里的组�
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -572,25 +650,25 @@ Spring IoC容器可以创建、装配、配置应用组件对象，这里的组�
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/20/CORS%20RESTful%20Web%20Service/">
+                <a href="/2020/08/22/Spring%20IoC/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="CORS RESTful Web Service">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Spring IoC">
                         
-                        <span class="card-title">CORS RESTful Web Service</span>
+                        <span class="card-title">Spring IoC</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Enabling Cross Origin Requests for a RESTful Web Service
-直奔主题，将使用Spring Boot快速构建项目部分省略，如果需要请访问：https://spring.io/guides/
+                            1. IoC 的基本概念
+IoC（Inversion of Control，控制反转）是一个比较抽象的概念，是Spring框架的核心，用来消减程序的耦合问题。DI（Dependency Injection，依赖注入）是IoC的另外一种说法，
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
                             </span>
                         <span class="publish-author">
                             
