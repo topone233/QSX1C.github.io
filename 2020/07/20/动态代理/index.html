@@ -401,7 +401,7 @@
 <p>被代理类被传递给了代理类PrinterProxy，代理类在执行具体方法时通过所持用的被代理类完成调用。</p>
 <p>在构造函数中将打印机对象传进去，实现接口的打印方法时调用打印机对象的打印方法并在前面加上记录日志的功能:</p>
 <pre><code>public class PrinterProxy implements IPrinter {
-    private IPrinter printer;
+    private Printer printer;
     public PrinterProxy(){
         this.printer = new printer();
     }

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World！（hexo配置记录）, QSX1C">
+    <meta name="keywords" content="Spring 事务管理, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World！（hexo配置记录） | QSX1C</title>
+    <title>Spring 事务管理 | QSX1C</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -198,12 +198,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://s1.ax1x.com/2020/08/25/dg7WYd.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s1.ax1x.com/2020/08/25/dgHaB8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World！（hexo配置记录）</h1>
+                    <h1 class="description center-align post-title">Spring 事务管理</h1>
                 </div>
             </div>
         </div>
@@ -320,14 +320,27 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/hexo/">
-                                <span class="chip bg-color">hexo</span>
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/spring/">
+                                <span class="chip bg-color">Spring</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/spring/" class="post-category">
+                                Spring
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -336,7 +349,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-07-01
+                    2020-09-02
                 </div>
                 
 
@@ -352,72 +365,125 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Hello-World！（hexo配置记录）"><a href="#Hello-World！（hexo配置记录）" class="headerlink" title="Hello World！（hexo配置记录）"></a>Hello World！（hexo配置记录）</h1><p>以前在网上冲浪的时候只是不经意间发现许多让人眼前一亮的blog，由此萌生了create my blog的想法。</p>
-<p>目前的blog搭建：</p>
-<ul>
-<li><p>CSDN/博客园平台  </p>
-<p> 但我个人不是很喜欢这种，首先是太丑了（没错，就是你，CSDN）。  </p>
-<p> 其次依托于平台，虽然只需要创作就行，但是感觉不是属于自己的，没有归属感</p>
-</li>
-<li><p>独立blog  </p>
-<p> 租云服务器、买域名，还要管理维护，个人感觉略微有些费事，精力有限，还是简单点好</p>
-</li>
-<li><p>hexo  </p>
-<p> 依托于Github，也是我目前选择的，配置相对简单快捷，主题丰富</p>
-</li>
-</ul>
-<hr>
-<h3 id="hexo配置步骤："><a href="#hexo配置步骤：" class="headerlink" title="hexo配置步骤："></a>hexo配置步骤：</h3><ul>
-<li>安装Git</li>
-<li>安装Node.js</li>
-<li>安装hexo</li>
-<li>生成ssh并添加到GitHub</li>
-<li>部署项目</li>
-<li>上传到GitHub</li>
-<li>修改主题</li>
-</ul>
-<h4 id="1-安装Git"><a href="#1-安装Git" class="headerlink" title="1.安装Git"></a>1.安装Git</h4><p><a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">下载地址</a>  </p>
-<p>安装步骤：双击下载的exe文件，一路next就行</p>
-<h4 id="2-安装Node-js"><a href="#2-安装Node-js" class="headerlink" title="2.安装Node.js"></a>2.安装Node.js</h4><p>Hexo是基于nodeJS环境的静态博客，npm是必备的  </p>
-<p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">下载地址</a>  </p>
-<p>安装步骤：下载好msi文件后，双击打开安装，也是一路next，不过在Custom Setup这一步记得选 Add to PATH ,这样你就不用自己去配置电脑上环境变量了</p>
-<h4 id="3-安装hexo"><a href="#3-安装hexo" class="headerlink" title="3.安装hexo"></a>3.安装hexo</h4><ol>
-<li>创建一个源文件夹，然后cd到该文件夹下</li>
-<li>安装hexo： npm i -g hexo </li>
-<li>hexo -v 查看版本，检查是否安装成功</li>
-<li>hexo init 初始化，初始化完成后可在文件夹下看到文件</li>
-</ol>
-<p>这里要说下，npm install出现一直停留在”fetchMetadata: sill resolveWithNewModule find-cache-dir@”解决方法，更换成淘宝的源（反正我是解决了）</p>
-<pre><code>//修改为淘宝源
-npm config set registry https://registry.npm.taobao.org 
-//配置后可通过下面方式来验证是否成功 
-npm config get registry 
-//或
-npm info express</code></pre><h4 id="4-生成ssh并添加到GitHub"><a href="#4-生成ssh并添加到GitHub" class="headerlink" title="4.生成ssh并添加到GitHub"></a>4.生成ssh并添加到GitHub</h4><p>SSH密钥可以防止其他人恶意部署文件到你的仓库  </p>
-<p>首先要有GitHub账号，没有的自行注册  </p>
-<p>创建一个仓库repository，名称为youname.github.io  </p>
-<p>在gitbash中，配置GitHub账号信息</p>
-<pre><code>//配置你的GitHub账号信息
-git config --global user.name &quot;YourName&quot;
-git config --global user.email &quot;YourEmail&quot;</code></pre><p>创建ssh</p>
-<pre><code>//创建ssh
-ssh-keygen -t rsa -C &quot;youremail@xx.com&quot;</code></pre><p>生成ssh，在gitbash中切换到文件目录cat读取</p>
-<pre><code>//读取ssh文件内容
-cat id_rsa.pub </code></pre><p>全部复制（包括开头的ssh-rsa，和尾部的email）<br>到GitHub 配置ssh，title随便起</p>
-<h4 id="5-部署项目"><a href="#5-部署项目" class="headerlink" title="5.部署项目"></a>5.部署项目</h4><p>修改hexo的_config.yml文件配置信息（直接复制，只需要修改url即可）</p>
-<pre><code>deploy:
-  type: git
-  repo: https://github.com/YourgithubName/YourgithubName.github.io.git
-  branch: master</code></pre><p>回到gitbash，进入hexo目录</p>
-<pre><code>hexo clean
-hexo generate
-hexo server</code></pre><p>这时，在<a href="http://localhost:4000就可以看到默认页面">http://localhost:4000就可以看到默认页面</a></p>
-<h4 id="6-上传到GitHub"><a href="#6-上传到GitHub" class="headerlink" title="6.上传到GitHub"></a>6.上传到GitHub</h4><pre><code>npm install hexo-deployer-git --save</code></pre><p>将写好的文章部署到GitHub服务器，<br>执行命令</p>
-<pre><code>hexo clean
-hexo generate
-hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br>完成后<a href="https://yourgithubname.github.io，查看即可" target="_blank" rel="noopener">https://yourgithubname.github.io，查看即可</a></p>
-<h4 id="7-修改主题"><a href="#7-修改主题" class="headerlink" title="7.修改主题"></a>7.修改主题</h4><p>hexo官网有推荐很多很多主题，自行选择</p>
+                <p>在数据库操作中事务管理是一个重要的概念，例如银行转账。</p>
+<p>Spring的事务管理简化了传统的数据库事务管理流程，提高了开发效率。</p>
+<h3 id="1-编程式事务管理"><a href="#1-编程式事务管理" class="headerlink" title="1.编程式事务管理"></a>1.编程式事务管理</h3><blockquote>
+<p>在代码中显示调用beginTransaction、commit、rollback 等与事务处理相关的方法，这就是编程式事务管理。当只有少数事务操作时，编程式事务管理才比较合适。</p>
+</blockquote>
+<p>基于底层API的编程式事务管理</p>
+<p>基于 TransactionTemplate 的编程式事务管理</p>
+<h3 id="2-声明式事务管理"><a href="#2-声明式事务管理" class="headerlink" title="2.声明式事务管理"></a>2.声明式事务管理</h3><blockquote>
+<p>Spring的声明式事务管理是通过AOP技术实现的事务管理，其本质是对方法前后进行拦截，然后在目标方法开始之前创建或加入一个事务，在执行完目标方法之后根据执行情况提交或回滚事务。</p>
+</blockquote>
+<p>声明式事务管理最大的优点是不需要通过编程的方式管理事务，因而不需要在业务逻辑代码中掺杂事务处理的代码，只需相关的事务规则声明便可以将事务规则应用到业务逻辑中。</p>
+<p>使用声明式事务管理不仅因为其简单，更主要的是可以使得纯业务代码不被污染，极大的方便了后期的代码维护。</p>
+<p>与编程式事务管理相比，唯一不足的是：最细粒度只能作用到方法级别，无法像编程式那样可以作用到代码块级别。（不过可以通过变通的方法解决，比如将需要进行事务处理的代码块独立为方法等）。</p>
+<p>Spring的声明式事务管理通过两种方式实现：XML、@Transactional 注解</p>
+<h4 id="2-1-基于XML"><a href="#2-1-基于XML" class="headerlink" title="2.1 基于XML"></a>2.1 基于XML</h4><p>创建Dao层</p>
+<pre><code>package com.statement.dao;
+public interface TestDao {
+    public int save(String sql, Object param[]);
+    public int delete(String sql, Object param[]);
+}</code></pre><pre><code>package com.statement.dao;
+@Repository(&quot;TestDao&quot;)
+public class TestDaoImpl implements TestDao {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Override
+    public int save(String sql, Object[] param) {
+        return jdbcTemplate.update(sql, param);
+    }
+    @Override
+    public int delete(String sql, Object[] param) {
+        return jdbcTemplate.update(sql, param);
+    }
+}</code></pre><p>创建Service层，依赖注入数据访问层。</p>
+<pre><code>package com.statement.service;
+public interface TestService {
+    public int save(String sql, Object param[]);
+    public int delete(String sql, Object param[]);
+}</code></pre><pre><code>package com.statement.service;
+@Service(&quot;testService&quot;)
+public class TestServiceImpl implements TestService {
+    @Autowired
+    private TestDao testDao;
+    @Override
+    public int save(String sql, Object[] param) {
+        return testDao.save(sql, param);
+    }
+    @Override
+    public int delete(String sql, Object[] param) {
+        return testDao.delete(sql, param);
+    }
+}</code></pre><p>创建Controller层，依赖注入Service层。</p>
+<pre><code>package com.statement.controller;
+@Controller(&quot;statementController&quot;)
+public class StatementController {
+    @Autowired
+    private TestService testService;
+    public String test() {
+        String message=&quot;&quot;;
+        String deleteSql=&quot;delete from user&quot;;
+        String saveSql=&quot;insert into user values(?,?,?)&quot;;
+        Object param[]={1,&quot;chen&quot;,&quot;男&quot;};
+        try{
+            testService.delete(deletSql, null);
+            testService.save(saveSql, param);
+            testService.save(saveSql, param);
+        }catch(Exception e) {
+            message=&quot;主键重复，事务回滚！&quot;;
+            e.printStackTrace();
+        }
+        return message;
+    }
+}</code></pre><p>创建配置文件</p>
+<pre><code>&lt;!-- 为数据源添加事务管理器 --&gt;
+&lt;bean id=&quot;txManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;
+    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+&lt;/bean&gt;
+&lt;!-- 编写通知声明事务 --&gt;
+&lt;tx:advice id=&quot;myAdvice&quot; transaction-manager=&quot;txManager&quot;&gt;
+    &lt;tx:attributes&gt;
+        &lt;!-- *表示任意方法 --&gt;
+        &lt;tx:method name=&quot;*&quot;/&gt;
+    &lt;/tx:attributes&gt;
+&lt;/tx:advice&gt;
+&lt;!-- 编写AOP，让Spring自动对目标对象生成代理，需要使用AspectJ的表达式 --&gt;
+&lt;aop:config&gt;
+    &lt;!-- 定义切入点 --&gt;
+    &lt;aop:pointcut expression=&quot;execution(* com.statement.sservice.*.*())&quot; id=&quot;txPointCut&quot;/&gt;
+    &lt;!-- 切面：将切入点与通知关联 --&gt;
+    &lt;aop:advisor advice-ref=&quot;myAdvice&quot; pointcut-ref=&quot;txPointCut&quot;/&gt;
+&lt;/aop:config&gt;</code></pre><p>创建测试类</p>
+<pre><code>package com.statement.test;
+public class Test {
+    public static void main(String[] args) {
+        ApplicationContext appCon=new ClassPathXmlApplicationContext(&quot;/com/statement/applicationContext.xml&quot;);
+        StatementController ct=(StatementController)appCon.getBean(&quot;statementController&quot;);
+        String result=ct.test();
+        System.out.println(result);
+    }
+}
 
+运行结果：
+主键重复，事务回滚！</code></pre><h4 id="2-2-基于-Transactional"><a href="#2-2-基于-Transactional" class="headerlink" title="2.2 基于@Transactional"></a>2.2 基于@Transactional</h4><p>@Transactional 可以作用于接口、接口方法、类、类的方法上。</p>
+<p>当作用于类上时，该类的所有public方法都将具有该类型的事务属性，同时也可以在方法级别使用该注解来覆盖类级别的定义。</p>
+<p>Spring小组不建议在接口或接口方法上使用该注解，因为它只有在使用基于接口的代理时才会生效。</p>
+<p>Dao、Service、Controller层相同，仅展示修改的部分代码。</p>
+<p>配置文件</p>
+<pre><code>&lt;!-- 为数据源添加事务管理器 --&gt;
+&lt;bean id=&quot;txManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;
+    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+&lt;/bean&gt;
+
+&lt;!-- 为事务管理器注册注解驱动器 --&gt;
+&lt;tx:annotation-driven transaction-manager=&quot;txManager&quot;/&gt;</code></pre><p>Spring MVC通常在Service层进行事务管理。</p>
+<pre><code>package com.statement.service;
+@Service(&quot;testService&quot;)
+@Transactional
+// 指定这个类需要接受Spring的事务管理
+// 只能针对public属性范围内的方法
+public class TestServiceImpl implements TestService {</code></pre>
             </div>
             <hr/>
 
@@ -430,8 +496,12 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/hexo/">
-                                    <span class="chip bg-color">hexo</span>
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/spring/">
+                                    <span class="chip bg-color">Spring</span>
                                 </a>
                             
                         </div>
@@ -473,7 +543,7 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-07-01T10-25-00',
+        id: '2020-09-02T11-25-57',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -497,45 +567,51 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/07/07/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">
+                <a href="/2020/09/02/Spring%20%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">
                     <div class="card-image">
                         
-                        <img src="https://s1.ax1x.com/2020/08/25/dgHUnf.jpg" class="responsive-img" alt="时间复杂度">
+                        <img src="https://s1.ax1x.com/2020/08/25/dgHaB8.jpg" class="responsive-img" alt="Spring 事务管理">
                         
-                        <span class="card-title">时间复杂度</span>
+                        <span class="card-title">Spring 事务管理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            生动理解时间复杂度
+                            Spring的事务管理
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
-                                    数据结构
+                            <a href="/categories/spring/" class="post-category">
+                                    Spring
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">Spring</span>
                     </a>
                     
                 </div>
@@ -546,41 +622,48 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/01/Hello%20World%EF%BC%81%EF%BC%88hexo%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95%EF%BC%89/">
+                <a href="/2020/08/24/Spring%20AOP/">
                     <div class="card-image">
                         
-                        <img src="https://s1.ax1x.com/2020/08/25/dg7WYd.jpg" class="responsive-img" alt="Hello World！（hexo配置记录）">
+                        <img src="ttps://s1.ax1x.com/2020/08/25/dgHK0O.jpg" class="responsive-img" alt="Spring AOP">
                         
-                        <span class="card-title">Hello World！（hexo配置记录）</span>
+                        <span class="card-title">Spring AOP</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            基于hexo + GitHub的第一次Blog搭建记录
+                            Spring AOP
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-24
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            QSX1C
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/spring/" class="post-category">
+                                    Spring
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/hexo/">
-                        <span class="chip bg-color">hexo</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">Spring</span>
                     </a>
                     
                 </div>

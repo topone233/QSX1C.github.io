@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Spring Bean, QSX1C">
+    <meta name="keywords" content="Spring AOP, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Spring Bean | QSX1C</title>
+    <title>Spring AOP | QSX1C</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -198,12 +198,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://s1.ax1x.com/2020/08/25/dg7oOf.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('ttps://s1.ax1x.com/2020/08/25/dgHK0O.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Spring Bean</h1>
+                    <h1 class="description center-align post-title">Spring AOP</h1>
                 </div>
             </div>
         </div>
@@ -349,7 +349,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-08-22
+                    2020-08-24
                 </div>
                 
 
@@ -365,186 +365,393 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-<p>Spring IoC容器可以创建、装配、配置应用组件对象，这里的组件对象称为Bean。</p>
-</blockquote>
-<h3 id="1-Bean-的配置"><a href="#1-Bean-的配置" class="headerlink" title="1.Bean 的配置"></a>1.Bean 的配置</h3><p>Spring可以看作一个工厂，用于生产和管理Spring容器中的Bean。</p>
-<p>如果要使用这个工厂生产和管理Bean，需要将Bean配置在Spring的配置文件中。支持 XML 和 Properties 两种格式的配置文件，常用 XML格式。</p>
-<p><bean>元素的常用属性及其子元素：</p>
-<table>
-<thead>
-<tr>
-<th align="center">属性或子元素</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">id</td>
-<td align="left">Bean在BeanFactory中的唯一标识，在代码中通过BeanFactory获取Bean实例时需要依次作为索引名称</td>
-</tr>
-<tr>
-<td align="center">class</td>
-<td align="left">Bean的具体实现类，例如dao.TestDIDaoImpl</td>
-</tr>
-<tr>
-<td align="center">scope</td>
-<td align="left">指定Bean实例的作用域</td>
-</tr>
-<tr>
-<td align="center">&lt; property&gt;</td>
-<td align="left">用于设置一个属性。name 指定Bean实例中相应的属性名称、value 指定Bean的属性值、ref 指定属性对BeanFactory中其他Bean的引用关系</td>
-</tr>
-<tr>
-<td align="center">&lt; constructor-arg&gt;</td>
-<td align="left">使用构造方法注入，指定构造方法的参数。index指定参数的序号，ref指定对BeanFactory中其他Bean的引用关系，type指定参数类型，value指定参数的常量值</td>
-</tr>
-<tr>
-<td align="center">&lt; map&gt;、 &lt; set&gt;</td>
-<td align="left"><property>的子元素，封装对应类型的依赖注入</td>
-</tr>
-<tr>
-<td align="center">&lt; list&gt;</td>
-<td align="left"><property>的子元素，封装List 、数组类型的依赖注入</td>
-</tr>
-<tr>
-<td align="center">&lt; entry&gt;</td>
-<td align="left"><map>的子元素，用于设置一个键值对</td>
-</tr>
-</tbody></table>
-<h3 id="2-Bean-的实例化"><a href="#2-Bean-的实例化" class="headerlink" title="2.Bean 的实例化"></a>2.Bean 的实例化</h3><p>在面向对象编程时，如果要使用某个对象，需要事先实例化该对象。Spring中，也需要先实例化Bean。</p>
-<p>有3种方式：构造方法实例化、静态工厂实例化、实例工厂实例化。<strong>最常用构造方法实例化</strong>。</p>
-<h4 id="2-1构造方法实例化"><a href="#2-1构造方法实例化" class="headerlink" title="2.1构造方法实例化"></a>2.1构造方法实例化</h4><p>Spring容器调用Bean对应类中的无参数构造方法来实例化Bean。</p>
-<p>创建BeanClass类</p>
-<pre><code>package instance;
-public class BeanClass {
-    public String message;
-    public BeanClass() {
-        message = &quot;构造方法实例化Bean&quot;;
+                <h3 id="1-AOP的概念"><a href="#1-AOP的概念" class="headerlink" title="1.AOP的概念"></a>1.AOP的概念</h3><p>AOP（Aspect Oriented Programming）面向切面编程，与OOP（Object Oriented Programming，面向对象编程）相辅相成，提供了与OOP不同的抽象软件结构的视角。在OOP中，以类为程序的基本单元，而AOP的基本单元是Aspect（切面）。</p>
+<p>尽管OOP可以通过封装、继承达到代码的复用，但仍然有同样的代码分散在各个方法中。AOP采取横向抽取机制，将分散在各个方法中的重复代码提取出来，然后在编译或运行阶段应用到需要执行的地方。这种横向抽取是OOP无法实现的，因为OOP实现的父子关系的纵向复用。AOP不是OOP的替代品，而是补充，两者相辅相成。</p>
+<h4 id="1-1-切面"><a href="#1-1-切面" class="headerlink" title="1.1 切面"></a>1.1 切面</h4><p>Aspect 是指：封装横切到系统功能（如事务处理）的类。</p>
+<h4 id="1-2-连接点"><a href="#1-2-连接点" class="headerlink" title="1.2 连接点"></a>1.2 连接点</h4><p>Joinpoint ：程序运行中的一些时间点，例如：方法的调用、异常的抛出。</p>
+<h4 id="1-3-切入点"><a href="#1-3-切入点" class="headerlink" title="1.3 切入点"></a>1.3 切入点</h4><p>Pointcut ：指需要处理的连接点。Spring AOP中，所有的方法执行都是连接点，而切入点是一个描述信息，修饰连接点。通过切入点确定哪些连接点需要被处理。</p>
+<h4 id="1-4-通知"><a href="#1-4-通知" class="headerlink" title="1.4 通知"></a>1.4 通知</h4><p>Advice ：由切面添加到特定的连接点（满足切入点规则）的一段代码，即在定义好的切入点处所要执行的代码。可以理解为切面开启后切面的方法，通知是切面的具体实现。</p>
+<p>根据Spring中通知中目标类方法中的连接点位置，通知可分为6种类型：</p>
+<h5 id="1-4-1-环绕通知"><a href="#1-4-1-环绕通知" class="headerlink" title="1.4.1 环绕通知"></a>1.4.1 环绕通知</h5><p>​    MethodInterceptor 在目标方法执行前、后实施增强，可用于日志记录、事务处理等功能。@Around</p>
+<h5 id="1-4-2-前置通知"><a href="#1-4-2-前置通知" class="headerlink" title="1.4.2 前置通知"></a>1.4.2 前置通知</h5><p>​    MethodBeforeAdvice 在目标方法执行前实施增强，可用于权限管理等功能。@Before</p>
+<h5 id="1-4-3-后置返回通知"><a href="#1-4-3-后置返回通知" class="headerlink" title="1.4.3 后置返回通知"></a>1.4.3 后置返回通知</h5><p>​    AfterReturningAdvice 在目标方法执行成功后实施增强，可用于关闭流、删除临时文件等功能。@AfterReturning</p>
+<h5 id="1-4-4-后置（最终）通知"><a href="#1-4-4-后置（最终）通知" class="headerlink" title="1.4.4 后置（最终）通知"></a>1.4.4 后置（最终）通知</h5><p>​    AfterAdvice 在目标方法执行后实施增强，与后置返回不同的是，不管是否发生异常都要执行，类似于finally。可用于释放资源。@After</p>
+<h5 id="1-4-5-异常通知"><a href="#1-4-5-异常通知" class="headerlink" title="1.4.5 异常通知"></a>1.4.5 异常通知</h5><p>​    ThrowsAdvice 在方法抛出异常后实施增强，可用于处理异常、记录日志等功能。@AfterThrowing</p>
+<h5 id="1-4-6-引入通知"><a href="#1-4-6-引入通知" class="headerlink" title="1.4.6 引入通知"></a>1.4.6 引入通知</h5><p>​    IntroductionInterceptor 在目标类中添加一些新的方法和属性，可用于修改目标类（增强类）。</p>
+<h4 id="1-5-引入"><a href="#1-5-引入" class="headerlink" title="1.5 引入"></a>1.5 引入</h4><p>Introduction ：允许在现有的实现类中添加自定义的方法和属性。</p>
+<h4 id="1-6-目标对象"><a href="#1-6-目标对象" class="headerlink" title="1.6 目标对象"></a>1.6 目标对象</h4><p>Target Object ：指所有被通知的对象。</p>
+<h4 id="1-7-代理"><a href="#1-7-代理" class="headerlink" title="1.7 代理"></a>1.7 代理</h4><p>Proxy ：通知应用到目标对象之后被动态创建的对象。</p>
+<h4 id="1-8-织入"><a href="#1-8-织入" class="headerlink" title="1.8 织入"></a>1.8 织入</h4><p>Weaving ：将切面代码插入到目标对象上，从而生成代理对象的过程。</p>
+<p>织入方式：</p>
+<ul>
+<li>编译期织入：需要有特殊的Java编译器</li>
+<li>类装载期织入：需要有特殊的类装载器</li>
+<li>动态代理织入：在运行期为目标类添加通知生成子类的方式。Spring AOP默认采用动态代理织入。</li>
+</ul>
+<h3 id="2-动态代理"><a href="#2-动态代理" class="headerlink" title="2.动态代理"></a>2.动态代理</h3><p><a href="https://topone233.github.io/2020/07/20/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">Java动态代理</a></p>
+<p>Spring AOP中常用JDK和CGLIB两种动态代理技术。</p>
+<h4 id="2-1-JDK动态代理"><a href="#2-1-JDK动态代理" class="headerlink" title="2.1 JDK动态代理"></a>2.1 JDK动态代理</h4><p>JDK动态代理必须借助一个接口才能产生代理对象。对于使用业务接口的类，Spring默认使用JDK动态代理实现AOP。</p>
+<pre><code>package dynamic.jdk;
+public interface TestDao {
+    public void save();
+    public void modify();
+    public void delete();
+}</code></pre><p>创建接口实现类作为目标类，在代理类中对其方法进行增强处理。</p>
+<pre><code>package dynamic.jdk;
+public class TestDaoImpl implements TestDao {
+    @Override
+    public void save() {
+        System.out.println(&quot;保存&quot;);
     }
-    public BeanClass(String s) {
-        message = s;
+    @Override
+    public void modify() {
+        System.out.println(&quot;修改&quot;);
     }
-}</code></pre><p>创建配置文件applicationContext.xml</p>
-<pre><code>&lt;!-- 构造方法实例化Bean --&gt;
-&lt;bean id=&quot;demo&quot; class=&quot;instance.BeanClass&quot;/&gt;</code></pre><p>创建测试类</p>
-<pre><code>package test;
-public class TestInstance {
-    public static void mani(String[] args) {
-        ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
-        BeanClass b = (BeanClass)appCon.getBean(&quot;demo&quot;);
-        System.out.println(b1 + b1.message);
+    @Override
+    public void delete() {
+        System.out.println(&quot;删除&quot;);
+    }
+}</code></pre><p>创建切面类，定义多个通知（增强处理的功能方法）。</p>
+<pre><code>package aspect;
+public class MyAspect {
+    public void check() {
+        System.out.println(&quot;模拟权限控制&quot;);
+    }
+    public void except() {
+        System.out.println(&quot;模拟异常处理&quot;);
+    }
+    public void log() {
+        System.out.println(&quot;模拟日志记录&quot;);
+    }
+}</code></pre><p>创建代理类，JDK动态代理中代理类必须实现java.lang.reflect.InvocationHandler接口，并编写代理方法。</p>
+<pre><code>package dynamic.jdk;
+public class JDKDynamicProxy implements InvocationHandler {
+    // 声明目标类接口对象（真实对象）
+    private TestDao testDao;
+    /**
+     * 创建代理的方法，建立代理对象和真实对象的代理关系，并返回代理对象
+     */
+    public Object createProxy(TestDao testDao) {
+        this.testDao=testDao;
+        // 类加载器
+        ClassLoader cld=JDKDynamicProxy.class.getClassLoader();
+        // 被代理对象实现的所有接口
+        Class[] clazz=testDao.getClass().getInterFaces();
+        // 使用代理类进行增强，返回代理后的对象
+        return Proxy.newProxyInstance(cld, clazz, this);
+    }
+    /**
+     * 代理的逻辑方法，所有动态代理类的方法调用都交给该方法处理
+     * proxy 是被代理对象
+     * method 是将要被执行的方法
+     * args 是执行方法是需要的参数
+     * return 是返回代理结果
+     */
+     @Override
+     public Object invoke(Object proxy, Method method, Object[] args) throws
+     Throwable {
+         // 创建一个切面
+         MyAspect myAspect=new MyAspect();
+         // 前置增强
+         myAspect.check();
+         myAspect.except();
+         // 在目标类上调用方法并传入参数，相当于调用testDao中的方法
+         Object obj=method.invoke(testDao, args);
+         // 后置增强
+         myAspect.log();
+         myAspect.monitor();
+         return obj;
+     }
+}</code></pre><p>创建测试类，在main方法中创建代理对象和目标对象，然后从代理对象中获取对目标对象增强后的对象，最后调用该对象的添加、修改、删除方法。</p>
+<pre><code>package dynamic.jdk;
+public class JDKDynamicTest {
+    public static void main(String[] args) {
+        // 创建代理对象
+        JDKDynamicProxy jdkProxy=new JDKDynamicProxy();
+        // 创建目标对象
+        TestDao testDao=new TestDaoImpl();
+        // 从代理对象中获取增强后的目标对象。该对象是一个被代理的对象，它会进入代理的逻辑方法invoke中
+        TestDao testDaoAdvice=(TestDao)jdkProxy.createProxy(testDao);
+        // 执行方法
+        testDaoAdvice.save();
+        System.out.println(&quot;===============&quot;);
+        testDaoAdvice.modify();
+        System.out.println(&quot;===============&quot;);
+        testDaoAdvice.delete();
     }
 }
 
-结果：instance.BeanClass@490ab905构造方法实例化Bean</code></pre><h3 id="3-Bean的作用域"><a href="#3-Bean的作用域" class="headerlink" title="3.Bean的作用域"></a>3.Bean的作用域</h3><table>
+运行结果：
+模拟权限控制
+模拟异常处理
+保存
+模拟日志记录
+===============
+模拟权限控制
+模拟异常处理
+修改
+模拟日志记录
+===============
+模拟权限控制
+模拟异常处理
+删除
+模拟日志记录</code></pre><h4 id="2-2-CGLIB-动态代理"><a href="#2-2-CGLIB-动态代理" class="headerlink" title="2.2 CGLIB 动态代理"></a>2.2 CGLIB 动态代理</h4><p>JDK动态代理必须提供接口才能使用，对于没有提供接口的类，只能采用CGLIB动态代理。</p>
+<p>CGLIB（Code Generation Library，代码生成库）是一个高性能开源的代码生成库，采用非常底层的字节码技术，对指定的目标类生成一个子类，并对子类进行增强。Spring Core包已经集成了所需的jar包。</p>
+<p>创建目标类，不需要实现任何接口。</p>
+<pre><code>package dynamic.cglib;
+public class TestDao {
+    public void save() {
+        System.out.println(&quot;保存&quot;);
+    }
+    public void modify() {
+        System.out.println(&quot;修改&quot;);
+    }
+    public void delete() {
+        System.out.println(&quot;删除&quot;);
+    }
+}</code></pre><p>创建代理类，该类实现MethodInterceptor接口</p>
+<pre><code>package dynamic.cglib;
+public class CglibDynamicProxy implements MethodInterceptor {
+    /**
+     * 创建代理的方法，生成CGLIB代理对象
+     * target 是目标对象，需要增强的对象
+     * 返回目标对象的CGLLIB代理对象
+     */
+    public Object createProxy(Object target) {
+        // 创建一个动态类对象，即增强类对象
+        Enhancer enhancer=new Enhancer();
+        // 确定需要增强的类，设置其父类
+        enhancer.setSuperclass(target.getClass());
+        // 确定代理逻辑对象为当前对象，要求当前对象实现MethodInterceptor的方法
+        enhancer.setCallback(this);
+        // 返回创建的代理对象
+        return enhancer.create();
+    }
+
+    /**
+     * intercept 方法会在程序执行目标方法时被调用
+     * proxy 是CGLIb根据指定父类生成的代理对象
+     * method 是拦截方法
+     * args 是拦截方法的参数数组
+     * methodProxy 是方法的代理对象，用于执行父类的方法
+     * 返回代理结果
+     */
+    @Override
+    public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
+        MyAspect myAspect=new MyAspect();
+        myAspect.check();
+        myAspect.except();
+        // 目标方法执行，返回代理结果
+        Object obj=methodProxy.invokeSuper(proxy, args);
+        myAspect.log();
+        myAspect.monitor();
+        return obj;
+    }
+}</code></pre><p>创建测试类。</p>
+<pre><code>package dynamic.cglib;
+public class CglibDynamicTest {
+    public static void main(String[] args) {
+        // 创建代理对象
+        CglibDynamicProxy cdp=new CglibDynamicProxy();
+        // 创建目标对象
+        TestDao testDao=new TestDao();
+        // 获取增强后的目标对象
+        TestDao testDaoAdvice=(TestDao)cdp.createProxy(testDao);
+        // 执行方法
+        testDaoAdvice.save();
+        System.out.println(&quot;==============&quot;);
+        testDaoAdvice.modify();
+        System.out.println(&quot;==============&quot;);
+        testDaoAdvice.delete();
+    }
+}
+
+运行结果相同</code></pre><h3 id="3-基于代理类的AOP实现"><a href="#3-基于代理类的AOP实现" class="headerlink" title="3.基于代理类的AOP实现"></a>3.基于代理类的AOP实现</h3><p>Spring默认使用JDK动态代理实现AOP编程。使用org.springframework.aop.framework.ProxyFactoryBean 创建代理是Spring AOP实现的最基本方式。</p>
+<h4 id="3-1-ProxyFactoryBean"><a href="#3-1-ProxyFactoryBean" class="headerlink" title="3.1 ProxyFactoryBean"></a>3.1 ProxyFactoryBean</h4><p>ProxyFactoryBean 是org.springframework.beans.factory.FactoryBean 接口的实现类，FactoryBean负责实例化一个Bean实例，ProxyFactoryBean负责为其他Bean实例创建代理实例。</p>
+<p>下面通过一个实现环绕通知的实例演示Spring使用ProxyFactoryBean创建AOP代理的过程。</p>
+<h5 id="3-1-1-创建切面类"><a href="#3-1-1-创建切面类" class="headerlink" title="3.1.1 创建切面类"></a>3.1.1 创建切面类</h5><p>由于该实例实现环绕通知，切面类需要实现 MethodInterceptor 接口。</p>
+<pre><code>package spring.proxyfactorybean;
+public class MyAspect implements MethodInterceptor {
+    @Override
+    public Object invoke(MethodInvocation arg) throw Throwable {
+        check();
+        except();
+        Object obj=arg.proceed();
+        log();
+        return obj;
+    }
+    public void check() {
+        System.out.println(&quot;模拟权限控制&quot;);
+    }
+    public void except() {
+        System.out.println(&quot;模拟异常处理&quot;);
+    }
+    public void log() {
+        System.out.println(&quot;模拟日志记录&quot;);
+    }
+}</code></pre><h5 id="3-1-2-配置切面并指定代理"><a href="#3-1-2-配置切面并指定代理" class="headerlink" title="3.1.2 配置切面并指定代理"></a>3.1.2 配置切面并指定代理</h5><p>切面类需要配置为Bean实例，这样Spring容器才能识别为切面对象。</p>
+<p>applicationContext.xml</p>
+<pre><code>&lt;!-- 定义目标对象（使用上一个案例的） --&gt;
+&lt;bean id=&quot;testDao&quot; class=&quot;dynamic.jdk.TestDaoImpl&quot;/&gt;
+
+&lt;!-- 创建一个切面 --&gt;
+&lt;bean id=&quot;myAspect&quot; class=&quot;spring.proxyfactorybean.MyAspect&quot;/&gt;
+
+&lt;!-- 使用Spring代理工厂定义一个名为testDaoProxy的代理对象 --&gt;
+&lt;bean id=&quot;testDaoProxy&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;&gt;
+    &lt;!-- 指定代理实现的接口 --&gt;
+    &lt;property name=&quot;proxyInterfaces&quot; value=&quot;dynamic.jdk.TestDao&quot;/&gt;
+    &lt;!-- 指定目标对象 --&gt;
+    &lt;property name=&quot;target&quot; ref=&quot;testDao&quot;/&gt;
+    &lt;!-- 指定切面，织入环绕通知 --&gt;
+    &lt;property name=&quot;interceptorNames&quot; value=&quot;myAspect&quot;/&gt;
+    &lt;!-- 指定代理方式，true指定CGLIB动态代理（默认为false，指定JDK动态代理）--&gt;
+    &lt;property name=&quot;proxyTargetClass&quot; value=&quot;true&quot;/&gt;
+&lt;/bean&gt;</code></pre><h5 id="3-1-3-测试"><a href="#3-1-3-测试" class="headerlink" title="3.1.3 测试"></a>3.1.3 测试</h5><pre><code>package spring.proxyfactorbean;
+public class ProxyFactoryBeanTest {
+    public static void main(String[] args) {
+        ApplicationContext appCon=new ClassPathXmlApplicationContext(&quot;/spring/proxyfactorybean/applicationContext.xml&quot;);
+        TestDao testDaoAdvice=(TestDao)appCon.getBean(&quot;testDaoProxy&quot;);
+        testDaoAdvice.save();
+        System.out.println(&quot;===============&quot;);
+        testDaoAdvice.modify();
+        System.out.println(&quot;===============&quot;);
+        testDaoAdvice.delete();
+    }
+}
+
+运行结果与之前相同</code></pre><h3 id="4-基于注解开发AspectJ"><a href="#4-基于注解开发AspectJ" class="headerlink" title="4.基于注解开发AspectJ"></a>4.基于注解开发AspectJ</h3><blockquote>
+<p>AspectJ 是一个基于Java的AOP框架。从Spring 2.0以后引入了AspectJ的支持。建议使用AspectJ实现AOP。</p>
+</blockquote>
+<p>AspectJ实现Spring AOP有两种方式：基于XML、基于注解。基于注解要比基于XML配置开发便捷许多。</p>
+<table>
 <thead>
 <tr>
-<th>scope参数</th>
+<th align="center">注解名称</th>
 <th>描述</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>singleton</td>
-<td>默认的作用域，定义的Bean在Spring容器中只有一个Bean实例（返回同一个）</td>
+<td align="center">@Aspect</td>
+<td>用于定义一个切面。注解在切面类上。</td>
 </tr>
 <tr>
-<td>prototype</td>
-<td>Spring容器每次获取Bean，都将创建一个新的Bean实例（每次都返回新的）</td>
+<td align="center">@Pointcut</td>
+<td>用于定义切入点表达式。在使用时需要定义一个切入点方法，该方法是一个返回void且方法体为空的普通方法。</td>
 </tr>
 <tr>
-<td>request</td>
-<td>每次HTTP请求都会返回一个Bean实例</td>
+<td align="center">@Before</td>
+<td>用于定义前置通知。在使用时通常为其指定value属性值。</td>
 </tr>
 <tr>
-<td>session</td>
-<td>在一个session中，将返回同一个Bean实例</td>
+<td align="center">@AfterReturning</td>
+<td>用于定义后置返回通知。在使用时通常为其指定value属性值。</td>
 </tr>
 <tr>
-<td>application</td>
-<td>为每个ServletContext对象创建一个实例，即同一个应用共享一个</td>
+<td align="center">@Around</td>
+<td>用于定义环绕通知。在使用时通常为其指定value属性值。</td>
 </tr>
 <tr>
-<td>websocket</td>
-<td>为每个WebSocket对象创建一个实例</td>
+<td align="center">@AfterThrowing</td>
+<td>用于定义异常通知。在使用时通常为其指定value属性值。还有一个throwing属性，用于访问目标方法抛出的异常，该属性值与异常通知方法中同名的形参一致。</td>
+</tr>
+<tr>
+<td align="center">@After</td>
+<td>用于定义后置（最终）通知。在使用时通常为其指定value属性值。</td>
 </tr>
 </tbody></table>
-<p>singleton 与 prototype是最常用的，后面4种仅在Web Spring应用上下文中使用。</p>
-<h3 id="4-Bean的生命周期"><a href="#4-Bean的生命周期" class="headerlink" title="4.Bean的生命周期"></a>4.Bean的生命周期</h3><p>一个对象的生命周期包括：创建（实例化与初始化）、使用、销毁。Bean也遵循这一过程。但是Spring通过了许多对外接口，允许开发者对 实例化（开辟空间）、初始化（属性初始化）、销毁 3个过程的前后做一些操作。</p>
-<p>Spring容器可以管理singleton作用域下Bean的生命周期，能够精确知道Bean何时被创建，何时初始化完成，何时被销毁。而对于prototype作用域下的Bean，Spring只负责创建。创建之后Bean实例就交给客户端的代码管理，Spring将不再跟踪其生命周期，也不会管理这些Bean。</p>
-<p>Bean的生命周期：</p>
-<ol>
-<li><p>根据Bean的配置情况<strong>实例化</strong>一个Bean。</p>
-</li>
-<li><p>根据Spring上下文对实例化的Bean进行<strong>依赖注入</strong>，即对Bean的属性进行<strong>初始化</strong>。</p>
-</li>
-<li><p>如果Bean实现了 BeanNameAware接口，将调用它实现的 setBeanName(String beanId)方法，此处参数传递的是Bean的id，让实现这个接口的Bean知道自己在Spring容器中的的名字。</p>
-</li>
-<li><p>如果Bean实现了 BeanFactoryAware接口，将调用它实现的 setBeanFactory方法，此处参数传递的是当前Spring工厂实例的引用。此接口是在Bean实例化后、Setter方法之前调用。可以使得Bean获取容器的内部信息，从而进行某些定制化的操作。</p>
-</li>
-<li><p>如果Bean实现了 ApplicationContextAware接口，将调用它实现的setApplicationContext(ApplicationContext)方法，此处参数传递的是Spring上下文实例的引用。该方法会将容器本身作为参数传给该方法，将Spring传入的参数赋给该类对象的applicationContext实例变量，接下来可以通过该变量来访问容器本身。</p>
-</li>
-<li><p>如果Bean关联了 BeanPostProcessor接口，将调用初始化方法 postProcessBeforeInitialization(Object obj, String beanName)对Bean进行前置处理。BeanFactoryPostProcessor是Bean属性处理容器，管理所有未实例化的数据（修改属性）。</p>
-</li>
-<li><p>如果Bean实现了 InitializingBean接口，将调用 afterPropertiesSet方法。</p>
-</li>
-<li><p>如果Bean在Spring配置文件中配置了 init-method属性，将自动调用其配置的初始化方法。</p>
-<p><strong>注意</strong>：Spring为Bean提供了两种初始化方式：实现InitializingBean接口、init-method指定。</p>
-<p>​           两种方式可以同时使用，但如果调用afterPropertiesSet时出错，则不会调用init-method指定的方法。</p>
-<p>​           通过反射调用init-method指定的方法效率相对较低，但是消除了对Spring的依赖。</p>
-</li>
-<li><p>如果Bean关联了 BeanPostProcessor接口，将调用 postProcessAfterInitialization(Object obj, String beanName)方法进行后置处理，由于是在Bean初始化结束时调用After方法，也可用于内存或缓存技术。</p>
-<p><strong>注意</strong>：此时已经可以使用该Bean，由于该Bean的作用域是singleton，所以调用的是同一个Bean实例。</p>
-</li>
-<li><p>当Bean不再需要时将进入销毁阶段，如果Bean实现了 DisposableBean接口，则调用其实现的destroy方法将Bean销毁</p>
-</li>
-<li><p>如果在配置文件中通过 destroy-method属性指定了Bean的销毁方法，将调用其配置的销毁方法进行销毁</p>
-</li>
-</ol>
-<p>实例演示：</p>
-<pre><code>package life;
-public class BeanLife {
-    public void initMyself() {
-        System.out.println(this.getClass().getName() + &quot;执行自定义的初始化方法&quot;);
-    }
-    public void destroyMyself() {
-        System.out.println(this.getClass().getName() + &quot;执行自定义的销毁方法&quot;)；
-    }
-}</code></pre><pre><code>&lt;!-- 使用init-method属性指定初始化方法，使用destroy-method属性指定销毁方法--&gt;
-&lt;bean id=&quot;beanLife&quot; class=&quot;life.BeanLife&quot; init-method=&quot;initMyself&quot; destroy-method=&quot;destroyMyself&quot;/&gt;</code></pre><pre><code>package test;
-public class TestLife {
-    public static void main(String[] args) {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
-        BeanLife blife = (BeanLife)ctx.genBean(&quot;beanLife&quot;);
-        System.out.println(&quot;获得对象后&quot; + blife);
-        // 关闭容器，销毁Bean对象
-        ctx.close();
-    }
-}</code></pre><h3 id="5-Bean的装配"><a href="#5-Bean的装配" class="headerlink" title="5.Bean的装配"></a>5.Bean的装配</h3><p>Bean的装配可以理解为将Bean依赖注入到Spring容器中。Spring容器支持：基于XML配置、基于注解、自动装配等多种装配方式，最常见的是基于注解。</p>
-<h4 id="5-1基于注解的装配"><a href="#5-1基于注解的装配" class="headerlink" title="5.1基于注解的装配"></a>5.1基于注解的装配</h4><p>尽管使用XML配置文件可以很简单的装配Bean，但如果有大量的Bean，会导致XML配置文件过于庞大，不方便升级与维护，因此更推荐使用注解（annotation）。</p>
-<ul>
-<li><p>@Repository</p>
-<p>将数据访问层（DAO）的类标识为Bean。</p>
-</li>
-<li><p>@Service</p>
-<p>将业务逻辑组件类（Service层）标注为Bean。</p>
-</li>
-<li><p>@Controller</p>
-<p>将控制器组件类标注为Bean。</p>
-</li>
-<li><p>@Component</p>
-<p>可以作用在任何层次上，标注一个Bean。为了更加层次化，不推荐使用。</p>
-</li>
-<li><p>@Autowired</p>
-<p>对<strong>类成员变量、方法、构造方法</strong>进行标注，完成自动装配工作。可以消除setter和getter方法。默认按照Bean的类型进行装配，如果想按照名称装配，需要和@Qualifier 一起使用</p>
-</li>
-<li><p>@Resource(name=” “)</p>
-<p>与@Autowired 功能一样，区别在于该注解默认是按照名称来装配注入的，只有找不到与名称匹配的Bean时才会按照Bean的类型来装配注入。@Resource有两个属性：name、type。name指定Bean实例名称，即按照名称来装配；type指定类型，即按照类型来装配。</p>
-</li>
-<li><p>@Qualifier</p>
-<p>与@Autowired配合使用，当需要按照名称装配时。Bean的实例名称由@Qualifier 的参数指定。</p>
-</li>
-</ul>
+<h4 id="4-1-创建切面类，并进行注解"><a href="#4-1-创建切面类，并进行注解" class="headerlink" title="4.1 创建切面类，并进行注解"></a>4.1 创建切面类，并进行注解</h4><p>首先需要使用@Aspect 定义一个切面类，由于该类在Spring中是作为组件使用的，所以还需要使用@Component 。然后使用@Pointcut 注解切入点表达式，并通过定义方法来表示切入点名称。最后在每个通知方法上添加相应的注解，并将切入点名称作为参数传递给需要执行增强的通知方法。</p>
+<pre><code>package aspectj.annotation;
+@Aspect
+@Component
+public class MyAspect {
+    /**
+     * execution(* dynamic.jdk.*.*(..))定义切入点表达式
+     * 意思是：匹配dynamic.jdk包中任意类的任意方法的执行
+     * 第一个* 返回类型，使用*代表所有类型。注意第一个*与包名之间有一个空格
+     * 第二个* 表示的类名，使用*代表匹配包中的所有类
+     * 第三个* 表示的是方法名，使用*表示所有方法
+     * (..)表示方法的参数，&quot;...&quot;表示任意参数
+     */
+    @Pointcut(&quot;execution(* dynamic.jdk.*.*(..))&quot;)
+    private void myPointCut() {}
 
+    /**
+     * 前置通知，使用Joinpoint接口作为参数获取目标对象信息
+     */
+    @Before(&quot;myPointCut()&quot;)
+    public void before(JoinPoint jp) {
+        System.out.print(&quot;前置通知：模拟权限控制&quot;);
+        System.out.println(&quot;, 目标类对象：&quot; + jp.getTarget() + &quot;, 被增强处理的方法：&quot; + jp.getSignature().getName());
+    }
+
+    /**
+     * 后置返回通知
+     */
+    @AfterReturning(&quot;myPointCut()&quot;)
+    public void afterReturning(JoinPoint jp) {
+        System.out.print(&quot;后置返回通知：模拟删除临时文件&quot;);
+        System.out.println(&quot;, 被增强处理的方法：&quot; + jp.getSignature().getName());
+    }
+
+    /**
+     * 环绕通知
+     * ProceedingJoinPoint 是JoinPoint的子接口，代表可以执行的目标方法
+     * 返回值的类型必须是Object
+     * 必须一个参数是ProceedingJoinPoint类型
+     * 必须 throws Throwable
+     */
+    @Around(&quot;myPointCut()&quot;)
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.print(&quot;环绕开始：执行目标方法前，模拟开启事务&quot;);
+        // 执行当前目标方法
+        Object obj=pjp,proceed();
+        System.out.println(&quot;, 目标类对象：&quot; + jp.getTarget() + &quot;, 被增强处理的方法：&quot; + jp.getSignature().getName());
+        return obj;
+    }
+
+    /**
+     * 异常通知
+     */
+    @AfterThrowing(value=&quot;myPointCut()&quot;, throwing=&quot;e&quot;)
+    public void except(Throwable e) {
+        System.out.println(&quot;异常通知：&quot; + &quot;程序执行异常&quot; + e.getMessage());
+    }
+
+    /**
+     * 后置（最终）通知
+     */
+    @After(&quot;myPointCut()&quot;)
+    public void after() {
+        System.out.println(&quot;最终通知：模拟释放资源&quot;);
+    }
+}</code></pre><h4 id="4-2-注解目标类"><a href="#4-2-注解目标类" class="headerlink" title="4.2 注解目标类"></a>4.2 注解目标类</h4><p>使用@Repository 将目标类 TestDaoImpl 注解为目标对象。</p>
+<pre><code>@Repository(&quot;testDao&quot;)</code></pre><h4 id="4-3-创建配置文件"><a href="#4-3-创建配置文件" class="headerlink" title="4.3 创建配置文件"></a>4.3 创建配置文件</h4><pre><code>applicationContext.xml
+
+&lt;!-- 指定需要扫描的包，使注解生效 --&gt;
+&lt;context:component-scan base-package=&quot;aspectj.annotation&quot;/&gt;
+&lt;context:component-scan base-package=&quot;dynamic.jdk&quot;/&gt;
+&lt;!-- 启动基于注解的AspectJ支持 --&gt;
+&lt;aop:aspectj-autoproxy /&gt;</code></pre><h4 id="4-4-测试"><a href="#4-4-测试" class="headerlink" title="4.4 测试"></a>4.4 测试</h4><pre><code>public class AnnotationAspectJTest {
+    public static void main(String[] args) {
+        ApplicationContext appCon=new ClassPathXmlApplicationContext(&quot;/aspectj/applicationContext.xml&quot;);
+        TestDao testDaoAdvice=(TestDao)appCon.getBean(&quot;testDao&quot;);
+        testDaoAdvice.save();
+    }
+}
+
+运行结果：
+前置通知：模拟权限控制，目标类对象：dynamic.jdk.TestDaoImpl@647fd8ce，被增强处理的方法：save
+环绕开始：执行目标方法前，模拟开启事务
+保存
+最终通知：模拟释放资源
+环绕结束：执行目标方法后，模拟关闭事务
+后置返回通知：模拟删除临时文件，被增强处理的方法：save</code></pre><p>异常通知得到执行，需要在TestDaoImpl类的save方法中添加异常代码，例如“ int n = 10/0; ”。</p>
+<pre><code>运行结果：
+前置通知：模拟权限控制，目标类对象：dynamic.jdk.TestDaoImpl@647fd8ce，被增强处理的方法：save
+环绕开始：执行目标方法前，模拟开启事务
+最终通知：模拟释放资源
+异常通知：程序执行异常/ by zero</code></pre>
             </div>
             <hr/>
 
@@ -604,7 +811,7 @@ public class TestLife {
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-08-22T16-14-36',
+        id: '2020-08-24T12-05-54',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -632,23 +839,23 @@ public class TestLife {
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/08/24/Spring%20AOP/">
+                <a href="/2020/09/02/Spring%20%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/">
                     <div class="card-image">
                         
-                        <img src="ttps://s1.ax1x.com/2020/08/25/dgHK0O.jpg" class="responsive-img" alt="Spring AOP">
+                        <img src="https://s1.ax1x.com/2020/08/25/dgHaB8.jpg" class="responsive-img" alt="Spring 事务管理">
                         
-                        <span class="card-title">Spring AOP</span>
+                        <span class="card-title">Spring 事务管理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Spring AOP
+                            Spring的事务管理
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-02
                         </span>
                         <span class="publish-author">
                             
@@ -684,18 +891,18 @@ public class TestLife {
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/22/Spring%20IoC/">
+                <a href="/2020/08/22/Spring%20Bean/">
                     <div class="card-image">
                         
-                        <img src="https://s1.ax1x.com/2020/08/25/dgH54J.jpg" class="responsive-img" alt="Spring IoC">
+                        <img src="https://s1.ax1x.com/2020/08/25/dg7oOf.jpg" class="responsive-img" alt="Spring Bean">
                         
-                        <span class="card-title">Spring IoC</span>
+                        <span class="card-title">Spring Bean</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Spring IoC学习笔记的简单整理
+                            Spring Bean学习笔记的简单整理
                         
                     </div>
                     <div class="publish-info">

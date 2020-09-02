@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World！（hexo配置记录）, QSX1C">
+    <meta name="keywords" content="时间复杂度, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World！（hexo配置记录） | QSX1C</title>
+    <title>时间复杂度 | QSX1C</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -198,12 +198,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://s1.ax1x.com/2020/08/25/dg7WYd.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://s1.ax1x.com/2020/08/25/dgHUnf.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World！（hexo配置记录）</h1>
+                    <h1 class="description center-align post-title">时间复杂度</h1>
                 </div>
             </div>
         </div>
@@ -320,14 +320,23 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/hexo/">
-                                <span class="chip bg-color">hexo</span>
+                            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                                <span class="chip bg-color">数据结构</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
+                                数据结构
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -336,7 +345,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-07-01
+                    2020-07-07
                 </div>
                 
 
@@ -352,71 +361,43 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Hello-World！（hexo配置记录）"><a href="#Hello-World！（hexo配置记录）" class="headerlink" title="Hello World！（hexo配置记录）"></a>Hello World！（hexo配置记录）</h1><p>以前在网上冲浪的时候只是不经意间发现许多让人眼前一亮的blog，由此萌生了create my blog的想法。</p>
-<p>目前的blog搭建：</p>
-<ul>
-<li><p>CSDN/博客园平台  </p>
-<p> 但我个人不是很喜欢这种，首先是太丑了（没错，就是你，CSDN）。  </p>
-<p> 其次依托于平台，虽然只需要创作就行，但是感觉不是属于自己的，没有归属感</p>
-</li>
-<li><p>独立blog  </p>
-<p> 租云服务器、买域名，还要管理维护，个人感觉略微有些费事，精力有限，还是简单点好</p>
-</li>
-<li><p>hexo  </p>
-<p> 依托于Github，也是我目前选择的，配置相对简单快捷，主题丰富</p>
-</li>
-</ul>
-<hr>
-<h3 id="hexo配置步骤："><a href="#hexo配置步骤：" class="headerlink" title="hexo配置步骤："></a>hexo配置步骤：</h3><ul>
-<li>安装Git</li>
-<li>安装Node.js</li>
-<li>安装hexo</li>
-<li>生成ssh并添加到GitHub</li>
-<li>部署项目</li>
-<li>上传到GitHub</li>
-<li>修改主题</li>
-</ul>
-<h4 id="1-安装Git"><a href="#1-安装Git" class="headerlink" title="1.安装Git"></a>1.安装Git</h4><p><a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">下载地址</a>  </p>
-<p>安装步骤：双击下载的exe文件，一路next就行</p>
-<h4 id="2-安装Node-js"><a href="#2-安装Node-js" class="headerlink" title="2.安装Node.js"></a>2.安装Node.js</h4><p>Hexo是基于nodeJS环境的静态博客，npm是必备的  </p>
-<p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">下载地址</a>  </p>
-<p>安装步骤：下载好msi文件后，双击打开安装，也是一路next，不过在Custom Setup这一步记得选 Add to PATH ,这样你就不用自己去配置电脑上环境变量了</p>
-<h4 id="3-安装hexo"><a href="#3-安装hexo" class="headerlink" title="3.安装hexo"></a>3.安装hexo</h4><ol>
-<li>创建一个源文件夹，然后cd到该文件夹下</li>
-<li>安装hexo： npm i -g hexo </li>
-<li>hexo -v 查看版本，检查是否安装成功</li>
-<li>hexo init 初始化，初始化完成后可在文件夹下看到文件</li>
+                <h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><blockquote>
+<p>若存在函数 f(n)，使得当n趋近于无穷大时，T(n) / f(n) 的极限值为不等于零的常数，则称 f(n) 是 T(n) 的同数量级函数。记作 T(n) = O( f(n) )，称 O( f(n) ) 为算法的渐进时间复杂度(asymptotic time complexity)，简称时间复杂度。</p>
+</blockquote>
+<p>OK，我们先引出官方的定义先混个眼熟。接下来看几个通俗易懂的案例：</p>
+<h5 id="场景1："><a href="#场景1：" class="headerlink" title="场景1："></a>场景1：</h5><p>问：给李华一个长n寸的面包，每3天吃掉1寸，几天吃完？</p>
+<p>答：3 X n = 3n 天。 如果用函数表达这个相对时间：T(n) = 3n </p>
+<h5 id="场景2："><a href="#场景2：" class="headerlink" title="场景2："></a>场景2：</h5><p>问：给李华一个长16寸的面包，每5天吃掉面包剩余长度的一半。第一次吃掉8寸，第二次吃4寸，…… 几天可以吃得只剩1寸？</p>
+<p>答：5 X log16 = 20天。 T(n) = 5log n</p>
+<h5 id="场景3："><a href="#场景3：" class="headerlink" title="场景3："></a>场景3：</h5><p>问：给李华一个长10寸的面包和一个鸡腿，每2天吃掉1个鸡腿，几天吃完鸡腿？</p>
+<p>答：2天 （与面包一点关系没有）。 T(n) =  2</p>
+<h5 id="场景4："><a href="#场景4：" class="headerlink" title="场景4："></a>场景4：</h5><p>问：给李华一个长10寸的面包，吃掉第一个一寸需要1天时间，吃掉第二个一寸需要2天时间，吃掉第三个一寸需要3天时间…..每多吃一寸，所花的时间也多一天，几天吃完？</p>
+<p>答：1到10的和 = 55天</p>
+<p>1+2+3+……+ n-1 + n = (1+n)*n/2 = 0.5n^2 + 0.5n 。  T(n) = 0.5n^2 + 0.5n</p>
+<p>相信通过以上4个案例已经了解了： <strong>T(n) 基本操作执行次数的函数。</strong></p>
+<p><strong>那么如何推导出时间复杂度呢？有如下几个原则：</strong></p>
+<ol>
+<li>如果运行时间是常数量级，用常数1表示；</li>
+<li>只保留时间函数中的最高阶项；</li>
+<li>如果最高阶项存在，则省去最高阶项前面的系数。</li>
 </ol>
-<p>这里要说下，npm install出现一直停留在”fetchMetadata: sill resolveWithNewModule find-cache-dir@”解决方法，更换成淘宝的源（反正我是解决了）</p>
-<pre><code>//修改为淘宝源
-npm config set registry https://registry.npm.taobao.org 
-//配置后可通过下面方式来验证是否成功 
-npm config get registry 
-//或
-npm info express</code></pre><h4 id="4-生成ssh并添加到GitHub"><a href="#4-生成ssh并添加到GitHub" class="headerlink" title="4.生成ssh并添加到GitHub"></a>4.生成ssh并添加到GitHub</h4><p>SSH密钥可以防止其他人恶意部署文件到你的仓库  </p>
-<p>首先要有GitHub账号，没有的自行注册  </p>
-<p>创建一个仓库repository，名称为youname.github.io  </p>
-<p>在gitbash中，配置GitHub账号信息</p>
-<pre><code>//配置你的GitHub账号信息
-git config --global user.name &quot;YourName&quot;
-git config --global user.email &quot;YourEmail&quot;</code></pre><p>创建ssh</p>
-<pre><code>//创建ssh
-ssh-keygen -t rsa -C &quot;youremail@xx.com&quot;</code></pre><p>生成ssh，在gitbash中切换到文件目录cat读取</p>
-<pre><code>//读取ssh文件内容
-cat id_rsa.pub </code></pre><p>全部复制（包括开头的ssh-rsa，和尾部的email）<br>到GitHub 配置ssh，title随便起</p>
-<h4 id="5-部署项目"><a href="#5-部署项目" class="headerlink" title="5.部署项目"></a>5.部署项目</h4><p>修改hexo的_config.yml文件配置信息（直接复制，只需要修改url即可）</p>
-<pre><code>deploy:
-  type: git
-  repo: https://github.com/YourgithubName/YourgithubName.github.io.git
-  branch: master</code></pre><p>回到gitbash，进入hexo目录</p>
-<pre><code>hexo clean
-hexo generate
-hexo server</code></pre><p>这时，在<a href="http://localhost:4000就可以看到默认页面">http://localhost:4000就可以看到默认页面</a></p>
-<h4 id="6-上传到GitHub"><a href="#6-上传到GitHub" class="headerlink" title="6.上传到GitHub"></a>6.上传到GitHub</h4><pre><code>npm install hexo-deployer-git --save</code></pre><p>将写好的文章部署到GitHub服务器，<br>执行命令</p>
-<pre><code>hexo clean
-hexo generate
-hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br>完成后<a href="https://yourgithubname.github.io，查看即可" target="_blank" rel="noopener">https://yourgithubname.github.io，查看即可</a></p>
-<h4 id="7-修改主题"><a href="#7-修改主题" class="headerlink" title="7.修改主题"></a>7.修改主题</h4><p>hexo官网有推荐很多很多主题，自行选择</p>
+<p>渐进分析（asymptotic analysis）：忽略掉那些依赖于机器的常量，不去检查实际的运行时间，而是关注运行时间的增长。</p>
+<p><img src="C:%5CUsers%5CQ%5CDesktop%5C%E6%97%A0%E6%A0%87%E9%A2%98.png" alt="无标题"></p>
+<p><strong>在看刚才的四个场景：</strong></p>
+<p>场景1： T(n)  = 3n  最高阶项为3n，省去系数3，时间复杂度为：O(n)</p>
+<p>场景2： T(n)  = 5log n  最高阶项为5log n，省去系数5，时间复杂度为：O(log n)</p>
+<p>场景3： T(n)  = 2  只有常数量级，时间复杂度为：O(1)</p>
+<p>场景4： T(n)  = 0.5n^2 + 0.5n  最高阶项为0.5n^2，省去系数0.5，时间复杂度为：O(n^2)</p>
+<p>O（1）&lt; O（log n）&lt; O（n）&lt; O（n^2）</p>
+<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>空间复杂度：即程序中变量的个数</p>
+<h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><p>位运算在算法中很有用，速度可以比四则运算快很多。</p>
+<h4 id="左移-lt-lt"><a href="#左移-lt-lt" class="headerlink" title="左移 &lt;&lt;"></a>左移 &lt;&lt;</h4><p>10 &lt;&lt; 1   结果： 20</p>
+<p>左移就是将二进制全部往左移动。10的二进制：1010，左移一位：10100，十进制就是20。</p>
+<p>基本可以把左移看作：<strong>a * (2 ^ b)</strong></p>
+<h4 id="右移-gt-gt"><a href="#右移-gt-gt" class="headerlink" title="右移 &gt;&gt;"></a>右移 &gt;&gt;</h4><p>10 &gt;&gt; 1   结果： 5</p>
+<p>右移就是将二进制全部往右移动，并去除多余的右边。右移一位：101，十进制就是5</p>
+<p>基本可以把右移看作：<strong>a / (2 ^ b)</strong></p>
+<p>右移很好用，比如可以用在<strong>二分算法中取中间值</strong></p>
 
             </div>
             <hr/>
@@ -430,8 +411,8 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/hexo/">
-                                    <span class="chip bg-color">hexo</span>
+                                <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                                    <span class="chip bg-color">数据结构</span>
                                 </a>
                             
                         </div>
@@ -473,7 +454,7 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-07-01T10-25-00',
+        id: '2020-07-07T00-00-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -501,23 +482,23 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/07/07/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">
+                <a href="/2020/07/10/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%9B%9B%E7%A7%8D%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F/">
                     <div class="card-image">
                         
-                        <img src="https://s1.ax1x.com/2020/08/25/dgHUnf.jpg" class="responsive-img" alt="时间复杂度">
+                        <img src="https://s1.ax1x.com/2020/08/25/dg75lt.jpg" class="responsive-img" alt="二叉树的四种遍历方式">
                         
-                        <span class="card-title">时间复杂度</span>
+                        <span class="card-title">二叉树的四种遍历方式</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            生动理解时间复杂度
+                            二叉树的四种遍历方式（递归与非递归）
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-07
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-10
                         </span>
                         <span class="publish-author">
                             
@@ -538,6 +519,10 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
                         <span class="chip bg-color">数据结构</span>
                     </a>
                     
+                    <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
+                        <span class="chip bg-color">二叉树</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -546,7 +531,7 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
                 <a href="/2020/07/01/Hello%20World%EF%BC%81%EF%BC%88hexo%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95%EF%BC%89/">
@@ -575,7 +560,6 @@ hexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
