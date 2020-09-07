@@ -1,0 +1,898 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Java JVM 怎么学习啊？从哪方面入手？, QSX1C">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Java JVM 怎么学习啊？从哪方面入手？ | QSX1C</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">QSX1C</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">QSX1C</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/6.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Java JVM 怎么学习啊？从哪方面入手？</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2020-09-04
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>&gt; 本文由 [简悦 SimpRead](<a href="http://ksria.com/simpread/" target="_blank" rel="noopener">http://ksria.com/simpread/</a>) 转码， 原文地址 [<a href="http://www.zhihu.com\](https://www.zhihu.com/question/20097631/answer/817071740)" target="_blank" rel="noopener">www.zhihu.com\](https://www.zhihu.com/question/20097631/answer/817071740)</a> </p>
+<p>如果 JAVA 开发是降龙十八掌，JVM 就是九阳神功，具备九阳神功的内力基础降龙十八掌的威力会被发挥的淋漓尽致。</p>
+<p><img src="https://pic2.zhimg.com/50/v2-b0d7022ed757f3aed95d84272f2fbffa_hd.jpg?source=1940ef5c" alt="">)<img src="https://pic4.zhimg.com/v2-b0d7022ed757f3aed95d84272f2fbffa_r.jpg?source=1940ef5c" alt=""></p>
+<p><strong>JVM 的内存结构和类加载机制是玩转 JVM 的入口，如果弄通了接下来的路该怎么走你自然就知道了</strong></p>
+<p>下面我就从这两个方面来深入解析一下 JVM</p>
+<p><strong>JVM 内存结构</strong></p>
+<p>jvm 内存分为五大块：</p>
+<p><img src="https://picb.zhimg.com/50/v2-50e5c491c6642677efb3624a933d7278_hd.jpg?source=1940ef5c" alt="">)<img src="https://picb.zhimg.com/80/v2-50e5c491c6642677efb3624a933d7278_720w.jpg?source=1940ef5c" alt=""></p>
+<p>标灰的是线程公有的内存区域，没有标灰的是线程私有。</p>
+<p><strong>一：程序计数器</strong>：程序计数器是用来<strong>指示当前线程要执行哪条指令</strong>，并且在执行完该条指令后让程序计数器指向下一条指令，直到将程序执行完毕。指令需要靠 cpu 来执行，在多线程中，多个线程是通过轮流切换分配 cpu 的时间片而执行的，在切换时需要记录当前执行到了哪条指令以便将来继续执行，每一个线程都需要有自己的程序计数器，所以<strong>程序计数器是线程私有的内存。</strong></p>
+<p><strong>二：虚拟机栈</strong>：通常我们把 jvm 的内存粗略的分为堆和栈，其中的栈指的就是虚拟机栈<strong>, 虚拟机栈也是线程私有的</strong>。</p>
+<p>虚拟机栈对应的是方法的内存区域，每个方法执行时都会创建一个栈帧，用来存储该方法的局部变量表，操作数栈，动态链接，方法返回地址：</p>
+<p><img src="https://pic4.zhimg.com/50/v2-fafcf8344f53548eba7d3f108c81987d_hd.jpg?source=1940ef5c" alt="">)<img src="https://pic4.zhimg.com/80/v2-fafcf8344f53548eba7d3f108c81987d_720w.jpg?source=1940ef5c" alt=""></p>
+<p><strong>1. 局部变量表</strong>：<strong>局部变量表中存储的是方法的参数和方法中定义的局部变量</strong>，在编译期间就为局部变量表分配好了内存空间。局部变量表中存储三种类型的数据：</p>
+<p>（1） 基本数据类型</p>
+<p>（2） 引用类型：指向一个对象在内存中的地址</p>
+<p>（3） returnAddress 类型：指向指令的地址（已经很少见了，指向异常处理的指令，现在已经由异常表代替）</p>
+<p><strong>2. 操作数栈</strong>：当虚拟机执行一些指令的时候会对操作数栈进行入栈或出栈的操作，比如 iadd 指令将两个数相加，会先将操作数栈中的两个数弹出来（出栈），相加后再压入栈（入栈）中。</p>
+<p><strong>3. 动态链接</strong>：在运行时常量池中存储了诸如类名，方法名，我们要找到目标类，执行相应的方法就需要用到动态链接，栈帧中有一个指向运行时常量池的引用，通过这个引用可以找到相应的类名和方法名，但是光知道名称是没法执行方法的，需要通过名称找到相应的类和方法在内存中的地址，这个过程就是动态链接。</p>
+<p><strong>4. 方法返回地址</strong>：当方法执行完以后如果有返回值，就会把这个返回值返回给该方法的调用者，方法的返回就是我们 java 中用到的 return 命令。方法返回之后调用者需要继续往下执行就需要知道要执行的地址，该地址就是方法返回地址，它被记录在了栈帧中，当然在发生异常的情况下不会有返回值，要继续执行的地址可以通过异常处理器表来确定。</p>
+<p>虚拟机栈可能出现两种类型的异常：</p>
+<p>1. 线程请求的栈深度大于虚拟机允许的栈深度会抛出 <strong>StackOverflowError</strong>,（虚拟机栈空间不能动态扩展的情况下）</p>
+<p>2. 如果虚拟机栈空间可以动态扩展（目前多数的虚拟机都可以），当动态扩展无法申请到足够的空间时会抛出 <strong>OutOfMemory</strong> 异常。</p>
+<p><strong>三：本地方法栈</strong>：本地方法栈与虚拟机栈的作用是一样的，区别在于虚拟机栈为虚拟机执行 java 方法服务，而本地方法栈为虚拟机执行 native 方法服务，native 方法为本地方法，不是用 java 语言写的有可能是 c 或者 c++ 写的，在 jdk 中就有很多 c 的代码，就是提供给本地方法来调用的。</p>
+<p><strong>四: 堆</strong>：通常我们把 jvm 的内存粗略的分为堆和栈，其中的堆就是指它，它是虚拟机中占用内存最大的一块，是被所有线程共享的一块区域，<strong>它是用来存放对象实例的</strong>。是垃圾收集器管理的主要区域。</p>
+<p><strong>五：方法区</strong>：方法区也是被所有线程共享的一块区域，它存储的是类信息，常量，静态变量，编译后的字节码等信息。方法区中还有一块区域 “运行时常量池 “：运行时常量池中存储的是编译期生成的各种字面量和符号引用。字面量相当于 Java 里常量的概念，比如字符串，声明为 final 的常量值等，符号引用包括了：类和接口名，字段名，方法名。</p>
+<p><strong>类加载机制</strong></p>
+<p><strong>一：java 类的加载过程</strong></p>
+<p>编译后的 Java 类是以字节码的形式存在的，它只有被加载到虚拟机内存中才能被使用，它是如何被加载到内存中的呢？</p>
+<p>下图为类加载到内存的机制：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-896abd276628a7319af05d1ff678106b_hd.jpg?source=1940ef5c" alt="">)<img src="https://pic1.zhimg.com/v2-896abd276628a7319af05d1ff678106b_r.jpg?source=1940ef5c" alt=""></p>
+<p><strong>1：加载</strong>：</p>
+<p>在加载（注意和类加载是不同的概念）阶段虚拟机需要完成三件事</p>
+<p>（1）. 通过一个类的全限定名（类名全称，带包路径的用点隔开，例如: java.lang.String）来获取其定义的二进制字节流（被编译以后的字节码文件就是二进制的）。</p>
+<p>（2）. 将这个字节流所代表的静态存储结构（字节码文件就是其中一种）转化为方法区的运行时数据结构（能够在虚拟机中存储的结构）。</p>
+<p>（3）. 在 Java 堆中生成一个代表这个类的 java.lang.Class 对象（用于表示这个类的信息），作为对方法区中这些数据的访问入口。</p>
+<p>2：验证：</p>
+<p><strong>验证，准备，解析统称为连接</strong>，作为连接阶段的第一步，验证的主要作用是保证加载进来的二进制流中的信息是符合当前虚拟机要求的，并且不会对虚拟机的安全造成危害。主要包括：</p>
+<p>（1）文件格式验证：主要是验证二进制流是否符合 class 文件格式的规范，并且能被当前的虚拟机处理，例如：主次版本号是否在当前虚拟机处理范围之内，常量池的常量中是否有不被支持的常量类型。只有通过了这个阶段的验证后字节流才会进入内存的方法区中进行存储，从这里我们可以看出加载和验证阶段是交叉进行的，加载还未完成，文件格式验证就已经开始了。</p>
+<p>（2）元数据验证：对字节码描述的信息进行语义分析以保证其描述的信息符合 java 语言规范的要求：例如：这个类是否有父类（所有类除了 Object 都应该有父类）</p>
+<p>（3）字节码验证：确定程序语义是合法的符合逻辑的，如将子类对象赋给父类类型是符合逻辑的，反之，将父类对象赋给子类类型则是不合法的。</p>
+<p>（4）符号引用验证：可以对常量池中各种符号引用的信息进行匹配性校验。例如：符号引用中通过字符串描述的全限定名是否能找到对应的类。</p>
+<p><strong>3：准备</strong>：</p>
+<p>准备阶段会为静态变量分配内存并设置初始值，注意：该初始值为数据类型的零值例如：</p>
+<p>Public static int num = 3; 在准备阶段会将 num 值设置为 0 而不是 3. 只有在初始化阶段才会赋值为 3.</p>
+<p><strong>4：解析</strong>：</p>
+<p>解析阶段是把类中的符号引用转换为直接引用的过程：</p>
+<p>符号引用：在编译的时候是不知道类所引用的类的具体地址，因此只能使用符号引用来代替，比如：com.Student 类引用了 com.Grade 类，编译时 Student 类并不知道 Grade 类在内存中的实际地址，只能用符号 com.Grade。</p>
+<p>直接引用; 引用的实际内存地址。</p>
+<p><strong>5：初始化</strong>：</p>
+<p>初始化阶段是类加载过程的最后一步，在这个阶段会根据程序中的赋值语句给变量赋值，当有继承关系时先初始化父类，再初始化子类。如果该类还没有被加载和连接，那么初始化之前先加加载和连接。</p>
+<p>什么时候会进行初始化呢？</p>
+<p>1. 使用 new 关键字实例化对象的时候</p>
+<p>2. 读取或设置一个类的静态字段的时候</p>
+<p>3. 调用一个类的静态方法的时候</p>
+<p>4. 对类进行反射调用的时候</p>
+<p>5. 当虚拟机启动时执行一个类的 main 方法，会先初始化这个类</p>
+<p><strong>二：类加载器：</strong></p>
+<p>加载阶段中的第一步：“通过一个类的全限定名来获取其定义的二进制字节流” 是通过类加载器来完成的，类加载器分为三种：</p>
+<p>1. 启动类加载器（BootStrap ClassLoader）, 这个类加载器负责将 jdk\jre\lib 下的类库加载到内存中，启动类加载器无法被应用程序直接使用。</p>
+<p>2. 扩展类加载器（Extension ClassLoader）, 它负责加载 jdk\jre\lib\ext 中的类库。开发者可以直接使用扩展类加载器。</p>
+<p>3. 应用程序类加载器 (Application ClassLoader), 它用来加载 classpath 路径（src 路径下的文件在编译后会放到 WEB-INF/classes 路径下。默认的 classpath 是在这里）指定的类。开发者可以直接使用这个类加载器，如果如果应用程序中没有定义自己的类加载器，一般情况下这个就是程序中默认的类加载器。</p>
+<p>我们的应用程序都是由这三种类加载器互相配合进行加载的，如果有必要还可以加入自己定义的类加载器。</p>
+<p><strong>三：双亲委派模型</strong>：</p>
+<p>下图为双亲委派模型的类加载器的层次关系：</p>
+<p><img src="https://pic4.zhimg.com/50/v2-cc54c11c27700e578b026cfc5a4ed26a_hd.jpg?source=1940ef5c" alt="">![](data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='331' height='249'></svg>)</p>
+<p>双亲委派模型的的工作过程是：<strong>如果一个类加载器收到了类加载的请求，它会把这个请求委派给父类加载器去完成，每一个层次的加载器都是如此，因此所有的加载请求最终都会传送到顶层的启动类加载器中</strong>。只有当父加载器反馈自己无法完成这个加载请求时（在自己的加载范围内没有搜索到该类）, 子加载器才会尝试自己去加载。例如：</p>
+<p>1. 当应用程序类加载器加载一个类时，它会把类加载请求委派给扩展类加载器。</p>
+<p>2. 扩展类加载器又把这个类加载请求委派给启动类加载器。</p>
+<p>3. 启动类加载器如果加载失败，在 (jdk/jre/lib) 里没有找到这个类，会使用扩展类加载器进行加载。</p>
+<p>4. 扩展类加载器如果加载失败，在（jdk/jre/lib/ext）里没有找到这个类，会使用应用程序类加载器来加载</p>
+<p>5. 应用程序加载器加载失败则会报：ClassNotFoundException 异常。</p>
+<p>使用双亲委派模型的意义：</p>
+<p>例如类 java.lang.Object 存放在 rt.jar 中，无论哪个类加载器要加载这个类，最终都会委派启动类加载器来加载，如果没有双亲委派模型用户自己编写了一个 java.lang.Object 类，放到 ClassPath 中，系统中将会出现多个不同的 Object 类，应用程序也会变得混乱。</p>
+<p>如果你想对 java 有更深入的理解可以看看我的这个回答，里面集合了我所有的高赞回答和文章：</p>
+<p><a href="https://www.zhihu.com/question/311758187/answer/902621271" target="_blank" rel="noopener">如何系统地、全方面地自学 Java？​www.zhihu.com<img src="https://pic3.zhimg.com/v2-11567c24beef0231adeb90c3c4d0c749_180x120.jpg" alt=""></a></p>
+<p><strong>我精心写了几个大厂面试必考知识点的文章，无论是对于完善你的技术栈还是准备面试都会大有裨益：</strong></p>
+<p><a href="https://www.zhihu.com/question/20794107/answer/811250346" target="_blank" rel="noopener">Java 动态代理作用是什么？​www.zhihu.com<img src="https://zhstatic.zhihu.com/assets/zhihu/editor/zhihu-card-default.svg" alt=""></a> <a href="https://zhuanlan.zhihu.com/p/79507868" target="_blank" rel="noopener">夏昊：HashMap 的底层原理​zhuanlan.zhihu.com<img src="https://pic3.zhimg.com/v2-ba6c73aadf969481c0a8a1070444e5fe_180x120.jpg" alt=""></a></p>
+<p>最后再送你两句话：</p>
+<p>1: 学习贵在坚持，有付出就会有收获</p>
+<p>2: 看到有帮助的回答一定记得点个赞，以后在动态随时能查看到回答，不怕找不到了</p>
+<p>另外我给你准备了我精心编写的大厂面试技术点详解和近两百本 java 方面的电子书，送给已<strong>点赞加关注</strong> 的你：</p>
+<p>关注公众号 『“<strong>极简 Java 学习营</strong>”』领取。</p>
+<p>1. 近两百本 java 经典电子书：</p>
+<p><img src="https://pic1.zhimg.com/50/v2-bbcfa40a1259f6bccef489b4711125a8_hd.jpg?source=1940ef5c" alt="">)<img src="https://pic2.zhimg.com/v2-bbcfa40a1259f6bccef489b4711125a8_r.jpg?source=1940ef5c" alt=""></p>
+<p>2. 我精心编写的 java 面试考点详细解析  </p>
+<p><img src="https://pic4.zhimg.com/50/v2-11567c24beef0231adeb90c3c4d0c749_hd.jpg?source=1940ef5c" alt="">)<img src="https://pic3.zhimg.com/v2-11567c24beef0231adeb90c3c4d0c749_r.jpg?source=1940ef5c" alt=""></p>
+<p><img src="https://pic1.zhimg.com/v2-9d019104896d4a8c9b94ba1ea53eadc9_xs.jpg?source=1940ef5c" alt=""> 陈树义​</p>
+<p>曾经我也对 JVM 感到很头痛，完全搞不懂应该如何入门 JVM 的学习。但经过了 5 年的学习，我对 JVM 有了更深入的理解。虽然还达不到精通源码的程度，但是对 JVM 各个知识点的理解和联系都形成了自己的体系。</p>
+<p>对于初学者来说，首先理解为什么要学虚拟机是最重要的，关于这块内容建议阅读我的这篇文章：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_00_why_learn_jvm.html">JVM 基础系列开篇：为什么要学虚拟机？ - 陈树义 - 博客园​www.cnblogs.com</a></p>
+<p>当你明白为什么要学虚拟机之后，你需要明白：到底什么是虚拟机？这时候建议阅读我的这篇文章：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_03_the_nature_of_jvm.html">JVM 基础系列第 3 讲：到底什么是虚拟机？ - 陈树义 - 博客园​www.cnblogs.com<img src="https://pic1.zhimg.com/v2-4802a961d6e89bf063ed1071deb733f2_180x120.jpg" alt=""></a></p>
+<p>看到这里，我相信你应该对虚拟机有了一个感性的认识了。那么接下来你需要继续深入学习，明白编译器是如何将 java 文件编译成 class 文件的。这时候你需要学习：编译器以及字节码文件相关知识。这时候推荐阅读下面几篇文章：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_04_from_source_code_to_machine_code.html">JVM 基础系列第 4 讲：从源代码到机器码，发生了什么？ - 陈树义 - 博客园​www.cnblogs.com<img src="https://pic1.zhimg.com/v2-e435e147307393e1f4848c59d04a7292_180x120.jpg" alt=""></a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_05_jvm_bytecode_analysis.html">JVM 基础系列第 5 讲：字节码文件结构 - 陈树义 - 博客园​www.cnblogs.com<img src="https://pic3.zhimg.com/v2-f8d3c260ad1e9f60a5f80d5e8f40e4b3_ipico.jpg" alt=""></a></p>
+<p>看到这里，你应该明白了不少知识，我们的源文件（java 文件）也顺利编译成了字节码文件（class 文件）。接下来就是运行程序并输出结果了，那么 JVM 是如何将字节码文件的内容加载到内存的（类加载机制），加载到内存之后又是如何进行数据存放的（JVM 内存模型）。这个时候你应该学习：Java 类加载机制、JVM 内存模型，这时候推荐阅读下面几篇文章：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_06_jvm_memory_model.html">JVM 基础系列第 6 讲：Java 虚拟机内存结构​www.cnblogs.com<img src="https://pic4.zhimg.com/v2-f520c4cb9491d277c5e8e1bfa3c63f90_180x120.jpg" alt=""></a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_07_jvm_class_loader_mechanism.html">JVM 基础系列第 7 讲：JVM 类加载机制​www.cnblogs.com</a></p>
+<p>当我们把数据加载并存放于内存之后，就又有一个问题出现了：内存是有限的，那么势必会涉及到内存回收的问题。这时候你应该学习 Java 垃圾回收机制、Java 回收器的相关内容。这时候推荐下面几篇文章：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_08_jvm_garbage_collection.html">JVM 基础系列第 8 讲：JVM 垃圾回收机制​www.cnblogs.com<img src="https://pic4.zhimg.com/v2-0716b21c637d02fcf38e9c2e11e7cb49_180x120.jpg" alt=""></a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_09_jvm_garabage_collector.html">JVM 基础系列第 9 讲：JVM 垃圾回收器 - 陈树义 - 博客园​www.cnblogs.com<img src="https://pic2.zhimg.com/v2-4ed237663d195ac50f59e1791476b914_180x120.jpg" alt=""></a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_10_gc_type.html">JVM 基础系列第 10 讲：垃圾回收的几种类型 - 陈树义 - 博客园​www.cnblogs.com</a></p>
+<p>学习到这里，你对 JVM 有了一个全面的了解。从源文件到字节码，从字节码到机器码，从机器码到内存模型，从内存到垃圾回收。你对 JVM 的基础知识也掌握得差不多了，但是如果要进行线上问题排查的话，还差一些排查知识的学习。这时候需要学习常见的 JVM 参数以及 JVM 的排查工具，这时候推荐下面几篇文章：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_11_jvm_param_heap_stack.html">JVM 基础系列第 11 讲：JVM 参数之堆栈空间配置 - 陈树义 - 博客园​www.cnblogs.com<img src="https://picb.zhimg.com/v2-d3e101a9daa500b8b708d42a58032cde_180x120.jpg" alt=""></a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_12_jvm_param_jvm_param.html">JVM 系列第 12 讲：JVM 参数之查看 JVM 参数 - 陈树义 - 博客园​www.cnblogs.com</a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_13_jvm_param_class_info.html">JVM 基础系列第 13 讲：JVM 参数之追踪类信息 - 陈树义 - 博客园​www.cnblogs.com</a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_14_jvm_param_gc_log.html">JVM 基础系列第 14 讲：JVM 参数之 GC 日志配置 - 陈树义 - 博客园​www.cnblogs.com<img src="https://pic4.zhimg.com/v2-d5238fe86a326732fcd2da8828756a2f_180x120.jpg" alt=""></a><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_serial_15_jdk_monitor_command.html">JVM 基础系列第 15 讲：JDK 性能监控命令 - 陈树义 - 博客园​www.cnblogs.com<img src="https://pic4.zhimg.com/v2-c1ddeabd73d473b7c495f1849d141535_180x120.jpg" alt=""></a></p>
+<p>到了这里，你不仅掌握了基础的 JVM 理论知识，还掌握了一些基础的问题排查技巧。接下来你要做的就是多学习一些 JVM 的问题排查案例，在实战中不断总结 JVM 排查的技巧，从而夯实自己的理论基础。</p>
+<p>在关于 JVM 这块知识，我上面列出的「JVM 基础系列」专栏是不错的入门文章。比起书籍来说，其特点在于简单易懂，并且关联性强。但是正因为讲究关联，所以也省略了一些内容。所以当你阅读完上述系列文章后，可以阅读以下书籍。</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//book.douban.com/subject/24722612/">深入理解 Java 虚拟机（第 2 版） (豆瓣)​book.douban.com<img src="https://pic4.zhimg.com/v2-30d1116675442c89bfef558dcc735f73_ipico.jpg" alt=""></a> <a href="https://link.zhihu.com/?target=https%3A//book.douban.com/subject/26354292/">实战 Java 虚拟机 (豆瓣)​book.douban.com<img src="https://picb.zhimg.com/v2-3b179878dbc3ba953538c75dfb9314ce_120x160.jpg" alt=""></a></p>
+<p>《深入理解 Java 虚拟机》注重理论讲解，所以比较枯燥。而《Java 虚拟机实战》 则更加注重实战，有一些动手案例。一文一武，是学习虚拟机的利器。有了上面的基础系列文章做基础，我相信你在阅读书籍的时候会觉得很轻松。更多 JVM 的书籍，可以点击查看我收集的豆瓣书单：<a href="https://link.zhihu.com/?target=https%3A//www.douban.com/doulist/109276658/">精通 Java 虚拟机必读书单 - 豆瓣书单</a></p>
+<p>当你学习到这里，对于大多数人来说是足够在日常工作中使用的。但如果你还想继续深入，那么你可以阅读一下《Java 虚拟机规范》。《Java 虚拟机规范》是对于 JVM 的规范，其定义了 JVM 的方方面面。看完《Java 虚拟机规范》之前可能会对 JVM 有些许无界，但看完之后则又是另外一个境界了。如果你想粗略看一下内容，那你可以阅读一下我的读书笔记：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_00_guide.html">JVM 规范系列开篇：为什么要读 JVM 规范？ - 陈树义 - 博客园</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_01_preface.html">JVM 规范系列第 1 章：引言 - 陈树义 - 博客园</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_02_jvm_structure.html">JVM 规范系列第 2 章：Java 虚拟机结构 - 陈树义 - 博客园</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_03_compile_for_jvm.html">JVM 规范系列第 3 章：为 Java 虚拟机编译 - 陈树义 - 博客园</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_04_jvm_byte_code.html">JVM 规范系列第 4 章：Class 文件格式 - 陈树义 - 博客园</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_05_load_link_init.html">JVM 规范系列第 5 章：加载、链接与初始化 - 陈树义 - 博客园</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_06_jvm_command_set.html">JVM 规范系列第 6 章：Java 虚拟机指令集 - 陈树义 - 博客园</a></p>
+<p><a href="https://link.zhihu.com/?target=https%3A//www.cnblogs.com/chanshuyi/p/jvm_specification_07_summary.html">JVM 规范系列：总结 - 陈树义 - 博客园</a></p>
+<p>到这里，你对 JVM 的学习已经超过了绝大多数人了。如果你还想更深入学习，那可以阅读 HotSpot 源码了。阅读 HotSpot 源码的话，可以参考我的豆瓣 JVM 书单：<a href="https://link.zhihu.com/?target=https%3A//www.douban.com/doulist/109276658/">精通 Java 虚拟机必读书单 - 豆瓣书单</a></p>
+<p>有帮助就点个赞吧，让更多人看到~</p>
+<p>更多技术文章，可以关注我的公众号：陈树义。</p>
+<p><img src="https://pic4.zhimg.com/ee07454da2fc6d007c29ca9b393f94ac_xs.jpg?source=1940ef5c" alt="">RednaxelaFX​这完全取决于题主是为什么要学习 JVM，想学到多深。前面 @曹旭东 和 @Scott 说得很对。<br>如果感觉摸不清东南西北的话请试试从我在豆瓣上发的豆单开始吧：<a href="https://link.zhihu.com/?target=http%3A//book.douban.com/doulist/2545443/">从表到里学习 JVM 实现</a><br>如果一上来就想通过阅读 OpenJDK 里的 HotSpot VM 的源码来入手学习 JVM，那么我推荐先读读我之前写的一个演示稿：<a href="https://link.zhihu.com/?target=http%3A//rednaxelafx.iteye.com/blog/1426530">为啥别读 HotSpot VM 的源码</a></p>
+
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '86bc018a7b861fd65d72',
+        clientSecret: '6806b59a1dbc8efcd585a8c36a7a881fb0fd24f2',
+        repo: 'topone233.github.io',
+        owner: 'topone233',
+        admin: "topone233",
+        id: '2020-09-04T10-25-57',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
+            <div class="card">
+                <a href="/2020/09/04/Java%20JVM%20%E6%80%8E%E4%B9%88%E5%AD%A6%E4%B9%A0%E5%95%8A%EF%BC%9F%E4%BB%8E%E5%93%AA%E6%96%B9%E9%9D%A2%E5%85%A5%E6%89%8B%EF%BC%9F/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/6.jpg" class="responsive-img" alt="Java JVM 怎么学习啊？从哪方面入手？">
+                        
+                        <span class="card-title">Java JVM 怎么学习啊？从哪方面入手？</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.zhihu.com\](https://www.zhihu.com/question/20097631/ans
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/09/04/Java%20%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E6%A6%82%E8%BF%B0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/16.jpg" class="responsive-img" alt="Java 回收机制概述">
+                        
+                        <span class="card-title">Java 回收机制概述</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.cnblogs.com\](https://www.cnblogs.com/Young111/p/113482
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('3'),
+            headingSelector: 'h2, h3, h4, h5'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2020</span>
+            <a href="/about" target="_blank">QSX1C</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2020";
+                    var startMonth = "7";
+                    var startDate = "1";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "已存在 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "已存在 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:li-674e@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=809549807" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 809549807" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/js/matery.js"></script>
+    
+   <!-- yinghua -->
+   <script type="text/javascript">
+    var windowWidth = $(window).width();
+    if (windowWidth > 768) {
+         document.write('<script type="text/javascript" src="/js/yinghua.js"><\/script>');
+     }
+    </script>
+
+    <!-- tianqi -->
+    <script type="text/javascript">
+    WIDGET = {FID: 'MEEyXDqUjZ'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

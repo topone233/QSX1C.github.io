@@ -1,0 +1,1072 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="JVM 类生命周期概述：加载时机与加载过程, QSX1C">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>JVM 类生命周期概述：加载时机与加载过程 | QSX1C</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">QSX1C</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">QSX1C</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/11.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">JVM 类生命周期概述：加载时机与加载过程</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2020-09-04
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>&gt; 本文由 [简悦 SimpRead](<a href="http://ksria.com/simpread/" target="_blank" rel="noopener">http://ksria.com/simpread/</a>) 转码， 原文地址 [<a href="http://www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11359700.html)" target="_blank" rel="noopener">www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11359700.html)</a></p>
+<p>　　一个. java 文件在编译后会形成相应的一个或多个 Class 文件，这些 Class 文件中描述了类的各种信息，并且它们最终都需要被加载到虚拟机中才能被运行和使用。事实上，虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型的过程就是虚拟机的类加载机制。本文概述了 JVM 加载类的时机和生命周期，并结合典型案例重点介绍了类的初始化过程，进而了解 JVM 类加载机制。</p>
+<h2 id="一、类加载机制概述"><a href="#一、类加载机制概述" class="headerlink" title="一、类加载机制概述"></a>一、类加载机制概述</h2><p>　　我们知道，一个. java 文件在编译后会形成相应的一个或多个 Class 文件（若一个类中含有内部类，则编译后会产生多个 Class 文件），但这些 Class 文件中描述的各种信息，最终都需要加载到虚拟机中之后才能被运行和使用。事实上，虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型的过程就是虚拟机的 类加载机制。　　</p>
+<p>　　与那些在编译时需要进行连接工作的语言不同，在 Java 语言里面，类型的加载和连接都是在程序运行期间完成，这样会在类加载时稍微增加一些性能开销，但是却能为 Java 应用程序提供高度的灵活性，Java 中天生可以动态扩展的语言特性多态就是依赖运行期动态加载和动态链接这个特点实现的。例如，如果编写一个使用接口的应用程序，可以等到运行时再指定其实际的实现。这种组装应用程序的方式广泛应用于 Java 程序之中。</p>
+<p>　　既然这样，那么，</p>
+<ul>
+<li>虚拟机什么时候才会加载 Class 文件并初始化类呢？（类加载和初始化时机）</li>
+<li>虚拟机如何加载一个 Class 文件呢？（Java 类加载的方式：类加载器、双亲委派机制）</li>
+<li>虚拟机加载一个 Class 文件要经历那些具体的步骤呢？（类加载过程 / 步骤）</li>
+</ul>
+<p>本文主要对第一个和第三个问题进行阐述。</p>
+<h2 id="二-类加载的时机"><a href="#二-类加载的时机" class="headerlink" title="二. 类加载的时机　"></a>二. 类加载的时机　</h2><p>　　Java 类从被加载到虚拟机内存中开始，到卸载出内存为止，它的整个生命周期包括：加载（Loading）、验证（Verification）、准备 (Preparation)、解析(Resolution)、初始化(Initialization)、使用(Using) 和 卸载(Unloading) 七个阶段。其中准备、验证、解析 3 个部分统称为连接（Linking），如图所示：  </p>
+<p><img src="https://img2018.cnblogs.com/blog/1408728/201908/1408728-20190815175410185-982408436.png" alt=""></p>
+<p>　　加载、验证、准备、初始化和卸载这 5 个阶段的顺序是确定的，类的加载过程必须按照这种顺序按部就班地开始，而解析阶段则不一定：它在某些情况下可以在初始化阶段之后再开始，这是为了支持 Java 语言的运行时绑定（也称为动态绑定或晚期绑定）。以下陈述的内容都已 HotSpot 为基准。特别需要注意的是，类的加载过程必须按照这种顺序按部就班地 “开始”，而不是按部就班的“进行” 或“完成”，因为这些阶段通常都是相互交叉地混合式进行的，也就是说通常会在一个阶段执行的过程中调用或激活另外一个阶段。</p>
+<p>　　了解了 Java 类的生命周期以后，那么我们现在来回答第一个问题：虚拟机什么时候才会加载 Class 文件并初始化类呢？</p>
+<p><strong>1、类加载时机</strong></p>
+<p>　　什么情况下虚拟机需要开始加载一个类呢？虚拟机规范中并没有对此进行强制约束，这点可以交给虚拟机的具体实现来自由把握。</p>
+<p><strong>2、类初始化时机</strong></p>
+<p>　　那么，什么情况下虚拟机需要开始初始化一个类呢？这在虚拟机规范中是有严格规定的，虚拟机规范指明 有且只有 五种情况必须立即对类进行初始化（而这一过程自然发生在加载、验证、准备之后）：</p>
+<p>　　1) 遇到 new、getstatic、putstatic 或 invokestatic 这四条字节码指令（注意，newarray 指令触发的只是数组类型本身的初始化，而不会导致其相关类型的初始化，比如，new String[] 只会直接触发 String[] 类的初始化，也就是触发对类 [Ljava.lang.String 的初始化，而直接不会触发 String 类的初始化）时，如果类没有进行过初始化，则需要先对其进行初始化。生成这四条指令的最常见的 Java 代码场景是：</p>
+<ul>
+<li>使用 new 关键字实例化对象的时候；</li>
+<li>读取或设置一个类的静态字段（被 final 修饰，已在编译器把结果放入常量池的静态字段除外）的时候；</li>
+<li>调用一个类的静态方法的时候。</li>
+</ul>
+<p>　　2) 使用 java.lang.reflect 包的方法对类进行反射调用的时候，如果类没有进行过初始化，则需要先触发其初始化。</p>
+<p>　　3) 当初始化一个类的时候，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</p>
+<p>　　4) 当虚拟机启动时，用户需要指定一个要执行的主类（包含 main() 方法的那个类），虚拟机会先初始化这个主类。</p>
+<p>　　5) 当使用 jdk1.7 动态语言支持时，如果一个 java.lang.invoke.MethodHandle 实例最后的解析结果 REF_getstatic,REF_putstatic,REF_invokeStatic 的方法句柄，并且这个方法句柄所对应的类没有进行初始化，则需要先出触发其初始化。</p>
+<p>　注意，对于这五种会触发类进行初始化的场景，虚拟机规范中使用了一个很强烈的限定语：“有且只有”，这五种场景中的行为称为对一个类进行 主动引用。除此之外，所有引用类的方式，都不会触发初始化，称为 被动引用。</p>
+<p>　　特别需要指出的是，类的实例化与类的初始化是两个完全不同的概念：</p>
+<ul>
+<li>类的实例化是指创建一个类的实例 (对象) 的过程；</li>
+<li>类的初始化是指为类中各个类成员 (被 static 修饰的成员变量) 赋初始值的过程，是类生命周期中的一个阶段。</li>
+</ul>
+<p><strong>3、被动引用的几种经典场景</strong></p>
+<p>　　1)、通过子类引用父类的静态字段，不会导致子类初始化</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>public class SSClass{
+    static{
+        System.out.println(&quot;SSClass&quot;);
+    }
+}  
+
+public class SClass extends SSClass{
+    static{
+        System.out.println(&quot;SClass init!&quot;);
+    }
+
+    public static int value = 123;
+
+    public SClass(){
+        System.out.println(&quot;init SClass&quot;);
+    }
+}
+
+public class SubClass extends SClass{
+    static{
+        System.out.println(&quot;SubClass init&quot;);
+    }
+
+    static int a;
+
+    public SubClass(){
+        System.out.println(&quot;init SubClass&quot;);
+    }
+}
+
+public class NotInitialization{
+    public static void main(String\[\] args){
+        System.out.println(SubClass.value);
+    }
+}
+/\* Output: 
+        SSClass
+        SClass init!
+        123     
+ \*/
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>　对于静态字段，只有直接定义这个字段的类才会被初始化，因此通过其子类来引用父类中定义的静态字段，只会触发父类的初始化而不会触发子类的初始化。在本例中，由于 value 字段是在类 SClass 中定义的，因此该类会被初始化；此外，在初始化类 SClass 时，虚拟机会发现其父类 SSClass 还未被初始化，因此虚拟机将先初始化父类 SSClass，然后初始化子类 SClass，而 SubClass 始终不会被初始化。</p>
+<p>　2)、通过数组定义来引用类，不会触发此类的初始化</p>
+<pre><code>public class NotInitialization{
+    public static void main(String\[\] args){
+        SClass\[\] sca = new SClass\[10\];
+    }
+}
+</code></pre><p>3)、常量在编译阶段会存入调用类的常量池中，本质上并没有直接引用到定义常量的类，因此不会触发定义常量的类的初始化</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>public class ConstClass{
+
+    static{
+        System.out.println(&quot;ConstClass init!&quot;);
+    }
+
+    public static  final String CONSTANT = &quot;hello world&quot;;
+}
+
+public class NotInitialization{
+    public static void main(String\[\] args){
+        System.out.println(ConstClass.CONSTANT);
+    }
+}
+/\* Output: 
+        hello world
+ \*/
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>上述代码运行之后，只输出 “hello world”，这是因为虽然在 Java 源码中引用了 ConstClass 类中的常量 CONSTANT，但是编译阶段将此常量的值 “hello world” 存储到了 NotInitialization 常量池中，对常量 ConstClass.CONSTANT 的引用实际都被转化为 NotInitialization 类对自身常量池的引用了。也就是说，实际上 NotInitialization 的 Class 文件之中并没有 ConstClass 类的符号引用入口，这两个类在编译为 Class 文件之后就不存在关系了。</p>
+<h2 id="三-类加载过程"><a href="#三-类加载过程" class="headerlink" title="三. 类加载过程"></a>三. 类加载过程</h2><p>　　如上图所示，我们在上文已经提到过一个类的生命周期包括加载（Loading）、验证（Verification）、准备 (Preparation)、解析(Resolution)、初始化(Initialization)、使用(Using) 和 卸载(Unloading) 七个阶段。现在我们一一学习一下 JVM 在加载、验证、准备、解析和初始化五个阶段是如何对每个类进行操作的。<br><strong>1、加载</strong>　　</p>
+<p>　　加载是类加载过程中的一个阶段， 这个阶段会在内存中生成一个代表这个类的 java.lang.Class 对象， 作为方法区这个类的各种数据的入口。注意这里不一定非得要从一个 Class 文件获取，这里既可以从 ZIP 包中读取（比如从 jar 包和 war 包中读取），也可以在运行时计算生成（动态代理），也可以由其它文件生成（比如将 JSP 文件转换成对应的 Class 类）。 </p>
+<p><strong>2、验证</strong></p>
+<p> 　这一阶段的主要目的是为了<strong>确保 Class 文件的字节流中包含的信息是否符合当前虚拟机的要求，并**</strong>且不会危害虚拟机自身的安全。**</p>
+<p><strong>3、准备</strong></p>
+<p> 准备阶段是正式为类变量分配内存并设置类变量的初始值阶段，即在方法区中分配这些变量所使用的内存空间。注意这里所说的初始值概念，比如一个类变量定义为 </p>
+<pre><code>public static int v = 8080;
+</code></pre><p>实际上变量 v 在准备阶段过后的初始值为 0 而不是 8080， 将 v 赋值为 8080 的 put static 指令是程序被编译后， 存放于类构造器 <client> 方法之中。但是注意如果声明为 </p>
+<pre><code>public static final int v = 8080；
+</code></pre><p>在编译阶段会为 v 生成 ConstantValue 属性，在准备阶段虚拟机会根据 ConstantValue 属性将 v 赋值为 8080。 </p>
+<p><strong>4、解析</strong></p>
+<p>解析阶段是指虚拟机将常量池中的符号引用替换为直接引用的过程。符号引用就是 class 文件中的：</p>
+<p>　　1. CONSTANT_Class_info</p>
+<p>　　2. CONSTANT_Field_info</p>
+<p>　　3. CONSTANT_Method_info 等类型的常量。 </p>
+<p><strong>4.1 符号引用</strong></p>
+<p> 　　符号引用与虚拟机实现的布局无关， 引用的目标并不一定要已经加载到内存中。 各种虚拟机实现的内存布局可以各不相同，但是它们能接受的符号引用必须是一致的，因为符号引用的字面量形式明确定义在 Java 虚拟机规范的 Class 文件格式中 </p>
+<p> <strong>4.2 直接引用</strong></p>
+<p>　　 直接引用可以是指向目标的指针，相对偏移量或是一个能间接定位到目标的句柄。如果有了直接引用，那引用的目标必定已经在内存中存在。 </p>
+<p><strong>5、初始化</strong></p>
+<p>　　初始化阶段是类加载最后一个阶段，前面的类加载阶段之后，除了在加载阶段可以自定义类加载器以外，其它操作都由 JVM 主导。到了初始阶段，才开始真正执行类中定义的 Java 程序代码 。初始化阶段是执行类构造器 <client> 方法的过程。 <client> 方法是由编译器自动收集类中的类变量的赋值操作和静态语句块中的语句合并而成的。虚拟机会保证子 <client> 方法执行之前，父类的 <client> 方法已经执行完毕， 如果一个类中没有对静态变量赋值也没有静态语句块，那么编译器可以不为这个类生成 <client>() 方法 </p>
+<p> 注意以下几种情况不会执行类初始化：</p>
+<p>　　1. 通过子类引用父类的静态字段，只会触发父类的初始化，而不会触发子类的初始化。<br>　　2. 定义对象数组，不会触发该类的初始化。<br>　　3. 常量在编译期间会存入调用类的常量池中，本质上并没有直接引用定义常量的类，不会触<br>　　   发定义常量所在的类。<br>　　4. 通过类名获取 Class 对象，不会触发类的初始化。<br>　　5. 通过 Class.forName 加载指定类时，如果指定参数 initialize 为 false 时，也不会触发类初<br>　　　始化，其实这个参数是告诉虚拟机，是否要对类进行初始化。<br>　　6. 通过 ClassLoader 默认的 loadClass 方法，也不会触发初始化动作。</p>
+<p> 　　虚拟机会保证一个类的类构造器 <clinit>() 在多线程环境中被正确的加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的类构造器 &lt; clinit&gt;()，其他线程都需要阻塞等待，直到活动线程执行 &lt; clinit&gt;() 方法完毕。特别需要注意的是，在这种情形下，其他线程虽然会被阻塞，但如果执行 &lt; clinit&gt;() 方法的那条线程退出后，其他线程在唤醒之后不会再次进入 / 执行 &lt; clinit&gt;() 方法，因为 在同一个类加载器下，一个类型只会被初始化一次。如果在一个类的 &lt; clinit&gt;() 方法中有耗时很长的操作，就可能造成多个线程阻塞，在实际应用中这种阻塞往往是隐藏的，如下所示：</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>public class DealLoopTest {
+    static{
+        System.out.println(&quot;DealLoopTest...&quot;);
+    }
+    static class DeadLoopClass {
+        static {
+            if (true) {
+                System.out.println(Thread.currentThread()
+                        + &quot;init DeadLoopClass&quot;);
+                while (true) {      // 模拟耗时很长的操作
+                }
+            }
+        }
+    }
+
+    public static void main(String\[\] args) {
+        Runnable script = new Runnable() {   // 匿名内部类
+            public void run() {
+                System.out.println(Thread.currentThread() + &quot; start&quot;);
+                DeadLoopClass dlc = new DeadLoopClass();
+                System.out.println(Thread.currentThread() + &quot; run over&quot;);
+            }
+        };
+
+        Thread thread1 = new Thread(script);
+        Thread thread2 = new Thread(script);
+        thread1.start();
+        thread2.start();
+    }
+}
+/\* Output: 
+        DealLoopTest...
+        Thread\[Thread-1,5,main\] start
+        Thread\[Thread-0,5,main\] start
+        Thread\[Thread-1,5,main\]init DeadLoopClass
+ \*/
+
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>如上述代码所示，在初始化 DeadLoopClass 类时，线程 Thread-1 得到执行并在执行这个类的类构造器 <clinit>() 时，由于该方法包含一个死循环，因此久久不能退出。</p>
+<h2 id="四-典型案例分析"><a href="#四-典型案例分析" class="headerlink" title="四. 典型案例分析　　"></a>四. 典型案例分析　　</h2><p>　　在 Java 中， 创建一个对象常常需要经历如下几个过程：父类的类构造器 <clinit>() -&gt; 子类的类构造器 &lt; clinit&gt;() -&gt; 父类的成员变量和实例代码块 -&gt; 父类的构造函数 -&gt; 子类的成员变量和实例代码块 -&gt; 子类的构造函数。</p>
+<p>那么，我们看看下面的程序的输出结果：</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>public class StaticTest {
+    public static void main(String\[\] args) {
+        staticFunction();
+    }
+
+    static StaticTest st = new StaticTest();
+
+    static {   //静态代码块
+        System.out.println(&quot;1&quot;);
+    }
+
+    {       // 实例代码块
+        System.out.println(&quot;2&quot;);
+    }
+
+    StaticTest() {    // 实例构造器
+        System.out.println(&quot;3&quot;);
+        System.out.println(&quot;a=&quot; + a + &quot;,b=&quot; + b);
+    }
+
+    public static void staticFunction() {   // 静态方法
+        System.out.println(&quot;4&quot;);
+    }
+
+    int a = 110;    // 实例变量
+    static int b = 112;     // 静态变量
+}
+/\* Output: 
+        2
+        3
+        a=110,b=0
+        1
+        4
+ \*/
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>大家能得到正确答案吗？虽然笔者勉强猜出了正确答案，但总感觉怪怪的。因为在初始化阶段，当 JVM 对类 StaticTest 进行初始化时，首先会执行下面的语句：</p>
+<pre><code>static StaticTest st = new StaticTest();
+</code></pre><p>也就是实例化 StaticTest 对象，但这个时候类都没有初始化完毕啊，能直接进行实例化吗？事实上，这涉及到一个根本问题就是：实例初始化不一定要在类初始化结束之后才开始初始化。 下面我们结合类的加载过程说明这个问题。</p>
+<p>　　我们知道，类的生命周期是：加载 -&gt; 验证 -&gt; 准备 -&gt; 解析 -&gt; 初始化 -&gt; 使用 -&gt; 卸载，并且只有在准备阶段和初始化阶段才会涉及类变量的初始化和赋值，因此我们只针对这两个阶段进行分析：</p>
+<p>　　首先，在类的准备阶段需要做的是为类变量（static 变量）分配内存并设置默认值 (零值)，因此在该阶段结束后，类变量 st 将变为 null、b 变为 0。特别需要注意的是，如果类变量是 final 的，那么编译器在编译时就会为 value 生成 ConstantValue 属性，并在准备阶段虚拟机就会根据 ConstantValue 的设置将变量设置为指定的值。也就是说，如果上述程度对变量 b 采用如下定义方式时：</p>
+<pre><code>static final int b=112
+</code></pre><p>　那么，在准备阶段 b 的值就是 112，而不再是 0 了。</p>
+<p>　　此外，在类的初始化阶段需要做的是执行类构造器 <clinit>()，需要指出的是，类构造器本质上是编译器收集所有静态语句块和类变量的赋值语句按语句在源码中的顺序合并生成类构造器 &lt; clinit&gt;()。因此，对上述程序而言，JVM 将先执行第一条静态变量的赋值语句：</p>
+<pre><code>st = new StaticTest ()；
+</code></pre><p>　　在类都没有初始化完毕之前，能直接进行实例化相应的对象吗？</p>
+<p>　　事实上，从 Java 角度看，我们知道一个类初始化的基本常识，那就是：在同一个类加载器下，一个类型只会被初始化一次。所以，一旦开始初始化一个类型，无论是否完成，后续都不会再重新触发该类型的初始化阶段了 (只考虑在同一个类加载器下的情形)。因此，在实例化上述程序中的 st 变量时，实际上是把实例初始化嵌入到了静态初始化流程中，并且在上面的程序中，嵌入到了静态初始化的起始位置。这就导致了实例初始化完全发生在静态初始化之前，当然，这也是导致 a 为 110b 为 0 的原因。</p>
+<p>　　因此，上述程序的 StaticTest 类构造器 <clinit>() 的实现等价于：</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>public class StaticTest {
+    &lt;clinit&gt;(){
+        a = 110;    // 实例变量
+        System.out.println(&quot;2&quot;);        // 实例代码块
+        System.out.println(&quot;3&quot;);     // 实例构造器中代码的执行
+        System.out.println(&quot;a=&quot; + a + &quot;,b=&quot; + b);  // 实例构造器中代码的执行
+        类变量st被初始化
+        System.out.println(&quot;1&quot;);        //静态代码块
+        类变量b被初始化为112
+    }
+}
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>因此，上述程序会有上面的输出结果。下面，我们对上述程序稍作改动，在程序最后的一行，增加以下代码行：</p>
+<pre><code> static StaticTest st1 = new StaticTest();
+</code></pre><p>那么，此时程序的输出又是什么呢？如果你对上述的内容理解很好的话，不难得出结论 (只有执行完上述代码行后，StaticTest 类才被初始化完成)，即：</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>2
+3
+a=110,b=0
+1
+2
+3
+a=110,b=112
+4
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>那么下面的程序的执行结果是什么呢？？？</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>class Foo {
+    int i = 1;
+
+    Foo() {
+        System.out.println(i);             
+        int x = getValue();
+        System.out.println(x);            
+    }
+
+    {
+        i = 2;
+    }
+
+    protected int getValue() {
+        return i;
+    }
+}
+
+//子类
+class Bar extends Foo {
+    int j = 1;
+
+    Bar() {
+        j = 2;
+    }
+
+    {
+        j = 3;
+    }
+
+    @Override
+    protected int getValue() {
+        return j;
+    }
+}
+
+public class ConstructorExample {
+    public static void main(String... args) {
+        Bar bar = new Bar();
+        System.out.println(bar.getValue());        
+    }
+}
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>在创建对象前，先进行类的初始化，类的初始化会将所有非静态代码块收集起来先执行，而父类必须先于子类初始化，所以父类静态代码块先执行，接着是子类静态代码块。此时类初始化完成。接下来要创建子类实例，子类通过 super() 调用父类构造方法，在执行构造方法之前要先执行非静态代码块，所以顺序是 父类非静态代码块 》 父类构造函数 》 子类非静态代码块 》 子类构造函数</p>
+<p>运行程序，就知道结果。只要真正理解类的实例化过程，这类问题不会再难道我们了！</p>
+
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '86bc018a7b861fd65d72',
+        clientSecret: '6806b59a1dbc8efcd585a8c36a7a881fb0fd24f2',
+        repo: 'topone233.github.io',
+        owner: 'topone233',
+        admin: "topone233",
+        id: '2020-09-04T10-22-16',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2020/09/04/Java%20%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E6%A6%82%E8%BF%B0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/16.jpg" class="responsive-img" alt="Java 回收机制概述">
+                        
+                        <span class="card-title">Java 回收机制概述</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.cnblogs.com\](https://www.cnblogs.com/Young111/p/113482
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/09/04/MYSQL/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/10.jpg" class="responsive-img" alt="MYSQL">
+                        
+                        <span class="card-title">MYSQL</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.cnblogs.com\](https://www.cnblogs.com/Young111/p/959872
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('3'),
+            headingSelector: 'h2, h3, h4, h5'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2020</span>
+            <a href="/about" target="_blank">QSX1C</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2020";
+                    var startMonth = "7";
+                    var startDate = "1";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "已存在 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "已存在 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:li-674e@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=809549807" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 809549807" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/js/matery.js"></script>
+    
+   <!-- yinghua -->
+   <script type="text/javascript">
+    var windowWidth = $(window).width();
+    if (windowWidth > 768) {
+         document.write('<script type="text/javascript" src="/js/yinghua.js"><\/script>');
+     }
+    </script>
+
+    <!-- tianqi -->
+    <script type="text/javascript">
+    WIDGET = {FID: 'MEEyXDqUjZ'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

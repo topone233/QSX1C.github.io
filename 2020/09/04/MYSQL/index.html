@@ -1,0 +1,1760 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="MYSQL, QSX1C">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>MYSQL | QSX1C</title>
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/my.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">QSX1C</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于我</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="Search" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">QSX1C</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于我
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/10.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">MYSQL</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
+                    2020-09-04
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>&gt; 本文由 [简悦 SimpRead](<a href="http://ksria.com/simpread/" target="_blank" rel="noopener">http://ksria.com/simpread/</a>) 转码， 原文地址 [<a href="http://www.cnblogs.com\](https://www.cnblogs.com/Young111/p/9598728.html)" target="_blank" rel="noopener">www.cnblogs.com\](https://www.cnblogs.com/Young111/p/9598728.html)</a></p>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="数据库概述"><a href="#数据库概述" class="headerlink" title=" 数据库概述"></a> 数据库概述</h2><p>1. 什么是数据库</p>
+<p>数据库就是存储数据的仓库，其本质是一个文件系统，数据按照特定的格式将数据存储起来，用户可以对数据库中的数据进行增加，修改，删除及查询操作。</p>
+<p>2. 什么是数据库管理系统</p>
+<p>数据库管理系统（DataBase Management System，DBMS）：指一种操作和管理数据库的大型软件，用于建立、使用和维护数据库，对数据库进行统一管理和控制，以保证数据库的安全性和完整性。用户通过数据库管理系统访问数据库中表内的数据。</p>
+<ul>
+<li>常见的数据库管理系统</li>
+</ul>
+<p>MYSQL     ：开源免费的数据库，小型的数据库. 已经被 Oracle 收购了. MySQL6.x 版本也开始收费。</p>
+<p>Oracle      ：收费的大型数据库，Oracle 公司的产品。Oracle 收购 SUN 公司，收购 MYSQL。</p>
+<p>DB2          ：IBM 公司的数据库产品, 收费的。常应用在银行系统中.</p>
+<p>SQLServer：MicroSoft 公司收费的中型的数据库。C#、.net 等语言常使用。</p>
+<p>SyBase     ：已经淡出历史舞台。提供了一个非常专业数据建模的工具 PowerDesigner。</p>
+<p>SQLite      : 嵌入式的小型数据库，应用在手机端。</p>
+<p>Java 相关的数据库：MYSQL，Oracle．</p>
+<p>这里使用 MySQL 数据库。MySQL 中可以有多个数据库，数据库是真正存储数据的地方。</p>
+<ul>
+<li>数据库与数据库管理系统的关系</li>
+</ul>
+<p><img src="https://images2018.cnblogs.com/blog/1408728/201809/1408728-20180906145846797-1023624395.png" alt=""></p>
+<h1 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h1><h2 id="mysql-的管理"><a href="#mysql-的管理" class="headerlink" title="mysql 的管理"></a>mysql 的管理</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>linux:</p>
+<pre><code>\--yum -y install mariadb mariadb-server
+OR
+--yum -y install mysql mysql-server
+</code></pre><p>window</p>
+<pre><code>\--http://dev.mysql.com/downloads/mysql/ 
+</code></pre><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><pre><code>\--service mysqld start  #开启
+--chkconfig mysqld on   #设置开机自启
+OR
+--systemctl start mariadb
+--systemctl enable mariadb
+</code></pre><h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><pre><code>\-- ps aux |grep mysqld    #查看进程
+-- netstat -an |grep 3306 #查看端口
+</code></pre><h3 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h3><pre><code>\-- mysqladmin -uroot password &#39;123&#39;   #设置初始密码，初始密码为空因此-p选项没有用
+-- mysqladmin -u root -p123 password &#39;1234&#39; #修改root用户密码
+</code></pre><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><pre><code>\-- mysql               #本地登录，默认用户root，空密码，用户为root@127.0.0.1
+-- mysql -uroot -p1234 #本地登录，指定用户名和密码，用户为root@127.0.0.1
+-- mysql -uroot -p1234 -h 192.168.31.95 #远程登录，用户为root@192.168.31.95
+</code></pre><h2 id="mysql-的常用命令"><a href="#mysql-的常用命令" class="headerlink" title="mysql 的常用命令"></a>mysql 的常用命令</h2><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>\-- 
+-- 启动mysql服务与停止mysql服务命令：
+-- 
+-- net start mysql
+-- net stop  mysql
+-- 
+-- 
+-- 登陆与退出命令：
+-- 
+--    mysql －h 服务器IP -P 端口号 -u  用户名 -p 密码 －－prompt 命令提示符  －－delimiter 指定分隔符
+--    mysql －h 127.0.0.1 -P 3306 -uroot -p123
+--    quit------exit----\\q;
+-- 
+-- 
+-- \\s;   ------my.ini文件：\[mysql\] default-character-set=gbk \[mysqld\] character-set-server=gbk
+-- 
+-- prompt 命令提示符（\\D:当前日期 \\d:当前数据库  \\u:当前用户）
+-- 
+-- \\T(开始日志) \\t(结束日志)
+-- 
+-- show warnings;
+-- 
+-- help() ? \\h
+-- 
+-- \\G；
+-- 
+-- select now();
+-- select version();
+-- select user;
+-- 
+-- \\c 取消命令
+-- 
+-- delimiter 指定分隔符
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>忘记密码???</p>
+<p>方法一: 启动 mysql 时, 跳过授权表</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>\[root@controller ~\]# service mysqld stop
+\[root@controller ~\]# mysqld\_safe --skip-grant-table &amp;
+\[root@controller ~\]# mysql
+mysql&gt; select user,host,password from mysql.user;
++----------+-----------------------+-------------------------------------------+
+| user     | host                  | password                                  |
++----------+-----------------------+-------------------------------------------+
+| root     | localhost             | \*A4B6157319038724E3560894F7F932C8886EBFCF |
+| root     | localhost.localdomain |                                           |
+| root     | 127.0.0.1             |                                           |
+| root     | ::1                   |                                           |
+|          | localhost             |                                           |
+|          | localhost.localdomain |                                           |
+| root     | %                     | \*23AE809DDACAF96AF0FD78ED04B6A265E05AA257 |
++----------+-----------------------+-------------------------------------------+
+mysql&gt; update mysql.user set password=password(&quot;123&quot;) where user=&quot;root&quot; and host=&quot;localhost&quot;;
+mysql&gt; flush privileges;
+mysql&gt; exit
+\[root@controller ~\]# service mysqld restart
+\[root@controller ~\]# mysql -uroot -p123
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<p>方法二: 删库</p>
+<pre><code>删除与权限相关的库mysql，所有的授权信息都丢失，主要用于测试数据库或者刚刚建库不久没有授权数据的情况（从删库到跑路）
+\[root@controller ~\]# rm -rf /var/lib/mysql/mysql
+\[root@controller ~\]# service mysqld restart
+\[root@controller ~\]# mysql
+</code></pre><h2 id="SQL-语句"><a href="#SQL-语句" class="headerlink" title="SQL 语句"></a>SQL 语句</h2><p>数据库是不认识 python 语言的，但是我们同样要与数据库交互，这时需要使用到数据库认识的语言 SQL 语句，它是数据库的代码。</p>
+<p>结构化查询语言 (Structured Query Language) 简称 SQL，是一种数据库查询和<a href="http://baike.baidu.com/view/128511.htm" target="_blank" rel="noopener">程序设计语言</a>，用于存取数据以及查询、更新和管理<a href="http://baike.baidu.com/view/549699.htm" target="_blank" rel="noopener">关系数据库系统</a>。</p>
+<p>创建数据库、创建数据表、向数据表中添加一条条数据信息均需要使用 SQL 语句。</p>
+<ul>
+<li><p>SQL 分类：</p>
+<p>数据定义语言：简称 DDL(Data Definition Language)，用来定义数据库对象：数据库，表，列等。关键字：create，alter，drop 等</p>
+<p>数据操作语言：简称 DML(Data Manipulation Language)，用来对数据库中表的记录进行更新。关键字：insert，delete，update 等</p>
+<p>数据控制语言：简称 DCL(Data Control Language)，用来定义数据库的访问权限和安全级别，及创建用户。</p>
+<p>数据查询语言：简称 DQL(Data Query Language)，用来查询数据库中表的记录。关键字：select，from，where 等</p>
+</li>
+</ul>
+<h3 id="SQL-通用语法"><a href="#SQL-通用语法" class="headerlink" title="SQL 通用语法"></a>SQL 通用语法</h3><ul>
+<li>l  SQL 语句可以单行或多行书写，以分号结尾</li>
+<li>l  可使用空格和缩进来增强语句的可读性</li>
+<li>l  MySQL 数据库的 SQL 语句不区分大小写，建议使用大写，例如：SELECT * FROM user。</li>
+<li>l  同样可以使用 /**/ 的方式完成注释</li>
+<li>l  MySQL 中的我们常使用的数据类型如下</li>
+</ul>
+<p><img src="https://common.cnblogs.com/images/loading.gif" alt="">)<img src="https://images2018.cnblogs.com/blog/1408728/201809/1408728-20180906151602885-10278553.png" alt=""></p>
+<p>详细的数据类型如下 (不建议详细阅读！)</p>
+<p>| </p>
+<p><strong>分类</strong></p>
+<p> | </p>
+<p><strong>类型名称</strong></p>
+<p> | </p>
+<p><strong>说明</strong></p>
+<p> |<br>| </p>
+<p><strong>整数类型</strong></p>
+<p> | </p>
+<p>tinyInt</p>
+<p> | </p>
+<p>很小的整数</p>
+<p> |<br>| </p>
+<p>smallint</p>
+<p> | </p>
+<p>小的整数</p>
+<p> |<br>| </p>
+<p>mediumint</p>
+<p> | </p>
+<p>中等大小的整数</p>
+<p> |<br>| </p>
+<p>int(integer)</p>
+<p> | </p>
+<p>普通大小的整数</p>
+<p> |<br>| </p>
+<p><strong>小数类型</strong></p>
+<p> | </p>
+<p>float</p>
+<p> | </p>
+<p>单精度浮点数</p>
+<p> |<br>| </p>
+<p>double</p>
+<p> | </p>
+<p>双精度浮点数</p>
+<p> |<br>| </p>
+<p>decimal（m,d）</p>
+<p> | </p>
+<p>压缩严格的定点数</p>
+<p> |<br>| </p>
+<p><strong>日期类型</strong></p>
+<p> | </p>
+<p>year</p>
+<p> | </p>
+<p>YYYY  1901~2155</p>
+<p> |<br>| </p>
+<p>time</p>
+<p> | </p>
+<p>HH:MM:SS  -838:59:59~838:59:59</p>
+<p> |<br>| </p>
+<p>date</p>
+<p> | </p>
+<p>YYYY-MM-DD 1000-01-01~9999-12-3</p>
+<p> |<br>| </p>
+<p>datetime</p>
+<p> | </p>
+<p>YYYY-MM-DD HH:MM:SS 1000-01-01 00:00:00~ 9999-12-31 23:59:59</p>
+<p> |<br>| </p>
+<p>timestamp</p>
+<p> | </p>
+<p>YYYY-MM-DD HH:MM:SS  1970<del>01</del>01 00:00:01 UTC~2038-01-19 03:14:07UTC</p>
+<p> |<br>| </p>
+<p><strong>文本、二进制类型</strong></p>
+<p> | </p>
+<p>CHAR(M)         </p>
+<p> | </p>
+<p>M 为 0~255 之间的整数</p>
+<p> |<br>| </p>
+<p>VARCHAR(M)  </p>
+<p> | </p>
+<p>M 为 0~65535 之间的整数</p>
+<p> |<br>| </p>
+<p>TINYBLOB</p>
+<p> | </p>
+<p>允许长度 0~255 字节</p>
+<p> |<br>| </p>
+<p>BLOB</p>
+<p> | </p>
+<p>允许长度 0~65535 字节</p>
+<p> |<br>| </p>
+<p>MEDIUMBLOB</p>
+<p> | </p>
+<p>允许长度 0~167772150 字节</p>
+<p> |<br>| </p>
+<p>LONGBLOB</p>
+<p> | </p>
+<p>允许长度 0~4294967295 字节</p>
+<p> |<br>| </p>
+<p>TINYTEXT</p>
+<p> | </p>
+<p>允许长度 0~255 字节</p>
+<p> |<br>| </p>
+<p>TEXT</p>
+<p> | </p>
+<p>允许长度 0~65535 字节</p>
+<p> |<br>| </p>
+<p>MEDIUMTEXT</p>
+<p> | </p>
+<p>允许长度 0~167772150 字节</p>
+<p> |<br>| </p>
+<p>LONGTEXT</p>
+<p> | </p>
+<p>允许长度 0~4294967295 字节</p>
+<p> |<br>| </p>
+<p>VARBINARY(M)</p>
+<p> | </p>
+<p>允许长度 0~M 个字节的变长字节字符串</p>
+<p> |<br>| </p>
+<p>BINARY(M)</p>
+<p> | </p>
+<p>允许长度 0~M 个字节的定长字节字符串</p>
+<p> |</p>
+<h3 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h3><p>基础操作:</p>
+<p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<pre><code>\-- 1.创建表（类似于一个excel表）
+
+        create table tab\_name(
+            field1 type\[完整性约束条件\],
+            field2 type,
+            ...
+            fieldn type
+        )\[character set xxx\];
+
+         -- 创建一个员工表employee
+
+         create table employee(
+            id int primary key auto\_increment ,
+            name varchar(20),
+            gender bit default 1,   -- gender char(1)  default 1   -----    或者 TINYINT(1) 
+            birthday date,
+            entry\_date date,
+            job varchar(20),
+            salary double(4,2) unsigned,
+            resume text    -- 注意，这里作为最后一个字段不加逗号
+          );
+
+
+    /\* 约束:
+       primary key (非空且唯一)  :能够唯一区分出当前记录的字段称为主键！
+       unique
+       not null
+       auto\_increment 主键字段必须是数字类型。
+       外键约束 foreign key  \*/
+
+-- 2.查看表信息
+    desc tab\_name 查看表结构
+    show columns from tab\_name  查看表结构
+    show tables 查看当前数据库中的所有的表
+    show create table tab\_name    查看当前数据库表建表语句 
+
+-- 3.修改表结构
+   -- (1)增加列(字段)
+      alter table tab\_name add \[column\] 列名 类型［完整性约束条件］［first｜after 字段名］;
+      alter table user add addr varchar(20) not null unique first/after username;
+      #添加多个字段
+      alter table users2 
+            add addr varchar(20),
+            add age  int first,
+            add birth varchar(20) after name;
+
+   -- (2)修改一列类型
+      alter table tab\_name modify 列名 类型 \[完整性约束条件\]［first｜after 字段名］;
+      alter table users2 modify age tinyint default 20;
+      alter table users2 modify age int  after id;
+
+   -- (3)修改列名
+      alter table tab\_name change \[column\] 列名 新列名 类型 \[完整性约束条件\]［first｜after 字段名］;
+      alter table users2 change age Age int default 28 first;
+
+   -- (4)删除一列
+      alter table tab\_name drop \[column\] 列名;
+      -- 思考：删除多列呢？删一个填一个呢？
+      alter table users2 
+            add salary float(6,2) unsigned not null after name,
+            drop addr;    
+
+   -- (5)修改表名
+      rename table 表名 to 新表名;
+   -- (6)修该表所用的字符集    
+      alter table student character set utf8;
+
+-- 4.删除表
+    drop table tab\_name;
+
+---5 添加主键，删除主键
+    alter table tab\_name add primary key(字段名称,...) 
+    alter table users drop primary key;
+
+    eg:
+    mysql&gt; create table test5(num int auto\_increment);
+    ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+    create table test(num int primary key auto\_increment);
+    -- 思考，如何删除主键？
+    alter table test modify id int;   -- auto\_increment没了，但这样写主键依然存在，所以还要加上下面这句
+    alter table test drop primary key;-- 仅仅用这句也无法直接删除主键
+
+-- 唯一索引
+    alter table tab\_name add unique \[index|key\] \[索引名称\](字段名称,...) 
+
+    alter table users add unique(name)-- 索引值默认为字段名show create table users;
+    alter table users add unique key user\_name(name);-- 索引值为user\_name
+
+    -- 添加联合索引
+    alter table users add unique index name\_age(name,age);#show create table users;
+
+    -- 删除唯一索引
+    alter table tab\_name drop {index|key} index\_name
+</code></pre><p><a href="javascript:void(0);" title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt=""></a></p>
+<h3 id="完整性约束条件之主键约束"><a href="#完整性约束条件之主键约束" class="headerlink" title="完整性约束条件之主键约束"></a>完整性约束条件之主键约束</h3><p><strong>单字段主键</strong></p>
+<p>主键字段特点：非空且唯一</p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code> create table users(
+            id INT primary key,
+            name varchar(20),
+            city varchar(20)
+          );
+</code></pre><p>View Code</p>
+<p><strong>多字段联合主键</strong></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code> create table users2(
+            id INT,
+            name varchar(20),
+            city varchar(20),
+            primary key(name,id)
+          );
+</code></pre><p>View Code</p>
+<p>&lt;1&gt; 一张表只能有一个主键</p>
+<p>&lt;2&gt; 主键类型不一定非是整型</p>
+<h2 id="表纪录操作"><a href="#表纪录操作" class="headerlink" title="表纪录操作"></a>表纪录操作</h2><h3 id="表纪录之增，删，改"><a href="#表纪录之增，删，改" class="headerlink" title="表纪录之增，删，改"></a>表纪录之增，删，改</h3><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\-- 1.增加一条记录insert
+
+      /\*insert ［into］ tab\_name (field1,filed2,.......) values (value1,value2,.......);\*/
+
+
+      create table employee\_new(
+                 id int primary key auto\_increment,
+                 name varchar(20) not null unique,
+                 birthday varchar(20),
+                 salary float(7,2)
+                             );
+
+       insert into employee\_new (id,name,birthday,salary) values
+                     (1,&#39;yuan&#39;,&#39;1990-09-09&#39;,9000);
+
+       insert into employee\_new values
+       (2,&#39;alex&#39;,&#39;1989-08-08&#39;,3000);
+
+       insert into employee\_new (name,salary) values
+       (&#39;xialv&#39;,1000);
+
+      -- 插入多条数据
+       insert into employee\_new values
+       (4,&#39;alvin1&#39;,&#39;1993-04-20&#39;,3000),
+       (5,&#39;alvin2&#39;,&#39;1995-05-12&#39;,5000);
+
+      -- set插入: insert ［into］ tab\_name set 字段名=值
+
+      insert into employee\_new set id=12,;
+
+
+-- 2.修改表记录  update tab\_name set field1=value1,field2=value2,......\[where 语句\]
+
+    /\*      UPDATE语法可以用新值更新原有表行中的各列。
+            SET子句指示要修改哪些列和要给予哪些值。
+            WHERE子句指定应更新哪些行。如没有WHERE子句，则更新所有的行。\*/
+
+
+    update employee\_new set birthday=&quot;1989-10-24&quot; WHERE id=1;
+
+    --- 将yuan的薪水在原有基础上增加1000元。
+    update employee\_new set salary=salary+4000 where name=&#39;yuan&#39;;
+
+-- 3.删除表纪录
+
+     delete from tab\_name \[where ....\]
+
+        /\*    如果不跟where语句则删除整张表中的数据
+            delete只能用来删除一行记录
+            delete语句只能删除表中的内容，不能删除表本身，想要删除表，用drop
+            TRUNCATE TABLE也可以删除表中的所有数据，词语句首先摧毁表，再新建表。此种方式删除的数据不能在
+            事务中恢复。\*/
+
+                -- 删除表中名称为’alex’的记录。
+                delete from employee\_new where name=&#39;alex&#39;;
+                -- 删除表中所有记录。
+                delete from employee\_new;-- 注意auto\_increment没有被重置:alter table employee auto\_increment=1;
+                -- 使用truncate删除表中记录。
+                truncate table emp\_new;
+</code></pre><p>View Code</p>
+<h3 id="表纪录之查-单表查询"><a href="#表纪录之查-单表查询" class="headerlink" title="表纪录之查 (单表查询)"></a>表纪录之查 (单表查询)</h3><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\-- 查询表达式
+
+   SELECT \*|field1,filed2 ...   FROM tab\_name
+                  WHERE 条件
+                  GROUP BY field
+                  HAVING 筛选
+                  ORDER BY field
+                  LIMIT 限制条数
+
+
+ ---准备表
+
+   CREATE TABLE ExamResult(
+
+   id INT PRIMARY KEY  auto\_increment,
+   name VARCHAR (20),
+   JS DOUBLE ,
+   Django DOUBLE ,
+   OpenStack DOUBLE
+);
+
+
+INSERT INTO ExamResult VALUES  (1,&quot;yuan&quot;,98,98,98),
+                               (2,&quot;tom&quot;,35,98,67),
+                               (3,&quot;jerry&quot;,59,59,62),
+                               (4,&quot;jean&quot;,88,89,82),
+                               (5,&quot;lilei&quot;,88,98,67),
+                               (6,&quot;kivn&quot;,86,100,55);
+
+
+-- （1）select \[distinct\] \*|field1，field2，......   from tab\_name
+            -- 其中from指定从哪张表筛选，\*表示查找所有列，也可以指定一个列
+            -- 表明确指定要查找的列，distinct用来剔除重复行。
+
+                    -- 查询表中所有学生的信息。
+                    select \* from ExamResult;
+                    -- 查询表中所有学生的姓名和对应的英语成绩。
+                    select name,JS from ExamResult;
+                    -- 过滤表中重复数据。
+                    select distinct JS ,name from ExamResult;
+
+
+
+-- （2）select 也可以使用表达式，并且可以使用: 字段 as 别名或者:字段 别名
+
+                -- 在所有学生分数上加10分特长分显示。
+
+                select name,JS+10,Django+10,OpenStack+10 from ExamResult;
+                -- 统计每个学生的总分。
+                select name,JS+Django+OpenStack from ExamResult;
+                -- 使用别名表示学生总分。
+                select name as 姓名,JS+Django+OpenStack as 总成绩 from ExamResult;
+                select name,JS+Django+OpenStack 总成绩 from ExamResult;
+
+                select name JS from ExamResult; -- what will happen?----&gt;记得加逗号
+
+-- （3）使用where子句，进行过滤查询。
+
+            -- 查询姓名为XXX的学生成绩
+            select \* from ExamResult where name=&#39;jerry&#39;;
+            -- 查询英语成绩大于90分的同学
+            select id,name,JS from ExamResult where JS&gt;90;
+            -- 查询总分大于200分的所有同学
+            select name,JS+Django+OpenStack as 总成绩 from
+                        ExamResult where JS+Django+OpenStack&gt;200 ;
+            -- where字句中可以使用：
+                     -- 比较运算符：
+                        &gt; &lt; &gt;= &lt;= &lt;&gt; !=
+                        between 80 and 100 值在10到20之间
+                        in(80,90,100) 值是10或20或30
+                        like &#39;jerry%&#39;
+                        /\*
+                        pattern可以是%或者\_，
+                        如果是%则表示任意多字符，此例如唐僧,唐国强
+                        如果是\_则表示一个字符唐\_，只有唐僧符合。两个\_则表示两个字符：\_\_
+                        \*/
+
+                    -- 逻辑运算符
+                        在多个条件直接可以使用逻辑运算符 and or not
+            -- 练习
+                -- 查询JS分数在 70－100之间的同学。
+                select name ,JS from ExamResult where JS between 80 and 100;
+                -- 查询Django分数为75,76,77的同学。
+                select name ,Django from ExamResult where Django in (75,98,77);
+                -- 查询所有姓王的学生成绩。
+                select \* from ExamResult where name like &#39;王%&#39;;
+                -- 查询JS分&gt;90，Django分&gt;90的同学。
+                select id,name from ExamResult where JS&gt;90 and Django &gt;90;
+                -- 查找缺考数学的学生的姓名
+                select name from ExamResult where Database is null;
+
+
+-- （4）Order by 指定排序的列，排序的列即可是表中的列名，也可以是select 语句后指定的别名。
+
+              -- select \*|field1,field2... from tab\_name order by field \[Asc|Desc\]
+
+              -- Asc 升序、Desc 降序，其中asc为默认值 ORDER BY 子句应位于SELECT语句的结尾。
+              -- 练习：
+              -- 对JS成绩排序后输出。
+              select \* from ExamResult order by JS;
+              -- 对总分排序按从高到低的顺序输出
+              select name ,(ifnull(JS,0)+ifnull(Django,0)+ifnull(Database,0))
+                   总成绩 from ExamResult order by 总成绩 desc;
+              -- 对姓李的学生成绩排序输出
+              select name ,(ifnull(JS,0)+ifnull(Django,0)+ifnull(OpenStack,0))
+                   总成绩 from ExamResult where name like &#39;a%&#39;
+                                         order by 总成绩 desc;
+
+
+-- （5）group by 分组查询：
+        CREATE TABLE order\_menu(
+             id INT PRIMARY KEY auto\_increment,
+             product\_name VARCHAR (20),
+             price FLOAT(6,2),
+             born\_date DATE,
+             class VARCHAR (20)
+                                );
+
+
+         INSERT INTO order\_menu (product\_name,price,born\_date,class) VALUES
+                                             (&quot;苹果&quot;,20,20170612,&quot;水果&quot;),
+                                             (&quot;香蕉&quot;,80,20170602,&quot;水果&quot;),
+                                             (&quot;水壶&quot;,120,20170612,&quot;电器&quot;),
+                                             (&quot;被罩&quot;,70,20170612,&quot;床上用品&quot;),
+                                             (&quot;音响&quot;,420,20170612,&quot;电器&quot;),
+                                             (&quot;床单&quot;,55,20170612,&quot;床上用品&quot;),
+                                             (&quot;草莓&quot;,34,20170612,&quot;水果&quot;);
+
+
+            -- 注意,按分组条件分组后每一组只会显示第一条记录
+
+            -- group by字句，其后可以接多个列名，也可以跟having子句,对group by 的结果进行筛选。
+
+
+                    -- 按位置字段筛选
+                       select \* from order\_menu group by 5;
+
+                    -- 练习：对购物表按类名分组后显示每一组商品的价格总和
+                       select class,SUM(price)from order\_menu group by class;
+
+                    -- 练习：对购物表按类名分组后显示每一组商品价格总和超过150的商品
+                       select class,SUM(price)from order\_menu group by class
+                                                        HAVING SUM(price)&gt;150;
+
+
+
+                   /\*
+                   having 和 where两者都可以对查询结果进行进一步的过滤，差别有：
+                     &lt;1&gt;where语句只能用在分组之前的筛选，having可以用在分组之后的筛选；
+                     &lt;2&gt;使用where语句的地方都可以用having进行替换
+                     &lt;3&gt;having中可以用聚合函数，where中就不行。
+                   \*/
+
+
+            -- GROUP\_CONCAT() 函数
+            SELECT id,GROUP\_CONCAT(name),GROUP\_CONCAT(JS) from ExamResult GROUP BY id;
+
+
+-- （6）聚合函数： 先不要管聚合函数要干嘛，先把要求的内容查出来再包上聚合函数即可。
+                 --   (一般和分组查询配合使用)
+
+        --&lt;1&gt; 统计表中所有记录
+
+            -- COUNT(列名)：统计行的个数
+                    -- 统计一个班级共有多少学生？先查出所有的学生，再用count包上
+                     select count(\*) from ExamResult;
+                    -- 统计JS成绩大于70的学生有多少个？
+                     select count(JS) from ExamResult where JS&gt;70;
+                    -- 统计总分大于280的人数有多少？
+                     select count(name) from ExamResult
+                           where (ifnull(JS,0)+ifnull(Django,0)+ifnull(OpenStack,0))&gt;280;
+                    -- 注意:count(\*)统计所有行;     count(字段)不统计null值.
+
+            -- SUM(列名)：统计满足条件的行的内容和
+                    -- 统计一个班级JS总成绩？先查出所有的JS成绩，再用sum包上
+                        select JS as JS总成绩 from ExamResult;
+                        select sum(JS) as JS总成绩 from ExamResult;
+                    -- 统计一个班级各科分别的总成绩
+                        select sum(JS) as JS总成绩,
+                               sum(Django) as Django总成绩,
+                               sum(OpenStack) as OpenStack from ExamResult;
+
+                    -- 统计一个班级各科的成绩总和
+                        select sum(ifnull(JS,0)+ifnull(Django,0)+ifnull(Database,0))
+                                                    as 总成绩 from ExamResult;
+                    -- 统计一个班级JS成绩平均分
+                        select sum(JS)/count(\*) from ExamResult ;
+                    -- 注意：sum仅对数值起作用，否则会报错。
+
+            -- AVG(列名)：
+                            -- 求一个班级JS平均分？先查出所有的JS分，然后用avg包上。
+                                select avg(ifnull(JS,0)) from ExamResult;
+                            -- 求一个班级总分平均分
+                                select avg((ifnull(JS,0)+ifnull(Django,0)+ifnull(Database,0)))
+                                                         from ExamResult ;
+            -- Max、Min
+                            -- 求班级最高分和最低分（数值范围在统计中特别有用）
+                              select Max((ifnull(JS,0)+ifnull(Django,0)+ifnull(OpenStack,0)))
+                              最高分 from ExamResult;
+                              select Min((ifnull(JS,0)+ifnull(Django,0)+ifnull(OpenStack,0)))
+                              最低分 from ExamResult;
+                            -- 求购物表中单价最高的商品名称及价格
+                              ---SELECT id, MAX(price) FROM order\_menu;--id和最高价商品是一个商品吗?
+
+                              SELECT MAX(price) FROM order\_menu; 
+
+                            -- 注意：null 和所有的数计算都是null，所以需要用ifnull将null转换为0！
+                            --      -----ifnull(JS,0)
+
+
+                -- with rollup的使用
+
+            --&lt;2&gt; 统计分组后的组记录
+
+
+-- （7） 重点：Select from where group by having order by
+                -- Mysql在执行sql语句时的执行顺序：
+                -- from  where  select group by  having order by
+                -- 分析:
+                select JS as JS成绩 from ExamResult where JS成绩 &gt;70; ---- 不成功
+                select JS as JS成绩 from ExamResult having JS成绩 &gt;90; --- 成功
+
+--  (8) limit
+                SELECT \* from ExamResult limit 1;
+                SELECT \* from ExamResult limit 2,5;--跳过前两条显示接下来的五条纪录
+                SELECT \* from ExamResult limit 2,2;
+
+
+--- (9) 使用正则表达式查询
+        SELECT \* FROM employee WHERE emp\_name REGEXP &#39;^yu&#39;;
+
+        SELECT \* FROM employee WHERE emp\_name REGEXP &#39;yun$&#39;;
+
+        SELECT \* FROM employee WHERE emp\_name REGEXP &#39;m{2}&#39;;
+</code></pre><p>View Code</p>
+<h2 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h2><h3 id="创建外键"><a href="#创建外键" class="headerlink" title="创建外键"></a>创建外键</h3><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\---  每一个班主任会对应多个学生 , 而每个学生只能对应一个班主任
+
+----主表
+
+CREATE TABLE ClassCharger(
+
+       id TINYINT PRIMARY KEY auto\_increment,
+       name VARCHAR (20),
+       age INT ,
+       is\_marriged boolean  -- show create table ClassCharger: tinyint(1)
+
+);
+
+INSERT INTO ClassCharger (name,age,is\_marriged) VALUES (&quot;冰冰&quot;,12,0),
+                                                       (&quot;丹丹&quot;,14,0),
+                                                       (&quot;歪歪&quot;,22,0),
+                                                       (&quot;姗姗&quot;,20,0),
+                                                       (&quot;小雨&quot;,21,0);
+
+
+----子表
+
+CREATE TABLE Student(
+
+       id INT PRIMARY KEY auto\_increment,
+       name VARCHAR (20),
+       charger\_id TINYINT,     --切记:作为外键一定要和关联主键的数据类型保持一致
+       -- \[ADD CONSTRAINT charger\_fk\_stu\]FOREIGN KEY (charger\_id) REFERENCES ClassCharger(id)
+
+) ENGINE=INNODB;
+
+INSERT INTO Student(name,charger\_id) VALUES (&quot;alvin1&quot;,2),
+                                            (&quot;alvin2&quot;,4),
+                                            (&quot;alvin3&quot;,1),
+                                            (&quot;alvin4&quot;,3),
+                                            (&quot;alvin5&quot;,1),
+                                            (&quot;alvin6&quot;,3),
+                                            (&quot;alvin7&quot;,2);
+
+
+DELETE FROM ClassCharger WHERE ;
+INSERT student (name,charger\_id) VALUES (&quot;yuan&quot;,1);
+-- 删除居然成功,可是 alvin3显示还是有班主任id=1的冰冰的;
+
+-----------增加外键和删除外键---------
+
+ALTER TABLE student  ADD CONSTRAINT abc
+                     FOREIGN KEY(charger\_id)
+                     REFERENCES  classcharger(id);
+
+
+ALTER TABLE student DROP FOREIGN KEY abc;
+</code></pre><p>View Code</p>
+<h3 id="INNODB-支持的-ON-语句"><a href="#INNODB-支持的-ON-语句" class="headerlink" title="INNODB 支持的 ON 语句"></a>INNODB 支持的 ON 语句</h3><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\--外键约束对子表的含义:   如果在父表中找不到候选键,则不允许在子表上进行insert/update
+
+--外键约束对父表的含义:    在父表上进行update/delete以更新或删除在子表中有一条或多条对
+                    -- 应匹配行的候选键时,父表的行为取决于：在定义子表的外键时指定的
+                    -- on update/on delete子句
+
+
+-----------------innodb支持的四种方式---------------------------------------
+
+-----cascade方式 在父表上update/delete记录时，同步update/delete掉子表的匹配记录
+-----外键的级联删除：如果父表中的记录被删除，则子表中对应的记录自动被删除--------
+
+     FOREIGN KEY (charger\_id) REFERENCES ClassCharger(id)
+                              ON DELETE CASCADE
+
+
+------set null方式 在父表上update/delete记录时，将子表上匹配记录的列设为null
+   -- 要注意子表的外键列不能为not null
+
+     FOREIGN KEY (charger\_id) REFERENCES ClassCharger(id)
+                              ON DELETE SET NULL
+
+
+------Restrict方式 :拒绝对父表进行删除更新操作(了解)
+
+------No action方式 在mysql中同Restrict,如果子表中有匹配的记录,则不允许对父表对应候选键
+   -- 进行update/delete操作（了解）
+</code></pre><p>View Code</p>
+<h2 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h2><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\-- 准备两张表
+-- company.employee
+-- company.department
+
+      create table employee(
+      emp\_id int auto\_increment primary key not null,
+      emp\_name varchar(50),
+      age int,
+      dept\_id int
+      );
+
+      insert into employee(emp\_name,age,dept\_id) values
+        (&#39;A&#39;,19,200),
+        (&#39;B&#39;,26,201),
+        (&#39;C&#39;,30,201),
+        (&#39;D&#39;,24,202),
+        (&#39;E&#39;,20,200),
+        (&#39;F&#39;,38,204);
+
+
+    create table department(
+       dept\_id int,
+       dept\_name varchar(100)
+      );
+
+    insert into department values
+      (200,&#39;人事部&#39;),
+      (201,&#39;技术部&#39;),
+      (202,&#39;销售部&#39;),
+      (203,&#39;财政部&#39;);
+
+mysql&gt; select \* from employee;
++--------+----------+------+---------+
+| emp\_id | emp\_name | age  | dept\_id |
++--------+----------+------+---------+
+|      1 | A        |   19 |     200 |
+|      2 | B        |   26 |     201 |
+|      3 | C        |   30 |     201 |
+|      4 | D        |   24 |     202 |
+|      5 | E        |   20 |     200 |
+|      6 | F        |   38 |     204 |
++--------+----------+------+---------+
+6 rows in set (0.00 sec)
+
+mysql&gt; select \* from department;
++---------+-----------+
+| dept\_id | dept\_name |
++---------+-----------+
+|     200 | 人事部    |
+|     201 | 技术部    |
+|     202 | 销售部    |
+|     203 | 财政部    |
++---------+-----------+
+4 rows in set (0.01 sec)
+</code></pre><p>准备表</p>
+<h3 id="多表查询之连接查询"><a href="#多表查询之连接查询" class="headerlink" title="多表查询之连接查询"></a>多表查询之连接查询</h3><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>mysql&gt; SELECT \* FROM employee,department;
+
+--        select employee.emp\_id,employee.emp\_name,employee.age,
+--        department.dept\_name from employee,department;
+
++--------+----------+------+---------+---------+-----------+
+| emp\_id | emp\_name | age  | dept\_id | dept\_id | dept\_name |
++--------+----------+------+---------+---------+-----------+
+|      1 | A        |   19 |     200 |     200 | 人事部    |
+|      1 | A        |   19 |     200 |     201 | 技术部    |
+|      1 | A        |   19 |     200 |     202 | 销售部    |
+|      1 | A        |   19 |     200 |     203 | 财政部    |
+|      2 | B        |   26 |     201 |     200 | 人事部    |
+|      2 | B        |   26 |     201 |     201 | 技术部    |
+|      2 | B        |   26 |     201 |     202 | 销售部    |
+|      2 | B        |   26 |     201 |     203 | 财政部    |
+|      3 | C        |   30 |     201 |     200 | 人事部    |
+|      3 | C        |   30 |     201 |     201 | 技术部    |
+|      3 | C        |   30 |     201 |     202 | 销售部    |
+|      3 | C        |   30 |     201 |     203 | 财政部    |
+|      4 | D        |   24 |     202 |     200 | 人事部    |
+|      4 | D        |   24 |     202 |     201 | 技术部    |
+|      4 | D        |   24 |     202 |     202 | 销售部    |
+|      4 | D        |   24 |     202 |     203 | 财政部    |
+|      5 | E        |   20 |     200 |     200 | 人事部    |
+|      5 | E        |   20 |     200 |     201 | 技术部    |
+|      5 | E        |   20 |     200 |     202 | 销售部    |
+|      5 | E        |   20 |     200 |     203 | 财政部    |
+|      6 | F        |   38 |     204 |     200 | 人事部    |
+|      6 | F        |   38 |     204 |     201 | 技术部    |
+|      6 | F        |   38 |     204 |     202 | 销售部    |
+|      6 | F        |   38 |     204 |     203 | 财政部    |
++--------+----------+------+---------+---------+-----------+
+</code></pre><p>1. 笛卡尔积查询</p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\-- 查询两张表中都有的关联数据,相当于利用条件从笛卡尔积结果中筛选出了正确的结果。
+
+  select \* from employee,department where employee.dept\_id = department.dept\_id;
+--select \* from employee inner join department on employee.dept\_id = department.dept\_id;
+
+      +--------+----------+------+---------+---------+-----------+
+      | emp\_id | emp\_name | age  | dept\_id | dept\_id | dept\_name |
+      +--------+----------+------+---------+---------+-----------+
+      |      1 | A        |   19 |     200 |     200 | 人事部    |
+      |      2 | B        |   26 |     201 |     201 | 技术部    |
+      |      3 | C        |   30 |     201 |     201 | 技术部    |
+      |      4 | D        |   24 |     202 |     202 | 销售部    |
+      |      5 | E        |   20 |     200 |     200 | 人事部    |
+      +--------+----------+------+---------+---------+-----------+
+</code></pre><p>2. 内连接</p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\--（1）左外连接：在内连接的基础上增加左边有右边没有的结果
+
+ select \* from employee left join department on employee.dept\_id = department.dept\_id;
+
+     +--------+----------+------+---------+---------+-----------+
+    | emp\_id | emp\_name | age  | dept\_id | dept\_id | dept\_name |
+    +--------+----------+------+---------+---------+-----------+
+    |      1 | A        |   19 |     200 |     200 | 人事部    |
+    |      5 | E        |   20 |     200 |     200 | 人事部    |
+    |      2 | B        |   26 |     201 |     201 | 技术部    |
+    |      3 | C        |   30 |     201 |     201 | 技术部    |
+    |      4 | D        |   24 |     202 |     202 | 销售部    |
+    |      6 | F        |   38 |     204 |    NULL | NULL      |
+    +--------+----------+------+---------+---------+-----------+
+
+ --（2）右外连接：在内连接的基础上增加右边有左边没有的结果
+
+ select \* from employee RIGHT JOIN department on employee.dept\_id = department.dept\_id;
+
+        +--------+----------+------+---------+---------+-----------+
+        | emp\_id | emp\_name | age  | dept\_id | dept\_id | dept\_name |
+        +--------+----------+------+---------+---------+-----------+
+        |      1 | A        |   19 |     200 |     200 | 人事部    |
+        |      2 | B        |   26 |     201 |     201 | 技术部    |
+        |      3 | C        |   30 |     201 |     201 | 技术部    |
+        |      4 | D        |   24 |     202 |     202 | 销售部    |
+        |      5 | E        |   20 |     200 |     200 | 人事部    |
+        |   NULL | NULL     | NULL |    NULL |     203 | 财政部    |
+        +--------+----------+------+---------+---------+-----------+
+
+ --（3）全外连接：在内连接的基础上增加左边有右边没有的和右边有左边没有的结果
+
+    -- mysql不支持全外连接 full JOIN
+    -- mysql可以使用此种方式间接实现全外连接
+
+   select \* from employee RIGHT JOIN department on employee.dept\_id = department.dept\_id
+   UNION
+   select \* from employee LEFT JOIN department on employee.dept\_id = department.dept\_id;
+
+
+
+        +--------+----------+------+---------+---------+-----------+
+        | emp\_id | emp\_name | age  | dept\_id | dept\_id | dept\_name |
+        +--------+----------+------+---------+---------+-----------+
+        |      1 | A        |   19 |     200 |     200 | 人事部    |
+        |      2 | B        |   26 |     201 |     201 | 技术部    |
+        |      3 | C        |   30 |     201 |     201 | 技术部    |
+        |      4 | D        |   24 |     202 |     202 | 销售部    |
+        |      5 | E        |   20 |     200 |     200 | 人事部    |
+        |   NULL | NULL     | NULL |    NULL |     203 | 财政部    |
+        |      6 | F        |   38 |     204 |    NULL | NULL      |
+        +--------+----------+------+---------+---------+-----------+
+
+      -- 注意 union与union all的区别：union会去掉相同的纪录
+</code></pre><p>3. 外连接</p>
+<h3 id="多表查询之复合条件连接查询"><a href="#多表查询之复合条件连接查询" class="headerlink" title="多表查询之复合条件连接查询"></a>多表查询之复合条件连接查询</h3><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\-- 查询员工年龄大于等于25岁的部门
+
+    SELECT DISTINCT department.dept\_name
+    FROM employee,department
+    WHERE employee.dept\_id = department.dept\_id
+    AND age&gt;25;
+
+
+--以内连接的方式查询employee和department表，并且以age字段的升序方式显示
+
+    select employee.emp\_id,employee.emp\_name,employee.age,department.dept\_name
+    from employee,department
+    where employee.dept\_id = department.dept\_id
+    order by age asc;
+</code></pre><p>View Code</p>
+<h3 id="多表查询之子查询"><a href="#多表查询之子查询" class="headerlink" title="多表查询之子查询"></a>多表查询之子查询</h3><p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt="">)<img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" alt=""></p>
+<pre><code>\-- 子查询是将一个查询语句嵌套在另一个查询语句中。
+-- 内层查询语句的查询结果，可以为外层查询语句提供查询条件。
+-- 子查询中可以包含：IN、NOT IN、ANY、ALL、EXISTS 和 NOT EXISTS等关键字
+-- 还可以包含比较运算符：= 、 !=、&gt; 、&lt;等
+
+
+-- 1. 带IN关键字的子查询
+
+   ---查询employee表，但dept\_id必须在department表中出现过
+
+   select \* from employee
+            where dept\_id IN
+            (select dept\_id from department);
+
+
++--------+----------+------+---------+
+| emp\_id | emp\_name | age  | dept\_id |
++--------+----------+------+---------+
+|      1 | A        |   19 |     200 |
+|      2 | B        |   26 |     201 |
+|      3 | C        |   30 |     201 |
+|      4 | D        |   24 |     202 |
+|      5 | E        |   20 |     200 |
++--------+----------+------+---------+
+5 rows in set (0.01 sec)
+
+
+
+-- 2. 带比较运算符的子查询
+      --      =、!=、&gt;、&gt;=、&lt;、&lt;=、&lt;&gt;
+
+     -- 查询员工年龄大于等于25岁的部门
+     select dept\_id,dept\_name from department
+           where dept\_id IN
+          (select DISTINCT dept\_id from employee where age&gt;=25);
+
+-- 3. 带EXISTS关键字的子查询
+
+-- EXISTS关字键字表示存在。在使用EXISTS关键字时，内层查询语句不返回查询的记录。
+-- 而是返回一个真假值。Ture或False
+-- 当返回Ture时，外层查询语句将进行查询；当返回值为False时，外层查询语句不进行查询
+
+     select \* from employee
+              WHERE EXISTS
+              (SELECT dept\_name from department where dept\_id=203);
+
+      --department表中存在dept\_id=203，Ture
+
+
+     select \* from employee
+                WHERE EXISTS
+              (SELECT dept\_name from department where dept\_id=205);
+
+     -- Empty set (0.00 sec)
+
+
+    ps:  create table t1(select \* from t2);
+</code></pre><p>View Code</p>
+
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">No tag</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '86bc018a7b861fd65d72',
+        clientSecret: '6806b59a1dbc8efcd585a8c36a7a881fb0fd24f2',
+        repo: 'topone233.github.io',
+        owner: 'topone233',
+        admin: "topone233",
+        id: '2020-09-04T10-21-49',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+            <div class="card">
+                <a href="/2020/09/04/JVM%20%E7%B1%BB%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A6%82%E8%BF%B0%EF%BC%9A%E5%8A%A0%E8%BD%BD%E6%97%B6%E6%9C%BA%E4%B8%8E%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/11.jpg" class="responsive-img" alt="JVM 类生命周期概述：加载时机与加载过程">
+                        
+                        <span class="card-title">JVM 类生命周期概述：加载时机与加载过程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.cnblogs.com\](https://www.cnblogs.com/Young111/p/113597
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-04
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            QSX1C
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/09/03/%E6%88%91%E7%9A%84%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7/">
+                    <div class="card-image">
+                        
+                        <img src="https://gitee.com/QSX1C/blog-picgo/raw/master/img/211.jpg" class="responsive-img" alt="我的写作工具">
+                        
+                        <span class="card-title">我的写作工具</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Typora、Picgo
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
+                                    工具
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                        <span class="chip bg-color">工具</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%85%8D%E7%BD%AE/">
+                        <span class="chip bg-color">配置</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;TOC</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('3'),
+            headingSelector: 'h2, h3, h4, h5'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2020</span>
+            <a href="/about" target="_blank">QSX1C</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2020";
+                    var startMonth = "7";
+                    var startDate = "1";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "已存在 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "已存在 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:li-674e@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=809549807" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 809549807" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;Search</span>
+            <input type="search" id="searchInput" name="s" placeholder="Please enter a search keyword"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/search.xml", 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/materialize/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/aos/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/js/matery.js"></script>
+    
+   <!-- yinghua -->
+   <script type="text/javascript">
+    var windowWidth = $(window).width();
+    if (windowWidth > 768) {
+         document.write('<script type="text/javascript" src="/js/yinghua.js"><\/script>');
+     }
+    </script>
+
+    <!-- tianqi -->
+    <script type="text/javascript">
+    WIDGET = {FID: 'MEEyXDqUjZ'}
+    </script>
+    <script type="text/javascript" src="https://apip.weatherdt.com/float/static/js/r.js?v=1111"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
