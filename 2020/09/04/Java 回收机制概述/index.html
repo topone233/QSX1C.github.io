@@ -322,12 +322,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/gc/">
+                                <span class="chip bg-color">GC</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/java/" class="post-category">
+                                Java
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -352,7 +369,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>&gt; 本文由 [简悦 SimpRead](<a href="http://ksria.com/simpread/" target="_blank" rel="noopener">http://ksria.com/simpread/</a>) 转码， 原文地址 [<a href="http://www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11348218.html)" target="_blank" rel="noopener">www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11348218.html)</a></p>
+                <p>原文地址 [<a href="http://www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11348218.html)" target="_blank" rel="noopener">www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11348218.html)</a></p>
 <p>Java 技术体系中所提倡的 自动内存管理 最终可以归结为自动化地解决了两个问题：给对象分配内存 以及 回收分配给对象的内存，而且这两个问题针对的内存区域就是 Java 内存模型中的 堆区。</p>
 <p>垃圾回收机制的引入可以有效的防止内存泄露、保证内存的有效使用，也大大解放了 Java 程序员的双手，使得他们在编写程序的时候不再需要考虑内存管理。本文着重介绍了判断一个对象是否可以被回收的两种经典算法，并详述了四种典型的垃圾回收算法的基本思想及其直接应用——垃圾收集器，最后结合内存回收策略介绍了内存分配规则。<br>本文内容是基于 JDK 1.6 的，不同版本虚拟机之间也许会有些许差异，但不影响我们对 JVM 垃圾回收机制的整体把握和了解。</p>
 <h2 id="一、垃圾回收机制的意义"><a href="#一、垃圾回收机制的意义" class="headerlink" title="一、垃圾回收机制的意义"></a>一、垃圾回收机制的意义</h2><p>在上篇《<a href="https://www.cnblogs.com/Young111/p/11338132.html" target="_blank" rel="noopener" title="JVM内存模型概述">JVM 内存模型概述</a>》中知道: JVM 内存模型一共包括三个部分：堆 (Java 代码可及的 Java 堆 和 JVM 自身使用的方法区)、栈 ( 服务 Java 方法的虚拟机栈 和 服务 Native 方法的本地方法栈 ) 和 保证程序在多线程环境下能够连续执行的程序计数器。特别地，我们当时就提到 Java 堆是进行垃圾回收的主要区域，故其也被称为 GC 堆；而方法区也有一个不太严谨的表述，就是永久代。总的来说，堆 (包括 Java 堆 和 方法区) 是 垃圾回收的主要对象，特别是 Java 堆。</p>
@@ -494,7 +511,15 @@ public void test(Vector v){
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/gc/">
+                                    <span class="chip bg-color">GC</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -562,19 +587,19 @@ public void test(Vector v){
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/09/04/Java%20JVM%20%E6%80%8E%E4%B9%88%E5%AD%A6%E4%B9%A0%E5%95%8A%EF%BC%9F%E4%BB%8E%E5%93%AA%E6%96%B9%E9%9D%A2%E5%85%A5%E6%89%8B%EF%BC%9F/">
+                <a href="/2020/09/04/JVM%20%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/6.jpg" class="responsive-img" alt="Java JVM 怎么学习啊？从哪方面入手？">
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/12.jpg" class="responsive-img" alt="JVM 初步理解">
                         
-                        <span class="card-title">Java JVM 怎么学习啊？从哪方面入手？</span>
+                        <span class="card-title">JVM 初步理解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.zhihu.com\](https://www.zhihu.com/question/20097631/ans
+                            JVM 简单理解
                         
                     </div>
                     <div class="publish-info">
@@ -583,11 +608,27 @@ public void test(Vector v){
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            QSX1C
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    Java
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/jvm/">
+                        <span class="chip bg-color">JVM</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -599,19 +640,19 @@ public void test(Vector v){
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/09/04/JVM%20%E7%B1%BB%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A6%82%E8%BF%B0%EF%BC%9A%E5%8A%A0%E8%BD%BD%E6%97%B6%E6%9C%BA%E4%B8%8E%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/">
+                <a href="/2020/09/04/JVM%20%E7%B1%BB%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/11.jpg" class="responsive-img" alt="JVM 类生命周期概述：加载时机与加载过程">
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/7.jpg" class="responsive-img" alt="JVM 类生命周期">
                         
-                        <span class="card-title">JVM 类生命周期概述：加载时机与加载过程</span>
+                        <span class="card-title">JVM 类生命周期</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.cnblogs.com\](https://www.cnblogs.com/Young111/p/113597
+                            JVM 类生命周期概述：加载时机与加载过程
                         
                     </div>
                     <div class="publish-info">
@@ -620,11 +661,27 @@ public void test(Vector v){
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            QSX1C
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    Java
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/jvm/">
+                        <span class="chip bg-color">JVM</span>
+                    </a>
+                    
                 </div>
                 
             </div>

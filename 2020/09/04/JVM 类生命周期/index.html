@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="JVM 类生命周期概述：加载时机与加载过程, QSX1C">
+    <meta name="keywords" content="JVM 类生命周期, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>JVM 类生命周期概述：加载时机与加载过程 | QSX1C</title>
+    <title>JVM 类生命周期 | QSX1C</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -202,12 +202,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">JVM 类生命周期概述：加载时机与加载过程</h1>
+                    <h1 class="description center-align post-title">JVM 类生命周期</h1>
                 </div>
             </div>
         </div>
@@ -322,12 +322,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/jvm/">
+                                <span class="chip bg-color">JVM</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/java/" class="post-category">
+                                Java
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -352,7 +369,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>&gt; 本文由 [简悦 SimpRead](<a href="http://ksria.com/simpread/" target="_blank" rel="noopener">http://ksria.com/simpread/</a>) 转码， 原文地址 [<a href="http://www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11359700.html)" target="_blank" rel="noopener">www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11359700.html)</a></p>
+                <p>原文地址 [<a href="http://www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11359700.html)" target="_blank" rel="noopener">www.cnblogs.com\](https://www.cnblogs.com/Young111/p/11359700.html)</a></p>
 <p>　　一个. java 文件在编译后会形成相应的一个或多个 Class 文件，这些 Class 文件中描述了类的各种信息，并且它们最终都需要被加载到虚拟机中才能被运行和使用。事实上，虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型的过程就是虚拟机的类加载机制。本文概述了 JVM 加载类的时机和生命周期，并结合典型案例重点介绍了类的初始化过程，进而了解 JVM 类加载机制。</p>
 <h2 id="一、类加载机制概述"><a href="#一、类加载机制概述" class="headerlink" title="一、类加载机制概述"></a>一、类加载机制概述</h2><p>　　我们知道，一个. java 文件在编译后会形成相应的一个或多个 Class 文件（若一个类中含有内部类，则编译后会产生多个 Class 文件），但这些 Class 文件中描述的各种信息，最终都需要加载到虚拟机中之后才能被运行和使用。事实上，虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型的过程就是虚拟机的 类加载机制。　　</p>
 <p>　　与那些在编译时需要进行连接工作的语言不同，在 Java 语言里面，类型的加载和连接都是在程序运行期间完成，这样会在类加载时稍微增加一些性能开销，但是却能为 Java 应用程序提供高度的灵活性，Java 中天生可以动态扩展的语言特性多态就是依赖运行期动态加载和动态链接这个特点实现的。例如，如果编写一个使用接口的应用程序，可以等到运行时再指定其实际的实现。这种组装应用程序的方式广泛应用于 Java 程序之中。</p>
@@ -658,7 +675,15 @@ public class ConstructorExample {
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/jvm/">
+                                    <span class="chip bg-color">JVM</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -738,7 +763,7 @@ public class ConstructorExample {
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.cnblogs.com\](https://www.cnblogs.com/Young111/p/113482
+                            Java GC 垃圾回收机制概述
                         
                     </div>
                     <div class="publish-info">
@@ -747,11 +772,27 @@ public class ConstructorExample {
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            QSX1C
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/java/" class="post-category">
+                                    Java
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/gc/">
+                        <span class="chip bg-color">GC</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -775,7 +816,7 @@ public class ConstructorExample {
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [www.cnblogs.com\](https://www.cnblogs.com/Young111/p/959872
+                            MySql 基础
                         
                     </div>
                     <div class="publish-info">
@@ -784,11 +825,23 @@ public class ConstructorExample {
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            QSX1C
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/sql/" class="post-category">
+                                    SQL
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/sql/">
+                        <span class="chip bg-color">SQL</span>
+                    </a>
+                    
                 </div>
                 
             </div>

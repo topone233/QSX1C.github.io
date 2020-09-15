@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="HashMap 面试必问的数据结构相关知识总结, QSX1C">
+    <meta name="keywords" content="SSL协议, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>HashMap 面试必问的数据结构相关知识总结 | QSX1C</title>
+    <title>SSL协议 | QSX1C</title>
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.iohttps://cdn.jsdelivr.net/gh/xaoxuu/assets@master/favicon/favicon.ico">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -202,12 +202,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">HashMap 面试必问的数据结构相关知识总结</h1>
+                    <h1 class="description center-align post-title">SSL协议</h1>
                 </div>
             </div>
         </div>
@@ -324,16 +324,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/java/">
-                                <span class="chip bg-color">Java</span>
+                            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
+                                <span class="chip bg-color">网络协议</span>
                             </a>
                         
-                            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                                <span class="chip bg-color">数据结构</span>
+                            <a href="/tags/ssl/">
+                                <span class="chip bg-color">SSL</span>
                             </a>
                         
-                            <a href="/tags/%E9%9D%A2%E8%AF%95/">
-                                <span class="chip bg-color">面试</span>
+                            <a href="/tags/%E5%AE%89%E5%85%A8/">
+                                <span class="chip bg-color">安全</span>
                             </a>
                         
                     </div>
@@ -344,8 +344,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
-                                数据结构
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
+                                网络协议
                             </a>
                         
                     </div>
@@ -357,7 +357,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-07-10
+                    2020-09-11
                 </div>
                 
 
@@ -373,73 +373,13 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-<p>原文地址 <a href="https://www.cnblogs.com/Young111/p/11519952.html" target="_blank" rel="noopener">www.cnblogs.com</a></p>
-</blockquote>
-<h4 id="1-HashMap-的数据结构？"><a href="#1-HashMap-的数据结构？" class="headerlink" title="1.HashMap 的数据结构？"></a>1.HashMap 的数据结构？</h4><p>​        哈希表结构（链表散列：数组 + 链表）实现，结合数组和链表的优点。当链表长度超过 8 时，链表转换为红黑树。<br>transient Node&lt;K,V&gt;[] table;</p>
-<h4 id="2-HashMap-的工作原理？"><a href="#2-HashMap-的工作原理？" class="headerlink" title="2.HashMap 的工作原理？"></a>2.HashMap 的工作原理？</h4><p>　　HashMap 底层是 hash 数组和单向链表实现，数组中的每个元素都是链表，由 Node 内部类（实现 Map.Entry&lt;K,V&gt; 接口）实现，HashMap 通过 put &amp; get 方法存储和获取。</p>
-<p>存储对象时，将 K/V 键值传给 put() 方法：</p>
-<p>​    ①、调用 hash(K) 方法计算 K 的 hash 值，然后结合数组长度，计算得数组下标；</p>
-<p>​    ②、调整数组大小（当容器中的元素个数大于 capacity * loadfactor 时，容器会进行扩容 resize 为 2n）；  </p>
-<p>​    ③、如果 K 的 hash 值在 HashMap 中不存在，则执行插入，若存在，则发生碰撞；<br> 　　   如果 K 的 hash 值在 HashMap 中存在，且它们两者 equals 返回 true，则更新键值对；<br>　　    如果 K 的 hash 值在 HashMap 中存在，且它们两者 equals 返回 false，则插入链表的尾部（尾插法）或者红黑树中。</p>
-<p>（JDK 1.7 之前使用头插法、JDK 1.8 使用尾插法）<br>（注意：当碰撞导致链表大于 TREEIFY_THRESHOLD = 8 时，就把链表转换成红黑树）</p>
-<p>　　获取对象时，将 K 传给 get() 方法：<br>　　①、调用 hash(K) 方法（计算 K 的 hash 值）从而获取该键值所在链表的数组下标；<br>　　②、顺序遍历链表，equals() 方法查找相同 Node 链表中 K 值对应的 V 值。</p>
-<p>hashCode 是定位的，找到存储位置；equals 是定性的，比较两者是否相等。</p>
-<h4 id="3-当两个对象的-hashCode-相同会发生什么？"><a href="#3-当两个对象的-hashCode-相同会发生什么？" class="headerlink" title="3. 当两个对象的 hashCode 相同会发生什么？"></a>3. 当两个对象的 hashCode 相同会发生什么？</h4><p>　　因为 hashCode 相同，不一定就是相等的（equals 方法比较），如果两个对象所在数组的下标相同，”碰撞” 就此发生。又因为 HashMap 使用链表存储对象，这个 Node 会存储到链表中。</p>
-<h4 id="4-你知道-hash-的实现吗？为什么要这样实现？"><a href="#4-你知道-hash-的实现吗？为什么要这样实现？" class="headerlink" title="4. 你知道 hash 的实现吗？为什么要这样实现？"></a>4. 你知道 hash 的实现吗？为什么要这样实现？</h4><p>　　JDK 1.8 中，是通过 hashCode() 的高 16 位异或低 16 位实现的：(h = k.hashCode()) ^ (h &gt;&gt;&gt; 16)，主要是从速度，功效和质量来考虑的，减少系统的开销，也不会造成因为高位没有参与下标的计算，从而引起的碰撞。</p>
-<h4 id="5-为什么要用异或运算符？"><a href="#5-为什么要用异或运算符？" class="headerlink" title="5. 为什么要用异或运算符？"></a>5. 为什么要用异或运算符？</h4><p>​        保证了对象的 hashCode 的 32 位值只要有一位发生改变，整个 hash() 返回值就会改变。尽可能的减少碰撞。</p>
-<h4 id="6-HashMap-的-table-的容量如何确定？loadFactor-是什么？-该容量如何变化？这种变化会带来什么问题？"><a href="#6-HashMap-的-table-的容量如何确定？loadFactor-是什么？-该容量如何变化？这种变化会带来什么问题？" class="headerlink" title="6. HashMap 的 table 的容量如何确定？loadFactor 是什么？ 该容量如何变化？这种变化会带来什么问题？"></a>6. HashMap 的 table 的容量如何确定？loadFactor 是什么？ 该容量如何变化？这种变化会带来什么问题？</h4><p>​        ①、table 数组大小是由capacity这个参数确定的，默认是 16，也可以构造时传入，最大限制是 1&lt;&lt;30；  </p>
-<p>​        ②、loadFactor 是装载因子，主要目的是用来确认 table 数组是否需要动态扩展，默认值是 0.75，比如 table 数组大小为 16，装载               因子为 0.75 时，threshold 就是 12，当 table 的实际大小超过 12 时，table 就需要动态扩容；  </p>
-<p>​        ③、扩容时，调用 resize() 方法，将 table 长度变为原来的两倍（注意是 table 长度，而不是 threshold）  </p>
-<p>​        ④、如果数据很大的情况下，扩展时将会带来性能的损失，在性能要求很高的地方，这种损失很可能很致命。</p>
-<h4 id="7-HashMap-中-put-方法的过程？"><a href="#7-HashMap-中-put-方法的过程？" class="headerlink" title="7.HashMap 中 put 方法的过程？"></a>7.HashMap 中 put 方法的过程？</h4><ul>
-<li>答：“调用哈希函数获取 Key 对应的 hash 值，再计算其数组下标；</li>
-<li>如果没有出现哈希冲突，则直接放入数组；如果出现哈希冲突，则以链表的方式放在链表后面；</li>
-<li>如果链表长度超过阀值 (TREEIFY THRESHOLD==8)，就把链表转成红黑树，链表长度低于 6，就把红黑树转回链表;</li>
-<li>如果结点的 key 已经存在，则替换其 value 即可；</li>
-<li>如果集合中的键值对大于 12，调用 resize 方法进行数组扩容。”</li>
-</ul>
-<h4 id="8-数组扩容的过程？"><a href="#8-数组扩容的过程？" class="headerlink" title="8. 数组扩容的过程？"></a>8. 数组扩容的过程？</h4><p>　　创建一个新的数组，其容量为旧数组的两倍，并重新计算旧数组中结点的存储位置。结点在新数组中的位置只有两种，原下标位置或原下标 + 旧数组的大小。</p>
-<h4 id="9-拉链法导致的链表过深问题为什么不用二叉查找树代替，而选择红黑树？为什么不一直使用红黑树？"><a href="#9-拉链法导致的链表过深问题为什么不用二叉查找树代替，而选择红黑树？为什么不一直使用红黑树？" class="headerlink" title="9. 拉链法导致的链表过深问题为什么不用二叉查找树代替，而选择红黑树？为什么不一直使用红黑树？"></a>9. 拉链法导致的链表过深问题为什么不用二叉查找树代替，而选择红黑树？为什么不一直使用红黑树？</h4><p>​        之所以选择红黑树是为了解决二叉查找树的缺陷，二叉查找树在特殊情况下会变成一条线性结构（这就跟原来使用链表结构一样了，造成很深的问题），遍历查找会非常慢。而红黑树在插入新数据后可能需要通过左旋，右旋、变色这些操作来保持平衡，引入红黑树就是为了查找数据快，解决链表查询深度的问题，我们知道红黑树属于平衡二叉树，但是为了保持 “平衡” 是需要付出代价的，但是该代价所损耗的资源要比遍历线性链表要少，所以当长度大于 8 的时候，会使用红黑树，如果链表长度很短的话，根本不需要引入红黑树，引入反而会慢。</p>
-<h4 id="10-说说你对红黑树的见解？"><a href="#10-说说你对红黑树的见解？" class="headerlink" title="10. 说说你对红黑树的见解？"></a>10. 说说你对红黑树的见解？</h4><ul>
-<li>1、每个节点非红即黑</li>
-<li>2、根节点总是黑色的</li>
-<li>3、如果节点是红色的，则它的子节点必须是黑色的（反之不一定）</li>
-<li>4、每个叶子节点都是黑色的空节点（NIL 节点）</li>
-<li>5、从根节点到叶节点或空子节点的每条路径，必须包含相同数目的黑色节点（即相同的黑色高度）</li>
-</ul>
-<h4 id="11-jdk8-中对-HashMap-做了哪些改变？"><a href="#11-jdk8-中对-HashMap-做了哪些改变？" class="headerlink" title="11.jdk8 中对 HashMap 做了哪些改变？"></a>11.jdk8 中对 HashMap 做了哪些改变？</h4><ul>
-<li>在 java 1.8 中，如果链表的长度超过了 8，那么链表将转换为红黑树。（桶的数量必须大于 64，小于 64 的时候只会扩容）</li>
-<li>发生 hash 碰撞时，java 1.7 会在链表的头部插入，而 java 1.8 会在链表的尾部插入</li>
-<li>在 java 1.8 中，Entry 被 Node 替代 (换了一个马甲)。</li>
-</ul>
-<h4 id="12-HashMap，LinkedHashMap，TreeMap-有什么区别？"><a href="#12-HashMap，LinkedHashMap，TreeMap-有什么区别？" class="headerlink" title="12.HashMap，LinkedHashMap，TreeMap 有什么区别？"></a>12.HashMap，LinkedHashMap，TreeMap 有什么区别？</h4><p>　　HashMap 参考其他问题：<br>　　LinkedHashMap 保存了记录的插入顺序，在用 Iterator 遍历时，先取到的记录肯定是先插入的；遍历比 HashMap 慢；<br>　　TreeMap 实现 SortMap 接口，能够把它保存的记录根据键排序（默认按键值升序排序，也可以指定排序的比较器）</p>
-<h4 id="13-HashMap-amp-TreeMap-amp-LinkedHashMap-使用场景？"><a href="#13-HashMap-amp-TreeMap-amp-LinkedHashMap-使用场景？" class="headerlink" title="13.HashMap &amp; TreeMap &amp; LinkedHashMap 使用场景？"></a>13.HashMap &amp; TreeMap &amp; LinkedHashMap 使用场景？</h4><p>　　一般情况下，使用最多的是 HashMap。<br>　　HashMap：在 Map 中插入、删除和定位元素时；<br>　　TreeMap：在需要按自然顺序或自定义顺序遍历键的情况下；<br>　　LinkedHashMap：在需要输出的顺序和输入的顺序相同的情况下。</p>
-<h4 id="14-HashMap-和-HashTable-有什么区别？"><a href="#14-HashMap-和-HashTable-有什么区别？" class="headerlink" title="14.HashMap 和 HashTable 有什么区别？"></a>14.HashMap 和 HashTable 有什么区别？</h4><p>　　①、HashMap 是线程不安全的，HashTable 是线程安全的；<br>　　②、由于线程安全，所以 HashTable 的效率比不上 HashMap；<br>　　③、HashMap 最多只允许一条记录的键为 null，允许多条记录的值为 null，而 HashTable 不允许；<br>　　④、HashMap 默认初始化数组的大小为 16，HashTable 为 11，前者扩容时，扩大两倍，后者扩大两倍 + 1；<br>　　⑤、HashMap 需要重新计算 hash 值，而 HashTable 直接使用对象的 hashCode</p>
-<h4 id="15-Java-中的另一个线程安全的与-HashMap-极其类似的类是什么？同样是线程安全，它与-HashTable-在线程同步上有什么不同？"><a href="#15-Java-中的另一个线程安全的与-HashMap-极其类似的类是什么？同样是线程安全，它与-HashTable-在线程同步上有什么不同？" class="headerlink" title="15.Java 中的另一个线程安全的与 HashMap 极其类似的类是什么？同样是线程安全，它与 HashTable 在线程同步上有什么不同？"></a>15.Java 中的另一个线程安全的与 HashMap 极其类似的类是什么？同样是线程安全，它与 HashTable 在线程同步上有什么不同？</h4><p>　　ConcurrentHashMap 类（是 Java 并发包 java.util.concurrent 中提供的一个线程安全且高效的 HashMap 实现）。<br>　　HashTable 是使用 synchronize 关键字加锁的原理（就是对对象加锁）；<br>　　而针对 ConcurrentHashMap，在 JDK 1.7 中采用 分段锁的方式；JDK 1.8 中直接采用了 CAS（无锁算法）+ synchronized。</p>
-<h4 id="16-HashMap-amp-ConcurrentHashMap-的区别？"><a href="#16-HashMap-amp-ConcurrentHashMap-的区别？" class="headerlink" title="16.HashMap &amp; ConcurrentHashMap 的区别？"></a>16.HashMap &amp; ConcurrentHashMap 的区别？</h4><p>　　除了加锁，原理上无太大区别。另外，HashMap 的键值对允许有 null，但是 ConCurrentHashMap 都不允许。</p>
-<h4 id="17-为什么-ConcurrentHashMap-比-HashTable-效率要高？"><a href="#17-为什么-ConcurrentHashMap-比-HashTable-效率要高？" class="headerlink" title="17. 为什么 ConcurrentHashMap 比 HashTable 效率要高？"></a>17. 为什么 ConcurrentHashMap 比 HashTable 效率要高？</h4><p>　　HashTable 使用一把锁（锁住整个链表结构）处理并发问题，多个线程竞争一把锁，容易阻塞；</p>
-<p>　　ConcurrentHashMap </p>
-<ul>
-<li>JDK 1.7 中使用分段锁（ReentrantLock + Segment + HashEntry），相当于把一个 HashMap 分成多个段，每段分配一把锁，这样支持多线程访问。锁粒度：基于 Segment，包含多个 HashEntry。</li>
-<li>JDK 1.8 中使用 CAS + synchronized + Node + 红黑树。锁粒度：Node（首结点）（实现 Map.Entry&lt;K,V&gt;）。锁粒度降低了。</li>
-</ul>
-<h4 id="18-针对-ConcurrentHashMap-锁机制具体分析（JDK-1-7-VS-JDK-1-8）？"><a href="#18-针对-ConcurrentHashMap-锁机制具体分析（JDK-1-7-VS-JDK-1-8）？" class="headerlink" title="18. 针对 ConcurrentHashMap 锁机制具体分析（JDK 1.7 VS JDK 1.8）？"></a>18. 针对 ConcurrentHashMap 锁机制具体分析（JDK 1.7 VS JDK 1.8）？</h4><p>　　JDK 1.7 中，采用分段锁的机制，实现并发的更新操作，底层采用数组 + 链表的存储结构，包括两个核心静态内部类 Segment 和 HashEntry。<br>　　　　①、Segment 继承 ReentrantLock（重入锁） 用来充当锁的角色，每个 Segment 对象守护每个散列映射表的若干个桶；<br>　　　　②、HashEntry 用来封装映射表的键 - 值对；<br>　　　　③、每个桶是由若干个 HashEntry 对象链接起来的链表</p>
-<p><img src="https://img2018.cnblogs.com/blog/1408728/201909/1408728-20190914193055199-705993926.png" alt=""></p>
-<p>　　JDK 1.8 中，采用 Node + CAS + Synchronized 来保证并发安全。取消类 Segment，直接用 table 数组存储键值对；当 HashEntry 对象组成的链表长度超过 TREEIFY_THRESHOLD 时，链表转换为红黑树，提升性能。底层变更为数组 + 链表 + 红黑树。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/7779232-1e8ed39548081a1f.png" alt=""></p>
-<h4 id="19-ConcurrentHashMap-在-JDK-1-8-中，为什么要使用内置锁-synchronized-来代替重入锁-ReentrantLock？"><a href="#19-ConcurrentHashMap-在-JDK-1-8-中，为什么要使用内置锁-synchronized-来代替重入锁-ReentrantLock？" class="headerlink" title="19.ConcurrentHashMap 在 JDK 1.8 中，为什么要使用内置锁 synchronized 来代替重入锁 ReentrantLock？"></a>19.ConcurrentHashMap 在 JDK 1.8 中，为什么要使用内置锁 synchronized 来代替重入锁 ReentrantLock？</h4><p>​        ①、粒度降低了；<br>​        ②、JVM 开发团队没有放弃 synchronized，而且基于 JVM 的 synchronized 优化空间更大，更加自然。<br>​        ③、在大量的数据操作下，对于 JVM 的内存压力，基于 API 的 ReentrantLock 会开销更多的内存。</p>
-<h4 id="20-ConcurrentHashMap-简单介绍？"><a href="#20-ConcurrentHashMap-简单介绍？" class="headerlink" title="20.ConcurrentHashMap 简单介绍？"></a>20.ConcurrentHashMap 简单介绍？</h4><p>①、重要的常量：<br>　　private transient volatile int sizeCtl;<br>　　当为负数时，-1 表示正在初始化，-N 表示 N - 1 个线程正在进行扩容；<br>　　当为 0 时，表示 table 还没有初始化；<br>　　当为其他正数时，表示初始化或者下一次进行扩容的大小。</p>
-<p>②、数据结构：<br>　　Node 是存储结构的基本单元，继承 HashMap 中的 Entry，用于存储数据；<br>　　TreeNode 继承 Node，但是数据结构换成了二叉树结构，是红黑树的存储结构，用于红黑树中存储数据；<br>　　TreeBin 是封装 TreeNode 的容器，提供转换红黑树的一些条件和锁的控制。</p>
-<p>③、存储对象时（put() 方法）：<br>　　1. 如果没有初始化，就调用 initTable() 方法来进行初始化；<br>　　2. 如果没有 hash 冲突就直接 CAS 无锁插入；<br>　　3. 如果需要扩容，就先进行扩容；<br>　　4. 如果存在 hash 冲突，就加锁来保证线程安全，两种情况：一种是链表形式就直接遍历到尾端插入，一种是红黑树就按照红黑树结构插入；<br>　　5. 如果该链表的数量大于阀值 8，就要先转换成红黑树的结构，break 再一次进入循环<br>　　6. 如果添加成功就调用 addCount() 方法统计 size，并且检查是否需要扩容。</p>
-<p>④、扩容方法 transfer()：默认容量为 16，扩容时，容量变为原来的两倍。<br>　　helpTransfer()：调用多个工作线程一起帮助进行扩容，这样的效率就会更高。</p>
-<p>⑤、获取对象时（get() 方法）：<br>　　1. 计算 hash 值，定位到该 table 索引位置，如果是首结点符合就返回；<br>　　2. 如果遇到扩容时，会调用标记正在扩容结点 ForwardingNode.find() 方法，查找该结点，匹配就返回；<br>　　3. 以上都不符合的话，就往下遍历结点，匹配就返回，否则最后就返回 null。</p>
-<h4 id="21-ConcurrentHashMap-的并发度是什么？"><a href="#21-ConcurrentHashMap-的并发度是什么？" class="headerlink" title="21.ConcurrentHashMap 的并发度是什么？"></a>21.ConcurrentHashMap 的并发度是什么？</h4><p>　　程序运行时能够同时更新 ConccurentHashMap 且不产生锁竞争的最大线程数。默认为 16，且可以在构造函数中设置。当用户设置并发度时，ConcurrentHashMap 会使用大于等于该值的最小 2 幂指数作为实际并发度（假如用户设置并发度为 17，实际并发度则为 32）</p>
-<p>有时间会对 HashTable，ConcurrentHashmap 解析。</p>
-<h4 id="22-为什么要重写hashcode和equals方法？"><a href="#22-为什么要重写hashcode和equals方法？" class="headerlink" title="22.为什么要重写hashcode和equals方法？"></a>22.为什么要重写hashcode和equals方法？</h4><p>​        用HashMap存入自定义的类时，如果不重写这个自定义类的hashcode和equals方法，得到的结果会和预期的不一样。</p>
-<p>​        重写hashcode和equals方法，来覆盖Object里的同名方法。Object的固有方法是根据两个对象的内存地址来判断，两个不同的对象，内存地址一定不会相同，所以无论值是否相等，结果都一定不会相等</p>
-<p>参考博客：<br><a href="https://www.cnblogs.com/heqiyoujing/p/11143298.html" target="_blank" rel="noopener">https://www.cnblogs.com/heqiyoujing/p/11143298.html</a></p>
-<p><a href="https://www.jianshu.com/p/75adf47958a7" target="_blank" rel="noopener">https://www.jianshu.com/p/75adf47958a7</a></p>
+                <h3 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h3><p>安全套接层（secure sockets layer，SSL）协议是Netscape公司1994年提出的用于Web应用的传输层安全协议。</p>
+<p>SSL协议使用非对称加密体制和数字证书技术，保护信息传输的秘密性和完整性。</p>
+<h3 id="2-特点"><a href="#2-特点" class="headerlink" title="2.特点"></a>2.特点</h3><h4 id="2-1-主要应用于HTTP协议"><a href="#2-1-主要应用于HTTP协议" class="headerlink" title="2.1 主要应用于HTTP协议"></a>2.1 主要应用于HTTP协议</h4><p>SSL协议尽管可以用于HTTP、FTP、TELNET等协议，但是目前主要应用于HTTP协议，为基于Web服务的各种网络应用中客户和服务器之间的用户身份认证与安全数据传输提供服务。</p>
+<h4 id="2-2-加密的安全通道"><a href="#2-2-加密的安全通道" class="headerlink" title="2.2 加密的安全通道"></a>2.2 加密的安全通道</h4><p>SSL协议处于应用层和传输层之间，<strong>在TCP协议之上建立一个加密的安全通道</strong>，为TCP协议之间传输的数据提供安全保障。</p>
+<h4 id="2-3-加密与解密"><a href="#2-3-加密与解密" class="headerlink" title="2.3 加密与解密"></a>2.3 加密与解密</h4><p>当HTTP协议使用SSL协议时，HTTP的请求、应答报文格式、处理方法不变。不同之处是：应用进程所产生的报文将通过SSL协议加密之后，再通过TCP连接传送出去。接收端TCP协议将加密的报文传送给SSL协议解密之后，再传送到应用层HTTP协议</p>
+<h4 id="2-4-不同的使用形式"><a href="#2-4-不同的使用形式" class="headerlink" title="2.4 不同的使用形式"></a>2.4 不同的使用形式</h4><p>当Web系统采用SSL协议时，Web服务器的默认端口号从80 变换成 443；Web客户端使用HTTPS 取代HTTP。</p>
+<h4 id="2-5-握手协议、记录协议"><a href="#2-5-握手协议、记录协议" class="headerlink" title="2.5 握手协议、记录协议"></a>2.5 握手协议、记录协议</h4><p>SSL协议包含两个协议：SSL握手协议（SSL Handshake Protocol）与 SSL记录协议（SSL Record Protocol）。SSL握手协议实现双方加密算法的协商与密钥传递，SSL记录协议定义SSL数据传输格式，实现对数据的加密与解密操作。</p>
 
             </div>
             <hr/>
@@ -453,16 +393,16 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/java/">
-                                    <span class="chip bg-color">Java</span>
+                                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
+                                    <span class="chip bg-color">网络协议</span>
                                 </a>
                             
-                                <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                                    <span class="chip bg-color">数据结构</span>
+                                <a href="/tags/ssl/">
+                                    <span class="chip bg-color">SSL</span>
                                 </a>
                             
-                                <a href="/tags/%E9%9D%A2%E8%AF%95/">
-                                    <span class="chip bg-color">面试</span>
+                                <a href="/tags/%E5%AE%89%E5%85%A8/">
+                                    <span class="chip bg-color">安全</span>
                                 </a>
                             
                         </div>
@@ -504,7 +444,7 @@
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-07-10T17-07-59',
+        id: '2020-09-11T16-05-13',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -528,54 +468,56 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/07/10/HashMap%20%E5%89%96%E6%9E%90%20(%E5%9F%BA%E4%BA%8E%20jdk1.8)/">
+                <a href="/2020/09/11/SSL%E5%8D%8F%E8%AE%AE/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/15.jpg" class="responsive-img" alt="HashMap 剖析 (基于 jdk1.8)">
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="SSL协议">
                         
-                        <span class="card-title">HashMap 剖析 (基于 jdk1.8)</span>
+                        <span class="card-title">SSL协议</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            HashMap原理剖析
+                            SSL协议
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-10
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
-                                    数据结构
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
+                                    网络协议
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
+                        <span class="chip bg-color">网络协议</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/ssl/">
+                        <span class="chip bg-color">SSL</span>
                     </a>
                     
-                    <a href="/tags/%E9%9D%A2%E8%AF%95/">
-                        <span class="chip bg-color">面试</span>
+                    <a href="/tags/%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">安全</span>
                     </a>
                     
                 </div>
@@ -589,31 +531,31 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/10/%E6%B5%85%E8%B0%88HashMap/">
+                <a href="/2020/09/10/TCP%E5%8D%8F%E8%AE%AE/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="浅谈HashMap">
+                        <img src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/featureimages/16.jpg" class="responsive-img" alt="TCP协议">
                         
-                        <span class="card-title">浅谈HashMap</span>
+                        <span class="card-title">TCP协议</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            深入浅出HashMap
+                            TCP深入理解
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-10
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
-                                    数据结构
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
+                                    网络协议
                                 </a>
                             
                             
@@ -623,16 +565,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
+                        <span class="chip bg-color">网络协议</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/tcp/">
+                        <span class="chip bg-color">TCP</span>
                     </a>
                     
-                    <a href="/tags/hashmap/">
-                        <span class="chip bg-color">HashMap</span>
+                    <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">
+                        <span class="chip bg-color">滑动窗口</span>
                     </a>
                     
                 </div>
