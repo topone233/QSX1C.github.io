@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Spring IoC, QSX1C">
+    <meta name="keywords" content="为什么要控制反转？, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Spring IoC | QSX1C</title>
+    <title>为什么要控制反转？ | QSX1C</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -198,12 +198,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/09/17/11feb20dca941.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/09/17/ece7676cb9fa9.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Spring IoC</h1>
+                    <h1 class="description center-align post-title">为什么要控制反转？</h1>
                 </div>
             </div>
         </div>
@@ -328,6 +328,10 @@
                                 <span class="chip bg-color">Spring</span>
                             </a>
                         
+                            <a href="/tags/%E8%BD%AC%E8%BD%BD/">
+                                <span class="chip bg-color">转载</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -336,8 +340,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/spring/" class="post-category">
-                                Spring
+                            <a href="/categories/java/" class="post-category">
+                                Java
                             </a>
                         
                     </div>
@@ -349,7 +353,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-08-22
+                    2020-09-17
                 </div>
                 
 
@@ -365,111 +369,60 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="1-IoC-的基本概念"><a href="#1-IoC-的基本概念" class="headerlink" title="1. IoC 的基本概念"></a>1. IoC 的基本概念</h3><blockquote>
-<p>IoC（Inversion of Control，控制反转）是一个比较抽象的概念，是Spring框架的核心，用来消减程序的耦合问题。DI（Dependency Injection，依赖注入）是IoC的另外一种说法，只是从不同的角度描述相同的概念。</p>
+                <blockquote>
+<p><a href="https://yoyling.com/code/ioc.html" target="_blank" rel="noopener">原文地址</a> </p>
 </blockquote>
-<p>想吃面包，你可以自己做。也可以选择在面包店下单，告诉店家你的需求，然后等着吃就行。</p>
-<p>想买汽车，直接给工厂下单付款即可。</p>
-<p>上面的例子包含了控制反转的思想：把制作面包的主动权交给面包店。</p>
-<p>当某个Java对象（调用者，例如我），需要调用另一个Java对象（被调用者，即被依赖对象，例如面包）时，以前我们通常会“new 被调用者”来创建对象（例如我们自己做面包）。这种方式会增加调用者与被调用者之间的耦合性，不利于后期代码的升级和维护。</p>
-<p>Spring出现后，对象的实例由Spring容器（例如面包店）来创建。Spring容器会负责控制程序之间的关系（例如面包店负责控制我们与面包的关系）。这样控制权就由调用者转移到Spring容器，控制权发生了反转。</p>
-<p>依赖注入：Spring容器负责将依赖对象赋值给调用者的成员变量，相当于为调用者注入它所依赖的实例。这就是依赖注入。</p>
-<p>综上所述，控制反转是一种通过描述（XML或者注解）并通过第三方去产生或获取特定对象的方式。实现控制反转的是IoC容器，其实现方式是依赖注入。</p>
-<h3 id="2-IoC-容器"><a href="#2-IoC-容器" class="headerlink" title="2.IoC 容器"></a>2.IoC 容器</h3><p>前面我们知道，实现控制反转的是IoC容器。IoC容器的设计主要是基于BeanFactory 和 ApplicationContext 两个接口。</p>
-<h4 id="2-1-BeanFactory-接口"><a href="#2-1-BeanFactory-接口" class="headerlink" title="2.1 BeanFactory 接口"></a>2.1 BeanFactory 接口</h4><p>BeanFactory 由org.springframework.beans.factory.BeanFactory接口定义，提供了完整的IoC服务支持，是一个管理Bean的工厂，主要负责初始化各种Bean。</p>
-<p>BeanFactory接口有很多实现类，常用的是XmlBeanFactory，根据XML配置文件中的定义来配置Bean。</p>
-<p>使用BeanFactory实例加载Spring配置文件实际并不多见，仅作了解。</p>
-<h4 id="2-2-ApplicationContext-接口"><a href="#2-2-ApplicationContext-接口" class="headerlink" title="2.2 ApplicationContext 接口"></a>2.2 ApplicationContext 接口</h4><p>ApplicationContext 是BeanFactory的子接口，也称应用上下文。除了包含BeanFactory的所有功能以外，还添加了对国际化、资源访问、事件传播等内容的支持。</p>
-<p>创建ApplicationContext接口实例通常有以下三种方法：</p>
-<h5 id="2-2-1-通过ClassPathXmlApplicationContext"><a href="#2-2-1-通过ClassPathXmlApplicationContext" class="headerlink" title="2.2.1 通过ClassPathXmlApplicationContext"></a>2.2.1 通过ClassPathXmlApplicationContext</h5><pre><code>public static void main(String[] args) {
-    // 初始化Spring容器ApplicationContext，加载指定的XML配置文件
-    ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
-    // 通过容器获取test实例
-    TestDao tt = (TestDao)appCon.getBean(&quot;test&quot;);
-    tt.sayHello();
-}</code></pre><h5 id="2-2-2通过FileSystemXmlApplicationContext创建"><a href="#2-2-2通过FileSystemXmlApplicationContext创建" class="headerlink" title="2.2.2通过FileSystemXmlApplicationContext创建"></a>2.2.2通过FileSystemXmlApplicationContext创建</h5><pre><code>// 仅需要修改这一行代码
-ApplicationContext appCon = new FileSystemXmlApplicationContext(&quot;D:\test\applicationContext.xml&quot;);</code></pre><p>FileSystemXmlApplicationContext 将从指定文件的绝对路径中寻找XML配置文件，但是绝对路径会导致程序的灵活性变差，不推荐使用。通常Spring的Java应用采用ClassPathXmlApplicationContext类来实例化ApplicationContext容器，而Web应用中，将交给Web服务器完成。</p>
-<h5 id="2-2-3通过Web服务器实例化ApplicationContext容器"><a href="#2-2-3通过Web服务器实例化ApplicationContext容器" class="headerlink" title="2.2.3通过Web服务器实例化ApplicationContext容器"></a>2.2.3通过Web服务器实例化ApplicationContext容器</h5><p>Web服务器实例化ApplicationContext容器时，一般使用基于org.springframework.web.context.ContextLoaderListener的实现方式。</p>
-<pre><code>&lt;context-param&gt;
-    &lt;!-- 加载src目录下的applicationContext.xml文件 --&gt;
-    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
-    &lt;param-value&gt;
-        classpath:applicationContext.xml
-    &lt;/param-value&gt;
-&lt;/context-param&gt;
-
-&lt;!-- 指定以ContextLoaderListener方式启动Spring容器 --&gt;
-&lt;listener&gt;
-    &lt;listener-class&gt;
-        org.springframework.web.context.ContextLoaderListener
-    &lt;/listener-class&gt;
-&lt;/listener&gt;</code></pre><h3 id="3-依赖注入"><a href="#3-依赖注入" class="headerlink" title="3.依赖注入"></a>3.依赖注入</h3><blockquote>
-<p>Spring中实现IoC容器的方法是依赖注入。依赖注入的作用是在使用Spring创建对象时，动态地将其所依赖的对象（例如属性值）注入Bean组件中。</p>
+<blockquote>
+<p>是什么？</p>
 </blockquote>
-<h4 id="3-1使用属性的setter方法注入"><a href="#3-1使用属性的setter方法注入" class="headerlink" title="3.1使用属性的setter方法注入"></a>3.1使用属性的setter方法注入</h4><p>依赖注入通常有两种实现方式：构造方法注入、属性的setter方法注入。（这两种方式都是基于Java的<strong>反射</strong>机制）。</p>
-<p>使用setter方法注入是Spring中最主流的注入方式，利用Java Bean规范所定义的setter方法来完成注入，灵活且可读性高。</p>
-<p>下面将两者放在一起进行，方便对比。</p>
-<h5 id="3-1-1创建dao包"><a href="#3-1-1创建dao包" class="headerlink" title="3.1.1创建dao包"></a>3.1.1创建dao包</h5><p>在dao包创建TestDIDao接口及其实现类TestDIDaoImpl</p>
-<pre><code>package dao;
-public interface TestDIDao {
-    public void sayHello();
-}</code></pre><pre><code>package dao;
-public class TestDIDaoImpl implements TestDIDao {
-    @Override
-    public void sayHello() {
-        System.out.println(&quot;TestDIDao say: Hello&quot;);
-    }
-}</code></pre><h5 id="3-1-2创建service包"><a href="#3-1-2创建service包" class="headerlink" title="3.1.2创建service包"></a>3.1.2创建service包</h5><p>service包中创建TestDIService接口及其实现类TestDIServiceImpl</p>
-<pre><code>package service;
-public interface TestDIService {
-    public void sayHello();
-}</code></pre><pre><code>package service;
-import dao.TestDIDao;
-public class TestDIServiceImpl implements TestDIService {
-    private TestDIDao testDIDao;
-    // 添加testDIDao属性的setter方法，用于实现依赖注入
-    public void setTestDIDao(TestDIDao testDIDao) {
-        this.testDIDao = testDIDao;
-    }
-    /* 构造方法，用于实现依赖注入接口对象testDIDao
-    public TestDIServiceImpl(TestDIDao testDIDao) {
-        super();
-        this.testDIDao = testDIDao;
-    }
-    */
-    @Override
-    public void sayHello() {
-        // 调用testDIDao中的sayHelllo方法
-        testDIDao.sayHello();
-        System.out.println(&quot;TestDIService setter方法注入 say: Hello&quot;);
-    }
-}</code></pre><h5 id="3-1-3编写配置文件"><a href="#3-1-3编写配置文件" class="headerlink" title="3.1.3编写配置文件"></a>3.1.3编写配置文件</h5><p>在src根目录下创建Spring配置文件 applicationContext.xml。将TestDIServiceImpl类托管给Spring，让Spring创建其对象，同时调用其setter方法完成依赖注入。</p>
-<pre><code>&lt;!-- 将TestDIDaoImpl类配置给Spring，让Spring创建其实例 --&gt;
-&lt;bean id=&quot;myTestDIDao&quot; class=&quot;dao.TestDIDaoImpl&quot;/&gt;
+<p>IOC 全称是 <code>Inversion of Control</code>控制反转。按照字面意思理解，将控制反转过来，这里的控制指的是什么？为什么要进行反转，ioc 可以解决什么问题？要回答这些问题，我们需要先了解一下 IOC 为什么会产生。</p>
+<blockquote>
+<p>怎么来的？</p>
+</blockquote>
+<p>Java 是一门面向对象的语言，我们的应用程序通过一个个对象之间的<strong>相互关联</strong>和作用来完成功能，就像手表里的机械结构。每一个齿轮代表一个对象，对象之间彼此紧密咬合形成一个系统，这样的系统对象之间的<strong>耦合度</strong>非常高，所谓的耦合度就是关系的依赖程度，高耦合度带来的问题显而易见，只要有一个齿轮发生故障，其它齿轮也无法工作，进而整个系统都无法正常工作，这种牵一发而动全身情况如何才能改善呢？</p>
+<p>再来一个 Service 层实际的例子：</p>
+<pre><code>public class UserServiceImpl {
+    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao = (UserDao)BeanFactory.getBean(&quot;userDao&quot;);
 
-&lt;!-- 使用setter方法注入 --&gt;
-&lt;bean id=&quot;testDIService&quot; class=&quot;service.TestDIServiceImpl&quot;&gt;
-    &lt;!-- 调用TestDIServiceImpl类的setter方法，将myTestDIDao注入到TestDIServiceImpl类的属性testDIDao上--&gt;
-    &lt;property name=&quot;testDIDao&quot; ref=&quot;myTestDIDao&quot;/&gt;
-&lt;/bean&gt;
-
-/*
-&lt;!-- 使用构造方法注入 --&gt;
-&lt;bean id=&quot;testDIService&quot; class=&quot;service.TestDIServiceImpl&quot;&gt;
-    &lt;!-- 将myTestDIDao注入到TestDIServiceImpl类的属性testDIDao上--&gt;
-    &lt;!-- constructor-arg元素用于定义类构造方法的参数，index定义参数的位置--&gt;
-    &lt;!-- ref指定某个实例的引用，如果参数是常量值，ref由value代替--&gt;
-    &lt;constructor-arg index=&quot;o&quot; ref=&quot;myTestDIDao&quot;/&gt;
-&lt;/bean&gt;
-*/</code></pre><h5 id="3-1-4测试"><a href="#3-1-4测试" class="headerlink" title="3.1.4测试"></a>3.1.4测试</h5><p>创建test包，并创建TestDI测试类</p>
-<pre><code>package test;
-public class TestDI {
-    public static void main(String[] args) {
-        ApplicationContext appCon = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;)
-        TestDIservice ts = (TestDIService)appCon.getBean(&quot;testDIService&quot;);
-        ts.sayHello();
+    public List&lt;User&gt; getAllUser(){
+        return userDao.getAllUser();
     }
-}</code></pre>
+}</code></pre><p>一个是<strong>独立控制</strong>通过 <strong>new</strong> 一个 UserDao 实现类来完成，一个是 <strong>Bean 工厂</strong>通过全限定类名找到 Bean 对象并创建多例对象，<strong>无法自主控制</strong>。第二者把控制权交给了 Bean 工厂来创建对象，带来的好处就是降低程序间的依赖关系，也叫削减计算机的耦合。</p>
+<blockquote>
+<p>改善方法？</p>
+</blockquote>
+<p>上面机械齿轮的例子可以通过一个中间齿轮的方式来解决，也就是后面的<strong>中间 IOC 容器</strong>。所有的齿轮都交由中间这个齿轮管理，试着把中间这个齿轮拿掉我们可以看到这两个齿轮之间彼此毫无关系，即使一个齿轮出了故障，也不会影响到其它齿轮。<br>中间这个齿轮就好比 ioc 容器，其它齿轮就是对象，可以看出引入了 ioc 容器，对象之间的耦合度降低了。当我们修改一个对象的时候不需要去考虑其它对象，因为它不会对其它对象造成影响。</p>
+<blockquote>
+<p>IoC 原理？</p>
+</blockquote>
+<p>这里说到的 ioc 容器到底是个什么东东，又是什么让它具有如此神奇的力量？</p>
+<p>先来看一下没有 ioc 容器的时候，对象 A 依赖对象 B，A 在运行到某一时刻的时候会去创建 B 的对象，在这里 A 具有主动权，它控制了对象 B 的创建。</p>
+<p>引入 ioc 以后对象 A 和对象 B 之间没有了直接联系，当 A 运行的时候由 ioc 容器创建 B 对象在适当的时候注入到 A 中，在这里，控制权由 A 对象转移到了 ioc 容器。这也就是控制反转名称的由来。</p>
+<p>基于上述 UserDao 的例子我们可以通过<strong>反射</strong>来<strong>解耦</strong>，反射可以根据类的全限定名在程序运行时创建对象，可以这样做，将类的全限定名配置在 xml 文件中，在程序运行时通过反射读取该类的全限定名，动态的创建对象，赋值给 userDao 接口 userDaoImpl。这样做后 UserServiceImpl 和 UserDaoImpl 之间没有了直接的关系，当我们需要替换 UserDaoImpl 对象的时候只需要在配置文件中去修改类的全限定名就可以了，非常的灵活方便，ioc 容器的实现就是这个原理。</p>
+<p>IOC 容器可以自动的帮我们完成以上一系列操作，我们需要做的就是通过配置文件告诉 ioc 需要创建哪个类以及类和类之间的关系。</p>
+<blockquote>
+<p>控制反转和依赖注入</p>
+</blockquote>
+<p>在这里需要提到一个概念<strong>依赖注入</strong>，很多初学者搞不清楚控制反转和依赖注入之间的关系，其实他们是对同一事物的不同角度的描述。<br><strong>控制反转是一种设计思想</strong>而<strong>依赖注入是这种思想的具体实现</strong></p>
+<p>具体说控制反转就是将创建 userDaoImpl 对象的控制权反转过来由 UserServiceImpl 交给了 ioc 容器，强调的是一种能力和思想，ioc 容器具有了控制权。</p>
+<p>依赖注入就是 ioc 容器将 UserServiceImpl 所依赖的对象 userDaoImpl，注入给 UserServiceImpl，强调的是一个<strong>过程和实现</strong>。</p>
+<p>IOC 很好的体现了面向对象设计法则之一—— 好莱坞法则：“别找我们，我们找你”。</p>
+<blockquote>
+<p>优缺点</p>
+</blockquote>
+<ol>
+<li>软件系统中由于引入了第三方 IOC 容器，生成对象的步骤变得有些复杂，本来是两者之间的事情，又凭空多出一道手续，所以，我们在刚开始使用 IOC 框架的时候，会感觉系统变得不太直观。所以，引入了一个全新的框架，就会增加团队成员学习和认识的培训成本，并且在以后的运行维护中，还得让新加入者具备同样的知识体系。</li>
+<li>由于 IOC 容器生成对象是通过反射方式，在运行效率上有一定的损耗。如果你要追求运行效率的话，就必须对此进行权衡。</li>
+<li>具体到 IOC 框架产品 (比如：Spring) 来讲，需要进行大量的配制工作，比较繁琐，对于一些小的项目而言，客观上也可能加大一些工作成本。</li>
+<li>IOC 框架产品本身的成熟度需要进行评估，如果引入一个不成熟的 IOC 框架产品，那么会影响到整个项目，所以这也是一个隐性的风险。</li>
+</ol>
+<p>我们大体可以得出这样的结论：一些工作量不大的项目或者产品，不太适合使用 IOC 框架产品。另外，如果团队成员的知识能力欠缺，对于 IOC 框架产品缺乏深入的理解，也不要贸然引入。最后，特别强调运行效率的项目或者产品，也不太适合引入 IOC 框架产品，像 WEB2.0 网站就是这种情况。</p>
+<blockquote>
+<p>Spring 框架文档：<br><a href="https://yoyling.com/spring5" target="_blank" rel="noopener"></a><a href="https://yoyling.com/spring5" target="_blank" rel="noopener">https://yoyling.com/spring5</a></p>
+</blockquote>
+<p>本文由 <a href="https://yoyling.com/author/1/" target="_blank" rel="noopener">YOYLING.</a> 发表， 最后编辑时间为：2020-09-08 13:02<br>如果你觉得我的文章不错，不妨鼓励我继续写作。</p>
+
             </div>
             <hr/>
 
@@ -488,6 +441,10 @@ public class TestDI {
                             
                                 <a href="/tags/spring/">
                                     <span class="chip bg-color">Spring</span>
+                                </a>
+                            
+                                <a href="/tags/%E8%BD%AC%E8%BD%BD/">
+                                    <span class="chip bg-color">转载</span>
                                 </a>
                             
                         </div>
@@ -655,7 +612,7 @@ public class TestDI {
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-08-22T16-09-05',
+        id: '2020-09-17T12-40-14',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -679,79 +636,28 @@ public class TestDI {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/08/22/Spring%20Bean/">
+                <a href="/2020/09/17/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%8E%A7%E5%88%B6%E5%8F%8D%E8%BD%AC%EF%BC%9F/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/5e73c15e16055.jpg" class="responsive-img" alt="Spring Bean">
+                        <img src="https://7.dusays.com/2020/09/17/ece7676cb9fa9.png" class="responsive-img" alt="为什么要控制反转？">
                         
-                        <span class="card-title">Spring Bean</span>
+                        <span class="card-title">为什么要控制反转？</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Spring Bean学习笔记的简单整理
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/spring/" class="post-category">
-                                    Spring
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/spring/">
-                        <span class="chip bg-color">Spring</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/08/20/CORS%20RESTful%20Web%20Service/">
-                    <div class="card-image">
-                        
-                        <img src="https://7.dusays.com/2020/09/17/6b8baeed6a587.jpg" class="responsive-img" alt="CORS RESTful Web Service">
-                        
-                        <span class="card-title">CORS RESTful Web Service</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            基于Spring Boot的跨域资源共享的RESTful Web Service
+                            对IOC控制反转的理解。为什么要控制反转？
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-17
                             </span>
                         <span class="publish-author">
                             
@@ -765,6 +671,7 @@ public class TestDI {
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -776,12 +683,64 @@ public class TestDI {
                         <span class="chip bg-color">Spring</span>
                     </a>
                     
-                    <a href="/tags/cors/">
-                        <span class="chip bg-color">CORS</span>
+                    <a href="/tags/%E8%BD%AC%E8%BD%BD/">
+                        <span class="chip bg-color">转载</span>
                     </a>
                     
-                    <a href="/tags/restful/">
-                        <span class="chip bg-color">RESTful</span>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/09/11/SSL%E5%8D%8F%E8%AE%AE/">
+                    <div class="card-image">
+                        
+                        <img src="https://7.dusays.com/2020/09/17/a57dc823fcfde.jpg" class="responsive-img" alt="SSL协议">
+                        
+                        <span class="card-title">SSL协议</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            SSL协议
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-11
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
+                                    网络协议
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
+                        <span class="chip bg-color">网络协议</span>
+                    </a>
+                    
+                    <a href="/tags/ssl/">
+                        <span class="chip bg-color">SSL</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">安全</span>
                     </a>
                     
                 </div>
