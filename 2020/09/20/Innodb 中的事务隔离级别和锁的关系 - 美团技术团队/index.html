@@ -28,6 +28,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/css/my.css">
 
     <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/jquery/jquery.min.js"></script>
+    
+    <!-- 谷歌广告联盟-->
+    <script data-ad-client="ca-pub-9003635207469614" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js">
+   </script>
 
 <meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
@@ -378,7 +382,10 @@
 <table><thead><tr><th>事务</th><th>加锁 / 解锁处理</th></tr></thead><tbody><tr><td>begin；</td><td></td></tr><tr><td>insert into test …..</td><td>加 insert 对应的锁</td></tr><tr><td>update test set…</td><td>加 update 对应的锁</td></tr><tr><td>delete from test ….</td><td>加 delete 对应的锁</td></tr><tr><td>commit;</td><td>事务提交时，同时释放 insert、update、delete 对应的锁</td></tr></tbody></table>
 
 <p>这种方式虽然无法避免死锁，但是两段锁协议可以保证事务的并发调度是串行化（串行化很重要，尤其是在数据恢复和备份的时候）的。</p>
-<h2 id="事务中的加锁方式"><a href="#事务中的加锁方式" class="headerlink" title="事务中的加锁方式"></a>事务中的加锁方式</h2><h3 id="事务的四种隔离级别"><a href="#事务的四种隔离级别" class="headerlink" title="事务的四种隔离级别"></a>事务的四种隔离级别</h3><p>在数据库操作中，为了有效保证并发读取数据的正确性，提出的事务隔离级别。我们的数据库锁，也是为了构建这些隔离级别存在的。</p>
+<h2 id="事务中的加锁方式"><a href="#事务中的加锁方式" class="headerlink" title="事务中的加锁方式"></a>事务中的加锁方式</h2><h3 id="事务的四种隔离级别"><a href="#事务的四种隔离级别" class="headerlink" title="事务的四种隔离级别"></a>事务的四种隔离级别</h3><p><strong>脏读（Dirty Read）</strong>：一个事务读取到另一个事务未提交的数据（比如A在B超市买鞋，A汇钱给B，汇钱这个操作还没有提交，A告诉B我打钱了，B查了一下，发现了A的汇的钱。给了A鞋子，A立刻回滚，B发现自己账户上面没有钱）。</p>
+<p><strong>不可重复读（NonRepeatable Read）</strong>：在一个事务内读取表中的某一行数据，多次读取结果不同— <strong>行级别</strong>的问题。A去超市购物，结账时系统读到卡里有100元，而此时A的老婆正在网上转账，把A卡里的100元转到了另一账户，并在A前提交了事务，此时系统检查到A的工资卡里已经没有钱了，A非常纳闷，明明卡里有钱…</p>
+<p><strong>幻读（Phantom Read）</strong>：一个事务内读取到了别的事务插入的数据，导致前后读取不一致 — <strong>表级别</strong>的问题。A平时还挺节俭，A的老婆在银行部门，她经常通过银行系统查看A的消费记录。有一天，她查到A的卡消费是80元，但是A此时正在外面胡吃海喝，消费了1000元，A的老婆打印账单时显示A的消费记录是1080元，老婆很诧异，以为出现了幻觉，幻读就这样产生了。</p>
+<p>在数据库操作中，为了有效保证并发读取数据的正确性，提出的事务隔离级别。我们的数据库锁，也是为了构建这些隔离级别存在的。</p>
 <table><thead><tr><th>隔离级别</th><th>脏读（Dirty Read）</th><th>不可重复读（NonRepeatable Read）</th><th>幻读（Phantom Read）</th></tr></thead><tbody><tr><td>未提交读（Read uncommitted）</td><td>可能</td><td>可能</td><td>可能</td></tr><tr><td>已提交读（Read committed）</td><td>不可能</td><td>可能</td><td>可能</td></tr><tr><td>可重复读（Repeatable read）</td><td>不可能</td><td>不可能</td><td>可能</td></tr><tr><td>可串行化（Serializable ）</td><td>不可能</td><td>不可能</td><td>不可能</td></tr></tbody></table>
 
 <ul>
@@ -409,12 +416,9 @@ MySQL&gt; select \* from class\_teacher;
 |  3 | 初二一班     |          2 |
 |  4 | 初二二班     |          2 |
 +
-
 </code></pre><p>由于 MySQL 的 InnoDB 默认是使用的 RR 级别，所以我们先要将该 session 开启成 RC 级别，并且设置 binlog 的模式</p>
 <pre><code>SET session transaction isolation level read committed;
-SET SESSION binlog\_format = &#39;ROW&#39;;（或者是MIXED）
-
-</code></pre><table><thead><tr><th>事务 A</th><th>事务 B</th></tr></thead><tbody><tr><td>begin;</td><td>begin;</td></tr><tr><td>update class_teacher set class_name=‘初三二班’ where teacher_id=1;</td><td>update class_teacher set class_name=‘初三三班’ where teacher_id=1;</td></tr><tr><td>commit;</td><td></td></tr></tbody></table>
+SET SESSION binlog\_format = &#39;ROW&#39;;（或者是MIXED）</code></pre><table><thead><tr><th>事务 A</th><th>事务 B</th></tr></thead><tbody><tr><td>begin;</td><td>begin;</td></tr><tr><td>update class_teacher set class_name=‘初三二班’ where teacher_id=1;</td><td>update class_teacher set class_name=‘初三三班’ where teacher_id=1;</td></tr><tr><td>commit;</td><td></td></tr></tbody></table>
 
 <p>为了防止并发过程中的修改冲突，事务 A 中 MySQL 给 teacher_id=1 的数据行加锁，并一直不 commit（释放锁），那么事务 B 也就一直拿不到该行锁，wait 直到超时。</p>
 <p>这时我们要注意到，teacher_id 是有索引的，如果是没有索引的 class_name 呢？update class_teacher set teacher_id=3 where class_name = ‘初三一班’; 那么 MySQL 会给整张表的所有数据行的加行锁。这里听起来有点不可思议，但是当 sql 运行的过程中，MySQL 并不知道哪些数据行是 class_name = ‘初三一班’的（没有索引嘛），如果一个条件无法通过索引快速过滤，存储引擎层面就会将所有记录加锁后返回，再由 MySQL Server 层进行过滤。</p>
@@ -429,20 +433,20 @@ SET SESSION binlog\_format = &#39;ROW&#39;;（或者是MIXED）
 <table><tbody><tr><th>事务 A</th><th>事务 B</th><th colspan="1">事务 C</th></tr><tr><td>begin;</td><td><p>begin;</p></td><td colspan="1"><p>begin;</p></td></tr><tr><td><p>select id,class_name,teacher_id from class_teacher where teacher_id=1;</p><table><tbody><tr><th>id</th><th>class_name</th><th>teacher_id</th></tr><tr><td>1</td><td>初三二班</td><td>1</td></tr><tr><td>2</td><td>初三一班</td><td>1</td></tr></tbody></table></td><td></td><td colspan="1"></td></tr><tr><td>&nbsp;</td><td><p>update class_teacher set class_name='初三三班' where id=1;</p>commit;</td><td colspan="1">&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td colspan="1">insert into class_teacher values (null,'初三三班',1);commit;</td></tr><tr><td colspan="1"><p>select id,class_name,teacher_id from class_teacher where teacher_id=1;</p><table><tbody><tr><th>id</th><th>class_name</th><th>teacher_id</th></tr><tr><td>1</td><td>初三二班</td><td>1</td></tr><tr><td>2</td><td>初三一班</td><td>1</td></tr></tbody></table><p>没有读到事务 B 修改的数据，和第一次 sql 读取的一样，是可重复读的。</p><p>没有读到事务 C 新添加的数据。</p></td><td colspan="1">&nbsp;</td><td colspan="1">&nbsp;</td></tr><tr><td colspan="1">commit;</td><td colspan="1">&nbsp;</td><td colspan="1">&nbsp;</td></tr></tbody></table>
 
 <p>我们注意到，当 teacher_id=1 时，事务 A 先做了一次读取，事务 B 中间修改了 id=1 的数据，并 commit 之后，事务 A 第二次读到的数据和第一次完全相同。所以说它是可重读的。那么 MySQL 是怎么做到的呢？这里姑且卖个关子，我们往下看。</p>
-<h3 id="不可重复读和幻读的区别"><a href="#不可重复读和幻读的区别" class="headerlink" title="不可重复读和幻读的区别"></a>不可重复读和幻读的区别</h3><p>很多人容易搞混不可重复读和幻读，确实这两者有些相似。但不可重复读重点在于 update 和 delete，而幻读的重点在于 insert。</p>
+<h3 id="不可重复读和幻读的区别"><a href="#不可重复读和幻读的区别" class="headerlink" title="不可重复读和幻读的区别"></a>不可重复读和幻读的区别</h3><p>很多人容易搞混不可重复读和幻读，确实这两者有些相似。但<strong>不可重复读重点在于 update 和 delete，而幻读的重点在于 insert</strong>。</p>
 <p>如果使用锁机制来实现这两种隔离级别，在可重复读中，该 sql 第一次读取到数据后，就将这些数据加锁，其它事务无法修改这些数据，就可以实现可重复读了。但这种方法却无法锁住 insert 的数据，所以当事务 A 先前读取了数据，或者修改了全部数据，事务 B 还是可以 insert 数据提交，这时事务 A 就会发现莫名其妙多了一条之前没有的数据，这就是幻读，不能通过行锁来避免。需要 Serializable 隔离级别 ，读用读锁，写用写锁，读锁和写锁互斥，这么做可以有效的避免幻读、不可重复读、脏读等问题，但会极大的降低数据库的并发能力。</p>
 <p>所以说不可重复读和幻读最大的区别，就在于如何通过锁机制来解决他们产生的问题。</p>
 <p>上文说的，是使用悲观锁机制来处理这两种问题，但是 MySQL、ORACLE、PostgreSQL 等成熟的数据库，出于性能考虑，都是使用了以乐观锁为理论基础的 MVCC（多版本并发控制）来避免这两种问题。</p>
 <h3 id="悲观锁和乐观锁"><a href="#悲观锁和乐观锁" class="headerlink" title="悲观锁和乐观锁"></a>悲观锁和乐观锁</h3><ul>
 <li>悲观锁</li>
 </ul>
-<p>正如其名，它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度，因此，在整个数据处理过程中，将数据处于锁定状态。悲观锁的实现，往往依靠数据库提供的锁机制（也只有数据库层提供的锁机制才能真正保证数据访问的排他性，否则，即使在本系统中实现了加锁机制，也无法保证外部系统不会修改数据）。</p>
+<p>正如其名，它指的是对数据被外界（包括本系统当前的其他事务，以及来自外部系统的事务处理）修改持保守态度，因此，在整个数据处理过程中，<strong>将数据处于锁定状态</strong>。悲观锁的实现，往往依靠数据库提供的锁机制（也只有数据库层提供的锁机制才能真正保证数据访问的排他性，否则，即使在本系统中实现了加锁机制，也无法保证外部系统不会修改数据）。</p>
 <p>在悲观锁的情况下，为了保证事务的隔离性，就需要一致性锁定读。读取数据时给加锁，其它事务无法修改这些数据。修改删除数据时也要加锁，其它事务无法读取这些数据。</p>
 <ul>
 <li>乐观锁</li>
 </ul>
 <p>相对悲观锁而言，乐观锁机制采取了更加宽松的加锁机制。悲观锁大多数情况下依靠数据库的锁机制实现，以保证操作最大程度的独占性。但随之而来的就是数据库性能的大量开销，特别是对长事务而言，这样的开销往往无法承受。</p>
-<p>而乐观锁机制在一定程度上解决了这个问题。乐观锁，大多是基于数据版本（ Version ）记录机制实现。何谓数据版本？即为数据增加一个版本标识，在基于数据库表的版本解决方案中，一般是通过为数据库表增加一个 “version” 字段来实现。读取出数据时，将此版本号一同读出，之后更新时，对此版本号加一。此时，将提交数据的版本数据与数据库表对应记录的当前版本信息进行比对，如果提交的数据版本号大于数据库表当前版本号，则予以更新，否则认为是过期数据。</p>
+<p>而乐观锁机制在一定程度上解决了这个问题。<strong>乐观锁，大多是基于数据版本（ Version ）记录机制实现</strong>。何谓数据版本？即为数据增加一个版本标识，在基于数据库表的版本解决方案中，一般是通过为数据库表增加一个 “version” 字段来实现。读取出数据时，将此版本号一同读出，之后更新时，对此版本号加一。此时，将提交数据的版本数据与数据库表对应记录的当前版本信息进行比对，如果提交的数据版本号大于数据库表当前版本号，则予以更新，否则认为是过期数据。</p>
 <p>要说明的是，MVCC 的实现没有固定的规范，每个数据库都会有不同的实现方式，这里讨论的是 InnoDB 的 MVCC。</p>
 <h3 id="MVCC-在-MySQL-的-InnoDB-中的实现"><a href="#MVCC-在-MySQL-的-InnoDB-中的实现" class="headerlink" title="MVCC 在 MySQL 的 InnoDB 中的实现"></a>MVCC 在 MySQL 的 InnoDB 中的实现</h3><p>在 InnoDB 中，会在每行数据后添加两个额外的隐藏的值来实现 MVCC，这两个值一个记录这行数据何时被创建，另外一个记录这行数据何时过期（或者被删除）。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。 在可重读 Repeatable reads 事务隔离级别下：</p>
 <ul>
@@ -456,7 +460,7 @@ SET SESSION binlog\_format = &#39;ROW&#39;;（或者是MIXED）
 <p><img src="https://awps-assets.meituan.net/mit-x/blog-images-bundle-2014/6eb5d3b1.png" alt=""></p>
 <p>innodb_lock_1</p>
 <p>读问题解决了，根据 MVCC 的定义，并发提交数据时会出现冲突，那么冲突时如何解决呢？我们再来看看 InnoDB 中 RR 级别对于写数据的处理。</p>
-<h3 id="“读”与-“读”-的区别"><a href="#“读”与-“读”-的区别" class="headerlink" title="“读”与 “读” 的区别"></a>“读”与 “读” 的区别</h3><p>可能有读者会疑惑，事务的隔离级别其实都是对于读数据的定义，但到了这里，就被拆成了读和写两个模块来讲解。这主要是因为 MySQL 中的读，和事务隔离级别中的读，是不一样的。</p>
+<h3 id="“读”与-“读”-的区别"><a href="#“读”与-“读”-的区别" class="headerlink" title="“读”与 “读” 的区别"></a>“读”与 “读” 的区别</h3><p>可能有读者会疑惑，事务的隔离级别其实都是对于读数据的定义，但到了这里，就被拆成了读和写两个模块来讲解。这主要是因为 <strong>MySQL 中的读，和事务隔离级别中的读，是不一样的</strong>。</p>
 <p>我们且看，在 RR 级别中，通过 MVCC 机制，虽然让数据变得可重复读，但我们读到的数据可能是历史数据，是不及时的数据，不是数据库当前的数据！这在一些对于数据的时效特别敏感的业务中，就很可能出问题。</p>
 <p>对于这种读取历史数据的方式，我们叫它快照读 (snapshot read)，而读取数据库当前版本数据的方式，叫当前读 (current read)。很显然，在 MVCC 中：</p>
 <ul>
