@@ -20,9 +20,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -99,9 +99,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> Java </tag>
             
             <tag> Spring </tag>
             
@@ -128,11 +128,11 @@
       
         <tags>
             
+            <tag> 转载 </tag>
+            
             <tag> 安全 </tag>
             
             <tag> CROS </tag>
-            
-            <tag> 转载 </tag>
             
         </tags>
       
@@ -242,9 +242,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> Java </tag>
             
             <tag> JVM </tag>
             
@@ -271,9 +271,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -282,23 +282,23 @@
     
     
     <entry>
-      <title>工具</title>
-      <link href="/2020/09/03/%E5%B7%A5%E5%85%B7/"/>
-      <url>/2020/09/03/%E5%B7%A5%E5%85%B7/</url>
+      <title>资源</title>
+      <link href="/2020/09/03/%E8%B5%84%E6%BA%90/"/>
+      <url>/2020/09/03/%E8%B5%84%E6%BA%90/</url>
       
-        <content type="html"><![CDATA[<p><strong>写作工具：Typora</strong></p><p>Markdown 写作工具</p><p>下载链接：</p><p>Typora官网：<a href="https://typora.io/" target="_blank" rel="noopener">https://typora.io/</a></p><p>自用：0.9.89版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/icxyogbrykd" target="_blank" rel="noopener">https://wwe.lanzous.com/icxyogbrykd</a></p><p><strong>图片上传工具：Picgo</strong></p><p>搭配Typora，效率神器</p><p>下载链接：</p><p>Typora官网：<a href="https://molunerfinn.com/PicGo" target="_blank" rel="noopener">https://molunerfinn.com/PicGo</a></p><p>自用：2.2.2版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/ie0iWgbryha" target="_blank" rel="noopener">https://wwe.lanzous.com/ie0iWgbryha</a> </p><p><strong>免费图床：</strong></p><p><strong>SM.MS</strong></p><p>5GB免费空间、Picgo有插件支持</p><p>官网：<a href="https://sm.ms/" target="_blank" rel="noopener">https://sm.ms/</a></p><p>第一次使用要先注册账户</p><p>体验了一阵感觉差强人意。改用码云了。</p><p><strong>Gitee 码云</strong></p><p>免费、速度可以、稳定、Picgo有插件支持</p><p>教程：<a href="https://www.jianshu.com/p/b69950a49ae2" target="_blank" rel="noopener">https://www.jianshu.com/p/b69950a49ae2</a></p><p><strong>Typora + Picgo + SM图床 设置：</strong></p><p>Typora：</p><ol><li>Ctrl + 逗号 进入偏好设置 -&gt; 图像 </li><li>插入图片时 -&gt; 上传图片 -&gt; 勾选前两项</li><li>上传服务设定 -&gt;  PicGo（app）-&gt;  PicGo本地安装路径</li><li>打开Picgo -&gt; 打开配置文件 -&gt; 修改server端口号为：36677 </li><li>插件中心 -&gt; 搜索：smms-user -&gt; 安装 </li><li>到SM.MS官网 -&gt; User -&gt; Dashboard -&gt; API Token -&gt; 生成并复制Token</li><li>回到Picgo -&gt; 粘贴到刚才的插件 配置plugin-smms-user -&gt; 配置uploder-smms-user</li><li>上传区选择SM.MS登录用户</li><li>重启Picgo</li><li>回到第三步Typora页面 -&gt; 验证图片上传路径 -&gt; 验证成功</li></ol>]]></content>
+        <content type="html"><![CDATA[<h4 id="Markdown写作工具"><a href="#Markdown写作工具" class="headerlink" title="Markdown写作工具"></a>Markdown写作工具</h4><p><strong>写作工具：Typora</strong></p><p>Markdown 写作工具</p><p>下载链接：</p><p>Typora官网：<a href="https://typora.io/" target="_blank" rel="noopener">https://typora.io/</a></p><p>自用：0.9.89版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/icxyogbrykd" target="_blank" rel="noopener">https://wwe.lanzous.com/icxyogbrykd</a></p><p><strong>图片上传工具：Picgo</strong></p><p>搭配Typora，效率神器</p><p>下载链接：</p><p>Typora官网：<a href="https://molunerfinn.com/PicGo" target="_blank" rel="noopener">https://molunerfinn.com/PicGo</a></p><p>自用：2.2.2版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/ie0iWgbryha" target="_blank" rel="noopener">https://wwe.lanzous.com/ie0iWgbryha</a> </p><p><strong>Typora + Picgo + SM图床 设置：</strong></p><p>Typora：</p><ol><li>Ctrl + 逗号 进入偏好设置 -&gt; 图像 </li><li>插入图片时 -&gt; 上传图片 -&gt; 勾选前两项</li><li>上传服务设定 -&gt;  PicGo（app）-&gt;  PicGo本地安装路径</li><li>打开Picgo -&gt; 打开配置文件 -&gt; 修改server端口号为：36677 </li><li>插件中心 -&gt; 搜索：smms-user -&gt; 安装 </li><li>到SM.MS官网 -&gt; User -&gt; Dashboard -&gt; API Token -&gt; 生成并复制Token</li><li>回到Picgo -&gt; 粘贴到刚才的插件 配置plugin-smms-user -&gt; 配置uploder-smms-user</li><li>上传区选择SM.MS登录用户</li><li>重启Picgo</li><li>回到第三步Typora页面 -&gt; 验证图片上传路径 -&gt; 验证成功</li></ol><h4 id="超赞的壁纸网站"><a href="#超赞的壁纸网站" class="headerlink" title="超赞的壁纸网站"></a>超赞的壁纸网站</h4><p>如果要安利一个壁纸网站的话，那么不管你问我多少遍，我都强烈推荐 <strong><a href="https://wallhaven.cc/search?categories=110&purity=100&sorting=favorites&order=desc" target="_blank" rel="noopener">Wallhaven.cc</a></strong></p><p>Wallhaven 号称「网上最好的壁纸」，这是一点也不谦虚，真是「天生骄傲」，口气这么大，当然肯定有它骄傲的地方。<br>它界面简洁，没有任何广告。虽然这上面的壁纸基本都是用户上传的，但绝对都是一等一的优质高分辨率壁纸。</p><h4 id="科学上网"><a href="#科学上网" class="headerlink" title="科学上网"></a>科学上网</h4><p>jsproxy +cloudflare 实现浏览器的在线代理： <a href="https://myproxy.qsx1c.workers.dev/" target="_blank" rel="noopener">https://myproxy.qsx1c.workers.dev/</a></p><p>搭建过程参考自：<a href="https://yoyling.com/enjoy/jsproxy.html" target="_blank" rel="noopener">https://yoyling.com/enjoy/jsproxy.html</a></p>]]></content>
       
       
       <categories>
           
-          <category> 工具 </category>
+          <category> 资源 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 工具 </tag>
+            <tag> 资源 </tag>
             
             <tag> 配置 </tag>
             
@@ -325,9 +325,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> NoSQL </tag>
             
@@ -547,11 +547,11 @@
       
         <tags>
             
+            <tag> 转载 </tag>
+            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
-            
-            <tag> 转载 </tag>
             
             <tag> 排序算法 </tag>
             
@@ -578,9 +578,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       
@@ -663,13 +663,13 @@
       
         <tags>
             
+            <tag> 转载 </tag>
+            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
             
             <tag> HashMap </tag>
-            
-            <tag> 转载 </tag>
             
         </tags>
       
@@ -694,9 +694,9 @@
       
         <tags>
             
-            <tag> 数据结构 </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> 数据结构 </tag>
             
         </tags>
       
@@ -721,9 +721,9 @@
       
         <tags>
             
-            <tag> 数据结构 </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> 数据结构 </tag>
             
             <tag> 二叉树 </tag>
             
