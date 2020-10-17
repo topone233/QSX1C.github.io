@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分割等和子集（416）, QSX1C">
+    <meta name="keywords" content="SpringBoot + Redis缓存, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>分割等和子集（416） | QSX1C</title>
+    <title>SpringBoot + Redis缓存 | QSX1C</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -224,12 +224,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/10/12/f6d3e1021a05a.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/10/17/1e5eedc2efd5c.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">分割等和子集（416）</h1>
+                    <h1 class="description center-align post-title">SpringBoot + Redis缓存</h1>
                 </div>
             </div>
         </div>
@@ -346,16 +346,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                <span class="chip bg-color">算法</span>
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
-                            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-                                <span class="chip bg-color">动态规划</span>
+                            <a href="/tags/spring/">
+                                <span class="chip bg-color">Spring</span>
                             </a>
                         
-                            <a href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
-                                <span class="chip bg-color">背包问题</span>
+                            <a href="/tags/redis/">
+                                <span class="chip bg-color">Redis</span>
                             </a>
                         
                     </div>
@@ -366,8 +366,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
+                            <a href="/categories/spring/" class="post-category">
+                                Spring
                             </a>
                         
                     </div>
@@ -379,7 +379,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-10-11
+                    2020-10-17
                 </div>
                 
 
@@ -395,171 +395,149 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>2020-10-11</p>
-<p>416.<a href="https://leetcode-cn.com/problems/partition-equal-subset-sum" target="_blank" rel="noopener">分割等和子集</a></p>
-<h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><blockquote>
-<p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得<strong>两个子集的元素和相等</strong>。</p>
-<p>示例：</p>
-<p>输入：[1, 5, 11, 5]</p>
-<p>输出：true</p>
+                <blockquote>
+<p>Spring 3.1开始对缓存提供支持，核心思想是<strong>对方法的缓存</strong>，当开发者调用一个方法时，将方法的参数和返回值作为 key/value 缓存起来，当再次调用该方法时，如果缓存中有数据，就直接从缓存中获取，否则再去执行该方法。</p>
 </blockquote>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>这道题可以换一种表述：给定一个只包含正整数的非空数组 nums[0]，判断是否可以从数组中选出一些数字，使得这些数字的和等于整个数组的元素和的一半。</p>
-<p>因此这个问题可以转换成「0−1 背包问题」。这道题与传统的「0−1 背包问题」的区别在于，传统的「0−1 背包问题」要求选取的物品的重量之和不能超过背包的总容量，这道题则要求选取的数字的和恰好等于整个数组的元素和的一半。类似于传统的「0−1 背包问题」，可以使用动态规划求解。</p>
-<p>在使用动态规划求解之前，首先需要进行以下判断：</p>
-<ul>
-<li>根据数组的长度 n 判断数组是否可以被划分。如果 n&lt;2，则不可能将数组分割成元素和相等的两个子集，因此直接返回 false。</li>
-<li>计算数组的元素和 sum 。如果sum 是奇数，则不可能将数组分割成元素和相等的两个子集，因此直接返回 false。</li>
-<li>计算数组最大元素 maxNum。如果最大元素比 sum / 2 还大，直接返回false</li>
-</ul>
-<h4 id="动态规划求解"><a href="#动态规划求解" class="headerlink" title="动态规划求解"></a>动态规划求解</h4><p>创建二维数组 dp[i] [j]，表示从数组nums的 0~i 下标范围内选取若干个元素，是否存在一种选取方案使得被选取的元素的和等于 j（子集元素和，也即是背包的容量） 。例如 dp[0] [nums[0]] = true，当i=0，只有nums[0]可以被选取，因此返回true。</p>
-<p>此时有两种情况需要考虑：</p>
-<ul>
-<li><p>若<strong>不选</strong>nums[i]，只从 i 前选取元素来满足背包容量 j，则 dp[i] [j] = dp[i-1] [j]；</p>
-</li>
-<li><p>若<strong>选取</strong>nums[i]，此时从i 前选取元素来满足剩下的背包容量 j-nums[i]，则 dp[i] [j] = dp[i-1] [j - nums[i]]；</p>
-</li>
-</ul>
-<p>得出状态转移方程如下：<br>dp[i] [j]=max{ dp[i-1] [j]  |  dp[i-1] [j-nums[i] ] }</p>
-<h4 id="空间优化"><a href="#空间优化" class="headerlink" title="空间优化"></a>空间优化</h4><h5 id="1-降维"><a href="#1-降维" class="headerlink" title="1.降维"></a>1.降维</h5><p>其实还可以简化为：dp[j] = dp[j] | dp[j - nums[i]]，因为当前行每次只参考了上一行的值。</p>
-<ul>
-<li>只需要 找到<strong>元素与背包容量相等</strong>（如果原始集合有一个元素等于所有元素和的一半，那么可以直接将此元素与其他元素分成两个子集）；</li>
-<li>或者找到元素 x 满足x + nums[i] = j-nums[i] ，比如 1 + 5 = 11 - 5。</li>
-</ul>
-<p>target = sum / 2 == 11；true：T；false：略</p>
-<table>
-<thead>
-<tr>
-<th align="left"></th>
-<th>0</th>
-<th>1</th>
-<th>2, 3, 4</th>
-<th>5</th>
-<th>6</th>
-<th>7, 8, 9</th>
-<th>10</th>
-<th>11</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">nums[0]:<strong>1</strong></td>
-<td>T</td>
-<td>T</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="left">nums[1]:1、<strong>5</strong></td>
-<td>T</td>
-<td>T</td>
-<td></td>
-<td>T</td>
-<td>T</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td align="left">nums[2]:1、5、<strong>11</strong></td>
-<td>T</td>
-<td>T</td>
-<td></td>
-<td>T</td>
-<td>T</td>
-<td></td>
-<td></td>
-<td>T</td>
-</tr>
-<tr>
-<td align="left">nums[3]:1、5、11、<strong>5</strong></td>
-<td>T</td>
-<td>T</td>
-<td></td>
-<td>T</td>
-<td>T</td>
-<td></td>
-<td>T</td>
-<td>T</td>
-</tr>
-</tbody></table>
-<h5 id="2-逆序"><a href="#2-逆序" class="headerlink" title="2.逆序"></a>2.逆序</h5><p>观察上表，如果逆序，从target最大值11开始，一旦 target &lt; nums[i] 马上退出当前循环，可以减少很多重复计算。</p>
-<p>代码如下：</p>
-<pre class="line-numbers language-Java"><code class="language-Java">class Solution {
-    public boolean canPartition(int[] nums) {
-        int len = nums.length;
-        if (len < 2) {
-            return false;
-        }
-        int sum = 0, maxNum = 0;
-        for (int num : nums) {
-            sum += num;
-            maxNum = Math.max(maxNum, num);
-        }
-        if (sum % 2 != 0) {
-            return false;
-        }
-        int target = sum / 2;
-        if (maxNum > target) {
-            return false;
-        }
+<p>Spring并未提供缓存的实现，而是提供了一套缓存API，我们可以自由选择缓存的实现。主流的是 EhCache、Redis。Spring早已将缓存领域统一，无论使用哪种缓存实现，不同的只是缓存配置。</p>
+<h4 id="1-创建项目，添加依赖"><a href="#1-创建项目，添加依赖" class="headerlink" title="1.创建项目，添加依赖"></a>1.创建项目，添加依赖</h4><pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-cache&lt;/artifactId&gt;
+        &lt;/dependency&gt;
 
-        // 动态规划求解阶段
-        boolean[] dp = new boolean[target + 1];
-        dp[0] = true;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
 
-        // i最多到背包容量减一，否则就无法分成两个子集了
-        for (int i = 0; i < len; i++) {
-            int num = nums[i];
+        &lt;!-- test依赖 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;
+                    &lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
 
-            // j由大到小递减，一旦小于num，立马跳出循环
-            for (int j = target; j >= num; --j) {
-                dp[j] |= dp[j - num];
-            }
-        }
-        return dp[target];
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+            &lt;!-- 去除对lettuce的依赖,因为默认的redis工具是lettuce --&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;groupId&gt;io.lettuce&lt;/groupId&gt;
+                    &lt;artifactId&gt;lettuce-core&lt;/artifactId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+
+        &lt;!--  jedis连接池 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;redis.clients&lt;/groupId&gt;
+            &lt;artifactId&gt;jedis&lt;/artifactId&gt;
+        &lt;/dependency&gt;</code></pre><h4 id="2-整合Redis"><a href="#2-整合Redis" class="headerlink" title="2.整合Redis"></a>2.整合Redis</h4><p>Redis单机缓存只需要在 application.properties中进行redis配置及缓存配置即可。</p>
+<pre><code># 缓存配置
+# 配置缓存名称，redis的key都有一个前缀，默认前缀就是“缓存名::”
+spring.cache.cache-names=c1,c2
+# 缓存有效期，即redis中key的过期时间
+spring.cache.redis.time-to-live=1800s
+
+# redis配置
+# redis数据库，默认是0号数据库
+spring.redis.database=0
+spring.redis.host=127.0.0.1
+spring.redis.port=6379
+# 登录密码，默认为空
+spring.redis.password=
+# 连接池最大连接数，默认为8
+spring.redis.jedis.pool.max-active=8
+# 连接池最大空闲连接数
+spring.redis.jedis.pool.max-idle=8
+# 连接池最大阻塞等待时间，默认为-1，表示没有限制
+spring.redis.jedis.pool.max-wait=-1ms
+spring.redis.jedis.pool.min-idle=0</code></pre><h4 id="3-开启缓存"><a href="#3-开启缓存" class="headerlink" title="3.开启缓存"></a>3.开启缓存</h4><p>在项目的入口类上添加 @EnableCaching 注解开启缓存</p>
+<pre><code>@SpringBootApplication
+@EnableCaching
+public class CacheApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CacheApplication.class, args);
     }
-}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul>
-<li>时间复杂度：O(len × target)，其中 n 是数组的长度，target 是整个数组的元素和的一半。需要计算出所有的状态，每个状态在进行转移时的时间复杂度为 O(1)。</li>
-<li>空间复杂度：O(target)，其中 target 是整个数组的元素和的一半。<strong>空间复杂度取决于dp 数组</strong>，在不进行空间优化的情况下，空间复杂度是 O(len × target)。在进行空间优化的情况下，将二维数组降到一维，空间复杂度可以降到 O(target)。</li>
-</ul>
-<h3 id="0-1背包问题"><a href="#0-1背包问题" class="headerlink" title="0-1背包问题"></a>0-1背包问题</h3><p>背包九讲pdf 已由作者上传至github，完全公开。<a href="https://github.com/tianyicui/pack" target="_blank" rel="noopener">背包九讲</a></p>
-<p>这里仅对0-1背包问题先做了解，剩下的等看完在发。</p>
-<h4 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h4><p>有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。</p>
-<h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><p>这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。</p>
-<p>用子问题定义状态：即 “F[i] [v]”表示<strong>前 i 件物品</strong>恰放入一个<strong>容量为v</strong>的背包可以获得的最大价值。则其状态转移方程便是：</p>
-<pre><code>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]+w[i]}</code></pre><p>这个方程非常重要，基本上所有跟背包相关的问题的方程都是由它衍生出来的。所以有必要将它详细解释一下：“将前i件物品放入容量为v的背包中”这个子问题，若只考虑第i件物品的策略（放或不放），那么就可以转化为一个只牵扯前i-1件物品的问题。</p>
-<p>如果不放第i件物品：那么问题就转化为“前i-1件物品放入容量为v的背包中”，价值为”F[i-1] [v]”；</p>
-<p>如果放第i件物品：那么问题就转化为“前i-1件物品放入剩下的容量为v-c[i]的背包中”，此时能获得的最大价值就是F[i-1] [v-c[i] ]再加上通过放入第i件物品获得的价值w[i]。</p>
-<h4 id="优化空间复杂度"><a href="#优化空间复杂度" class="headerlink" title="优化空间复杂度"></a>优化空间复杂度</h4><p>以上方法的时间和空间复杂度均为O(VN)，其中时间复杂度应该已经不能再优化了，但空间复杂度却可以优化到O。</p>
-<p>先考虑上面讲的基本思路如何实现，肯定是有一个主循环i=1..N，每次算出来二维数组f[i] [0..V]的所有值。那么，如果只用一个数组f[0..V]，能不能保证第i次循环结束后f[v]中表示的就是我们定义的状态f[i] [v]呢？f[i] [v]是由f[i-1] [v]和f[i-1] [v-c[i]]两个子问题递推而来，能否保证在推f[i][v]时（也即在第i次主循环中推f[v]时）能够得到f[i-1] [v]和f[i-1] [v-c[i]]的值呢？事实上，这要求在每次主循环中我们以v=V..0的顺序推f[v]，这样才能保证推f[v]时f[v-c[i]]保存的是状态f[i-1] [v-c[i]]的值。伪代码如下：</p>
-<pre><code>for i=1..N
-    for v=V..0
-        f[v]=max{f[v],f[v-c[i]]+w[i]};</code></pre><p>其中的f[v]=max{f[v],f[v-c[i]]}一句恰就相当于我们的转移方程<code>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]}</code>，因为现在的f[v-c[i]]就相当于原来的f[i-1] [v-c[i]]。如果将v的循环顺序从上面的逆序改成顺序的话，那么则成了f[i][v]由f[i][v-c[i]]推知，与本题意不符，但它却是另一个重要的背包问题最简捷的解决方案，故学习只用一维数组解01背包问题是十分必要的。</p>
-<p>事实上，使用一维数组解01背包的程序在后面会被多次用到，所以这里抽象出一个处理一件01背包中的物品过程，以后的代码中直接调用不加说明。</p>
-<p>过程ZeroOnePack，表示处理一件01背包中的物品，两个参数cost、weight分别表明这件物品的费用和价值。</p>
-<pre><code>procedure ZeroOnePack(cost,weight)
-    for v=V..cost
-        f[v]=max{f[v],f[v-cost]+weight}</code></pre><p>注意这个过程里的处理与前面给出的伪代码有所不同。前面的示例程序写成v=V..0是为了在程序中体现每个状态都按照方程求解了，避免不必要的思维复杂度。而这里既然已经抽象成看作黑箱的过程了，就可以加入优化。费用为cost的物品不会影响状态f[0..cost-1]，这是显然的。</p>
-<p>有了这个过程以后，01背包问题的伪代码就可以这样写：</p>
-<pre><code>for i=1..N
-    ZeroOnePack(c[i],w[i]);</code></pre><h4 id="初始化的细节问题"><a href="#初始化的细节问题" class="headerlink" title="初始化的细节问题"></a>初始化的细节问题</h4><p>我们看到的求最优解的背包问题题目中，事实上有两种不太相同的问法。有的题目要求“恰好装满背包”时的最优解，有的题目则并没有要求必须把背包装满。一种区别这两种问法的实现方法是在初始化的时候有所不同。</p>
-<p>如果是第一种问法，要求恰好装满背包，那么在初始化时除了f[0]为0其它f[1..V]均设为-∞，这样就可以保证最终得到的f[N]是一种恰好装满背包的最优解。</p>
-<p>如果并没有要求必须把背包装满，而是只希望价格尽量大，初始化时应该将f[0..V]全部设为0。</p>
-<p>为什么呢？可以这样理解：初始化的f数组事实上就是在没有任何物品可以放入背包时的合法状态。如果要求背包恰好装满，那么此时只有容量为0的背包可能被价值为0的nothing“恰好装满”，其它容量的背包均没有合法的解，属于未定义的状态，它们的值就都应该是-∞了。如果背包并非必须被装满，那么任何容量的背包都有一个合法解“什么都不装”，这个解的价值为0，所以初始时状态的值也就全部为0了。</p>
-<p>这个小技巧完全可以推广到其它类型的背包问题，后面也就不再对进行状态转移之前的初始化进行讲解。</p>
-<h4 id="一个常数优化"><a href="#一个常数优化" class="headerlink" title="一个常数优化"></a>一个常数优化</h4><p>前面的伪代码中有 for v=V..1，可以将这个循环的下限进行改进。</p>
-<p>由于只需要最后f[v]的值，倒推前一个物品，其实只要知道f[v-w[n]]即可。以此类推，对以第j个背包，其实只需要知道到f[v-sum{w[j..n]}]即可，即代码中的</p>
-<pre><code>for i=1..N
-    for v=V..0</code></pre><p>可以改成</p>
-<pre><code>for i=1..n
-    bound=max{V-sum{w[i..n]},c[i]}
-    for v=V..bound</code></pre><p>这对于V比较大时是有用的。</p>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>01背包问题是最基本的背包问题，它包含了背包问题中设计状态、方程的最基本思想，另外，别的类型的背包问题往往也可以转换成01背包问题求解。故一定要仔细体会上面基本思路的得出方法，状态转移方程的意义，以及最后怎样优化的空间复杂度。</p>
-<pre><code></code></pre>
+}</code></pre><h4 id="4-创建-Dao"><a href="#4-创建-Dao" class="headerlink" title="4.创建 Dao"></a>4.创建 Dao</h4><pre><code>public class Book implements Serializable {
+        private Interger id;
+        private String name;
+        private String author;
+        // 省略getter/setter
+}</code></pre><pre><code>@Repository
+// 指明所使用的缓存的名字。也可不写，直接在@Cacheable注解中指明缓存名字
+@CacheConfig(cacheNames = &quot;book_cache&quot;)
+public class BookService {
+    // 此注解表示对该方法进行缓存。默认key是方法的参数，value是方法的返回值
+    // 当其他类中调用该方法时，首先会根据参数查看缓存中是否有相关数据
+    // 如果缓存有，直接使用缓存数据，该方法不会被执行。否则执行该方法，执行成功后将返回值缓存起来。
+    // 当前类调用该方法，缓存不会生效
+    // @Cacheable(condition=&quot;#id%2==0&quot;) 表示对id对2取模为0时才进行缓存，否则不缓存。
+    @Cacheable
+    public Book getBookById(Integer id) {
+        System.out.println(&quot;getBookById&quot;);
+        Book book = new Book();
+        book.setId(id);
+        book.setName(&quot;三国演义&quot;);
+        book.setAuthor(&quot;罗贯中&quot;);
+        return book;
+    }
+
+    // 一般用于数据更新方法上，方法每次在执行时都不会检查缓存中是否有数据，而是直接执行方法，将结果缓存。
+    // 如果key对应的数据已经被缓存，会覆盖之前的数据，避免再次加载数据时获取到脏数据。
+    // 缓存的key为参数book对象中id的值
+    @CachePut(key = &quot;#book.id&quot;)
+    public Book updateBookById(Book book) {
+        System.out.println(&quot;updateBookById&quot;);
+        book.setName(&quot;三国&quot;);
+        return book;
+    }
+
+    // 一般用于删除方法上，表示移除一个key对应的缓存。
+    // 有两个特殊的属性：allEntries、beforInvocation。用于移除缓存数据。默认均为false
+    // 例如@CacheEvict(beforeInvocation=&quot;false&quot;) 在方法执行之后移除缓存中的数据
+    // 缓存的key为参数id
+    @CacheEvict(key = &quot;#id&quot;)
+    public void deleteBookById(Integer id) {
+        System.out.println(&quot;deleteBookById&quot;);
+    }
+}</code></pre><h4 id="5-测试"><a href="#5-测试" class="headerlink" title="5.测试"></a>5.测试</h4><p>创建测试类，对Service中的方法进行测试</p>
+<pre><code>@SpringBootTest
+class CacheApplicationTests {
+
+    @Autowired
+    BookService bookService;
+
+    @Test
+    void contextLoads() {
+        bookService.getBookById(1);
+        bookService.getBookById(1);
+        bookService.deleteBookById(1);
+        Book b3 = bookService.getBookById(1);
+        System.out.println(&quot;b3:&quot; + b3);
+        Book b = new Book();
+        b.setName(&quot;三国演义&quot;);
+        b.setAuthor(&quot;罗贯中&quot;);
+        b.setId(1);
+        bookService.updateBookById(b);
+        Book b4 = bookService.getBookById(1);
+        System.out.println(&quot;b4:&quot; + b4);
+    }
+}</code></pre><p>执行该方法，控制台打印日志如图：</p>
+<p><img src="https://7.dusays.com/2020/10/17/c751e03c482e2.png" alt="image-20201017175302654"></p>
+<p><img src="https://7.dusays.com/2020/10/17/38b0bfb46a9e5.png" alt="image-20201017175508357"></p>
+<p>一开始执行了两个查询 getBookById()，但是查询方法只打印了一次，因为第二次使用了缓存。</p>
+<p>接下来执行了删除方法，j将缓存删除。</p>
+<p>之后再次执行查询，因为删除方法已经将缓存删除了。</p>
+<p>接下来执行更新方法，更新为 b对象中的数据，不仅更新数据，也更新了缓存。</p>
+<p>所以最后的查询方法中，查询方法日志没打印，说明该方法没执行，而是使用了缓存中的数据，而缓存中的数据已经被更新了。</p>
+
             </div>
             <hr/>
 
@@ -572,16 +550,16 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%AE%97%E6%B3%95/">
-                                    <span class="chip bg-color">算法</span>
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
-                                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-                                    <span class="chip bg-color">动态规划</span>
+                                <a href="/tags/spring/">
+                                    <span class="chip bg-color">Spring</span>
                                 </a>
                             
-                                <a href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
-                                    <span class="chip bg-color">背包问题</span>
+                                <a href="/tags/redis/">
+                                    <span class="chip bg-color">Redis</span>
                                 </a>
                             
                         </div>
@@ -749,7 +727,7 @@
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-10-11T00-00-00',
+        id: '2020-10-17T18-12-48',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -773,9 +751,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
                 <a href="/2020/10/17/SpringBoot%20+%20Redis%E7%BC%93%E5%AD%98/">
                     <div class="card-image">
@@ -792,9 +771,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -807,6 +786,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -833,30 +813,30 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/09/28/Redis/">
+                <a href="/2020/10/11/%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86%EF%BC%88416%EF%BC%89/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/10/17/1601b34cd5330.png" class="responsive-img" alt="Redis">
+                        <img src="https://7.dusays.com/2020/10/12/f6d3e1021a05a.jpg" class="responsive-img" alt="分割等和子集（416）">
                         
-                        <span class="card-title">Redis</span>
+                        <span class="card-title">分割等和子集（416）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Redis 整理
+                            leetcode打卡，416题：分割等和子集
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-11
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/nosql/" class="post-category">
-                                    NoSQL
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -866,16 +846,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/nosql/">
-                        <span class="chip bg-color">NoSQL</span>
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
                     </a>
                     
-                    <a href="/tags/redis/">
-                        <span class="chip bg-color">Redis</span>
+                    <a href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
+                        <span class="chip bg-color">背包问题</span>
                     </a>
                     
                 </div>
