@@ -370,8 +370,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/java/" class="post-category">
-                                Java
+                            <a href="/categories/spring/" class="post-category">
+                                Spring
                             </a>
                         
                     </div>
@@ -383,7 +383,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-08-20
+                    2020-10-10
                 </div>
                 
 
@@ -399,9 +399,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Enabling-Cross-Origin-Requests-for-a-RESTful-Web-Service"><a href="#Enabling-Cross-Origin-Requests-for-a-RESTful-Web-Service" class="headerlink" title="Enabling Cross Origin Requests for a RESTful Web Service"></a>Enabling Cross Origin Requests for a RESTful Web Service</h2><blockquote>
-<p>直奔主题，将使用Spring Boot快速构建项目部分省略，如果需要请访问：<a href="https://spring.io/guides/gs/rest-service-cors/" target="_blank" rel="noopener">https://spring.io/guides/gs/rest-service-cors/</a></p>
-</blockquote>
+                <h2 id="Enabling-Cross-Origin-Requests-for-a-RESTful-Web-Service"><a href="#Enabling-Cross-Origin-Requests-for-a-RESTful-Web-Service" class="headerlink" title="Enabling Cross Origin Requests for a RESTful Web Service"></a>Enabling Cross Origin Requests for a RESTful Web Service</h2><p><a href="https://spring.io/guides/gs/rest-service-cors/" target="_blank" rel="noopener">参考自Spring官网</a></p>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="RESTful"><a href="#RESTful" class="headerlink" title="RESTful"></a>RESTful</h4><p>Representational State Transfer 表述行状态转移，是一种设计风格和开发方式。</p>
 <p>Web应用最重要的REST原则是，客户端与服务端之间的交互请求是无状态的。客户端到服务端的请求必须包含理解请求所必需的信息；请求可以由任何可用服务器回答。</p>
 <ul>
@@ -416,9 +414,22 @@
 </ul>
 <h4 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h4><p>Cross Origin Resource Sharing 跨源资源共享。</p>
 <p>是一种机制，它使用额外的 HTTP头来告诉浏览器 让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域、协议或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。</p>
-<h3 id="1-Resource-Representation-Class"><a href="#1-Resource-Representation-Class" class="headerlink" title="1.Resource Representation Class"></a>1.Resource Representation Class</h3><pre><code>package com.example.restservicecors;
-
-public class Greeting {
+<p>以CORS的GET请求为例，当浏览器发起请求时，请求头中携带了如下信息：</p>
+<pre><code>...
+Host: localhost:8080
+Origin: http://localhost:8081
+Referer: http://localhost:8081/index.html
+...
+...</code></pre><p>假如服务端支持CORS，则服务端响应信息如下：</p>
+<pre><code>...
+Access-Control-Allow-Origin: http://localhost:8081
+Context-Length: 20
+Context-Type: text/plain;charset=UTF-8
+Date: Thu, 12 Aug 2020 12:11:13 GMT
+...
+...</code></pre><p>响应头中有一个Access-Control-Allow-Origin字段，用来记录可以访问该资源的域，当浏览器收到这样的响应头信息之后，提取出Access-Control-Allow-Origin字段中的值，发现该值包含当前页面所在的域，就知道这个跨域是被允许的。这个流程主要是针对GET、POST、HEAD请求的，并且没有自定义请求头，如果用户发起一个DELETE、PUT或者自定义请求头，流程就会稍微复杂一些。</p>
+<p>创建一个SpringBoot工程。添加Web依赖。</p>
+<h3 id="1-Resource-Representation-Class"><a href="#1-Resource-Representation-Class" class="headerlink" title="1.Resource Representation Class"></a>1.Resource Representation Class</h3><pre><code>public class Greeting {
 
     private final long id;
     private final String content;
@@ -440,17 +451,8 @@ public class Greeting {
     public String getContent() {
         return content;
     }
-}</code></pre><p>Spring使用Jackson JSON库自动将Greeting类型的实例编组为JSON</p>
-<h3 id="2-Resource-Controller"><a href="#2-Resource-Controller" class="headerlink" title="2.Resource Controller"></a>2.Resource Controller</h3><pre><code>package com.example.restservicecors;
-
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
+}</code></pre><p>Spring默认使用Jackson JSON库自动将Greeting类型的实例编组为JSON</p>
+<h3 id="2-Resource-Controller"><a href="#2-Resource-Controller" class="headerlink" title="2.Resource Controller"></a>2.Resource Controller</h3><pre><code>@RestController
 public class GreetingController {
 
     private static final String template = &quot;Hello, %s!&quot;;
@@ -474,8 +476,8 @@ public class GreetingController {
 <h4 id="ResponseBody"><a href="#ResponseBody" class="headerlink" title="@ResponseBody"></a>@ResponseBody</h4><p>告诉SpringMVC 不需要通过视图层呈现greeting对象，返回的greeting对象是响应体，应该直接写入</p>
 <h4 id="传统MVC控制器和RESTful-web服务控制器之间的一个关键区别"><a href="#传统MVC控制器和RESTful-web服务控制器之间的一个关键区别" class="headerlink" title="传统MVC控制器和RESTful web服务控制器之间的一个关键区别"></a>传统MVC控制器和RESTful web服务控制器之间的一个关键区别</h4><p>创建HTTP响应体的方式。RESTful 将对象数据将以JSON的形式直接写入HTTP响应，不依赖视图。</p>
 <p>Greeting对象必须转换为JSON。由于Spring的HTTP消息转换器支持，不需要手动转换。在类路径中的Jackson2会自动选择Spring的MappingJackson2HttpMessageConverter来将Greeting实例转换为JSON。</p>
-<h3 id="3-Enabling-CORS"><a href="#3-Enabling-CORS" class="headerlink" title="3.Enabling CORS"></a>3.Enabling CORS</h3><p>为了使RESTful Web的响应中包含CORS访问控制头，必须添加@CrossOrigin 在处理方法中（也可以添加到控制器类，该类的所有处理方法都启用CORS）</p>
-<pre><code>    @CrossOrigin(origins = &quot;http://localhost:9000&quot;， maxAge = 3000)
+<h3 id="3-Enabling-CORS"><a href="#3-Enabling-CORS" class="headerlink" title="3.Enabling CORS"></a>3.Enabling CORS</h3><p>为了使RESTful Web的响应中包含CORS访问控制头，必须添加@CrossOrigin 在处理方法中（也可以添加到控制器类头部，该类的所有处理方法都启用CORS）</p>
+<pre><code>    @CrossOrigin(origins = &quot;http://localhost:9000&quot;, maxAge = 3000, allowedHeaders = &quot;*&quot;)
     @GetMapping(&quot;/greeting&quot;)
     public Greeting greeting(@RequestParam(required=false, defaultValue=&quot;World&quot;) String name) {
         System.out.println(&quot;==== in greeting ====&quot;);
@@ -489,15 +491,7 @@ public class GreetingController {
 <li>allowCredentials</li>
 <li>maxAge （默认30分钟）</li>
 </ul>
-<h3 id="4-Creating-the-Application-Class"><a href="#4-Creating-the-Application-Class" class="headerlink" title="4.Creating the Application Class"></a>4.Creating the Application Class</h3><pre><code>package com.example.restservicecors;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-@SpringBootApplication
+<h3 id="4-Creating-the-Application-Class"><a href="#4-Creating-the-Application-Class" class="headerlink" title="4.Creating the Application Class"></a>4.Creating the Application Class</h3><pre><code>@SpringBootApplication
 public class RestServiceCorsApplication {
 
     public static void main(String[] args) {
@@ -505,7 +499,7 @@ public class RestServiceCorsApplication {
     }
 
     /**
-     * 添加一种方法来配置如何处理跨域资源共享
+     * 添加一种方法来配置如何处理跨域资源共享。全局配置
      */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -559,7 +553,8 @@ java -jar target/demo.jar</code></pre><h3 id="6-Test-the-Service"><a href="#6-Te
             &lt;p class=&quot;greeting-content&quot;&gt;The content is &lt;/p&gt;
         &lt;/div&gt;
     &lt;/body&gt;
-&lt;/html&gt;</code></pre><pre><code>./mvnw spring-boot:run -Dserver.port=9000
+&lt;/html&gt;</code></pre><pre><code>// 启动在本地主机上运行的应用程序在端口9000（以及已经在端口8080上运行的应用程序
+./mvnw spring-boot:run -Dserver.port=9000
 访问：http://localhost:9000/
 
 结果：
@@ -758,7 +753,7 @@ The content is Hello,World!</code></pre>
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-08-20T21-28-36',
+        id: '2020-10-10T00-00-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -786,30 +781,30 @@ The content is Hello,World!</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/08/22/Spring%20IoC/">
+                <a href="/2020/10/11/%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86%EF%BC%88416%EF%BC%89/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/11feb20dca941.jpg" class="responsive-img" alt="Spring IoC">
+                        <img src="https://7.dusays.com/2020/10/12/f6d3e1021a05a.jpg" class="responsive-img" alt="分割等和子集（416）">
                         
-                        <span class="card-title">Spring IoC</span>
+                        <span class="card-title">分割等和子集（416）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Spring IoC学习笔记的简单整理
+                            leetcode打卡，416题：分割等和子集
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-11
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/spring/" class="post-category">
-                                    Spring
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -819,12 +814,16 @@ The content is Hello,World!</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/spring/">
-                        <span class="chip bg-color">Spring</span>
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
+                        <span class="chip bg-color">背包问题</span>
                     </a>
                     
                 </div>
@@ -838,30 +837,30 @@ The content is Hello,World!</code></pre>
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/01/Java%20%E9%9B%86%E5%90%88/">
+                <a href="/2020/09/28/Redis/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/231b0d13676b0.png" class="responsive-img" alt="Java 集合">
+                        <img src="https://7.dusays.com/2020/10/17/1601b34cd5330.png" class="responsive-img" alt="Redis">
                         
-                        <span class="card-title">Java 集合</span>
+                        <span class="card-title">Redis</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Java 集合 思维导图
+                            Redis 整理
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/java/" class="post-category">
-                                    Java
+                            <a href="/categories/nosql/" class="post-category">
+                                    NoSQL
                                 </a>
                             
                             
@@ -875,8 +874,12 @@ The content is Hello,World!</code></pre>
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/%E9%9B%86%E5%90%88/">
-                        <span class="chip bg-color">集合</span>
+                    <a href="/tags/nosql/">
+                        <span class="chip bg-color">NoSQL</span>
+                    </a>
+                    
+                    <a href="/tags/redis/">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
                 </div>

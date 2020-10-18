@@ -438,7 +438,7 @@
         &lt;dependency&gt;
             &lt;groupId&gt;redis.clients&lt;/groupId&gt;
             &lt;artifactId&gt;jedis&lt;/artifactId&gt;
-        &lt;/dependency&gt;</code></pre><h4 id="2-整合Redis"><a href="#2-整合Redis" class="headerlink" title="2.整合Redis"></a>2.整合Redis</h4><p>Redis单机缓存只需要在 application.properties中进行redis配置及缓存配置即可。</p>
+        &lt;/dependency&gt;</code></pre><h4 id="2-整合Redis"><a href="#2-整合Redis" class="headerlink" title="2.整合Redis"></a>2.整合Redis</h4><p>Redis单机缓存只需要在 application.properties中进行redis配置及缓存配置即可。（要启动redis server）</p>
 <pre><code># 缓存配置
 # 配置缓存名称，redis的key都有一个前缀，默认前缀就是“缓存名::”
 spring.cache.cache-names=c1,c2
@@ -533,7 +533,7 @@ class CacheApplicationTests {
 <p><img src="https://7.dusays.com/2020/10/17/c751e03c482e2.png" alt="image-20201017175302654"></p>
 <p><img src="https://7.dusays.com/2020/10/17/38b0bfb46a9e5.png" alt="image-20201017175508357"></p>
 <p>一开始执行了两个查询 getBookById()，但是查询方法只打印了一次，因为第二次使用了缓存。</p>
-<p>接下来执行了删除方法，j将缓存删除。</p>
+<p>接下来执行了删除方法，将缓存删除。</p>
 <p>之后再次执行查询，因为删除方法已经将缓存删除了。</p>
 <p>接下来执行更新方法，更新为 b对象中的数据，不仅更新数据，也更新了缓存。</p>
 <p>所以最后的查询方法中，查询方法日志没打印，说明该方法没执行，而是使用了缓存中的数据，而缓存中的数据已经被更新了。</p>
