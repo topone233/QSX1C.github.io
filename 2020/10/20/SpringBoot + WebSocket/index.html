@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="IDE常用快捷键, QSX1C">
+    <meta name="keywords" content="SpringBoot + WebSocket, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>IDE常用快捷键 | QSX1C</title>
+    <title>SpringBoot + WebSocket | QSX1C</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -224,12 +224,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/09/17/6e127327cd921.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/10/20/034bc04e73e00.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">IDE常用快捷键</h1>
+                    <h1 class="description center-align post-title">SpringBoot + WebSocket</h1>
                 </div>
             </div>
         </div>
@@ -346,12 +346,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                                <span class="chip bg-color">工具</span>
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
-                            <a href="/tags/ide/">
-                                <span class="chip bg-color">IDE</span>
+                            <a href="/tags/springboot/">
+                                <span class="chip bg-color">SpringBoot</span>
+                            </a>
+                        
+                            <a href="/tags/websocket/">
+                                <span class="chip bg-color">WebSocket</span>
                             </a>
                         
                     </div>
@@ -362,8 +366,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%B7%A5%E5%85%B7/" class="post-category">
-                                工具
+                            <a href="/categories/spring/" class="post-category">
+                                Spring
                             </a>
                         
                     </div>
@@ -375,7 +379,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-07-21
+                    2020-10-20
                 </div>
                 
 
@@ -391,37 +395,211 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="eclipse常用快捷键"><a href="#eclipse常用快捷键" class="headerlink" title="eclipse常用快捷键"></a>eclipse常用快捷键</h4><ul>
-<li>Ctrl+Shift+T：查找 Java 类文件</li>
-<li>Ctrl+Shift+R：查找所有文件（包括 Java 文件）</li>
-<li>Ctrl+Shift+G：查找类、方法和属性的引用</li>
-<li>Ctrl+Shift+F：<strong>格式化代码</strong></li>
-<li>Alt+/ ：提示</li>
-<li>Ctrl+Shift+X：把当前选中的文本全部变味小写</li>
-<li>Ctrl+Shift+Y：把当前选中的文本全部变为小写</li>
-<li>Ctrl+Shift+O：快速地导入 import</li>
-<li>Ctrl+O：显示类中方法和属性的大纲，能快速定位类的方法和属性</li>
-<li>Ctrl+/: <strong>快速添加注释</strong></li>
-<li>Ctrl+Shift+C: 添加注释</li>
-<li>Alt+←：前一个编辑的页面</li>
-<li>Alt+→：下一个编辑的页面</li>
+                <p>在HTTP协议中，所有的请求都是由客户端发起、服务端响应，服务端无法向客户端推送消息，但是在一些需要即时通信的应用中（比如本次的web聊天室），不可避免的需要服务端向客户端推送消息。</p>
+<p>传统的解决方案：</p>
+<ul>
+<li>轮询：客户端固定的时间间隔下不停地向服务端发送请求，查看服务端是否有最新的数据。如果没有，返回一个空的JSON或者XML文档。客户端每次都要新建HTTP请求，极大的浪费服务端资源。</li>
+<li>长轮询：服务端不会每次都立即响应客户端请求，只有在有最新数据时才会立即响应客户端请求。 弊端：TCP和HTTP都有连接超时，所谓的长轮询不能一直持续，需要定期的连接和关闭再连接。</li>
+<li>Applet和Flash：已成为历史…</li>
 </ul>
-<h4 id="IDEA常用快捷键"><a href="#IDEA常用快捷键" class="headerlink" title="IDEA常用快捷键"></a>IDEA常用快捷键</h4><ul>
-<li><strong>代码格式化</strong>：Ctrl + Alt + L</li>
-<li><strong>代码智能提示辅助</strong>：Alt + Enter</li>
-<li><strong>从所有项中查找</strong>：双击 Shift</li>
-<li><strong>从所有类中查找</strong>：Ctrl + N</li>
-<li><strong>从所有文件中查找</strong>：Ctrl + Shift + N</li>
-<li><strong>跳到上一处/下一处代码</strong>：Ctrl + Alt + ⬅ / ➡</li>
-<li>从当前文件中查找：Ctrl + F</li>
-<li>从当前文件中查找并替换：Ctrl + R</li>
-<li><strong>运行当前Java文件</strong>：Shift + F10</li>
-<li>调试当前Java文件：Shift + F9</li>
-<li>单步调试：F8</li>
-<li>进入方法调试：F7</li>
-<li>跳到下一个短点位置：F9</li>
-<li>查看当前项目中的打的断点：Ctrl + Shift + F8</li>
+<h3 id="WebSocket-协议"><a href="#WebSocket-协议" class="headerlink" title="WebSocket 协议"></a>WebSocket 协议</h3><blockquote>
+<p>WebSocket是一种在单个TCP连接上进行全双工通信的协议，已被W3C定为标准。WebSocket 允许服务端主动向客户端推送数据，双方只需要完成一次握手就可以直接创建持久性的连接，并进行双向数据传输。</p>
+</blockquote>
+<p>一个WebSocket请求首先使用非正常的HTTP请求以特定的模式访问一个URL（两种模式：ws或wss，对应HTTP和HTTPS）。</p>
+<p>请求头中有一个Connection：Upgrade字段，表示客户端想要对协议进行升级。还有一个Upgrade：websocket字段，表示客户端想要将请求协议升级为WebSocket协议。</p>
+<p>这两个字段共同告诉服务器要将连接升级为WebSocket，如果服务端同意，那么握手完成之后，文本消息或其他二进制消息就可以同时在两个方向上进行发送。此时客户端与服务端关系是对等的。</p>
+<p>特点：</p>
+<ul>
+<li><strong>有状态</strong>，使用时需要先创建连接。</li>
+<li>与HTTP使用相同的端口 80（ws）或者443（wss），基本不会被防火墙阻止</li>
+<li>使用HTTP协议进行握手，自然而然的集成到浏览器和HTTP服务器，不需要额外的成本</li>
+<li>心跳信息（ping、pong）将被反复发送，以保持WebSocket连接一直处于活跃状态</li>
+<li>当信息启动或者到达时，服务端和客户端都可以知道</li>
+<li>关闭时将发送一个特殊的关闭消息</li>
+<li><strong>支持跨域</strong>，可以避免Ajax的限制</li>
+<li>HTTP规范要求浏览器将并发连接数限制为每个主机名两个连接，WebSocket握手完成后不存在此限制</li>
+<li><strong>支持扩展</strong>，用户可以扩展协议，实现部分自定义的子协议</li>
+<li>更好的二进制支持、更好的压缩效果</li>
 </ul>
+<p>应用场景：</p>
+<ul>
+<li><p>在线股票网站</p>
+</li>
+<li><p>即时聊天</p>
+</li>
+<li><p>多人在线游戏</p>
+</li>
+<li><p>应用集群通信</p>
+<p>…</p>
+</li>
+</ul>
+<h3 id="SpringBoot-WebSocket"><a href="#SpringBoot-WebSocket" class="headerlink" title="SpringBoot + WebSocket"></a>SpringBoot + WebSocket</h3><p>用SpringBoot + WebSocket实现一个简单的Web群聊。</p>
+<p><a href="https://github.com/topone233/SpringBoot-Demos/tree/main/socket" target="_blank" rel="noopener">去GitHub查看</a></p>
+<h4 id="1-创建项目、添加依赖"><a href="#1-创建项目、添加依赖" class="headerlink" title="1.创建项目、添加依赖"></a>1.创建项目、添加依赖</h4><pre><code>    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 使用jar包的形式对所需要的前端库统一管理  --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
+            &lt;artifactId&gt;webjars-locator-core&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
+            &lt;artifactId&gt;sockjs-client&lt;/artifactId&gt;
+            &lt;version&gt;1.1.2&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
+            &lt;artifactId&gt;stomp-websocket&lt;/artifactId&gt;
+            &lt;version&gt;2.3.3&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
+            &lt;artifactId&gt;jquery&lt;/artifactId&gt;
+            &lt;version&gt;3.3.1&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre><h4 id="2-WebSocketConfig"><a href="#2-WebSocketConfig" class="headerlink" title="2.WebSocketConfig"></a>2.WebSocketConfig</h4><blockquote>
+<p>STOMP是一个简单的可互操作的协议，通常被用于通过中间服务器在客户端之间进行异步消息传递。</p>
+</blockquote>
+<p>Spring框架提供了基于WebSocket的STOMP支持。</p>
+<pre><code>/*
+ * WebSocket配置类
+ * spring提供了基于websocket的stomp支持
+ * stomp是一个简单的可互操作的协议，通常被用于通过中间服务器在客户端之间进行异步消息传递。
+ */
+
+@Configuration
+
+// 此注解用于开启WebSocket消息代理
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        // 设置消息代理的前缀。即如果消息的前缀是“/topic”就会将消息转发给消息代理（broker）
+        // 再由消息代理将消息广播给当前连接的客户端。
+        config.enableSimpleBroker(&quot;/topic&quot;);
+
+        // 配置一个或多个前缀，通过前缀过滤出需要被注解方法处理的消息。其他的将被直接交给broker处理。
+        config.setApplicationDestinationPrefixes(&quot;/app&quot;);
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // 定义一个前缀为“/chat”的endPoint，并开启sockjs支持。
+        // sockjs可以解决浏览器对websocket的兼容性问题，客户端将通过这里配置的URL来建立websocket连接
+        registry.addEndpoint(&quot;/chat&quot;).withSockJS();
+    }
+}</code></pre><h4 id="3-Controller"><a href="#3-Controller" class="headerlink" title="3.Controller"></a>3.Controller</h4><p>定义一个Controller来实现对消息的处理</p>
+<pre><code>@Controller
+public class GreetingController {
+
+    // 注解的方法将用来接收“/app/hello”路径发送来的消息，处理后将消息转发到@SendTo定义的路径上。
+    @MessageMapping(&quot;/hello&quot;)
+
+    // 将处理过的消息交给消息代理broker，再由broker进行广播
+    @SendTo(&quot;/topic/greetings&quot;)
+    public Message greeting(Message message) throws Exception {
+        return message;
+    }
+}</code></pre><h4 id="4-聊天页面"><a href="#4-聊天页面" class="headerlink" title="4.聊天页面"></a>4.聊天页面</h4><p>在 resources/static下创建 chat.html页面作为聊天页面</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;群聊&lt;/title&gt;
+        &lt;script src=&quot;/webjars/jquery/jquery.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;/webjars/sockjs-client/sockjs.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;/webjars/stomp-websocket/stomp.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;/app.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;div&gt;
+            &lt;label for=&quot;name&quot;&gt;请输入用户名&lt;/label&gt;
+            &lt;input type=&quot;text&quot; id=&quot;name&quot; placeholder=&quot;用户名&quot;&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;button id=&quot;connect&quot; type=&quot;button&quot;&gt;连接&lt;/button&gt;
+            &lt;button id=&quot;disconnect&quot; type=&quot;button&quot; disabled=&quot;disabled&quot;&gt;断开连接&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;chat&quot; style=&quot;display:none;&quot;&gt;
+            &lt;div&gt;
+                &lt;label for=&quot;name&quot;&gt;请输入聊天内容&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;content&quot; placeholder=&quot;聊天内容&quot;&gt;
+            &lt;/div&gt;
+            &lt;button id=&quot;send&quot; type=&quot;button&quot;&gt;发送&lt;/button&gt;
+            &lt;div id=&quot;greetings&quot;&gt;
+                &lt;div id=&quot;conversation&quot; style=&quot;display: none&quot;&gt;群聊进行中...&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre><p>自定义的 app.js</p>
+<pre><code>var stompClient = null;
+function setConnected(connected) {
+    $(&quot;#connect&quot;).prop(&quot;disabled&quot;, connected);
+    $(&quot;#disconnect&quot;).prop(&quot;disabled&quot;, !connected);
+    if (connected) {
+        $(&quot;#conversation&quot;).show();
+        $(&quot;#chat&quot;).show();
+    }
+    else {
+        $(&quot;#conversation&quot;).hide();
+        $(&quot;#chat&quot;).hide();
+    }
+    $(&quot;#greetings&quot;).html(&quot;&quot;);
+}
+
+// 建立一个websocket连接，用户必须先输入用户名才能建立
+function connect() {
+    if (!$(&quot;#name&quot;).val()) {
+        return;
+    }
+
+    // 首先使用sockJS建立连接，然后创建一个STOMP实例发起连接请求
+    // 在连接成功的回调方法中，首先调用setConnected(true)方法进行页面的设置
+    var socket = new SockJS(&#39;/chat&#39;);
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        setConnected(true);
+
+        // 然后调用STOMP中的subscribe方法订阅服务端发送回来的消息
+        // 并将服务端发送来的消息展示出来（使用showGreeting方法）
+        stompClient.subscribe(&#39;/topic/greetings&#39;, function (greeting) {
+            showGreeting(JSON.parse(greeting.body));
+        });
+    });
+}
+
+function disconnect() {
+    if (stompClient != null) {
+
+        // 调用STOMP中的disconnect方法断开一个websocket连接
+        stompClient.disconnect();
+    }
+    setConnected(false);
+}
+
+function sendName() {
+    stompClient.send(&quot;/app/hello&quot;, {}, JSON.stringify({&#39;name&#39;: $(&quot;#name&quot;).val(), &#39;content&#39;:$(&quot;#content&quot;).val()}));
+}
+
+function showGreeting(message) {
+    $(&quot;#greetings&quot;).append(&quot;&lt;div&gt;&quot; +message.name+ &quot;:&quot; + message.content + &quot;&lt;/div&gt;&quot;);
+}
+
+$(function () {
+    $(&quot;#connect&quot; ).click(function() { connect(); });
+    $(&quot;#disconnect&quot; ).click(function() { disconnect(); });
+    $(&quot;#send&quot; ).click(function() { sendName(); });
+
+});</code></pre><h4 id="5-运行"><a href="#5-运行" class="headerlink" title="5.运行"></a>5.运行</h4><p>用两个浏览器或者多用户，运行结果如下：</p>
+<p>输入自定义的用户名，点击连接，进入聊天室。</p>
+<p>实现两个或两个以上用户进行聊天，聊天内容房间内所有人都可以看到，实现一个简单的Web群聊。</p>
+<p><img src="https://7.dusays.com/2020/10/20/6109785b046c6.png" alt="image-20201020175049840"></p>
 
             </div>
             <hr/>
@@ -435,12 +613,16 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                                    <span class="chip bg-color">工具</span>
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
-                                <a href="/tags/ide/">
-                                    <span class="chip bg-color">IDE</span>
+                                <a href="/tags/springboot/">
+                                    <span class="chip bg-color">SpringBoot</span>
+                                </a>
+                            
+                                <a href="/tags/websocket/">
+                                    <span class="chip bg-color">WebSocket</span>
                                 </a>
                             
                         </div>
@@ -608,7 +790,7 @@
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-07-21T00-00-00',
+        id: '2020-10-20T18-17-50',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -632,40 +814,42 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/07/21/%E5%8D%81%E5%A4%A7%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95(Java)/">
+                <a href="/2020/10/20/SpringBoot%20+%20WebSocket/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/12e2264e4b566.jpg" class="responsive-img" alt="十大经典排序算法(Java)">
+                        <img src="https://7.dusays.com/2020/10/20/034bc04e73e00.jpg" class="responsive-img" alt="SpringBoot + WebSocket">
                         
-                        <span class="card-title">十大经典排序算法(Java)</span>
+                        <span class="card-title">SpringBoot + WebSocket</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            十大经典排序算法的理解、Java版代码演示
+                            SpringBoot + WebSocket协议简单应用：一个简单的Web多人聊天室
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-category">
-                                    数据结构
+                            <a href="/categories/spring/" class="post-category">
+                                    Spring
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -673,16 +857,12 @@
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/springboot/">
+                        <span class="chip bg-color">SpringBoot</span>
                     </a>
                     
-                    <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                        <span class="chip bg-color">转载</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">排序算法</span>
+                    <a href="/tags/websocket/">
+                        <span class="chip bg-color">WebSocket</span>
                     </a>
                     
                 </div>
@@ -696,30 +876,30 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/20/%E5%8F%8D%E5%B0%84%E3%80%81%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
+                <a href="/2020/10/17/SpringBoot%20+%20Redis%E7%BC%93%E5%AD%98/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/ef4064cad5c7a.jpg" class="responsive-img" alt="反射、注解和动态代理">
+                        <img src="https://7.dusays.com/2020/10/17/1e5eedc2efd5c.jpg" class="responsive-img" alt="SpringBoot + Redis缓存">
                         
-                        <span class="card-title">反射、注解和动态代理</span>
+                        <span class="card-title">SpringBoot + Redis缓存</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Java反射、注解、动态代理的简单理解
+                            SpringBoot + Redis缓存
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-17
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/java/" class="post-category">
-                                    Java
+                            <a href="/categories/spring/" class="post-category">
+                                    Spring
                                 </a>
                             
                             
@@ -733,8 +913,12 @@
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                        <span class="chip bg-color">转载</span>
+                    <a href="/tags/redis/">
+                        <span class="chip bg-color">Redis</span>
+                    </a>
+                    
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">Spring</span>
                     </a>
                     
                 </div>
