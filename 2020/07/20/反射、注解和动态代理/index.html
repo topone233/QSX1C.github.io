@@ -394,24 +394,25 @@
                 <blockquote>
 <p><a href="(https://www.cnblogs.com/younghao/p/9751566.html)">原文地址</a> </p>
 </blockquote>
-<h3 id="一、Java-反射机制及基本用法"><a href="#一、Java-反射机制及基本用法" class="headerlink" title="一、Java 反射机制及基本用法"></a>一、Java 反射机制及基本用法</h3><p>反射是指计算机程序在<strong>运行时</strong>访问、检测和修改它本身状态或行为的一种能力，是一种元编程语言特性，有很多语言都提供了对反射机制的支持，它使程序能够编写程序。Java 的反射机制使得 Java 能够动态的获取类的信息和调用对象的方法。</p>
-<p>在 Java 中，Class（类类型）是反射编程的起点，代表运行时类型信息（RTTI，Run-Time Type Identification）。java.lang.reflect 包含了 Java 支持反射的主要组件，如 Constructor、Method 和 Field 等，分别表示类的构造器、方法和域，它们的关系如下图所示。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3923557-fadce88e244acb57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt=""></p>
+<h3 id="一、Java-反射机制及基本用法"><a href="#一、Java-反射机制及基本用法" class="headerlink" title="一、Java 反射机制及基本用法"></a>一、Java 反射机制及基本用法</h3><p>反射是指计算机程序在<strong>运行时</strong>访问、检测和修改它本身状态或行为的一种能力，是一种元编程语言特性，有很多语言都提供了对反射机制的支持，它使程序能够编写程序。Java 的反射机制使得 Java 能够动态的获取类的信息和调用对象的方法。反射有时也被称为内省，这两个词汇都隐喻了“让类型自我审视并提供自身的描述信息”。</p>
+<p>在 Java 中，Class（类类型）是反射编程的起点，代表运行时类型信息（RTTI，Run-Time Type Identification）。java.lang.reflect 包含了 Java 支持反射的主要组件，Field提供了有关类和接口的<strong>属性</strong>信息以及对它的动态访问权限；Constructor提供关于类的单个<strong>构造方法</strong>的信息以及它的访问权限；Method提供类或接口中某个<strong>方法</strong>的信息。它们的关系如下图所示。</p>
+<p><img src="https://7.dusays.com/2020/10/26/f32cb31e47578.png" alt=""></p>
 <p>Constructor 和 Method 与 Field 的区别在于前者继承自抽象类 Executable，是可以在运行时动态调用的，而 Field 仅仅具备可访问的特性，且默认为不可访问。下面了解下它们的基本用法：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3923557-711bcb9dbdec0b48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/860" alt=""></p>
-<ul>
-<li>获取 Class 对象有三种方式，Class.forName 适合于已知类的全路径名，典型应用如加载 JDBC 驱动。对同一个类，不同方式获得的 Class 对象是相同的。</li>
-</ul>
-<pre><code>// 1. 采用Class.forName获取类的Class对象
+<p><img src="https://7.dusays.com/2020/10/26/9a0a0b68d56bf.png" alt=""></p>
+<h4 id="获取-Class-对象的三种方式"><a href="#获取-Class-对象的三种方式" class="headerlink" title="获取 Class 对象的三种方式"></a>获取 Class 对象的三种方式</h4><p>静态方法 Class.forName <strong>适合于已知类的全路径名</strong>，典型应用如加载 JDBC 驱动。对同一个类，不同方式获得的 Class 对象是相同的。</p>
+<pre><code>// 1. 采用静态方法Class.forName(全限类名)获取类的Class对象。最安全/性能最好/最常用
 Class clazz0 = Class.forName(&quot;com.yhthu.java.ClassTest&quot;);
 System.out.println(&quot;clazz0:&quot; + clazz0);
-// 2. 采用.class方法获取类的Class对象
+
+// 2. 采用类字面常量（类的名字.class）
 Class clazz1 = ClassTest.class;
 System.out.println(&quot;clazz1:&quot; + clazz1);
-// 3. 采用getClass方法获取类的Class对象
+
+// 3. 采用对象的getClass方法获取它的Class对象
 ClassTest classTest = new ClassTest();
 Class clazz2 = classTest.getClass();
 System.out.println(&quot;clazz2:&quot; + clazz2);
+
 // 4. 判断Class对象是否相同
 System.out.println(&quot;Class对象是否相同:&quot; + ((clazz0.equals(clazz1)) &amp;&amp; (clazz1.equals(clazz2))));</code></pre><blockquote>
 <p>注意：三种方式获取的 Class 对象相同的前提是使用了相同的类加载器，比如上述代码中默认采用应用程序类加载器（sun.misc.Launcher$AppClassLoader）。不同类加载器加载的同一个类，也会获取不同的 Class 对象：</p>
@@ -437,18 +438,27 @@ ClassLoader myLoader = new ClassLoader() {
 // 采用自定义类加载器加载
 Class clazz3 = Class.forName(&quot;com.yhthu.java.ClassTest&quot;, true, myLoader);
 // clazz0与clazz3并不相同
-System.out.println(&quot;Class对象是否相同:&quot; + clazz0.equals(clazz3));</code></pre><ul>
-<li>通过 Class 的 getDeclaredXxxx 和 getXxx 方法获取构造器、方法和域对象，两者的区别在于前者返回的是当前 Class 对象申明的构造器、方法和域，包含修饰符为 private 的；后者只返回修饰符为 public 的构造器、方法和域，但包含从基类中继承的。</li>
+System.out.println(&quot;Class对象是否相同:&quot; + clazz0.equals(clazz3));</code></pre><h4 id="查看类信息"><a href="#查看类信息" class="headerlink" title="查看类信息"></a>查看类信息</h4><p>通过 Class 的 getDeclaredXxxx 和 getXxx 方法获取构造器、方法和域对象。</p>
+<p>两者的区别在于：</p>
+<ul>
+<li>前者返回的是当前 Class 对象申明的构造器、方法和域，包含修饰符为 private 的；</li>
+<li>后者只返回修饰符为 public 的构造器、方法和域，但包含从基类中继承的。</li>
 </ul>
 <pre><code>// 返回申明为public的方法，包含从基类中继承的
 for (Method method: String.class.getMethods()) {
     System.out.println(method.getName());
 }
+
 // 返回当前类申明的所有方法，包含private的
 for (Method method: String.class.getDeclaredMethods()) {
     System.out.println(method.getName());
-}</code></pre><ul>
-<li>通过 Class 的 newInstance 方法和 Constructor 的 newInstance 方法方法均可新建类型为 Class 的对象，通过 Method 的 invoke 方法可以在运行时动态调用该方法，通过 Field 的 set 方法可以在运行时动态改变域的值，但需要首先设置其为可访问（setAccessible）。</li>
+}
+
+Fields、Constructors与methods类似，省略。
+</code></pre><h4 id="利用反射动态创建对象实例"><a href="#利用反射动态创建对象实例" class="headerlink" title="利用反射动态创建对象实例"></a>利用反射动态创建对象实例</h4><ul>
+<li>通过 Class 的 newInstance 方法和 Constructor 的 newInstance 方法方法均可<strong>新建类型为 Class 的对象</strong>；</li>
+<li>通过 Method 的 invoke 方法可以在运行时动态调用该方法；</li>
+<li>通过 Field 的 set 方法可以在运行时动态改变域的值，但需要首先设置其为可访问（setAccessible）。</li>
 </ul>
 <h3 id="二、注解"><a href="#二、注解" class="headerlink" title="二、注解"></a>二、注解</h3><p>注解（Annotation）是 Java5 引入的一种代码辅助工具，它的核心作用是对类、方法、变量、参数和包进行标注，通过反射来访问这些标注信息，以此在运行时改变所注解对象的行为。Java 中的注解由内置注解和元注解组成。内置注解主要包括：</p>
 <ul>
@@ -512,7 +522,7 @@ public class AnnotationReflection {
 <li>ProxySubject 代理类——实现了 Subject 接口，持有对 RealSubject 的引用，在实现的接口方法中调用 RealSubject 中相应的方法执行；</li>
 <li>Cliect 客户端类——使用代理对象的类。</li>
 </ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/3923557-d5887810ae72a4d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="https://7.dusays.com/2020/10/26/83e58e2c1f336.png" alt=""></p>
 <p>在实现上，代理模式分为静态代理和动态代理，静态代理的代理类二进制文件是在编译时生成的，而动态代理的代理类二进制文件是在运行时生成并加载到虚拟机环境的。JDK 提供了对动态代理接口的支持，开源的动态代理库（Cglib、Javassist 和 Byte Buddy）提供了对接口和类的代理支持，本节将简单比较 JDK 和 Cglib 实现动态代理的异同，后续章节会对 Java 字节码编程做详细分析。</p>
 <h4 id="3-1-JDK-动态代理接口"><a href="#3-1-JDK-动态代理接口" class="headerlink" title="3.1 JDK 动态代理接口"></a>3.1 JDK 动态代理接口</h4><p>JDK 实现动态代理是通过 Proxy 类的 newProxyInstance 方法实现的，该方法的三个入参分别表示：</p>
 <pre><code>public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</code></pre><ul>
@@ -920,12 +930,12 @@ private static class MyMethodInterceptor implements MethodInterceptor {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/sql/">
-                        <span class="chip bg-color">SQL</span>
-                    </a>
-                    
                     <a href="/tags/%E8%BD%AC%E8%BD%BD/">
                         <span class="chip bg-color">转载</span>
+                    </a>
+                    
+                    <a href="/tags/sql/">
+                        <span class="chip bg-color">SQL</span>
                     </a>
                     
                 </div>

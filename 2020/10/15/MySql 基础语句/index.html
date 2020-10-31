@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="深入浅出 Maven, QSX1C">
+    <meta name="keywords" content="MySql 基础语句, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>深入浅出 Maven | QSX1C</title>
+    <title>MySql 基础语句 | QSX1C</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -224,12 +224,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/09/30/6168240805b5c.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/10/31/fc24b62f52203.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">深入浅出 Maven</h1>
+                    <h1 class="description center-align post-title">MySql 基础语句</h1>
                 </div>
             </div>
         </div>
@@ -346,16 +346,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                                <span class="chip bg-color">转载</span>
-                            </a>
-                        
-                            <a href="/tags/java/">
-                                <span class="chip bg-color">Java</span>
-                            </a>
-                        
-                            <a href="/tags/maven/">
-                                <span class="chip bg-color">Maven</span>
+                            <a href="/tags/mysql/">
+                                <span class="chip bg-color">MySql</span>
                             </a>
                         
                     </div>
@@ -366,8 +358,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/java/" class="post-category">
-                                Java
+                            <a href="/categories/mysql/" class="post-category">
+                                MySql
                             </a>
                         
                     </div>
@@ -379,7 +371,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-09-13
+                    2020-10-15
                 </div>
                 
 
@@ -395,152 +387,258 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><strong>互联网开发，特别 Java 领域</strong>，可以说 Maven 随处可见。Maven 的<strong>仓库管理</strong>、<strong>依赖管理</strong>、<strong>继承</strong>和<strong>聚合</strong>等特性为项目构建提供了一整套完善的解决方案，可以说如果你搞不懂 Maven，那么一个多模块的项目足以让你头疼，依赖冲突就会让你不知所措，甚至搞不清楚项目是如何运行起来的….. 是的，我也曾经被 Maven 这样 “伤害” 过……</p>
-<p><strong>Thinking in Maven</strong></p>
-<blockquote>
-<p>回想一下，当你新到一家公司，安装完 JDK 后就会安装配置 Maven（MAVEN_HOME、path），很大可能性你需要修改 settings.xml 文件，比如你会修改本地仓库地址路径，比如你很可能会 copy 一段配置到你的 settings.xml 中（很可能就是私服的一些配置）。接下来，你会到 IDEA 或者 Eclipse 中进行 Maven 插件配置，然后你就可以在工程中的 pom.xml 里面开始添加 <dependency> 标签来管理 jar 包，在 Maven 规范的目录结构下进行编写代码，最后你会通过插件的方式来进行测试、打包（jar or war）、部署、运行。</p>
-</blockquote>
-<p>上面描述了我们对 Maven 的一些使用方式，下面我们进行一些思考：</p>
-<p><strong>Q1：本地仓库？Maven 到底有哪些仓库？它们什么关系？</strong></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/eZzl4LXykQxTSMjicvewIDVTLh7D8MVTrFCxhfF1ibBpcUYqOTASiar5KI69ibdZTFRtf8rt68svaO18wWYv6wZwVA/640?wx_fmt=jpeg" alt=""></p>
-<p>Maven 仓库</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/eZzl4LXykQxTSMjicvewIDVTLh7D8MVTrlQhZk8T8MoVpAXrU4EmT20hmYzUuI9ycNIn8Zm3NfejvDsw3fYO2VA/640?wx_fmt=jpeg" alt=""></p>
-<p>本地仓库路径配置</p>
-<blockquote>
-<p>你要 jar 包，不可能每次都要联网去下载吧，多费劲，所以本地仓库就是相当于加了一层 jar 包缓存，先到这里来查。如果这里查不到，那么就去私服上找，如果私服也找不到，那么去中央仓库去找，找到 jar 后，会把 jar 的信息同步到私服和本地仓库中。</p>
-</blockquote>
-<blockquote>
-<p><strong>私服</strong>，就是公司内部局域网的一台服务器而已，你想一下，当你的工程 Project-A 依赖别人的 Project-B 的接口，怎么做呢？没有 Maven 的时候，当然是 copy Project-B jar 到你的本地 lib 中引入，那么 Maven 的方式，很显然需要其他人把 Project-B deploy 到私服仓库中供你使用。因此私服中存储了本公司的内部专用的 jar！不仅如此，私服还充当了中央仓库的镜像，说白了就是一个代理！</p>
-</blockquote>
-<blockquote>
-<p><strong>中央仓库</strong>：该仓库存储了互联网上的 jar，由 Maven 团队来维护，比如地址是类似这样的：<a href="https://repo1.maven.org/XXXX。" target="_blank" rel="noopener">https://repo1.maven.org/XXXX。</a></p>
-</blockquote>
-<p><strong>Q2：关于 <dependency> 的使用</strong></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/eZzl4LXykQxTSMjicvewIDVTLh7D8MVTrcrS1vj90k01icEUr6ENZ1K7EBbs8htOia5wIwnUB4XDu6XH6dicC4S1XA/640?wx_fmt=jpeg" alt=""></p>
-<p>依赖管理</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/eZzl4LXykQxTSMjicvewIDVTLh7D8MVTrVicno4rM992KtnGSL4Q0NnWrSZ3qYibiaia3u9sfjawtMURrvvtib1ria1vQ/640?wx_fmt=jpeg" alt=""></p>
-<blockquote>
-<p>其实这个标签揭示了 jar 的查找坐标：groupId、artifactId、version。</p>
-</blockquote>
-<blockquote>
-<p>一般而言，我们可以到私服上输入 artifactId 进行搜索，或者到 <a href="http://search.maven.org/、http://mvnrepository.com" target="_blank" rel="noopener">http://search.maven.org/、http://mvnrepository.com</a> / 上进行查找确定坐标。</p>
-</blockquote>
-<blockquote>
-<p><strong>version 分为开发版本（Snapshot）和发布版本（Release），那么为什么要分呢？</strong></p>
-</blockquote>
-<blockquote>
-<p>在实际开发中，我们经常遇到这样的场景，比如 A 服务依赖于 B 服务，A 和 B 同时开发，B 在开发中发现了 BUG，修改后，将版本由 1.0 升级为 2.0，那么 A 必须也跟着在 POM.XML 中进行版本升级。过了几天后，B 又发现了问题，进行修改后升级版本发布，然后通知 A 进行升级… 可以说这是开发过程中的版本不稳定导致了这样的问题。</p>
-</blockquote>
-<blockquote>
-<p>Maven，已经替我们想好了解决方案，就是使用 Snapshot 版本，在开发过程中 B 发布的版本标志为 Snapshot 版本，A 进行依赖的时候选择 Snapshot 版本，那么每次 B 发布的话，会在私服仓库中，形成带有时间戳的 Snapshot 版本，而 A 构建的时候会自动下载 B 最新时间戳的 Snapshot 版本！</p>
-</blockquote>
-<p><strong>Q3：既然 Maven 进行了依赖管理，为什么还会出现依赖冲突？处理依赖冲突的手段是？</strong></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/eZzl4LXykQxTSMjicvewIDVTLh7D8MVTrRp7zfVDA6THB2aOeXs26XkOG2tZBtlg7r9Nibqx9p3QDjcSd0zjuzNw/640?wx_fmt=jpeg" alt=""></p>
-<p>依赖的版本？</p>
-<blockquote>
-<p>首先来说，<strong>对于 Maven 而言，同一个 groupId 同一个 artifactId 下，只能使用一个 version！</strong></p>
-</blockquote>
-<blockquote>
-<p>根据上图的依赖顺序，将使用 1.2 版本的 jar。</p>
-</blockquote>
-<blockquote>
-<p>现在，我们可以思考下了，比如工程中需要引入 A、B，而 A 依赖 1.0 版本的 C，B 依赖 2.0 版本的 C，那么问题来了，C 使用的版本将由引入 A、B 的顺序而定？这显然不靠谱！如果 A 的依赖写在 B 的依赖后面，将意味着最后引入的是 1.0 版本的 C，很可能在运行阶段出现类（ClassNotFoundException）、方法（NoSuchMethodError）找不到的错误（因为 B 使用的是高版本的 C）！</p>
-</blockquote>
-<blockquote>
-<p>这里其实涉及到了 2 个概念：依赖传递（transitive）、Maven 的最近依赖策略。</p>
-</blockquote>
-<blockquote>
-<p>依赖传递：如果 A 依赖 B，B 依赖 C，那么引入 A，意味着 B 和 C 都会被引入。</p>
-</blockquote>
-<blockquote>
-<p>Maven 的最近依赖策略：如果一个项目依赖相同的 groupId、artifactId 的多个版本，那么在依赖树（mvn dependency:tree）中离项目最近的那个版本将会被使用。（从这里可以看出 Maven 是不是有点小问题呢？能不能选择高版本的进行依赖么？据了解，Gradle 就是 version + 策略）</p>
-</blockquote>
-<blockquote>
-<p>现在，我们可以想想如何处理依赖冲突呢？</p>
-</blockquote>
-<blockquote>
-<p>想法 1：要使用哪个版本，我们是清楚的，那么能不能不管如何依赖传递，都可以进行版本锁定呢？</p>
-</blockquote>
-<blockquote>
-<p>使用 <dependencyManagement>  [这种主要用于子模块的版本一致性中]</p>
-</blockquote>
-<blockquote>
-<p>想法 2：在依赖传递中，能不能去掉我们不想依赖的？</p>
-</blockquote>
-<blockquote>
-<p>使用 <exclusions> [在实际中我们可以在 IDEA 中直接利用插件帮助我们生成]</p>
-</blockquote>
-<blockquote>
-<p>想法 3：既然是最近依赖策略，那么我们就直接使用显式依赖指定版本，那不就是最靠近项目的么？</p>
-</blockquote>
-<blockquote>
-<p>使用 <dependency></p>
-</blockquote>
-<p><strong>Q4：引入依赖的最佳实践，提前发现问题！</strong></p>
-<blockquote>
-<p>在工程中，我们避免不了需要加一些依赖，也许加了依赖后运行时才发现存在依赖冲突在去解决，似乎有点晚！那么能不能提前发现问题呢？</p>
-</blockquote>
-<blockquote>
-<p>如果我们新加入一个依赖的话，那么先通过 mvn dependency:tree 命令形成依赖树，看看我们新加入的依赖，是否存在传递依赖，传递依赖中是否和依赖树中的版本存在冲突，如果存在多个版本冲突，利用上文的方式进行解决！</p>
-</blockquote>
-<p><strong>Q5：Maven 规范化目录结构</strong></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/eZzl4LXykQxTSMjicvewIDVTLh7D8MVTribFGVKKtuFMIBlGQq7DRkVzS9eh32ibSX2Yb0cL70ofianVqTribjDicAxQ/640?wx_fmt=jpeg" alt=""></p>
-<p>简单 Java 工程目录结构</p>
-<blockquote>
-<p>这里需要注意 2 点：</p>
-</blockquote>
-<blockquote>
-<p>第一：src/main 下内容最终会打包到 Jar/War 中，而 src/test 下是测试内容，并不会打包进去。</p>
-</blockquote>
-<blockquote>
-<p>第二：src/main/resources 中的资源文件会 COPY 至目标目录，这是 Maven 的默认生命周期中的一个规定动作。（想一想，hibernate/mybatis 的映射 XML 需要放入 resources 下，而不能在放在其他地方了）</p>
-</blockquote>
-<p><strong>Q6：Maven 的生命周期</strong></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/eZzl4LXykQxTSMjicvewIDVTLh7D8MVTrU5QzKiakl9oEAUee99DIObo1y6S6uFY2GKvNibTklFCfHicGXJeDqy9Yw/640?wx_fmt=jpeg" alt=""></p>
-<p>Maven 生命周期</p>
-<blockquote>
-<p>我们只需要注意一点：<strong>执行后面的命令时，前面的命令自动得到执行</strong>。</p>
-</blockquote>
-<blockquote>
-<p>实际上，我们最常用的就是这么几个：</p>
-</blockquote>
-<blockquote>
-<p>clean：有问题，多清理！</p>
-</blockquote>
-<blockquote>
-<p>package：打成 Jar or War 包，会自动进行 clean+compile</p>
-</blockquote>
-<blockquote>
-<p>install：将本地工程 Jar 上传到本地仓库</p>
-</blockquote>
-<blockquote>
-<p>deploy：上传到私服</p>
-</blockquote>
-<p><strong>Q7：**</strong>关于 scope 依赖范围**</p>
-<blockquote>
-<p>既然，Maven 的生命周期存在编译、测试、运行这些过程，那么显然有些依赖只用于测试，比如 junit；有些依赖编译用不到，只有运行的时候才能用到，比如 mysql 的驱动包在编译期就用不到（编译期用的是 JDBC 接口），而是在运行时用到的；还有些依赖，编译期要用到，而运行期不需要提供，因为有些容器已经提供了，比如 servlet-api 在 tomcat 中已经提供了，我们只需要的是编译期提供而已。</p>
-</blockquote>
-<blockquote>
-<p>总结来说：</p>
-</blockquote>
-<blockquote>
-<p><strong>compile：</strong>默认的 scope，运行期有效，需要打入包中。</p>
-</blockquote>
-<blockquote>
-<p><strong>provided</strong>：编译期有效，运行期不需要提供，不会打入包中。</p>
-</blockquote>
-<blockquote>
-<p><strong>runtime</strong>：编译不需要，在运行期有效，需要导入包中。（接口与实现分离）</p>
-</blockquote>
-<blockquote>
-<p><strong>test</strong>：测试需要，不会打入包中。</p>
-</blockquote>
-<blockquote>
-<p><strong>system</strong>：非本地仓库引入、存在系统的某个路径下的 jar。（一般不使用）</p>
-</blockquote>
-<p>每天进步一点点</p>
-<p>慢一点才能更快</p>
+                <h3 id="1-开启关闭"><a href="#1-开启关闭" class="headerlink" title="1.开启关闭"></a>1.开启关闭</h3><pre><code>net start mysql
 
+net stop mysql
+
+mysql -u root -p
+
+// 准备退出mysql时一定要exit。
+exit</code></pre><h3 id="2-数据定义语言-DDL"><a href="#2-数据定义语言-DDL" class="headerlink" title="2.数据定义语言 DDL"></a>2.数据定义语言 DDL</h3><p>DDL（data definition language）用于定义、撤销、修改关系模式，如表、视图、索引。</p>
+<pre><code>// 查看当前登录用户（；是表示sql语句结束，不能少）
+select user()；
+
+// 数据库操作
+drop database db_test;        // 删除数据库db_test
+create database if not exists db_test;     // 创建一个名为db_test的数据库
+show databases;                // 查看数据库列表 
+use db_test;                // 选择db_test做为当前数据库，后续操作默认都在此数据库
+mysql -uroot -proot db_test        // 直接在进入mysql时指定数据库
+
+// 数据表操作
+// 创建数据表tb_a
+create table if not exists tb_a(
+    id int(11) primary key auto_increment,
+    name varchar(255),
+    foreign key (name) 
+        references tb_b,   // 外键name引用的是tb_b表的主键name
+        on delete cascade  // 表示当主表中删除了某一个主键时，基表中引用此主键的行也随之被删除
+        on delete restrict     // 凡是被基表所引用的主键，不得被删除，默认
+    )engine=InnoDB auto_increment=1 charset=utf8;
+
+// 查看数据库
+show create table tb_a;        // 查看刚刚创建数据表的语句
+show tables;    //查看存在的表
+desc tb_a;        //查看数据表结构
+select * from tb_a;</code></pre><h4 id="alter"><a href="#alter" class="headerlink" title="alter"></a>alter</h4><pre><code>// alter 修改表结构
+// 表字段修改
+alter table tb_a rename tb_newname;        // 重命名tb_a
+alter table tb_a modify id int(12);        // 修改id字段数据类型
+alter table tb_a change id newID int(11);    // 重命名id字段为newID，并修改数据类型。（需要旧的列名称）
+alter table tb_a add sex enum(&#39;男&#39;, &#39;女&#39;) after name;    // 在name后增加一个字段
+alter table tb_a drop sex;    //删除字段sex
+
+// 约束修改
+// 系统会自动在主键上建立索引，当插入元组时，会进行唯一性检查，大量插入时，会影响系统效率
+// 暂时撤销主键，完成插入后再补充定义主键，可以提高效率。
+alter table tb_a add primary key(name);
+
+// 定义外键后，也需要引用完整性检查，会影响系统性能，必要时可暂时撤销
+alter tabel tb_a drop primary key;</code></pre><h4 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h4><pre><code>// 索引
+create [unique] [cluster] index_a on tb_a(id desc, newID asc);
+// []为可选内容
+// unique表示此索引的每一个索引值只对应唯一的数据记录
+// cluster表示要建立的索引是簇集索引
+// asc表示升序，desc表示降序，默认是升序。
+
+// 索引只能删除，不能修改
+drop index index_a;</code></pre><h4 id="单引号和反引号"><a href="#单引号和反引号" class="headerlink" title="单引号和反引号"></a>单引号和反引号</h4><ul>
+<li>反引号是为了区分MySQL的保留字与普通字符而引入的符号。</li>
+<li>引号一般用在字段的值，如果字段值是字符或字符串，则要加引号.</li>
+</ul>
+<h4 id="删除表内数据"><a href="#删除表内数据" class="headerlink" title="删除表内数据"></a>删除表内数据</h4><ul>
+<li><p>delete from tb_a 【可选 where  id=1】;</p>
+<p>delete删除表内数据，表结构不变，删除操作作为事务记录在日志中保存以便进行进行回滚操作。数据空间不释放，因为需回滚。对 table 和 view 都能操作。速度慢。</p>
+</li>
+<li><p>optimize table tb_a;</p>
+<p>释放tb_a的空间</p>
+</li>
+<li><p>truncate table tb_a;</p>
+<p>一次性地从表中删除所有的数据，释放存储表数据所用的数据页来删除数据，并不把单独的删除操作记录记入日志保存(<strong>只在事务日志中记录 页的释放</strong>)，因此<strong>也不能回滚，不能恢复数据</strong>，在删除的过程中不会激活与表有关的删除触发器，<strong>占用资源更加少，速度更快。数据空间会释放</strong>，这个表和索引所占用的空间会恢复到初始大小。<strong>只能操作没有关联视图的 table</strong>。不能用于参与了索引视图的表。</p>
+</li>
+<li><p>drop table tb_a;</p>
+<p>删除的是整个表，包括表的结构，数据，定义。永久抹去，空间释放。对 table 和 view 都能操作。</p>
+</li>
+</ul>
+<h3 id="3-查询语言-QL"><a href="#3-查询语言-QL" class="headerlink" title="3.查询语言 QL"></a>3.查询语言 QL</h3><pre><code>select [all |  distinct] &lt;目标列表达式&gt;[别名] [, &lt;目标列表达式&gt;[别名] ]...
+from &lt;表名或视图名&gt;[, &lt;表名或视图名&gt;]...
+[ where &lt;条件表达式&gt;]
+[ group by &lt;属性列1&gt; [having &lt;条件表达式&gt; ] ]
+[ order by &lt;属性列2&gt; [asc | desc] ];
+
+
+select * from student;
+select id, name from student;
+select distinct name from student;    //消除重复
+select id, name 
+    from  student
+    where sex=&#39;女&#39;;</code></pre><ul>
+<li><p>all 表示查询结果不消除重复元组。</p>
+</li>
+<li><p>distinct表示消除重复元组。[]表示可选项</p>
+</li>
+<li><p>group by 将结果根据属性列1的值进行分组</p>
+</li>
+<li><p>having是分组必须满足的符加条件。必须跟在group by后面</p>
+</li>
+<li><p>order by 将结果根据属性列2的值进行排序，asc升序（默认），desc降序。（必须在group by的后面）</p>
+</li>
+</ul>
+<h4 id="where常用的查询条件"><a href="#where常用的查询条件" class="headerlink" title="where常用的查询条件"></a>where常用的查询条件</h4><table>
+<thead>
+<tr>
+<th align="left">查询条件</th>
+<th>谓词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">比较</td>
+<td>=，&lt;, &gt;, &lt;=, &gt;=, &lt;&gt;, !=, !&gt;, !&lt;</td>
+</tr>
+<tr>
+<td align="left">确定范围</td>
+<td>between…and… , not between… and…</td>
+</tr>
+<tr>
+<td align="left">确定集合</td>
+<td>in , not in</td>
+</tr>
+<tr>
+<td align="left">字符匹配</td>
+<td>like, not like</td>
+</tr>
+<tr>
+<td align="left">空值</td>
+<td>is null , is not null</td>
+</tr>
+<tr>
+<td align="left">多重条件</td>
+<td>and , or</td>
+</tr>
+</tbody></table>
+<pre><code>// 1.查询课程号为001的课程的学生学号、姓名
+select cource.id, name
+from student, cource
+where student.id = cource.id    // 由于id在两个表都有出现，因此引用id时需要注明基表名
+    and cid = &#39;001&#39;;</code></pre><h4 id="谓词-in"><a href="#谓词-in" class="headerlink" title="谓词 in"></a>谓词 in</h4><pre><code>// 2.查询同时选修001和002两门课程的学生学号、姓名（and） 
+select id, name
+from student
+where id in
+    (select x.id
+     from cource as x, cource as y        // 为了区别两个课程，引入别名x、y加以限定
+     where x.id = y.id
+         and x.cid = &#39;001&#39;
+         and y.cid = &#39;002&#39;);
+
+// 3.查询缺考的学生学号、课程号（is null）
+select id, cid, grade
+from cource
+where grade is null;    // 空值是状态不是值，不能写成grade=null
+
+// 4.查询只有一个人选修的课程号（not in）
+select cid
+from cource sc        // cource的别名sc，区别不同层次上对同一个表的查询
+where cid not in
+    (select cid
+     from cource
+     where id &lt;&gt; sc.id); 
+
+// 聚合函数方式
+select cid
+from cource
+group by cid
+having count(*) = 1;</code></pre><h4 id="谓词-exists"><a href="#谓词-exists" class="headerlink" title="谓词 exists"></a>谓词 exists</h4><p>带有exists的子查询不返回任何数据，只返回布尔值 true或者false。</p>
+<pre><code>// 嵌套查询逐次求解、层次分明，而且执行效率也比连接查询效率高
+// 5.查询没有选修001课程的学生姓名
+select name
+from student
+where not exists
+    (select *
+     from cource
+     where id=student.id and cid=&#39;001&#39;);</code></pre><h4 id="谓词-like-模糊查询"><a href="#谓词-like-模糊查询" class="headerlink" title="谓词 like 模糊查询"></a>谓词 like 模糊查询</h4><p>like 进行全部或部分字符串的匹配。%匹配0或多个字符；</p>
+<pre><code>// 6.查询课程名为计算机开头的课程
+select * 
+from course
+where cname like &#39;计算机%&#39;;</code></pre><h4 id="between…-and…-范围查询"><a href="#between…-and…-范围查询" class="headerlink" title="between… and… 范围查询"></a>between… and… 范围查询</h4><pre><code>// 7.查询不是1990年到2020年出生的学生姓名
+select name
+from student
+where year(bdate) 
+    not between 1990 and 2020;</code></pre><h4 id="聚集函数查询"><a href="#聚集函数查询" class="headerlink" title="聚集函数查询"></a>聚集函数查询</h4><p>聚集函数通常能够减少比较的次数，查询效率较高。</p>
+<ul>
+<li><p>计数</p>
+<p>count( [distinct | all ]  &lt;属性列&gt;)    统计某属性中值的个数</p>
+</li>
+<li><p>计算总和</p>
+<p>sum( [distinct | all ]  &lt;属性列&gt;)    计算某属性值的总和    </p>
+</li>
+<li><p>计算平均值</p>
+<p>avg( [distinct | all ]  &lt;属性列&gt;)    计算某属性值的平均值</p>
+</li>
+<li><p>最大值</p>
+<p>max( [distinct | all ]  &lt;属性列&gt;)</p>
+</li>
+<li><p>最小值</p>
+<p>min( [distinct | all ]  &lt;属性列&gt;)</p>
+</li>
+</ul>
+<pre><code>// 8.查询选修了课程的学生人数,用num字段显示
+select count(distinct id) as num    // 一个学生可以选多门课程，但统计时不能重复计算，用distinct去重 
+from cource;
+
+// 9.查询每门课对应的选课人数num，结果集：cid num
+select cid, count(id) as num
+from cource
+group by cid;    // 按课程号分组。属性列名必须在select中出现
+
+// 10.查询选修了三门以上课程的学生学号
+select id
+from cource
+group by id
+having count(*) &gt;= 3;    // having指定选择组的条件，只有满足条件的才会出现在结果
+
+// 11.查询计算机相关所有课程的最高分、最低分、平均分。有缺考课程不予统计。结果按cid升序
+select cid, max(grade) as maxgrade, min(grade) as mingrade, avg(grade) as avggrade
+from cource
+where cid like &#39;计算机%&#39;
+group by cid    // 按cid分组
+having cid not in    // 不统计有缺考的课程
+    (select cid
+        from cource
+        where grade is null)
+order by cid;    // 结果按cid升序</code></pre><h4 id="集合查询"><a href="#集合查询" class="headerlink" title="集合查询"></a>集合查询</h4><p> 并、交、 差分别对应：union、 intersect（and）、 except</p>
+<pre><code>// 12.查询1999年出生的或者选修计算机相关课程的学生学号
+(select id
+from student
+where yaer(bdate) = 1999)
+ union
+(select id
+from cource
+where cid like &#39;计算机%&#39;);</code></pre><h4 id="查询分页"><a href="#查询分页" class="headerlink" title="查询分页"></a>查询分页</h4><pre><code>// 从数据表tb_a 的第4行开始，返回6行数据
+select * from tb_a limit 3,6;</code></pre><h3 id="4-数据操作语言-DML"><a href="#4-数据操作语言-DML" class="headerlink" title="4.数据操作语言 DML"></a>4.数据操作语言 DML</h3><h4 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h4><pre><code>insert into tbname [(&lt;&gt;, &lt;&gt;)]
+values (&lt;&gt;, &lt;&gt;...),(&lt;&gt;, &lt;&gt;...)... ;
+
+// 向student表插入一行数据
+insert into student
+values (&#39;001&#39;, &#39;张三&#39;, &#39;男&#39;);</code></pre><ul>
+<li>如果没有指定属性列则表示要插入的是一条完整的元组，且与表中定义顺序一致。</li>
+<li>如果指定部分属性列，其余属性列取空值。</li>
+</ul>
+<h4 id="update"><a href="#update" class="headerlink" title="update"></a>update</h4><p><strong>执行修改语句时会检查是否会破坏表的完整性规则，如果破坏会给出提示，且修改操作会失败。</strong></p>
+<pre><code>update table_name
+set &lt;属性列名&gt;=&lt;表达式&gt; [, &lt;&gt;=&lt;&gt;]
+[where &lt;条件&gt;];
+
+// 将cource表所有学生成绩清零，缺考的除外
+update cource
+set  grade=0
+where grade is not null;</code></pre><h4 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h4><p><strong>执行删除语句时会检查是否会破坏表的完整性规则，如果破坏会给出提示，且删除操作会失败。</strong></p>
+<pre><code>delete 
+from table_name
+[where &lt;条件&gt;];
+
+// 删除学号为001的学生
+delete from sutdent
+where id=&#39;001&#39;;</code></pre>
             </div>
             <hr/>
 
@@ -553,16 +651,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                                    <span class="chip bg-color">转载</span>
-                                </a>
-                            
-                                <a href="/tags/java/">
-                                    <span class="chip bg-color">Java</span>
-                                </a>
-                            
-                                <a href="/tags/maven/">
-                                    <span class="chip bg-color">Maven</span>
+                                <a href="/tags/mysql/">
+                                    <span class="chip bg-color">MySql</span>
                                 </a>
                             
                         </div>
@@ -730,7 +820,7 @@
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-09-13T00-00-00',
+        id: '2020-10-15T00-00-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -758,30 +848,30 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/09/15/CORS%20%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E/">
+                <a href="/2020/10/17/SpringBoot%20+%20Redis%E7%BC%93%E5%AD%98/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/655d298fff640.jpg" class="responsive-img" alt="CORS 跨域资源共享安全漏洞">
+                        <img src="https://7.dusays.com/2020/10/17/1e5eedc2efd5c.jpg" class="responsive-img" alt="SpringBoot + Redis缓存">
                         
-                        <span class="card-title">CORS 跨域资源共享安全漏洞</span>
+                        <span class="card-title">SpringBoot + Redis缓存</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            CORS 跨域资源共享安全漏洞
+                            SpringBoot + Redis缓存
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-15
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-17
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%AE%89%E5%85%A8/" class="post-category">
-                                    安全
+                            <a href="/categories/spring/" class="post-category">
+                                    Spring
                                 </a>
                             
                             
@@ -791,16 +881,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">安全</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/cros/">
-                        <span class="chip bg-color">CROS</span>
+                    <a href="/tags/spring/">
+                        <span class="chip bg-color">Spring</span>
                     </a>
                     
-                    <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                        <span class="chip bg-color">转载</span>
+                    <a href="/tags/redis/">
+                        <span class="chip bg-color">Redis</span>
                     </a>
                     
                 </div>
@@ -814,30 +904,30 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/09/11/SSL%E5%8D%8F%E8%AE%AE/">
+                <a href="/2020/10/11/%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86%EF%BC%88416%EF%BC%89/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/a57dc823fcfde.jpg" class="responsive-img" alt="SSL协议">
+                        <img src="https://7.dusays.com/2020/10/12/f6d3e1021a05a.jpg" class="responsive-img" alt="分割等和子集（416）">
                         
-                        <span class="card-title">SSL协议</span>
+                        <span class="card-title">分割等和子集（416）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            SSL协议
+                            leetcode打卡，416题：分割等和子集
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-11
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-11
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
-                                    网络协议
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -847,16 +937,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">安全</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
-                    <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
-                        <span class="chip bg-color">网络协议</span>
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
                     </a>
                     
-                    <a href="/tags/ssl/">
-                        <span class="chip bg-color">SSL</span>
+                    <a href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
+                        <span class="chip bg-color">背包问题</span>
                     </a>
                     
                 </div>
