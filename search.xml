@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Java面试题目</title>
+      <link href="/2020/10/26/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/"/>
+      <url>/2020/10/26/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
+      
+        <content type="html"><![CDATA[<ol><li>Java中的内存泄漏是怎么回事？请举例。</li></ol><p>​      存在一些不会被GC回收，然而还占用内存的对象</p><ol start="2"><li><p>equals和==的区别是什么？</p><p>简单的说：equals比较值， ==比较的是地址。</p><p>equals是Object类的方法，其实内部还是调用的 “==”，使用的时候需要重写。</p></li><li><p>下述代码在多线程环境中是否存在问题？如何修改？</p><p>volatile关键字是什么意思？如果删除对该段代码有何影响？</p><pre><code>class Counter {    private volatile int count = 0;    public int getNext() {         return ++count;    }}</code></pre><ul><li><p>如果是方法里定义的，一定是线程安全的，因为每个方法栈是线程私有的。</p></li><li><p>如果是类的静态成员变量，i++则不是线程安全的，因为i++会被编译成几句字节码语句执行，而<strong>每个线程都有自己的工作内存</strong>，<strong>每个线程需要对共享变量操作的时候必须先把共享变量从主内存load到自己的工作内存，等完成对共享变量的操作时再保存到主内存</strong>。如果一个线程运算完成后还没写入到主内存，此时这个共享变量的值被另一个线程从主内存读取到了，这个时候读取的数据就是脏数据了，它会覆盖其他线程计算的值。可以通过synchronize块来提供同步。</p></li></ul><p>修改方法：将count变量写在getNext()方法内部。或者通过synchronize块来提供同步。</p><p>每次修改volatile变量都会同步到主存中。volatile保证了不同线程对这个变量进行操作时的<strong>可见性</strong>，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p></li><li><p>BlockingQueue相比普通的Queue最大的区别是什么？</p><p>阻塞队列（BlockingQueue）是一个继承自 Queue的接口，被广泛使用在“<strong>生产者-消费者</strong>”问题中，其原因是 BlockingQueue 提供了<strong>可阻塞的插入和移除的方法</strong>。当队列容器已满，生产者线程会被阻塞，直到队列未满；当队列容器为空时，消费者线程会被阻塞，直至队列非空时为止。</p></li><li><p>Thread.sleep() 可能抛出的 InterruptedException 代表什么？如何处理？</p><p>Thread.sleep()是Thread类的一个静态方法，使当前线程休眠，进入阻塞状态（暂停执行），如果线程在睡眠状态被中断，将会抛出IterruptedException中断异常。</p><p>捕获它并在RuntimeException中将其返回，以避免为每个方法声明它。</p><pre><code>catch (InterruptedException e) {  throw new RuntimeException(&quot;Unexpected interrupt&quot;, exc);}</code></pre></li><li><p>为什么要重写clone方法和equals方法？</p></li><li><p>实例变量与静态变量的区别？</p><ul><li>静态变量用static关键字修饰，属于整个类的，也称类变量。<strong>实例变量是属于对象的</strong>。</li><li>静态变量在内存中永远只有一份，而实例变量每个对象都会有一份。</li><li><strong>静态变量存在方法区</strong>，<strong>实例变量存在堆内存</strong>。</li><li>静态变量在第一次使用类时分配空间，实例变量创建对象时才分配空间。</li><li><strong>静态变量还可以通过类名.变量名访问</strong>。Student.schoolName=”小学”;</li></ul></li><li><p>String s=”Hello”; s=s+”world!”;执行后，原始String内容是否改变？</p><p>没有，String是被final修饰的不可变类。这段代码中，s指向一个String对象，内容是“Hello”，然后进行“+”操作，此时s指向另一个String对象，内容为“Hello World!”，原来的对象并不会被改变，只是s这个引用变量不再指向它了。所有的字符串都会存在字符串常量缓冲区中，唯一且不可改变。</p><p>顺带一提：StringBuffer、StringBuilder是可变字符串，StringBuffer线程安全，性能略低。</p></li><li><p>用最有效率的方法算出2乘以8等于多少</p><p>使用<strong>位运算来实现效率最高</strong>，2乘以8相当于二进制位左移三位。所以实现方式为2&lt;&lt;3</p><p>因为<strong>将一个数左移n位，就相当于乘以了2的n次方</strong>，那么，一个数乘以8只要将其左移3位即可，而<strong>位运算cpu直接支持的，效率最高</strong>，所以，2乘以8等於几的最效率的方法是2 &lt;&lt; 3。</p></li><li><p>Checked异常和Runtime异常的区别</p><ul><li>Runtime异常（运行时异常）：包括RuntimeaException及其所有子类。不要求程序必须对它们作出处理，比如InputMismatchException、ArithmeticException、NullPointerException等。<strong>即使没有使用try-catch或throws进行处理，仍旧可以进行编译和运行</strong>。如果运行时发生异常，会输出异常的堆栈信息并中止程序执行。</li><li>Checked异常（非运行时异常）：除了运行时异常外的其他异常类都是Checked异常。<strong>程序必须捕获或者声明抛出这种异常，否则出现编译错误，无法通过编译</strong>。处理方式包括两种：通过try-catch捕获异常，通过throws声明抛出异常从而交给上一级调用方法处理。</li></ul></li><li><p>有一个字符串List，如下代码所示。续写代码，将words中的元素再按照字符拆分，合并成一个数组，然后字符去重，最终得到[“h”, “e”, “l”, “o”, “w”, “r”, “d”]</p><pre><code>List&lt;String&gt; words = new ArrayList&lt;&gt;();words.add(&quot;hello&quot;);words.add(&quot;world&quot;);</code></pre></li><li><p>如何在Controller的方法中获取http报文中的数值？</p><pre><code>POST /example?param2=value HTTP/1.1...{    &quot;param2&quot;: &quot;value&quot;}</code></pre><pre><code>@PostMapping(“/example”)Public String getPost(HttpServletRequest req) {    String p2 = req.getParameter(“param2”);}</code></pre><ol start="13"><li><p>使用注解（如@Component）声明Bean，如何指定Bean加载顺序？</p><ul><li>构造方法依赖</li></ul><p>最简单也是最常见的，但是需要注意<strong>循环依赖</strong>的问题。</p><p>创建两个 Bean，要求 CDemo2 在 CDemo1 之前被初始化：</p><pre><code>@Componentpublicclass CDemo1 {    private String name = &quot;cdemo 1&quot;;    public CDemo1(CDemo2 cDemo2) {        System.out.println(name);    }}@Componentpublicclass CDemo2 {    private String name = &quot;cdemo 1&quot;;    public CDemo2() {        System.out.println(name);    }}输出：cdemo 2 cdemo 1</code></pre><p>虽然这种方式比较直观简单，但是有几个限制</p><ul><li><p>需要有注入关系，如 CDemo2 通过构造方法注入到 CDemo1 中，如果需要指定两个没有注入关系的 bean 之间优先级，则不太合适（比如我希望某个 bean 在所有其他的 Bean 初始化之前执行）</p></li><li><p>循环依赖问题，如果上面的 CDemo2 的构造方法有一个 CDemo1 参数，那么循环依赖产生，应用无法启动</p></li><li><p>在构造方法中，不应有复杂耗时的逻辑，会拖慢应用的启动时间</p></li><li><p>@DependsOn(“bean_a”) </p></li></ul><p>声明<strong>当前bean依赖于另一个bean</strong>，被依赖的就被被容器确保在当前bean之前被实例化</p><p>用法：</p><ul><li>直接或者间接标注在带有@Component注解的类上面。</li><li>直接或者间接标注在带有@Bean 注解的方法上面。</li></ul><p>有一点需要特别注意：它能控制 bean 的实例化顺序，但是 bean 的<strong>初始化操作</strong>（如构造 bean 实例之后，调用<code>@PostConstruct</code>注解的初始化方法）<strong>顺序则不能保证</strong>。</p><ul><li></li></ul></li><li><p>多个同类型的Bean，使用注解注入时如何指定？</p><ul><li>@Qualifier(“bean_name”)  <strong>指定具体bean名称</strong>。</li><li>@Primary  标注当前为<strong>首要选择</strong></li></ul></li><li><p>XML映射中，SQL语句的两种参数注入方法：#和$的区别？</p><p>#{} 占位符。变量替换后自动加上单引号。能防止sql注入。无默认值</p><p>${} 拼接符。变量替换后不会加上单引号。不能防止sql注入。默认值value</p></li><li><p>XML映射中，如何使用LIKE进行模糊查询？</p></li><li><p>XML映射中，如何批量插入传入的集合（Collection<E>）？</p></li><li><p>XML映射中，如何在插入的同时获取MySQL自增字段（AUTO_INCREMENT）的生成值？</p><pre><code>&lt;insert id=”insert” parameterType=”a” userGeneratedKeys=”true” keyProperty=”id”&gt;</code></pre></li><li><p>如何使key对应的值过5秒后失效？</p><p>Expire key 5</p></li><li><p>scan和keys命令的区别？</p><p>Scan 对keys命令进行分解，减少对其他命令执行的阻塞。</p><p>Keys 一次性返回所有符合条件的key。</p></li><li><p>如何开启和执行事务？</p><p>Multi 开启事务</p><p>Exec触发事务</p></li><li><p>使用管道(Pipeline)有什么好处？</p><p>提高客户端与服务端之间的多命令的执行效率</p></li></ol></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SpringBoot + WebSocket</title>
       <link href="/2020/10/20/SpringBoot%20+%20WebSocket/"/>
       <url>/2020/10/20/SpringBoot%20+%20WebSocket/</url>
@@ -273,11 +298,11 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
             
             <tag> Spring </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -360,9 +385,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> Maven </tag>
             
@@ -447,9 +472,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> JVM </tag>
             
@@ -748,11 +773,11 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> 排序算法 </tag>
             
@@ -779,9 +804,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -891,13 +916,13 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
             
             <tag> HashMap </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -922,9 +947,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> 数据结构 </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -949,9 +974,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> 数据结构 </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> 二叉树 </tag>
             

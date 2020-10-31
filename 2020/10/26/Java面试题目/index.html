@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="TCP协议, QSX1C">
+    <meta name="keywords" content="Java面试题目, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>TCP协议 | QSX1C</title>
+    <title>Java面试题目 | QSX1C</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -224,12 +224,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/09/17/c336be30d19b8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/10/31/8cf9693b91d1e.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">TCP协议</h1>
+                    <h1 class="description center-align post-title">Java面试题目</h1>
                 </div>
             </div>
         </div>
@@ -346,16 +346,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
-                                <span class="chip bg-color">网络协议</span>
-                            </a>
-                        
-                            <a href="/tags/tcp/">
-                                <span class="chip bg-color">TCP</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">
-                                <span class="chip bg-color">滑动窗口</span>
+                            <a href="/tags/java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
                     </div>
@@ -366,8 +358,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
-                                网络协议
+                            <a href="/categories/java/" class="post-category">
+                                Java
                             </a>
                         
                     </div>
@@ -379,7 +371,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-09-10
+                    2020-10-26
                 </div>
                 
 
@@ -395,109 +387,163 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="1-特点"><a href="#1-特点" class="headerlink" title="1.特点"></a>1.特点</h3><h4 id="1-1-支持面向连接的传输服务"><a href="#1-1-支持面向连接的传输服务" class="headerlink" title="1.1 支持面向连接的传输服务"></a>1.1 支持面向连接的传输服务</h4><p>如果将UDP协议提供的服务比作一封邮件的话，那么TCP协议所能提供的服务相当于语音聊天，必须要通信双方建立连接。</p>
-<p>面向连接对提高系统数据传输的<strong>可靠性</strong>是很重要的，使用TCP传输数据之前，必须在源进程端口与目的进程端口之间建立一条TCP传输连接。<strong>用双方端口号来标识</strong>。TCP建立在不可靠的网络层 IP 协议上，IP 协议不能提供任何可靠性保障机制，因此TCP 协议的可靠性需要自己解决。</p>
-<h4 id="1-2-支持字节流的传输"><a href="#1-2-支持字节流的传输" class="headerlink" title="1.2 支持字节流的传输"></a>1.2 支持字节流的传输</h4><p>流（stream）相当于是一个管道（水管），从一端放入什么，另一端可以照原样取出。描述了一个<strong>不出现 ：丢失、重复、乱序的数据传输过程</strong>。TCP 协议将数据看成是<strong>一连串的、无结构的字节流</strong>。</p>
-<p>如果用户是通过键盘输入数据，应用进程将字符逐个提交给发送端。如果数据是从文件得到，那么数据可能是逐行或逐块交付发送端。</p>
-<p>为了支持字节流传输，发送端和接收端都需要使用<strong>缓存</strong>。发送端将几个写操作组合成一个报文的，提交给 IP 协议，由 IP 协议封装成 IP 分组之后传输到接收端，</p>
-<h4 id="1-3-支持全双工通信"><a href="#1-3-支持全双工通信" class="headerlink" title="1.3 支持全双工通信"></a>1.3 支持全双工通信</h4><p>由于通信双方都设置有发送和接收的缓冲区，<strong>TCP 协议允许通信双方在任何时候都可以发送数据</strong>。</p>
-<h4 id="1-4-支持同时建立多个并发的TCP连接"><a href="#1-4-支持同时建立多个并发的TCP连接" class="headerlink" title="1.4 支持同时建立多个并发的TCP连接"></a>1.4 支持同时建立多个并发的TCP连接</h4><p>TCP 协议需要支持同时建立多个连接，这个特点在服务端表现的更为突出。一个服务器必须同时处理多个客户端的访问。例如，一个Web服务器的套接字为“ 141.8.22.51:80 ”，同时有三个客户端需要访问这个服务器，它们的套接字分别为“ 202.1.12.5:30001 “ “ 242.1.12.5:300022 “ “ 212.1.12.5:300023 “则服务器端需要同时建立三个 TCP 连接。</p>
-<p>也支持一个客户端与多个服务器同时建立多个 TCP 连接。</p>
-<h4 id="1-5-支持可靠的传输服务"><a href="#1-5-支持可靠的传输服务" class="headerlink" title="1.5 支持可靠的传输服务"></a>1.5 支持可靠的传输服务</h4><p>TCP 协议使用确认机制检查数据是否安全和完整，并且提供拥塞控制功能。对发送和接收的数据进行跟踪、确认和重传。</p>
-<p>但是 TCP 协议是建立在不可靠的网络层 IP 协议之上，一旦 IP 协议及以下层出现传输错误，TCP 协议只能不断进行重传，可靠性会受到底层限制。</p>
-<h3 id="2-报文格式"><a href="#2-报文格式" class="headerlink" title="2.报文格式"></a>2.报文格式</h3><p>窗口</p>
-<p>窗口字段长度为16位，表示以字节（B）为单位的窗口大小。</p>
-<p>由于接收端的接收缓冲区是受到限制的，因此需要设置一个窗口字段，表示下一次传输接收端还有多大的接收容量。窗口字段值是准备接收下一个 TCP报文段的接收端，通知即将发送报文段的发送端，下一次最多可以发送报文段的字节数。</p>
-<p>发送端将根据接收端通知的窗口值调整自己的发送窗口值大小。</p>
-<p>窗口字段值是动态变化的。</p>
-<p>主机A 发给主机 B的TCP报头中确认号是 502，窗口值 1000。表示：下一次主机B要向主机A发送的 TCP，字段第一字节号应该是 502，字段最大长度是 1000，最后一个字节号最大是 1501。</p>
-<p>序号</p>
-<p>序号字段长度位32位</p>
-<p>TCP 是面向字节流的，它需要为发送字节流中的每个字节都按顺序编号。</p>
-<p>TCP连接建立时，每方都需要使用随机数产生器，生成一个初始序号。</p>
-<p>不能为0。避免因TCP连接非正常断开而可能引起的混乱。如果在连接突然中断时，可能有一个或两个进程同时等待对方的确认应答，而这个时候有一个新连接的序号也是从0开始，那么接收进程就有可能认为是对方重传的报文，这样就可能造成连接过程的错误。</p>
-<p>ACK（确认位）</p>
-<p>在TCP连接建立后发送的所有报文段的ACK位都要置 1。</p>
-<p>SYN（同步位）</p>
-<p>在连接建立时用来同步序号。例如 SYN=1，ACK=0时，表示这是一个连接建立请求报文，同意建立连接的响应报文：SYN=1，ACK=1。</p>
-<h3 id="3-连接建立与释放"><a href="#3-连接建立与释放" class="headerlink" title="3. 连接建立与释放"></a>3. 连接建立与释放</h3><h4 id="3-1-三次握手"><a href="#3-1-三次握手" class="headerlink" title="3.1 三次握手"></a>3.1 三次握手</h4><p>3.1.1</p>
-<p>最初，客户端TCP 进程是处于 <strong>CLOSE 状态</strong>。准备发起TCP连接时，进入 <strong>SYN-SEND 状态</strong>，向处于<strong>LISTEN 状态的服务器端</strong> TCP 进程发送第一个控制位 SYN = 1 的”连接建立请求报文“，不携带数据字段，但需要给报文一个序号 seq=x。 <strong>SYN=1  seq=x</strong></p>
-<p>3.1.2</p>
-<p>服务器端接收到” 连接建立请求报文“之后，如果同意建立连接，则向客户端发送第二个控制位 SYN=1， ACK=1 的 ” 连接建立请求确认报文 “。确认号 ack = x + 1，表示是对第一个” 连接建立请求报文“（序号 seq=x）的确认。同样不携带任何数据字段，但是需要给报文一个序号 seq=y。这时<strong>服务器进入 SYN-RCVD（准备接收）状态</strong>。 <strong>SYN=1  ACK=1  seq=y  ack=x+1</strong></p>
-<p>3.1.3</p>
-<p>客户端发送第三个控制位 ACK=1 ” 连接建立请求确认报文 “。由于该报文是对” 连接建立请求确认报文”（seq=y）的确认，因此确认序号 ack=y+1。同样不携带数据字段，但需要给一个序号，仍为 x+1 。<strong>ACK=1  seq=x+1  ack =y+1</strong>。这时客户端进入 <strong>ESTABLISHED（已建立连接）状态</strong>。服务器端在接收到ACK报文之后也进入 ESTABLISHED （已建立连接）状态。 </p>
-<p>三次握手完成。TCP连接建立。</p>
-<h5 id="3-1-4-为什么需要第三次握手？"><a href="#3-1-4-为什么需要第三次握手？" class="headerlink" title="3.1.4 为什么需要第三次握手？"></a>3.1.4 为什么需要第三次握手？</h5><p>主要是防止<strong>已经失效的连接请求报文段</strong>突然又传回到服务端而产生错误：</p>
-<ol>
-<li>客户端发出的第一个连接请求报文段，</li>
-<li>但是由于某些原因在某个网络节点滞留了很长时间，客户端一直等不到确认报文，于是客户端再次发出一次新的连接请求，并成功收到服务端确认，建立了连接。</li>
-<li>之前的请求报文段并没有丢失，延误到客户端与服务端连接释放后才到达服务端，本来这个请求已经失效了，但是服务端收到此请求报文段后，误以为是客户端发出的新的请求连接，于是服务端又向客户端发出确认报文段。</li>
-<li>假如不采用三次握手，那么只要服务端发出确认，连接就建立了。</li>
-<li>但是客户端并没有发出连接建立的请求，因此不会理会服务端的确认，也不会向服务端发出数据。</li>
-<li>而服务端以为却一直在等待客户端发来数据，这样服务端的许多资源就白白浪费了</li>
-<li>常用三次握手可以防止上诉现象发生。客户端不向服务端发出确认请求，服务端就不会建立连接。</li>
+                <ol>
+<li>Java中的内存泄漏是怎么回事？请举例。</li>
 </ol>
-<h4 id="3-2-报文传输"><a href="#3-2-报文传输" class="headerlink" title="3.2 报文传输"></a>3.2 报文传输</h4><p>TCP传输连接建立之后，双方可以使用这个连接，进行全双工的字节流传输。</p>
-<p>为了保证TCP工作正常、有序的进行，TCP在服务器端设置了<strong>保持计时器</strong>（keep timer），用来防止TCP连接处于长时间空闲。当服务器端收到客户端的报文时，就保持计时器复位。如果没有收到客户端的信息，他就发送探测报文。如果<strong>发送10个探测报文（每个相隔 75s）</strong>还没有响应，就假设客户端出现故障，终止该连接。</p>
-<h4 id="3-3-四次挥手"><a href="#3-3-四次挥手" class="headerlink" title="3.3 四次挥手"></a>3.3 四次挥手</h4><p>3.3.1</p>
-<p>客户端主动提出释放TCP连接，进入 <strong>FIN-WAIT-1（释放等待-1）状态</strong>。向服务器发送第一个控制位FIN=1，的 ” 连接释放请求报文 ”，提出连接释放请求，停止发送数据。不携带任何数据字段。但是需要给报文一个序号。 <strong>FIN=1，seq=u</strong> 。u等于客户端发送的最后一个字节的序号加1。</p>
-<p>3.3.2</p>
-<p>服务器端收到之后，需要向客户发送 “ 连接释放请求确认报文 ”，表示对报文的确认， ack=u+1。这个 “ 连接释放请求报文 ” 的序号 v 等于服务器发送的最后一个字节序号加1。 <strong>ACK=1，seq=v，ack=u+1</strong>。</p>
-<p>TCP服务器进程向高层应用进程通知客户请求释放TCP连接，<strong>客户到服务器的TCP连接断开，但是服务器到客户的TCP连接还没有断开，如果服务器还有数据报文需要发送时，它还可以继续发送直至完毕。这种状态称为半关闭（helf-close）状态。</strong>这个状态需要持续一段时间。</p>
-<p>客户在接收到服务器发送的ACK报文之后进入 <strong>FIN-WAIT-2状态</strong>；<strong>服务器进入CLOSE-WAIT状态</strong>。</p>
-<p>3.3.3</p>
-<p>服务器的高层应用程序已经没有数据需要发送时，它会通知TCP可以释放连接，这时服务器向客户发送 “ 连接释放请求报文 ”。报文的序号（假定为w），取决于在半关闭状态时，服务器端是否发送过数据报文。服务器端经过 LAST-ACK状态之后转回到<strong>LISTEN（收听）状态</strong>。 <strong>ACK=1，FIN=1，seq=w，ack=u+1。</strong></p>
-<p>3.3.4</p>
-<p>客户接收到FIN报文之后，向服务器发送 “ 连接释放请求确认报文 ”，<strong>ACK=1，seq=u+1，ack=w+1</strong></p>
-<h5 id="3-3-5-为什么TCP的连接的建立只需要三次握手，而连接的释放需要四次呢？"><a href="#3-3-5-为什么TCP的连接的建立只需要三次握手，而连接的释放需要四次呢？" class="headerlink" title="3.3.5 为什么TCP的连接的建立只需要三次握手，而连接的释放需要四次呢？"></a>3.3.5 为什么TCP的连接的建立只需要三次握手，而连接的释放需要四次呢？</h5><p>因为服务端在LISTEN状态下，收到建立请求的SYN报文后，<strong>把ACK和SYN放在一个报文里发送给客户端</strong>。</p>
-<p>而连接关闭时，当收到对方的FIN报文时，仅仅表示客户端没有需要发送的数据了，但是还能接收数据。服务端上层的应用程序未必数据已经全部发送给对方了，此时服务端可以立即关闭，也可以将应该发送的数据全部发送完毕后，再发送FIN报文给客户端来表示同意现在关闭连接。</p>
-<p>从这个角度而言，服务端的ACK和FIN一般都会分开发送。从而导致多了一次。</p>
-<h4 id="3-4-时间等待计时器"><a href="#3-4-时间等待计时器" class="headerlink" title="3.4 时间等待计时器"></a>3.4 时间等待计时器</h4><p>为了保证TCP连接释放过程正常的进行，TCP设置了时间等待计时器（TIME-WAIT Timer）。当TCP关闭一个连接时，它并<strong>不认为这个连接马上就真正的关闭</strong>。这时，<strong>客户端进入TIME-WAIT状态</strong>，需要再等待两个最长报文寿命（maximum segment lifetime，MSL）时间之后，才真正进入<strong>CLOSE（关闭）状态</strong>。</p>
-<p>四次挥手之后，确认双方已经同意释放连接，客户端仍需要采取<strong>延迟2MSL时间</strong>，确保服务器在最后阶段发送给客户端的数据，以及客户端发送给服务器的最后一个ACK报文都能正确的被接收，<strong>防止因个别报文传输错误导致连接释放失败</strong>。</p>
-<h3 id="4-滑动窗口与确认、重传机制"><a href="#4-滑动窗口与确认、重传机制" class="headerlink" title="4.滑动窗口与确认、重传机制"></a>4.滑动窗口与确认、重传机制</h3><h4 id="4-1-滑动窗口"><a href="#4-1-滑动窗口" class="headerlink" title="4.1 滑动窗口"></a>4.1 滑动窗口</h4><p>TCP协议使用以字节为单位的滑动窗口协议（Sliding-Windows Protocol），来控制字节流的发送、接收、确认、重传过程。</p>
-<ol>
-<li><p>TCP使用<strong>两个缓存和一个窗口</strong>来<strong>控制字节流的传输过程</strong>。</p>
-<p>发送端的TCP有一个缓存，用来存储应用进程<strong>准备发送的数据</strong>。对这个缓存设置一个<strong>发送窗口</strong>。</p>
-<p>接收端也有一个缓存，将<strong>正确接收到字节流写入缓存</strong>，等待应用进程读取。也有一个接收窗口。</p>
-<p>只要发送窗口值<strong>不为0</strong>就可以发送报文段。<strong>发送窗口的大小取决于接收窗口的大小</strong>。<strong>发送端每一次能够连续发送字节数取决于发送窗口的大小</strong>。<strong>不能超过接收窗口值</strong>，发送端可以根据自身的需要来决定。</p>
-<p><strong>接收窗口值等于接收缓存还可以继续接收的字节流的大小</strong>。由接收端根据接收缓存<strong>剩余空间的大小</strong>，以及应用进程<strong>读取数据的速度</strong>决定。</p>
+<p>​      存在一些不会被GC回收，然而还占用内存的对象</p>
+<ol start="2">
+<li><p>equals和==的区别是什么？</p>
+<p>简单的说：equals比较值， ==比较的是地址。</p>
+<p>equals是Object类的方法，其实内部还是调用的 “==”，使用的时候需要重写。</p>
 </li>
-<li><p>接收端通过TCP报头通知发送端，<strong>已经正确接收的字节号，以及发送端还能够连续发送的字节数</strong>。</p>
+<li><p>下述代码在多线程环境中是否存在问题？如何修改？</p>
+<p>volatile关键字是什么意思？如果删除对该段代码有何影响？</p>
+<pre><code>class Counter {
+    private volatile int count = 0;
+
+    public int getNext() {
+         return ++count;
+    }
+}</code></pre><ul>
+<li><p>如果是方法里定义的，一定是线程安全的，因为每个方法栈是线程私有的。</p>
 </li>
-<li><p>虽然TCP协议是面向字节流的，但是它不可能每次传送一个字节，就对这个字节进行确认。它是<strong>将字节流分成段</strong>，一个段的多个字节打包成一个TCP报文段一起传送、一起确认。TCP协议通过报头的“序号”来标识发送的字节，用“确认号”表示哪些字节已经被正确的接收。</p>
+<li><p>如果是类的静态成员变量，i++则不是线程安全的，因为i++会被编译成几句字节码语句执行，而<strong>每个线程都有自己的工作内存</strong>，<strong>每个线程需要对共享变量操作的时候必须先把共享变量从主内存load到自己的工作内存，等完成对共享变量的操作时再保存到主内存</strong>。如果一个线程运算完成后还没写入到主内存，此时这个共享变量的值被另一个线程从主内存读取到了，这个时候读取的数据就是脏数据了，它会覆盖其他线程计算的值。可以通过synchronize块来提供同步。</p>
+</li>
+</ul>
+<p>修改方法：将count变量写在getNext()方法内部。或者通过synchronize块来提供同步。</p>
+<p>每次修改volatile变量都会同步到主存中。volatile保证了不同线程对这个变量进行操作时的<strong>可见性</strong>，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p>
+</li>
+<li><p>BlockingQueue相比普通的Queue最大的区别是什么？</p>
+<p>阻塞队列（BlockingQueue）是一个继承自 Queue的接口，被广泛使用在“<strong>生产者-消费者</strong>”问题中，其原因是 BlockingQueue 提供了<strong>可阻塞的插入和移除的方法</strong>。当队列容器已满，生产者线程会被阻塞，直到队列未满；当队列容器为空时，消费者线程会被阻塞，直至队列非空时为止。</p>
+</li>
+<li><p>Thread.sleep() 可能抛出的 InterruptedException 代表什么？如何处理？</p>
+<p>Thread.sleep()是Thread类的一个静态方法，使当前线程休眠，进入阻塞状态（暂停执行），如果线程在睡眠状态被中断，将会抛出IterruptedException中断异常。</p>
+<p>捕获它并在RuntimeException中将其返回，以避免为每个方法声明它。</p>
+<pre><code>catch (InterruptedException e) {
+  throw new RuntimeException(&quot;Unexpected interrupt&quot;, exc);
+}</code></pre></li>
+<li><p>为什么要重写clone方法和equals方法？</p>
+</li>
+<li><p>实例变量与静态变量的区别？</p>
+<ul>
+<li>静态变量用static关键字修饰，属于整个类的，也称类变量。<strong>实例变量是属于对象的</strong>。</li>
+<li>静态变量在内存中永远只有一份，而实例变量每个对象都会有一份。</li>
+<li><strong>静态变量存在方法区</strong>，<strong>实例变量存在堆内存</strong>。</li>
+<li>静态变量在第一次使用类时分配空间，实例变量创建对象时才分配空间。</li>
+<li><strong>静态变量还可以通过类名.变量名访问</strong>。Student.schoolName=”小学”;</li>
+</ul>
+</li>
+<li><p>String s=”Hello”; s=s+”world!”;执行后，原始String内容是否改变？</p>
+<p>没有，String是被final修饰的不可变类。这段代码中，s指向一个String对象，内容是“Hello”，然后进行“+”操作，此时s指向另一个String对象，内容为“Hello World!”，原来的对象并不会被改变，只是s这个引用变量不再指向它了。所有的字符串都会存在字符串常量缓冲区中，唯一且不可改变。</p>
+<p>顺带一提：StringBuffer、StringBuilder是可变字符串，StringBuffer线程安全，性能略低。</p>
+</li>
+<li><p>用最有效率的方法算出2乘以8等于多少</p>
+<p>使用<strong>位运算来实现效率最高</strong>，2乘以8相当于二进制位左移三位。所以实现方式为2&lt;&lt;3</p>
+<p>因为<strong>将一个数左移n位，就相当于乘以了2的n次方</strong>，那么，一个数乘以8只要将其左移3位即可，而<strong>位运算cpu直接支持的，效率最高</strong>，所以，2乘以8等於几的最效率的方法是2 &lt;&lt; 3。</p>
+</li>
+<li><p>Checked异常和Runtime异常的区别</p>
+<ul>
+<li>Runtime异常（运行时异常）：包括RuntimeaException及其所有子类。不要求程序必须对它们作出处理，比如InputMismatchException、ArithmeticException、NullPointerException等。<strong>即使没有使用try-catch或throws进行处理，仍旧可以进行编译和运行</strong>。如果运行时发生异常，会输出异常的堆栈信息并中止程序执行。</li>
+<li>Checked异常（非运行时异常）：除了运行时异常外的其他异常类都是Checked异常。<strong>程序必须捕获或者声明抛出这种异常，否则出现编译错误，无法通过编译</strong>。处理方式包括两种：通过try-catch捕获异常，通过throws声明抛出异常从而交给上一级调用方法处理。</li>
+</ul>
+</li>
+<li><p>有一个字符串List，如下代码所示。续写代码，将words中的元素再按照字符拆分，合并成一个数组，然后字符去重，最终得到[“h”, “e”, “l”, “o”, “w”, “r”, “d”]</p>
+<pre><code>List&lt;String&gt; words = new ArrayList&lt;&gt;();
+words.add(&quot;hello&quot;);
+words.add(&quot;world&quot;);
+</code></pre></li>
+<li><p>如何在Controller的方法中获取http报文中的数值？</p>
+<pre><code>POST /example?param2=value HTTP/1.1
+...
+{
+    &quot;param2&quot;: &quot;value&quot;
+}</code></pre><pre><code>@PostMapping(“/example”)
+Public String getPost(HttpServletRequest req) {
+    String p2 = req.getParameter(“param2”);
+}</code></pre><ol start="13">
+<li><p>使用注解（如@Component）声明Bean，如何指定Bean加载顺序？</p>
+<ul>
+<li>构造方法依赖</li>
+</ul>
+<p>最简单也是最常见的，但是需要注意<strong>循环依赖</strong>的问题。</p>
+<p>创建两个 Bean，要求 CDemo2 在 CDemo1 之前被初始化：</p>
+<pre><code>@Component
+publicclass CDemo1 {
+
+    private String name = &quot;cdemo 1&quot;;
+
+    public CDemo1(CDemo2 cDemo2) {
+        System.out.println(name);
+    }
+}
+
+@Component
+publicclass CDemo2 {
+
+    private String name = &quot;cdemo 1&quot;;
+
+    public CDemo2() {
+        System.out.println(name);
+    }
+}
+
+输出：
+cdemo 2 
+cdemo 1</code></pre><p>虽然这种方式比较直观简单，但是有几个限制</p>
+<ul>
+<li><p>需要有注入关系，如 CDemo2 通过构造方法注入到 CDemo1 中，如果需要指定两个没有注入关系的 bean 之间优先级，则不太合适（比如我希望某个 bean 在所有其他的 Bean 初始化之前执行）</p>
+</li>
+<li><p>循环依赖问题，如果上面的 CDemo2 的构造方法有一个 CDemo1 参数，那么循环依赖产生，应用无法启动</p>
+</li>
+<li><p>在构造方法中，不应有复杂耗时的逻辑，会拖慢应用的启动时间</p>
+</li>
+<li><p>@DependsOn(“bean_a”) </p>
+</li>
+</ul>
+<p>声明<strong>当前bean依赖于另一个bean</strong>，被依赖的就被被容器确保在当前bean之前被实例化</p>
+<p>用法：</p>
+<ul>
+<li>直接或者间接标注在带有@Component注解的类上面。</li>
+<li>直接或者间接标注在带有@Bean 注解的方法上面。</li>
+</ul>
+<p>有一点需要特别注意：它能控制 bean 的实例化顺序，但是 bean 的<strong>初始化操作</strong>（如构造 bean 实例之后，调用<code>@PostConstruct</code>注解的初始化方法）<strong>顺序则不能保证</strong>。</p>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><p>多个同类型的Bean，使用注解注入时如何指定？</p>
+<ul>
+<li>@Qualifier(“bean_name”)  <strong>指定具体bean名称</strong>。</li>
+<li>@Primary  标注当前为<strong>首要选择</strong></li>
+</ul>
+</li>
+<li><p>XML映射中，SQL语句的两种参数注入方法：#和$的区别？</p>
+<p>#{} 占位符。变量替换后自动加上单引号。能防止sql注入。无默认值</p>
+<p>${} 拼接符。变量替换后不会加上单引号。不能防止sql注入。默认值value</p>
+</li>
+<li><p>XML映射中，如何使用LIKE进行模糊查询？</p>
+</li>
+<li><p>XML映射中，如何批量插入传入的集合（Collection<E>）？</p>
+</li>
+<li><p>XML映射中，如何在插入的同时获取MySQL自增字段（AUTO_INCREMENT）的生成值？</p>
+<pre><code>&lt;insert id=”insert” parameterType=”a” userGeneratedKeys=”true” keyProperty=”id”&gt;</code></pre></li>
+<li><p>如何使key对应的值过5秒后失效？</p>
+<p>Expire key 5</p>
+</li>
+<li><p>scan和keys命令的区别？</p>
+<p>Scan 对keys命令进行分解，减少对其他命令执行的阻塞。</p>
+<p>Keys 一次性返回所有符合条件的key。</p>
+</li>
+<li><p>如何开启和执行事务？</p>
+<p>Multi 开启事务</p>
+<p>Exec触发事务</p>
+</li>
+<li><p>使用管道(Pipeline)有什么好处？</p>
+<p>提高客户端与服务端之间的多命令的执行效率</p>
 </li>
 </ol>
-<h5 id="4-1-2-字节流传输状态"><a href="#4-1-2-字节流传输状态" class="headerlink" title="4.1.2 字节流传输状态"></a>4.1.2 字节流传输状态</h5><p>为了达到利用滑动窗口协议控制差错的目的，TCP协议引入了“字节流传输状态”的概念。为了对正确传输的字节流进行确认，必须对字节流的传输状态进行跟踪：</p>
-<p>假设发送的第一个字节的序号是1。</p>
-<ol>
-<li>第一类：<strong>已经发送，且已得到确认的字节</strong>。假设序号为19之前的字节已经被接收端正确的接收，并且发送端发送了确认信息。1-19的字节属于第一类。</li>
-<li>第二类：已经发送，但未收到确认的字节。</li>
-<li>第三类：尚未发送，但是接收端表示接收缓冲区已经准备好，如果发送端准备好就可以立即发送这些字节。</li>
-<li>第四类：尚未发送，且接收端也未做好接收准备的字节。</li>
+</li>
 </ol>
-<h5 id="4-1-3-发送窗口与可用窗口"><a href="#4-1-3-发送窗口与可用窗口" class="headerlink" title="4.1.3 发送窗口与可用窗口"></a>4.1.3 发送窗口与可用窗口</h5><p>发送端每一次能够连续发送字节数取决于发送窗口的大小。</p>
-<p><strong>发送窗口的长度等于第二类与第三类字节数之和。</strong></p>
-<p><strong>可用窗口长度等于第三类字节数。</strong>如果没有任何问题，发送端可以立即发送可用窗口的字节。</p>
-<p>接收端确认发送窗口的字节，为保持发送窗口值不变，需要将窗口向左滑动（例如从序号1 移动到 20）。</p>
-<h4 id="4-2-容错控制"><a href="#4-2-容错控制" class="headerlink" title="4.2 容错控制"></a>4.2 容错控制</h4><p>TCP协议通过滑动窗口机制来<strong>跟踪和记录发送字节的状态</strong>，实现差错控制功能。</p>
-<ol>
-<li>TCP协议的设计思想是让应用进程<strong>将数据作为一个字节流传送</strong>，而不是限制应用层数据的长度。应用进程不需要考虑发送数据的长度，由TCP协议来负责将这些字节<strong>分段打包</strong>。</li>
-<li>发送端利用已建立的TCP连接，将字节流传送到接收端的应用进程，<strong>并且是顺序的，没有差错、丢失、重复的</strong>。</li>
-<li>TCP协议发送的报文是交给 IP 协议传输的，IP协议只能提供尽力而为的服务，IP分组在传输过程中出错是不可避免的，TCP协议必须提供差错控制、确认、重传功能，以保证接收的字节流是正确的。</li>
-</ol>
-<h4 id="4-3-选择重传策略"><a href="#4-3-选择重传策略" class="headerlink" title="4.3 选择重传策略"></a>4.3 选择重传策略</h4><p>上面我们没有考虑到报文段丢失的情况，但是在Internet中，报文段丢失是不可避免的，会造成接收的字节流序号不连续的现象。</p>
-<p>接收字节流序号不连续的处理方法有两种：拉回、选择重传</p>
-<h5 id="4-3-1-拉回"><a href="#4-3-1-拉回" class="headerlink" title="4.3.1 拉回"></a>4.3.1 拉回</h5><p>在丢失第二个报文段时，不管之后的报文段接收是否正确，都要求从第二个报文段开始，重传后面的所有的报文段。显然，拉回方式发效率是很低的。</p>
-<h5 id="4-3-2-选择重传"><a href="#4-3-2-选择重传" class="headerlink" title="4.3.2 选择重传"></a>4.3.2 选择重传</h5><p>选择重传（selective ACK，SACK），如果收到字节流序号不连续时，如果这些字节的序号都在接收窗口之内，则首先完成接收窗口内字节的接收，然后将丢失的字节序号通知发送端，发送端只需要重传丢失的报文段，而不需要重传已经接收的报文段。</p>
-<h4 id="4-4-重传计时器"><a href="#4-4-重传计时器" class="headerlink" title="4.4 重传计时器"></a>4.4 重传计时器</h4><p>TCP使用重传计时器（retransmission timer）来控制报文确认与等待重传的时间。当发送端发送一个报文时，首先将它的一个报文的副本放入重传队列，同时启动一个重传计时器。重传计时器设定一个值，例如400ms，然后开始倒计时。时间结束前收到确认，表示传输成功，否则说明传输失败，准备重传该报文。</p>
-<h5 id="4-4-1-影响超时重传的元素"><a href="#4-4-1-影响超时重传的元素" class="headerlink" title="4.4.1 影响超时重传的元素"></a>4.4.1 影响超时重传的元素</h5><p>设定重传计时器的时间值时很重要的。如果设定值过低，可能出现已被接收端正确接收的报文被重传，造成接收报文重复的现象。如果设定值过高，造成一个报文已经丢失，而发送端长时间等待，造成效率降低的现象。</p>
-<ol>
-<li>如果一个主机同时与其他两个主机建立两条TCP连接，那么它就需要分别为每个连接启动一个重传计时器。如果一个用于本地局域网中传输文本文件，另一个用于Internet远程访问Web服务，那么两个TCP报文的往返时间相差很大。因此，需要对不同的TCP连接设定不同的重传计时器的时间。</li>
-<li>由于Internet在不同时间段的用户数量变化很大，流量与传输延迟变化也很大，报文传输延迟也不会相同。</li>
-</ol>
-<p>正是由于这些原因，为TCP连接确定合适的重传定时器数值是很可能的。TCP不会采用简单的静态方法，必须采用动态的自适应的方法。根据端对端报文往返时间的连续测量，不断调整和设定重传定时器的超时重传时间。</p>
-<h4 id="4-5超时重传时间的选择"><a href="#4-5超时重传时间的选择" class="headerlink" title="4.5超时重传时间的选择"></a>4.5超时重传时间的选择</h4><p>略。。。（写不动了，下次再补吧）</p>
-<h3 id="5-滑动窗口与流量控制、拥塞控制"><a href="#5-滑动窗口与流量控制、拥塞控制" class="headerlink" title="5.滑动窗口与流量控制、拥塞控制"></a>5.滑动窗口与流量控制、拥塞控制</h3><h4 id="5-1-TCP窗口与流量控制"><a href="#5-1-TCP窗口与流量控制" class="headerlink" title="5.1 TCP窗口与流量控制"></a>5.1 TCP窗口与流量控制</h4><p>研究流量控制（flow control）算法的目的是控制发送端发送速率，使之不超过接收端的接收速率，防止由于接收端来不及接收送达的字节流，而出现报文段丢失的现象。滑动窗口协议可以利用TCP报头中窗口字段，方便的实现流量控制。</p>
 
             </div>
             <hr/>
@@ -511,16 +557,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
-                                    <span class="chip bg-color">网络协议</span>
-                                </a>
-                            
-                                <a href="/tags/tcp/">
-                                    <span class="chip bg-color">TCP</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">
-                                    <span class="chip bg-color">滑动窗口</span>
+                                <a href="/tags/java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
                         </div>
@@ -688,7 +726,7 @@
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-09-10T22-31-50',
+        id: '2020-10-26T00-00-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -712,83 +750,28 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/09/11/SSL%E5%8D%8F%E8%AE%AE/">
+                <a href="/2020/10/26/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/a57dc823fcfde.jpg" class="responsive-img" alt="SSL协议">
+                        <img src="https://7.dusays.com/2020/10/31/8cf9693b91d1e.jpg" class="responsive-img" alt="Java面试题目">
                         
-                        <span class="card-title">SSL协议</span>
+                        <span class="card-title">Java面试题目</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            SSL协议
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-11
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
-                                    网络协议
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">安全</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
-                        <span class="chip bg-color">网络协议</span>
-                    </a>
-                    
-                    <a href="/tags/ssl/">
-                        <span class="chip bg-color">SSL</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/09/04/JVM%20%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/">
-                    <div class="card-image">
-                        
-                        <img src="https://7.dusays.com/2020/09/17/c58c9d5125f44.jpg" class="responsive-img" alt="JVM 初步理解">
-                        
-                        <span class="card-title">JVM 初步理解</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            JVM 简单理解
+                            Java 面试题目
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-26
                             </span>
                         <span class="publish-author">
                             
@@ -802,6 +785,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -809,12 +793,60 @@
                         <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                        <span class="chip bg-color">转载</span>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/10/20/SpringBoot%20+%20WebSocket/">
+                    <div class="card-image">
+                        
+                        <img src="https://7.dusays.com/2020/10/20/034bc04e73e00.jpg" class="responsive-img" alt="SpringBoot + WebSocket">
+                        
+                        <span class="card-title">SpringBoot + WebSocket</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            SpringBoot + WebSocket协议简单应用：一个简单的Web多人聊天室
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-20
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/spring/" class="post-category">
+                                    Spring
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
-                    <a href="/tags/jvm/">
-                        <span class="chip bg-color">JVM</span>
+                    <a href="/tags/springboot/">
+                        <span class="chip bg-color">SpringBoot</span>
+                    </a>
+                    
+                    <a href="/tags/websocket/">
+                        <span class="chip bg-color">WebSocket</span>
                     </a>
                     
                 </div>
