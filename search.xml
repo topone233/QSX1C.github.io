@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>线程安全(二)-锁升级</title>
+      <link href="/2020/11/05/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%BA%8C)-%E9%94%81%E5%8D%87%E7%BA%A7/"/>
+      <url>/2020/11/05/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%BA%8C)-%E9%94%81%E5%8D%87%E7%BA%A7/</url>
+      
+        <content type="html"><![CDATA[<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="超线程"><a href="#超线程" class="headerlink" title="超线程"></a>超线程</h3><p>一个ALU + 两组（Registers + PC）</p><p>ALU：算术逻辑单元（Arithmetic and Logic Unit）核心。</p><p>PC：程序计数器（Program Counter）保存下一条即将执行指令的内存地址，每解释执行完一条指令，pc的值就会自动被更新为下一条指令的地址。</p><p>Register：寄存器</p><p>ContextSwitch：线程上下文切换</p><h3 id="内核态与用户态"><a href="#内核态与用户态" class="headerlink" title="内核态与用户态"></a>内核态与用户态</h3><p>内核态：与内核交互的核心操作，必须通过内核，如：网卡、显卡操作、<strong>拿锁</strong>（锁在内核是mutec）。</p><p>用户态：大多数应用程序在用户态。轻量级锁就在用户态。</p><h3 id="线程阻塞的代价"><a href="#线程阻塞的代价" class="headerlink" title="线程阻塞的代价"></a>线程阻塞的代价</h3><p>java的线程是映射到操作系统原生线程之上的，<strong>如果要阻塞或唤醒一个线程就需要操作系统介入</strong>，需要在户态与核心态之间切换，这种切换会消耗大量的系统资源，因为用户态与内核态都有各自专用的内存空间，专用的寄存器等，用户态切换至内核态需要传递给许多变量、参数给内核，内核也需要保护好用户态在切换时的一些寄存器值、变量等，以便内核态调用结束后切换回用户态继续工作。</p><ul><li>如果线程状态切换是一个高频操作时，这将会消耗很多CPU处理时间；</li><li>如果对于那些需要同步的简单的代码块，获取锁挂起操作消耗的时间比用户代码执行的时间还要长，这种同步策略显然非常糟糕的。</li><li><strong>阻塞再唤醒会导致线程发生两次上下文切换</strong>！</li></ul><p>synchronized会导致争用不到锁的线程进入阻塞状态，所以说它是java语言中一个重量级的同步操纵，被称为重量级锁，为了缓解上述性能问题，JVM从1.5开始，引入了轻量锁与偏向锁，默认启用了自旋锁，他们都属于乐观锁。</p><p>明确java线程切换的代价，是理解java中各种锁的优缺点的基础之一。</p><h3 id="markword"><a href="#markword" class="headerlink" title="markword"></a>markword</h3><p><img src="https://7.dusays.com/2020/11/05/43d6c22b87437.jpg" alt=""></p><p>在介绍java锁之前，先说下什么是markword，markword是java对象数据结构中的一部分，要详细了解java对象的结构可以<a href="http://blog.csdn.net/zqz_zqz/article/details/70246212" target="_blank" rel="noopener">点击这里</a>,这里只做markword的详细介绍，因为对象的markword和java各种类型的锁密切相关；</p><p>markword数据的长度在32位和64位的虚拟机（未开启压缩指针）中分别为32bit和64bit，它的最后2bit是锁状态标志位，用来标记当前对象的状态，对象的所处的状态，决定了markword存储的内容，如下表所示:</p><table><thead><tr><th>状态</th><th>标志位</th><th>存储内容</th></tr></thead><tbody><tr><td>未锁定</td><td>01</td><td>对象哈希码、对象分代年龄</td></tr><tr><td>轻量级锁定</td><td>00</td><td>指向锁记录的指针</td></tr><tr><td>膨胀(重量级锁定)</td><td>10</td><td>执行重量级锁定的指针</td></tr><tr><td>GC标记</td><td>11</td><td>空(不需要记录信息)</td></tr><tr><td>可偏向</td><td>01</td><td>偏向线程ID、偏向时间戳、对象分代年龄</td></tr></tbody></table><h2 id="锁升级"><a href="#锁升级" class="headerlink" title="锁升级"></a>锁升级</h2><h3 id="无锁态"><a href="#无锁态" class="headerlink" title="无锁态"></a>无锁态</h3><p>当我们new一个对象的时候，就是无锁态，也就是房间门敞开的，谁都可以进进出出。</p><h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>锁这种东西我们是需要去商家买锁。同样的，锁这种重量级资源也是稀缺的，数量有限，我们需要向操作系统申请。这种重量级的方案显然不应该上来就直接使用。</p><p>在竞争不是很激烈的情况下，一般线程使用过后就释放了，也就没必要申请重量级锁，而且一般再次使用的还会是它。</p><p>那么简单的方法是：偏向锁。<strong>偏向于第一个访问的线程</strong>。进来的线程在房间门上贴个标签，写上自己的名字。比如说 ：某栋大楼上挂着腾讯的牌子，别人一看就知道，“哦 这是腾讯的大楼，我要去的是隔壁的阿里”。</p><p>所谓的“贴个标签”指的是：在 markword 中用54位记录一个指向当前线程的指针，也就是标识是属于此线程的。贴的标签，标识自己的线程 id。</p><p>它通过消除资源无竞争情况下的同步原语，进一步提高了程序的运行性能。</p><h4 id="获取偏向锁过程"><a href="#获取偏向锁过程" class="headerlink" title="获取偏向锁过程"></a>获取偏向锁过程</h4><ul><li><p>1）访问Mark Word中偏向锁的标识是否设置成1，锁标志位是否为01，确认为可偏向状态。</p></li><li><p>2）如果为可偏向状态，则测试线程ID是否指向当前线程，如果是，进入步骤5，否则进入步骤3。</p></li><li><p>3）如果线程ID并未指向当前线程，则通过CAS尝试修改为自己的线程ID。如果修改成功，则将Mark Word中线程ID设置为当前线程ID，然后执行5；如果竞争失败，执行4。</p></li><li><p>4）如果CAS获取偏向锁失败，则表示有竞争。当到达全局安全点（safepoint）时获得偏向锁的线程被挂起，</p><ul><li><p>如果持有偏向锁线程不活跃，恢复到无锁态</p></li><li><p>如果线程依然活跃，马上执行线程的操作栈，检查对偏向锁对象的使用情况</p><ul><li><p>如果仍然需要持有偏向锁，则表示有竞争，升级为轻量级锁</p></li><li><p>如果不存在使用偏向锁，恢复到无锁态</p></li></ul></li></ul><p>偏向锁升级为轻量级锁，然后被阻塞在安全点的线程继续往下执行同步代码。（撤销偏向锁的时候会导致stop the word）</p></li><li><p>5）执行同步代码</p></li></ul><h4 id="偏向锁特点"><a href="#偏向锁特点" class="headerlink" title="偏向锁特点"></a>偏向锁特点</h4><p><em>偏向锁不可重偏向 批量偏向 批量撤销。</em></p><p>偏向锁由于有锁撤销的过程revoke，会消耗系统资源。所以，在锁争用特别激烈的时候，用偏向锁未必效率高。还不如直接使用轻量级锁。</p><h4 id="偏向锁延时"><a href="#偏向锁延时" class="headerlink" title="偏向锁延时"></a>偏向锁延时</h4><p>默认情况 偏向锁有个时延，默认是4秒。<br>why? 因为JVM虚拟机自己有一些默认启动的线程，里面有好多sync代码，这些sync代码启动时就知道肯定会有竞争，如果使用偏向锁，就会造成偏向锁不断的进行锁撤销和锁升级的操作，效率较低。</p><h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p><strong>轻量级锁也叫无锁、自旋锁</strong>。</p><p>在偏向锁状态下，当有另外一个或多个线程竞争（只要发生任意一个竞争）就<strong>自动升级为轻量级锁</strong>。</p><ul><li>1）首先，撤销偏向锁状态，把门上的标签撕下来。</li><li>2）然后，每个线程的线程栈中，都生成一个 Lock Record（锁记录，放的是对Mark Word的复制 Displaced Mark Word）。</li><li>3）再然后多个线程通过CAS抢占，看哪个线程可以先把LR的指针写到轻量级锁中，轻量级锁中记录的是：指向拥有锁的，线程栈中的Lock Record 的指针。</li><li>4）如果这个更新动作成功了，那么这个线程就拥有了该对象的锁，并且对象Mark Word的锁标志位设置为“00”，即表示此对象处于轻量级锁定状态</li><li>5）抢占失败的线程，自旋，等待机会。</li></ul><p>抢占使用的是自旋的方式（CAS）</p><ul><li><p>线程不断的获取轻量级锁中的记录，修改为指向自己的。</p></li><li><p>然后尝试将修改后的结果写回去，</p></li><li><p>如果原来的值还是当初读到的旧值，没有被别人改变，那就把自己修改后的写进去，抢占成功。</p><p>否则就自旋，重复。</p></li></ul><p>但是不能就这样一直自旋下去，因为自旋实在是太消耗CPU资源了。所以需要下一步的锁升级。</p><h4 id="自适应自旋"><a href="#自适应自旋" class="headerlink" title="自适应自旋"></a>自适应自旋</h4><p>在JDK 1.6 之后由JVM自行控制自旋锁升级的时机。也就是自适应自旋 （Adaptive Self Spinning）。</p><p>自适应自旋锁意味着自旋的时间（次数）不再固定，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定。如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也是很有可能再次成功，进而它将允许自旋等待持续相对更长的时间。如果对于某个锁，自旋很少成功获得过，那在以后尝试获取这个锁时将可能省略掉自旋过程，直接阻塞线程，避免浪费处理器资源。</p><h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>升级重量级锁：-&gt; 向操作系统申请资源，linux mutex , CPU从3级-0级系统调用，线程挂起，进入等待队列，等待操作系统的调度，然后再映射回用户空间</p><h4 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h4><p>synchronization，其使用监视器 (monitor) 来实现。java中的<strong>每个对象都关联了一个监视器</strong>，线程可以对其进行加锁和解锁操作。在同一时间，只有一个线程可以拿到对象上的监视器锁。如果其他线程在锁被占用期间试图去获取锁，那么将会被阻塞直到成功获取到锁。同时，<strong>监视器锁可以重入</strong>，也就是说如果线程 t 拿到了锁，那么线程 t 可以在解锁之前重复获取锁；每次解锁操作会反转一次加锁产生的效果。</p><pre><code>public class T {    static volatile int i = 0;    public static void n() { i++; }    public static synchronized void m() {}    public static void main(String[] args) {        for(int j=0; j&lt;1000_000; j++) {            m();            n();        }    }}</code></pre><p>java -XX:+UnlockDiagonositicVMOptions -XX:+PrintAssembly T</p><p>C1 Compile Level 1 (一级优化)</p><p>C2 Compile Level 2 (二级优化)</p><p>找到m() n()方法的汇编码，会看到 lock comxchg …..指令</p><h4 id="synchronized-vs-Lock-CAS"><a href="#synchronized-vs-Lock-CAS" class="headerlink" title="synchronized vs Lock (CAS)"></a>synchronized vs Lock (CAS)</h4><pre><code> 在高争用 高耗时的环境下synchronized效率更高 在低争用 低耗时的环境下CAS效率更高 synchronized到重量级之后是等待队列（不消耗CPU） CAS（等待期间消耗CPU） 一切以实测为准</code></pre><h3 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h3><p>以上介绍的锁不是我们代码中能够控制的，但是借鉴上面的思想，我们可以优化我们自己线程的加锁操作；</p><h4 id="减少锁的时间"><a href="#减少锁的时间" class="headerlink" title="减少锁的时间"></a>减少锁的时间</h4><p>不需要同步执行的代码，能不放在同步快里面执行就不要放在同步快内，可以让锁尽快释放；</p><h4 id="使用读写锁"><a href="#使用读写锁" class="headerlink" title="使用读写锁"></a>使用读写锁</h4><p>ReentrantReadWriteLock 是一个读写锁，读操作加读锁，可以并发读，写操作使用写锁，只能单线程写；</p><h4 id="消除缓存行的伪共享"><a href="#消除缓存行的伪共享" class="headerlink" title="消除缓存行的伪共享"></a>消除缓存行的伪共享</h4><p>除了我们在代码中使用的同步锁和jvm自己内置的同步锁外，还有一种隐藏的锁就是缓存行，它也被称为性能杀手。<br>在多核cup的处理器中，每个cup都有自己独占的一级缓存、二级缓存，甚至还有一个共享的三级缓存，为了提高性能，cpu读写数据每次都会读取数据所在的数据块，是以缓存行为最小单元读写的；32位的cpu缓存行为32字节，64位cup的缓存行为64字节，这就导致了一些问题。<br>例如，多个不需要同步的变量因为存储在连续的32字节或64字节里面，当需要其中的一个变量时，就将它们作为一个缓存行一起加载到某个cup-1私有的缓存中（虽然只需要一个变量，但是cpu读取会以缓存行为最小单位，将其相邻的变量一起读入），被读入cpu缓存的变量相当于是对主内存变量的一个拷贝，也相当于变相的将在同一个缓存行中的几个变量加了一把锁，<strong>这个缓存行中任何一个变量发生了变化</strong>，当cup-2需要读取这个缓存行时，就需要先将cup-1中被改变了的<strong>整个缓存行更新回主存（即使其它变量没有更改）</strong>，然后cup-2才能够读取，而cup-2可能需要更改这个缓存行的变量与cpu-1已经更改的缓存行中的变量是不一样的，所以这<strong>相当于给几个毫不相关的变量加了一把同步锁</strong>；<br>为了防止伪共享，不同jdk版本实现方式是不一样的： </p><ul><li><p>在jdk1.7之前会 将需要独占缓存行的变量前后添加一组long类型的变量，依靠这些无意义的数组的填充做到<strong>一个变量自己独占一个缓存行</strong>； </p></li><li><p>在jdk1.7因为jvm会将这些没有用到的变量优化掉，采用继承一个声明了好多long变量的类的方式来实现； </p></li><li><p>在jdk1.8中通过添加sun.misc.Contended注解来解决这个问题，若要使该注解有效必须在jvm中添加以下参数：<br>-XX:-RestrictContended</p><p>sun.misc.Contended注解会在变量前面添加128字节的padding<strong>将当前变量与其他变量进行隔离</strong>； </p></li></ul><h4 id="减少锁的粒度"><a href="#减少锁的粒度" class="headerlink" title="减少锁的粒度"></a>减少锁的粒度</h4><p>它的思想是将物理上的一个锁，拆成逻辑上的多个锁，增加并行度，从而降低锁竞争。它的思想也是用空间来换时间；</p><p>java中很多数据结构都是采用这种方法提高并发操作的效率：</p><h5 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h5><p>java中的ConcurrentHashMap在jdk1.8之前的版本，使用一个Segment 数组</p><pre class="line-numbers language-java"><code class="language-java">Segment<span class="token operator">&lt;</span> K<span class="token punctuation">,</span>V <span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> segments<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>Segment继承自ReenTrantLock，所以每个Segment就是个可重入锁，每个Segment 有一个HashEntry&lt; K,V &gt;数组用来存放数据，put操作时，先确定往哪个Segment放数据，只需要锁定这个Segment，执行put，其它的Segment不会被锁定；所以数组中有多少个Segment就允许同一时刻多少个线程存放数据，这样增加了并发能力。</p><h5 id="LongAdder（推荐）"><a href="#LongAdder（推荐）" class="headerlink" title="LongAdder（推荐）"></a>LongAdder（推荐）</h5><p>LongAdder 实现思路也类似ConcurrentHashMap，LongAdder有一个根据当前并发状况动态改变的Cell数组，Cell对象里面有一个long类型的value用来存储值;<br>开始没有并发争用的时候或者是cells数组正在初始化的时候，会使用cas来将值累加到成员变量的base上，在并发争用的情况下，LongAdder会初始化cells数组，在Cell数组中选定一个Cell加锁，数组有多少个cell，就允许同时有多少线程进行修改，最后将数组中每个Cell中的value相加，在加上base的值，就是最终的值；cell数组还能根据当前线程争用情况进行扩容，初始长度为2，每次扩容会增长一倍，直到扩容到大于等于cpu数量就不再扩容，<strong>这也就是为什么LongAdder比cas和AtomicInteger效率要高的原因</strong>，后面两者都是volatile+cas实现的，他们的竞争维度是1，LongAdder的竞争维度为“Cell个数+1”为什么要+1？因为它还有一个base，如果竞争不到锁还会尝试将数值加到base上；</p><h5 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a>LinkedBlockingQueue</h5><p>LinkedBlockingQueue也体现了这样的思想，在队列头入队，在队列尾出队，入队和出队使用不同的锁，相对于LinkedBlockingArray只有一个锁效率要高；</p><p><em>拆锁的粒度不能无限拆，最多可以将一个锁拆为当前cup数量个锁即可；</em></p><h4 id="锁消除-lock-eliminate"><a href="#锁消除-lock-eliminate" class="headerlink" title="锁消除 lock eliminate"></a>锁消除 lock eliminate</h4><pre><code>public void add(String str1,String str2){         StringBuffer sb = new StringBuffer();         sb.append(str1).append(str2);}</code></pre><p>我们都知道 StringBuffer 是线程安全的，因为它的关键方法都是被 synchronized 修饰过的，但我们看上面这段代码，我们会发现，sb 这个引用只会在 add 方法中使用，不可能被其它线程引用（因为是局部变量，栈私有），因此 sb 是不可能共享的资源，JVM 会<strong>自动消除</strong> StringBuffer 对象内部的锁。</p><h4 id="锁粗化-lock-coarsening"><a href="#锁粗化-lock-coarsening" class="headerlink" title="锁粗化 lock coarsening"></a>锁粗化 lock coarsening</h4><pre><code>public String test(String str){       int i = 0;       StringBuffer sb = new StringBuffer():       while(i &lt; 100){           sb.append(str);           i++;       }       return sb.toString():}</code></pre><p>JVM 会检测到这样一连串的操作都对同一个对象加锁（while 循环内 100 次执行 append，没有锁粗化的就要进行 100  次加锁/解锁），此时 JVM 就会将加锁的范围粗化到这一连串的操作的外部（比如 while 虚幻体外），使得这一连串操作只需要加一次锁即可。</p><h4 id="锁降级（不重要）"><a href="#锁降级（不重要）" class="headerlink" title="锁降级（不重要）"></a>锁降级（不重要）</h4><p><a href="https://www.zhihu.com/question/63859501" target="_blank" rel="noopener">https://www.zhihu.com/question/63859501</a></p><p>其实，只被VMThread访问，降级也就没啥意义了。所以可以简单认为锁降级不存在！</p><p>参考：</p><p><a href="https://www.cnblogs.com/linghu-java/p/8944784.html" target="_blank" rel="noopener">https://www.cnblogs.com/linghu-java/p/8944784.html</a></p><p><a href="http://mashibing.com" target="_blank" rel="noopener">http://mashibing.com</a></p><p>《码出高效》</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>线程安全(一)-简单使用锁</title>
+      <link href="/2020/11/02/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%B8%80)-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E9%94%81/"/>
+      <url>/2020/11/02/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%B8%80)-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E9%94%81/</url>
+      
+        <content type="html"><![CDATA[<h2 id="什么是线程安全"><a href="#什么是线程安全" class="headerlink" title="什么是线程安全"></a>什么是线程安全</h2><blockquote><p>想象一下这样一个场景：你去酒店开了一间房，可是房间没有上锁，任何从你房间路过的人都可以推门而入（如果他们想的话）。在这样的房间里睡觉 安全吗？显然是不安全的。路不拾遗、夜不闭户这种理想状态只会出现在理想中。</p></blockquote><p>同样的，在多线程的情况下，也存在线程安全的问题。我们先理解下下面的代码:</p><pre><code> private static int count = 0;    public static void main(String[] args) {        for (int i = 0; i &lt; 2; i++) {            new Thread(new Runnable() {                @Override                public void run() {                    try {                        Thread.sleep(10);                    } catch (Exception e) {                        e.printStackTrace();                    }                    //每个线程让count自增100次                    for (int i = 0; i &lt; 100; i++) {                        count++;                    }                }            }).start();        }        try{            Thread.sleep(2000);        }catch (Exception e){            e.printStackTrace();        }        System.out.println(count);    }</code></pre><p> counut 的输出值是否为 200？答案是否定的。因为 <strong>count++ 这个操作不是原子性的</strong>。</p><ul><li>先要从主存获取count值到，然后+1，最后再把结果写到主存。</li></ul><p>因为不是原子性的，就有可能被会其他线程打断，结果不确定性，这个程序就是线程不安全的。</p><h2 id="如何保证线程安全"><a href="#如何保证线程安全" class="headerlink" title="如何保证线程安全"></a>如何保证线程安全</h2><p>那么如何保证线程安全？首先说下众所周知的方法：悲观锁、乐观锁。</p><p>什么是悲观锁、乐观锁？在 java 语言里，总有一些名词看语义跟本不明白是啥玩意儿，也就总有部分面试官拿着这样的词来忽悠面试者，以此来找优越感，其实理解清楚了，这些词也就唬不住人了。</p><ul><li><h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h4><p>乐观锁是一种乐观思想，即认为<strong>读多写少</strong>，遇到并发写的可能性低，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，采取在写时先读出当前版本号，然后加锁操作（比较跟上一次的版本号，如果一样则更新），如果失败则要重复读-比较-写的操作。</p><p>java中的乐观锁基本都是通过CAS操作实现的，CAS是一种更新的原子操作，比较当前值跟传入值是否一样，一样则更新，否则失败。</p></li></ul><ul><li><h4 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h4><p>  悲观锁是就是悲观思想，即认为<strong>写多</strong>，遇到并发写的可能性高，每次去拿数据的时候都认为别人会修改，所以每次在读写数据的时候都会上锁，这样别人想读写这个数据就会block直到拿到锁。java中的悲观锁就是Synchronized,AQS框架下的锁则是先尝试cas乐观锁去获取锁，获取不到，才会转换为悲观锁，如<strong>RetreenLock</strong>。</p></li></ul><h4 id="CAS-机制"><a href="#CAS-机制" class="headerlink" title="CAS 机制"></a>CAS 机制</h4><p>CAS 是英文单词 Compare And Swap (Compare And Exchange) 的缩写，翻译过来就是比较并替换。</p><img src="https://7.dusays.com/2020/11/05/ae3f3b482f3ae.jpg" style="zoom:25%;" /><p>因为经常配合循环操作，直到完成为止，所以泛指一类操作</p><p>cas(v, a, b) ，变量v，期待值a, 修改值b</p><p>更新一个变量的时候，只有当变量的预期值（计算结果值V） 和主内存当中的实际值（新值 N）相同时，才会将内存地址对应的值 N修改为 V。</p><h5 id="ABA"><a href="#ABA" class="headerlink" title="ABA"></a>ABA</h5><p>简单说： 值A 变成 B 再变成 A。最终你只会看到A还是A，但是中间变成 B的过程你并不知道，这可能会产生不确定的影响。</p><p>解决：版本号（ AtomicStampedReference），基础类型简单值不需要版本号每次被修改都改变版本号，每次读都顺带读出版本号。</p><h5 id="原子操作类"><a href="#原子操作类" class="headerlink" title="原子操作类"></a>原子操作类</h5><p>轻量级锁，所谓<strong>原子操作类</strong>也称为<strong>无锁</strong>或者<strong>自旋锁</strong>，指的是 java.util.concurrent.atomic 包下，一系列<strong>以 Atomic 开头的包装类</strong>。例如<code>AtomicBoolean</code>，<code>AtomicInteger</code>，<code>AtomicLong</code>。它们分别用于<code>Boolean</code>，<code>Integer</code>，<code>Long</code>类型的原子性操作。</p><pre><code>    private static AtomicInteger count = new AtomicInteger(0);    ...                    for (int i = 0; i &lt; 100; i++) {                        count.incrementAndGet();                    }</code></pre><p>使用 AtomicInteger 之后，最终的输出结果同样可以保证是 200。并且在某些情况下，代码的性能会比 Synchronized 更好。</p><p>而 Atomic 操作的底层实现正是利用的 CAS 机制。</p><h5 id="unsafe-底层实现"><a href="#unsafe-底层实现" class="headerlink" title="unsafe 底层实现"></a>unsafe 底层实现</h5><p>AtomicInteger:</p><pre><code>public final int incrementAndGet() {        for (;;) {            int current = get();            int next = current + 1;            if (compareAndSet(current, next))                return next;        }    }public final boolean compareAndSet(int expect, int update) {        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);    }</code></pre><p>Unsafe：</p><pre><code>public final native boolean compareAndSwapInt(Object var1, long var2, int var4, int var5);</code></pre><p>CAS底层的的实现方法是c++写的，底层实现：</p><pre><code>inline jint     Atomic::cmpxchg    (jint     exchange_value, volatile jint*     dest, jint     compare_value) {  int mp = os::is_MP();  __asm__ volatile (LOCK_IF_MP(%4) &quot;cmpxchgl %1,(%3)&quot;                    : &quot;=a&quot; (exchange_value)                    : &quot;r&quot; (exchange_value), &quot;a&quot; (compare_value), &quot;r&quot; (dest), &quot;r&quot; (mp)                    : &quot;cc&quot;, &quot;memory&quot;);  return exchange_value;}</code></pre><ul><li>asm 表示这是汇编指令</li><li>LOCK_IF_MP：Multi Processors，如果是多个CPU，则前面加LOCK。<strong>CAS的关键就是这个LOCK</strong>。锁定一个北桥信号。</li><li>cmpxchg ：compare and exchang。（非原子性指令）</li></ul><p>但是这种自旋（一直霸占着CPU却不做事）是很耗 cpu 资源的，所以一般情况下，都会有线程 sleep。</p><h5 id="CAS-的缺点"><a href="#CAS-的缺点" class="headerlink" title="CAS 的缺点"></a>CAS 的缺点</h5><p>1.CPU 开销较大<br>在并发量比较高的情况下，如果许多线程反复尝试更新某一个变量，却又一直更新不成功，循环往复，会给 CPU 带来很大的压力。</p><p>2. 不能保证代码块的原子性<br>CAS 机制所保证的只是一个变量的原子性操作，而不能保证整个代码块的原子性。比如需要保证 3 个变量共同进行原子性的更新，就不得不使用 Synchronized 了。</p><h4 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h4><ul><li><p>同步方法：作用于方法时，<strong>锁是当前调用该方法的对象</strong>，也就是this指向的对象。</p><p>同步方法是被共享的，那么该方法的对象相当于所有的线程来说就是唯一的，保证了锁的<strong>唯一性</strong>。</p></li><li><p>作用于静态方法时，<strong>锁是该方法所在类的class实例对象</strong>，该对象可以通过“类名.class”获取。</p><p>因为Class的相关数据存储在永久带PermGen（jdk1.8则是metaspace），永久带是全局共享的，因此静态方法锁相当于类的一个全局锁。</p></li><li><p>同步代码块：作用于一个共享实例对象时，锁住的是<strong>所有以该对象为锁的</strong>代码块。</p><p>（这里需要注意：锁住的是该<strong>共享</strong>实例对象，而不是下面的代码块！锁的是房间门，而不是床！）</p></li></ul><p>一开始的案例我们用<code>Synchronized</code>同步锁, 只需要在 count++ 的位置添加同步锁，让这个自加的过程捆绑具有原子性，其他线程不能插手这个过程。代码如下:</p><pre><code>for (int i = 0; i &lt; 100; i++) {     synchronized (ThreadCas.class){         count++;     }</code></pre><h5 id="Synchronized的实现"><a href="#Synchronized的实现" class="headerlink" title="Synchronized的实现"></a>Synchronized的实现</h5><p><img src="https://7.dusays.com/2020/11/07/156dd2e7f190a.png" alt=""></p><p>它有多个队列，当多个线程一起访问某个对象监视器的时候，对象监视器会将这些线程存储在不同的容器中。</p><ol><li>Contention List：竞争队列，所有请求锁的线程首先被放在这个竞争队列中；</li><li>Entry List：Contention List中那些有资格成为候选资源的线程被移动到Entry List中；</li><li>Wait Set：哪些调用wait方法被阻塞的线程被放置在这里；</li><li>OnDeck：任意时刻，最多只有一个线程正在竞争锁资源，该线程被成为OnDeck；</li><li>Owner：当前已经获取到所资源的线程被称为Owner；</li><li>!Owner：当前释放锁的线程。</li></ol><p>JVM每次从队列的尾部取出一个数据用于<strong>锁竞争候选者（OnDeck）</strong>，但是并发情况下，ContentionList会被大量的并发线程进行CAS访问，为了降低对尾部元素的竞争，JVM会将一部分线程移动到EntryList中作为候选竞争线程。Owner线程会在unlock时，将ContentionList中的部分线程迁移到EntryList中，并指定EntryList中的某个线程为OnDeck线程（一般是最先进去的那个线程）。<strong>Owner线程并不直接把锁传递给OnDeck线程，而是把锁竞争的权利交给OnDeck</strong>，OnDeck需要重新竞争锁。这样虽然牺牲了一些公平性，但是能极大的提升系统的吞吐量，在JVM中，也把这种选择行为称之为“<strong>竞争切换</strong>”。</p><p>OnDeck线程获取到锁资源后会变为Owner线程，而没有得到锁资源的仍然停留在EntryList中。如果Owner线程被wait方法阻塞，则转移到WaitSet队列中，直到某个时刻通过notify或者notifyAll唤醒，会重新进去EntryList中。</p><p>处于ContentionList、EntryList、WaitSet中的线程都处于阻塞状态，该阻塞是由操作系统来完成的（Linux内核下采用pthread_mutex_lock内核函数实现的）。</p><p>Synchronized是非公平锁。 Synchronized在线程进入ContentionList时，等待的线程会先尝试自旋获取锁，如果获取不到就进入ContentionList，这明显对于已经进入队列的线程是不公平的，还有一个不公平的事情就是自旋获取锁的线程还可能直接抢占OnDeck线程的锁资源。</p><h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><p><strong><code>Synchronized</code>虽然确保了线程的安全，但是在性能上却不是最优的</strong>，<code>Synchronized</code>关键字会让没有得到锁资源的线程进入<code>BLOCKED</code>状态（阻塞或者轮询），而后在争夺到锁资源后恢复为<code>RUNNABLE</code>状态，这个过程中涉及到操作系统用户模式和内核模式的转换，代价比较高。</p><p>尽管 Java1.6 为<code>Synchronized</code>做了优化，增加了从偏向锁到轻量级锁再到重量级锁的过度，但是在最终转变为重量级锁之后，性能仍然较低。</p><p>锁释放的情况</p><ul><li><p>当线程执行完了代码，释放锁</p></li><li><p>或者执行发生异常，JVM会让线程自动释放锁。</p><p>如果获取到锁的线程在等待IO或者其他原因（比如sleep）被阻塞了，但是又没有释放锁，其他线程只能等着，，，因此需要一种机制可以不让等待的线程无限期的等待。（Lock出现的原因）</p></li></ul><h4 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h4><p>synchronized 无法中断一个正在等候获得锁的线程，也无法通过轮询得到锁，如果不想等下去，也就没法得到锁。JDK5 增加了Lock锁。更加灵活。</p><h4 id="Synchronized-与-Lock-的区别"><a href="#Synchronized-与-Lock-的区别" class="headerlink" title="Synchronized 与 Lock 的区别"></a>Synchronized 与 Lock 的区别</h4><ul><li><p>实现层面不一样。synchronized是Java关键字，JVM层面实现加锁和释放锁；</p><p>lock是一个接口，在代码层面实现加锁和释放锁。</p></li><li><p>是否自动释放锁。synchronized在代码执行完或出现异常时自动释放锁；</p><p>lock不会自动释放锁，需要在finally代码块显式的释放锁 lock.unlock();</p></li><li><p>是否一直等待。synchronized会导致拿不到锁的线程一直等待；</p><p>lock可以设置尝试获取锁或者获取锁失败一定时间超时。lock.tryLock()</p></li><li><p>获取锁成功是否可知。synchronized无法得知；</p><p>lock可以通过tryLock 返回布尔值得知。</p></li><li><p>功能复杂性。synchronized 可重入、不可中断、非公平；</p><p>lock：可重入、可判断、可公平或者不公平、细分读写锁提高效率。</p></li></ul><p>参考：</p><p><a href="https://www.jianshu.com/p/ae25eb3cfb5d" target="_blank" rel="noopener">https://www.jianshu.com/p/ae25eb3cfb5d</a></p><p><a href="http://mashibing.com" target="_blank" rel="noopener">http://mashibing.com</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Java面试题目</title>
       <link href="/2020/10/26/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/"/>
       <url>/2020/10/26/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
@@ -298,11 +348,11 @@
       
         <tags>
             
+            <tag> 转载 </tag>
+            
             <tag> Java </tag>
             
             <tag> Spring </tag>
-            
-            <tag> 转载 </tag>
             
         </tags>
       
@@ -385,9 +435,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> Java </tag>
             
             <tag> Maven </tag>
             
@@ -472,9 +522,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> Java </tag>
             
             <tag> JVM </tag>
             
@@ -773,11 +823,11 @@
       
         <tags>
             
+            <tag> 转载 </tag>
+            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
-            
-            <tag> 转载 </tag>
             
             <tag> 排序算法 </tag>
             
@@ -804,9 +854,9 @@
       
         <tags>
             
-            <tag> Java </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       
@@ -916,13 +966,13 @@
       
         <tags>
             
+            <tag> 转载 </tag>
+            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
             
             <tag> HashMap </tag>
-            
-            <tag> 转载 </tag>
             
         </tags>
       
@@ -947,9 +997,9 @@
       
         <tags>
             
-            <tag> 数据结构 </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> 数据结构 </tag>
             
         </tags>
       
@@ -974,9 +1024,9 @@
       
         <tags>
             
-            <tag> 数据结构 </tag>
-            
             <tag> 转载 </tag>
+            
+            <tag> 数据结构 </tag>
             
             <tag> 二叉树 </tag>
             
@@ -1016,7 +1066,7 @@
       <link href="/2020/07/01/Hello%20World%EF%BC%81%EF%BC%88hexo%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95%EF%BC%89/"/>
       <url>/2020/07/01/Hello%20World%EF%BC%81%EF%BC%88hexo%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95%EF%BC%89/</url>
       
-        <content type="html"><![CDATA[<h1 id="Hello-World！（hexo配置记录）"><a href="#Hello-World！（hexo配置记录）" class="headerlink" title="Hello World！（hexo配置记录）"></a>Hello World！（hexo配置记录）</h1><p>以前在网上冲浪的时候只是不经意间发现许多让人眼前一亮的blog，由此萌生了create my blog的想法。</p><p>目前的blog搭建：</p><ul><li><p>CSDN/博客园平台  </p><p> 但我个人不是很喜欢这种，首先是太丑了（没错，就是你，CSDN）。  </p><p> 其次依托于平台，虽然只需要创作就行，但是感觉不是属于自己的，没有归属感</p></li><li><p>独立blog  </p><p> 租云服务器、买域名，还要管理维护，个人感觉略微有些费事，精力有限，还是简单点好</p></li><li><p>hexo  </p><p> 依托于Github，也是我目前选择的，配置相对简单快捷，主题丰富</p></li></ul><hr><h3 id="hexo配置步骤："><a href="#hexo配置步骤：" class="headerlink" title="hexo配置步骤："></a>hexo配置步骤：</h3><ul><li>安装Git</li><li>安装Node.js</li><li>安装hexo</li><li>生成ssh并添加到GitHub</li><li>部署项目</li><li>上传到GitHub</li><li>修改主题</li></ul><h4 id="1-安装Git"><a href="#1-安装Git" class="headerlink" title="1.安装Git"></a>1.安装Git</h4><p><a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">下载地址</a>  </p><p>安装步骤：双击下载的exe文件，一路next就行</p><h4 id="2-安装Node-js"><a href="#2-安装Node-js" class="headerlink" title="2.安装Node.js"></a>2.安装Node.js</h4><p>Hexo是基于nodeJS环境的静态博客，npm是必备的  </p><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">下载地址</a>  </p><p>安装步骤：下载好msi文件后，双击打开安装，也是一路next，不过在Custom Setup这一步记得选 Add to PATH ,这样你就不用自己去配置电脑上环境变量了</p><h4 id="3-安装hexo"><a href="#3-安装hexo" class="headerlink" title="3.安装hexo"></a>3.安装hexo</h4><ol><li>创建一个源文件夹，然后cd到该文件夹下</li><li>安装hexo： npm i -g hexo </li><li>hexo -v 查看版本，检查是否安装成功</li><li>hexo init 初始化，初始化完成后可在文件夹下看到文件</li></ol><p>这里要说下，npm install出现一直停留在”fetchMetadata: sill resolveWithNewModule find-cache-dir@”解决方法，更换成淘宝的源（反正我是解决了）</p><pre><code>//修改为淘宝源npm config set registry https://registry.npm.taobao.org //配置后可通过下面方式来验证是否成功 npm config get registry //或npm info express</code></pre><h4 id="4-生成ssh并添加到GitHub"><a href="#4-生成ssh并添加到GitHub" class="headerlink" title="4.生成ssh并添加到GitHub"></a>4.生成ssh并添加到GitHub</h4><p>SSH密钥可以防止其他人恶意部署文件到你的仓库  </p><p>首先要有GitHub账号，没有的自行注册  </p><p>创建一个仓库repository，名称为youname.github.io  </p><p>在gitbash中，配置GitHub账号信息</p><pre><code>//配置你的GitHub账号信息git config --global user.name &quot;YourName&quot;git config --global user.email &quot;YourEmail&quot;</code></pre><p>创建ssh</p><pre><code>//创建sshssh-keygen -t rsa -C &quot;youremail@xx.com&quot;</code></pre><p>生成ssh，在gitbash中切换到文件目录cat读取</p><pre><code>//读取ssh文件内容cat id_rsa.pub </code></pre><p>全部复制（包括开头的ssh-rsa，和尾部的email）<br>到GitHub 配置ssh，title随便起</p><h4 id="5-部署项目"><a href="#5-部署项目" class="headerlink" title="5.部署项目"></a>5.部署项目</h4><p>修改hexo的_config.yml文件配置信息（直接复制，只需要修改url即可）</p><pre><code>deploy:  type: git  repo: https://github.com/YourgithubName/YourgithubName.github.io.git  branch: master</code></pre><p>回到gitbash，进入hexo目录</p><pre><code>hexo cleanhexo generatehexo server</code></pre><p>这时，在<a href="http://localhost:4000就可以看到默认页面">http://localhost:4000就可以看到默认页面</a></p><h4 id="6-上传到GitHub"><a href="#6-上传到GitHub" class="headerlink" title="6.上传到GitHub"></a>6.上传到GitHub</h4><pre><code>npm install hexo-deployer-git --save</code></pre><p>将写好的文章部署到GitHub服务器，<br>执行命令</p><pre><code>hexo cleanhexo generatehexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br>完成后<a href="https://yourgithubname.github.io，查看即可" target="_blank" rel="noopener">https://yourgithubname.github.io，查看即可</a></p><h4 id="7-修改主题"><a href="#7-修改主题" class="headerlink" title="7.修改主题"></a>7.修改主题</h4><p>hexo官网有推荐很多很多主题，自行选择</p>]]></content>
+        <content type="html"><![CDATA[<h1 id="Hello-World！（hexo配置记录）"><a href="#Hello-World！（hexo配置记录）" class="headerlink" title="Hello World！（hexo配置记录）"></a>Hello World！（hexo配置记录）</h1><p>以前在网上冲浪的时候只是不经意间发现许多让人眼前一亮的blog，由此萌生了create my blog的想法。</p><p>目前的blog搭建：</p><ul><li><p>CSDN/博客园平台  </p><p> 但我个人不是很喜欢这种，首先是太丑了（没错，就是你，CSDN）。  </p><p> 其次依托于平台，虽然只需要创作就行，但是感觉不是属于自己的，没有归属感</p></li><li><p>独立blog  </p><p> 租云服务器、买域名，还要管理维护，个人感觉略微有些费事，精力有限，还是简单点好</p></li><li><p>hexo  </p><p> 依托于Github，也是我目前选择的，配置相对简单快捷，主题丰富</p></li></ul><hr><h3 id="hexo配置步骤："><a href="#hexo配置步骤：" class="headerlink" title="hexo配置步骤："></a>hexo配置步骤：</h3><ul><li>安装Git</li><li>安装Node.js</li><li>安装hexo</li><li>生成ssh并添加到GitHub</li><li>部署项目</li><li>上传到GitHub</li><li>修改主题</li></ul><h4 id="1-安装Git"><a href="#1-安装Git" class="headerlink" title="1.安装Git"></a>1.安装Git</h4><p><a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">下载地址</a>  </p><p>安装步骤：双击下载的exe文件，一路next就行</p><h4 id="2-安装Node-js"><a href="#2-安装Node-js" class="headerlink" title="2.安装Node.js"></a>2.安装Node.js</h4><p>Hexo是基于nodeJS环境的静态博客，npm是必备的  </p><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">下载地址</a>  </p><p>安装步骤：下载好msi文件后，双击打开安装，也是一路next，不过在Custom Setup这一步记得选 Add to PATH ,这样你就不用自己去配置电脑上环境变量了</p><h4 id="3-安装hexo"><a href="#3-安装hexo" class="headerlink" title="3.安装hexo"></a>3.安装hexo</h4><ol><li>创建一个源文件夹，然后cd到该文件夹下</li><li>安装hexo： npm i -g hexo </li><li>hexo -v 查看版本，检查是否安装成功</li><li>hexo init 初始化，初始化完成后可在文件夹下看到文件</li></ol><p>这里要说下，npm install出现一直停留在”fetchMetadata: sill resolveWithNewModule find-cache-dir@”解决方法，更换成淘宝的源（反正我是解决了）</p><pre><code>//修改为淘宝源npm config set registry https://registry.npm.taobao.org //配置后可通过下面方式来验证是否成功 npm config get registry //或npm info express</code></pre><h4 id="4-生成ssh并添加到GitHub"><a href="#4-生成ssh并添加到GitHub" class="headerlink" title="4.生成ssh并添加到GitHub"></a>4.生成ssh并添加到GitHub</h4><p>SSH密钥可以防止其他人恶意部署文件到你的仓库  </p><p>首先要有GitHub账号，没有的自行注册  </p><p>创建一个仓库repository，名称为youname.github.io  </p><p>在gitbash中，配置GitHub账号信息</p><pre><code>//配置你的GitHub账号信息git config --global user.name &quot;YourName&quot;git config --global user.email &quot;YourEmail&quot;</code></pre><p>创建ssh</p><pre><code>//创建sshssh-keygen -t rsa -C &quot;youremail@xx.com&quot;</code></pre><p>生成ssh，在gitbash中切换到文件目录cat读取</p><pre><code>//读取ssh文件内容cat id_rsa.pub </code></pre><p>全部复制（包括开头的ssh-rsa，和尾部的email）<br>到GitHub 配置ssh，title随便起</p><h4 id="5-部署项目"><a href="#5-部署项目" class="headerlink" title="5.部署项目"></a>5.部署项目</h4><p>修改hexo的_config.yml文件配置信息（直接复制，只需要修改url即可）</p><pre><code>deploy:  type: git  repo: https://github.com/YourgithubName/YourgithubName.github.io.git  branch: master</code></pre><p>回到gitbash，进入hexo目录</p><pre><code>hexo cleanhexo generatehexo server也可简写成：hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</code></pre><p>这时，在<a href="http://localhost:4000就可以看到默认页面">http://localhost:4000就可以看到默认页面</a></p><h4 id="6-上传到GitHub"><a href="#6-上传到GitHub" class="headerlink" title="6.上传到GitHub"></a>6.上传到GitHub</h4><pre><code>npm install hexo-deployer-git --save</code></pre><p>将写好的文章部署到GitHub服务器，<br>执行命令</p><pre><code>hexo cleanhexo generatehexo deploy </code></pre><p>第一次deploy要输入GitHubusername和password<br>完成后<a href="https://yourgithubname.github.io，查看即可" target="_blank" rel="noopener">https://yourgithubname.github.io，查看即可</a></p><h4 id="7-修改主题"><a href="#7-修改主题" class="headerlink" title="7.修改主题"></a>7.修改主题</h4><p>hexo官网有推荐很多很多主题，自行选择</p>]]></content>
       
       
       

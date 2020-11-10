@@ -437,7 +437,9 @@ cat id_rsa.pub </code></pre><p>全部复制（包括开头的ssh-rsa，和尾部
   branch: master</code></pre><p>回到gitbash，进入hexo目录</p>
 <pre><code>hexo clean
 hexo generate
-hexo server</code></pre><p>这时，在<a href="http://localhost:4000就可以看到默认页面">http://localhost:4000就可以看到默认页面</a></p>
+hexo server
+
+也可简写成：hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</code></pre><p>这时，在<a href="http://localhost:4000就可以看到默认页面">http://localhost:4000就可以看到默认页面</a></p>
 <h4 id="6-上传到GitHub"><a href="#6-上传到GitHub" class="headerlink" title="6.上传到GitHub"></a>6.上传到GitHub</h4><pre><code>npm install hexo-deployer-git --save</code></pre><p>将写好的文章部署到GitHub服务器，<br>执行命令</p>
 <pre><code>hexo clean
 hexo generate
