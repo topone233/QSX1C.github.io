@@ -399,10 +399,10 @@
 <p>416.<a href="https://leetcode-cn.com/problems/partition-equal-subset-sum" target="_blank" rel="noopener">分割等和子集</a></p>
 <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><blockquote>
 <p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得<strong>两个子集的元素和相等</strong>。</p>
+</blockquote>
 <p>示例：</p>
 <p>输入：[1, 5, 11, 5]</p>
 <p>输出：true</p>
-</blockquote>
 <h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>这道题可以换一种表述：给定一个只包含正整数的非空数组 nums[0]，判断是否可以从数组中选出一些数字，使得这些数字的和等于整个数组的元素和的一半。</p>
 <p>因此这个问题可以转换成「0−1 背包问题」。这道题与传统的「0−1 背包问题」的区别在于，传统的「0−1 背包问题」要求选取的物品的重量之和不能超过背包的总容量，这道题则要求选取的数字的和恰好等于整个数组的元素和的一半。类似于传统的「0−1 背包问题」，可以使用动态规划求解。</p>
 <p>在使用动态规划求解之前，首先需要进行以下判断：</p>

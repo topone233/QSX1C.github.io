@@ -166,7 +166,7 @@
       <link href="/2020/10/11/%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86%EF%BC%88416%EF%BC%89/"/>
       <url>/2020/10/11/%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86%EF%BC%88416%EF%BC%89/</url>
       
-        <content type="html"><![CDATA[<p>2020-10-11</p><p>416.<a href="https://leetcode-cn.com/problems/partition-equal-subset-sum" target="_blank" rel="noopener">分割等和子集</a></p><h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><blockquote><p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得<strong>两个子集的元素和相等</strong>。</p><p>示例：</p><p>输入：[1, 5, 11, 5]</p><p>输出：true</p></blockquote><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>这道题可以换一种表述：给定一个只包含正整数的非空数组 nums[0]，判断是否可以从数组中选出一些数字，使得这些数字的和等于整个数组的元素和的一半。</p><p>因此这个问题可以转换成「0−1 背包问题」。这道题与传统的「0−1 背包问题」的区别在于，传统的「0−1 背包问题」要求选取的物品的重量之和不能超过背包的总容量，这道题则要求选取的数字的和恰好等于整个数组的元素和的一半。类似于传统的「0−1 背包问题」，可以使用动态规划求解。</p><p>在使用动态规划求解之前，首先需要进行以下判断：</p><ul><li>根据数组的长度 n 判断数组是否可以被划分。如果 n&lt;2，则不可能将数组分割成元素和相等的两个子集，因此直接返回 false。</li><li>计算数组的元素和 sum 。如果sum 是奇数，则不可能将数组分割成元素和相等的两个子集，因此直接返回 false。</li><li>计算数组最大元素 maxNum。如果最大元素比 sum / 2 还大，直接返回false</li></ul><h4 id="动态规划求解"><a href="#动态规划求解" class="headerlink" title="动态规划求解"></a>动态规划求解</h4><p>创建二维数组 dp[i] [j]，表示从数组nums的 0~i 下标范围内选取若干个元素，是否存在一种选取方案使得被选取的元素的和等于 j（子集元素和，也即是背包的容量） 。例如 dp[0] [nums[0]] = true，当i=0，只有nums[0]可以被选取，因此返回true。</p><p>此时有两种情况需要考虑：</p><ul><li><p>若<strong>不选</strong>nums[i]，只从 i 前选取元素来满足背包容量 j，则 dp[i] [j] = dp[i-1] [j]；</p></li><li><p>若<strong>选取</strong>nums[i]，此时从i 前选取元素来满足剩下的背包容量 j-nums[i]，则 dp[i] [j] = dp[i-1] [j - nums[i]]；</p></li></ul><p>得出状态转移方程如下：<br>dp[i] [j]=max{ dp[i-1] [j]  |  dp[i-1] [j-nums[i] ] }</p><h4 id="空间优化"><a href="#空间优化" class="headerlink" title="空间优化"></a>空间优化</h4><h5 id="1-降维"><a href="#1-降维" class="headerlink" title="1.降维"></a>1.降维</h5><p>其实还可以简化为：dp[j] = dp[j] | dp[j - nums[i]]，因为当前行每次只参考了上一行的值。</p><ul><li>只需要 找到<strong>元素与背包容量相等</strong>（如果原始集合有一个元素等于所有元素和的一半，那么可以直接将此元素与其他元素分成两个子集）；</li><li>或者找到元素 x 满足x + nums[i] = j-nums[i] ，比如 1 + 5 = 11 - 5。</li></ul><p>target = sum / 2 == 11；true：T；false：略</p><table><thead><tr><th align="left"></th><th>0</th><th>1</th><th>2, 3, 4</th><th>5</th><th>6</th><th>7, 8, 9</th><th>10</th><th>11</th></tr></thead><tbody><tr><td align="left">nums[0]:<strong>1</strong></td><td>T</td><td>T</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td align="left">nums[1]:1、<strong>5</strong></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td><td></td><td></td><td></td></tr><tr><td align="left">nums[2]:1、5、<strong>11</strong></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td><td></td><td></td><td>T</td></tr><tr><td align="left">nums[3]:1、5、11、<strong>5</strong></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td></tr></tbody></table><h5 id="2-逆序"><a href="#2-逆序" class="headerlink" title="2.逆序"></a>2.逆序</h5><p>观察上表，如果逆序，从target最大值11开始，一旦 target &lt; nums[i] 马上退出当前循环，可以减少很多重复计算。</p><p>代码如下：</p><pre class="line-numbers language-Java"><code class="language-Java">class Solution {    public boolean canPartition(int[] nums) {        int len = nums.length;        if (len < 2) {            return false;        }        int sum = 0, maxNum = 0;        for (int num : nums) {            sum += num;            maxNum = Math.max(maxNum, num);        }        if (sum % 2 != 0) {            return false;        }        int target = sum / 2;        if (maxNum > target) {            return false;        }        // 动态规划求解阶段        boolean[] dp = new boolean[target + 1];        dp[0] = true;        // i最多到背包容量减一，否则就无法分成两个子集了        for (int i = 0; i < len; i++) {            int num = nums[i];            // j由大到小递减，一旦小于num，立马跳出循环            for (int j = target; j >= num; --j) {                dp[j] |= dp[j - num];            }        }        return dp[target];    }}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul><li>时间复杂度：O(len × target)，其中 n 是数组的长度，target 是整个数组的元素和的一半。需要计算出所有的状态，每个状态在进行转移时的时间复杂度为 O(1)。</li><li>空间复杂度：O(target)，其中 target 是整个数组的元素和的一半。<strong>空间复杂度取决于dp 数组</strong>，在不进行空间优化的情况下，空间复杂度是 O(len × target)。在进行空间优化的情况下，将二维数组降到一维，空间复杂度可以降到 O(target)。</li></ul><h3 id="0-1背包问题"><a href="#0-1背包问题" class="headerlink" title="0-1背包问题"></a>0-1背包问题</h3><p>背包九讲pdf 已由作者上传至github，完全公开。<a href="https://github.com/tianyicui/pack" target="_blank" rel="noopener">背包九讲</a></p><p>这里仅对0-1背包问题先做了解，剩下的等看完在发。</p><h4 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h4><p>有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。</p><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><p>这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。</p><p>用子问题定义状态：即 “F[i] [v]”表示<strong>前 i 件物品</strong>恰放入一个<strong>容量为v</strong>的背包可以获得的最大价值。则其状态转移方程便是：</p><pre><code>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]+w[i]}</code></pre><p>这个方程非常重要，基本上所有跟背包相关的问题的方程都是由它衍生出来的。所以有必要将它详细解释一下：“将前i件物品放入容量为v的背包中”这个子问题，若只考虑第i件物品的策略（放或不放），那么就可以转化为一个只牵扯前i-1件物品的问题。</p><p>如果不放第i件物品：那么问题就转化为“前i-1件物品放入容量为v的背包中”，价值为”F[i-1] [v]”；</p><p>如果放第i件物品：那么问题就转化为“前i-1件物品放入剩下的容量为v-c[i]的背包中”，此时能获得的最大价值就是F[i-1] [v-c[i] ]再加上通过放入第i件物品获得的价值w[i]。</p><h4 id="优化空间复杂度"><a href="#优化空间复杂度" class="headerlink" title="优化空间复杂度"></a>优化空间复杂度</h4><p>以上方法的时间和空间复杂度均为O(VN)，其中时间复杂度应该已经不能再优化了，但空间复杂度却可以优化到O。</p><p>先考虑上面讲的基本思路如何实现，肯定是有一个主循环i=1..N，每次算出来二维数组f[i] [0..V]的所有值。那么，如果只用一个数组f[0..V]，能不能保证第i次循环结束后f[v]中表示的就是我们定义的状态f[i] [v]呢？f[i] [v]是由f[i-1] [v]和f[i-1] [v-c[i]]两个子问题递推而来，能否保证在推f[i][v]时（也即在第i次主循环中推f[v]时）能够得到f[i-1] [v]和f[i-1] [v-c[i]]的值呢？事实上，这要求在每次主循环中我们以v=V..0的顺序推f[v]，这样才能保证推f[v]时f[v-c[i]]保存的是状态f[i-1] [v-c[i]]的值。伪代码如下：</p><pre><code>for i=1..N    for v=V..0        f[v]=max{f[v],f[v-c[i]]+w[i]};</code></pre><p>其中的f[v]=max{f[v],f[v-c[i]]}一句恰就相当于我们的转移方程<code>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]}</code>，因为现在的f[v-c[i]]就相当于原来的f[i-1] [v-c[i]]。如果将v的循环顺序从上面的逆序改成顺序的话，那么则成了f[i][v]由f[i][v-c[i]]推知，与本题意不符，但它却是另一个重要的背包问题最简捷的解决方案，故学习只用一维数组解01背包问题是十分必要的。</p><p>事实上，使用一维数组解01背包的程序在后面会被多次用到，所以这里抽象出一个处理一件01背包中的物品过程，以后的代码中直接调用不加说明。</p><p>过程ZeroOnePack，表示处理一件01背包中的物品，两个参数cost、weight分别表明这件物品的费用和价值。</p><pre><code>procedure ZeroOnePack(cost,weight)    for v=V..cost        f[v]=max{f[v],f[v-cost]+weight}</code></pre><p>注意这个过程里的处理与前面给出的伪代码有所不同。前面的示例程序写成v=V..0是为了在程序中体现每个状态都按照方程求解了，避免不必要的思维复杂度。而这里既然已经抽象成看作黑箱的过程了，就可以加入优化。费用为cost的物品不会影响状态f[0..cost-1]，这是显然的。</p><p>有了这个过程以后，01背包问题的伪代码就可以这样写：</p><pre><code>for i=1..N    ZeroOnePack(c[i],w[i]);</code></pre><h4 id="初始化的细节问题"><a href="#初始化的细节问题" class="headerlink" title="初始化的细节问题"></a>初始化的细节问题</h4><p>我们看到的求最优解的背包问题题目中，事实上有两种不太相同的问法。有的题目要求“恰好装满背包”时的最优解，有的题目则并没有要求必须把背包装满。一种区别这两种问法的实现方法是在初始化的时候有所不同。</p><p>如果是第一种问法，要求恰好装满背包，那么在初始化时除了f[0]为0其它f[1..V]均设为-∞，这样就可以保证最终得到的f[N]是一种恰好装满背包的最优解。</p><p>如果并没有要求必须把背包装满，而是只希望价格尽量大，初始化时应该将f[0..V]全部设为0。</p><p>为什么呢？可以这样理解：初始化的f数组事实上就是在没有任何物品可以放入背包时的合法状态。如果要求背包恰好装满，那么此时只有容量为0的背包可能被价值为0的nothing“恰好装满”，其它容量的背包均没有合法的解，属于未定义的状态，它们的值就都应该是-∞了。如果背包并非必须被装满，那么任何容量的背包都有一个合法解“什么都不装”，这个解的价值为0，所以初始时状态的值也就全部为0了。</p><p>这个小技巧完全可以推广到其它类型的背包问题，后面也就不再对进行状态转移之前的初始化进行讲解。</p><h4 id="一个常数优化"><a href="#一个常数优化" class="headerlink" title="一个常数优化"></a>一个常数优化</h4><p>前面的伪代码中有 for v=V..1，可以将这个循环的下限进行改进。</p><p>由于只需要最后f[v]的值，倒推前一个物品，其实只要知道f[v-w[n]]即可。以此类推，对以第j个背包，其实只需要知道到f[v-sum{w[j..n]}]即可，即代码中的</p><pre><code>for i=1..N    for v=V..0</code></pre><p>可以改成</p><pre><code>for i=1..n    bound=max{V-sum{w[i..n]},c[i]}    for v=V..bound</code></pre><p>这对于V比较大时是有用的。</p><h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>01背包问题是最基本的背包问题，它包含了背包问题中设计状态、方程的最基本思想，另外，别的类型的背包问题往往也可以转换成01背包问题求解。故一定要仔细体会上面基本思路的得出方法，状态转移方程的意义，以及最后怎样优化的空间复杂度。</p><pre><code></code></pre>]]></content>
+        <content type="html"><![CDATA[<p>2020-10-11</p><p>416.<a href="https://leetcode-cn.com/problems/partition-equal-subset-sum" target="_blank" rel="noopener">分割等和子集</a></p><h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><blockquote><p>给定一个<strong>只包含正整数</strong>的<strong>非空</strong>数组。是否可以将这个数组分割成两个子集，使得<strong>两个子集的元素和相等</strong>。</p></blockquote><p>示例：</p><p>输入：[1, 5, 11, 5]</p><p>输出：true</p><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>这道题可以换一种表述：给定一个只包含正整数的非空数组 nums[0]，判断是否可以从数组中选出一些数字，使得这些数字的和等于整个数组的元素和的一半。</p><p>因此这个问题可以转换成「0−1 背包问题」。这道题与传统的「0−1 背包问题」的区别在于，传统的「0−1 背包问题」要求选取的物品的重量之和不能超过背包的总容量，这道题则要求选取的数字的和恰好等于整个数组的元素和的一半。类似于传统的「0−1 背包问题」，可以使用动态规划求解。</p><p>在使用动态规划求解之前，首先需要进行以下判断：</p><ul><li>根据数组的长度 n 判断数组是否可以被划分。如果 n&lt;2，则不可能将数组分割成元素和相等的两个子集，因此直接返回 false。</li><li>计算数组的元素和 sum 。如果sum 是奇数，则不可能将数组分割成元素和相等的两个子集，因此直接返回 false。</li><li>计算数组最大元素 maxNum。如果最大元素比 sum / 2 还大，直接返回false</li></ul><h4 id="动态规划求解"><a href="#动态规划求解" class="headerlink" title="动态规划求解"></a>动态规划求解</h4><p>创建二维数组 dp[i] [j]，表示从数组nums的 0~i 下标范围内选取若干个元素，是否存在一种选取方案使得被选取的元素的和等于 j（子集元素和，也即是背包的容量） 。例如 dp[0] [nums[0]] = true，当i=0，只有nums[0]可以被选取，因此返回true。</p><p>此时有两种情况需要考虑：</p><ul><li><p>若<strong>不选</strong>nums[i]，只从 i 前选取元素来满足背包容量 j，则 dp[i] [j] = dp[i-1] [j]；</p></li><li><p>若<strong>选取</strong>nums[i]，此时从i 前选取元素来满足剩下的背包容量 j-nums[i]，则 dp[i] [j] = dp[i-1] [j - nums[i]]；</p></li></ul><p>得出状态转移方程如下：<br>dp[i] [j]=max{ dp[i-1] [j]  |  dp[i-1] [j-nums[i] ] }</p><h4 id="空间优化"><a href="#空间优化" class="headerlink" title="空间优化"></a>空间优化</h4><h5 id="1-降维"><a href="#1-降维" class="headerlink" title="1.降维"></a>1.降维</h5><p>其实还可以简化为：dp[j] = dp[j] | dp[j - nums[i]]，因为当前行每次只参考了上一行的值。</p><ul><li>只需要 找到<strong>元素与背包容量相等</strong>（如果原始集合有一个元素等于所有元素和的一半，那么可以直接将此元素与其他元素分成两个子集）；</li><li>或者找到元素 x 满足x + nums[i] = j-nums[i] ，比如 1 + 5 = 11 - 5。</li></ul><p>target = sum / 2 == 11；true：T；false：略</p><table><thead><tr><th align="left"></th><th>0</th><th>1</th><th>2, 3, 4</th><th>5</th><th>6</th><th>7, 8, 9</th><th>10</th><th>11</th></tr></thead><tbody><tr><td align="left">nums[0]:<strong>1</strong></td><td>T</td><td>T</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td align="left">nums[1]:1、<strong>5</strong></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td><td></td><td></td><td></td></tr><tr><td align="left">nums[2]:1、5、<strong>11</strong></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td><td></td><td></td><td>T</td></tr><tr><td align="left">nums[3]:1、5、11、<strong>5</strong></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td><td></td><td>T</td><td>T</td></tr></tbody></table><h5 id="2-逆序"><a href="#2-逆序" class="headerlink" title="2.逆序"></a>2.逆序</h5><p>观察上表，如果逆序，从target最大值11开始，一旦 target &lt; nums[i] 马上退出当前循环，可以减少很多重复计算。</p><p>代码如下：</p><pre class="line-numbers language-Java"><code class="language-Java">class Solution {    public boolean canPartition(int[] nums) {        int len = nums.length;        if (len < 2) {            return false;        }        int sum = 0, maxNum = 0;        for (int num : nums) {            sum += num;            maxNum = Math.max(maxNum, num);        }        if (sum % 2 != 0) {            return false;        }        int target = sum / 2;        if (maxNum > target) {            return false;        }        // 动态规划求解阶段        boolean[] dp = new boolean[target + 1];        dp[0] = true;        // i最多到背包容量减一，否则就无法分成两个子集了        for (int i = 0; i < len; i++) {            int num = nums[i];            // j由大到小递减，一旦小于num，立马跳出循环            for (int j = target; j >= num; --j) {                dp[j] |= dp[j - num];            }        }        return dp[target];    }}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><ul><li>时间复杂度：O(len × target)，其中 n 是数组的长度，target 是整个数组的元素和的一半。需要计算出所有的状态，每个状态在进行转移时的时间复杂度为 O(1)。</li><li>空间复杂度：O(target)，其中 target 是整个数组的元素和的一半。<strong>空间复杂度取决于dp 数组</strong>，在不进行空间优化的情况下，空间复杂度是 O(len × target)。在进行空间优化的情况下，将二维数组降到一维，空间复杂度可以降到 O(target)。</li></ul><h3 id="0-1背包问题"><a href="#0-1背包问题" class="headerlink" title="0-1背包问题"></a>0-1背包问题</h3><p>背包九讲pdf 已由作者上传至github，完全公开。<a href="https://github.com/tianyicui/pack" target="_blank" rel="noopener">背包九讲</a></p><p>这里仅对0-1背包问题先做了解，剩下的等看完在发。</p><h4 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h4><p>有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使价值总和最大。</p><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><p>这是最基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。</p><p>用子问题定义状态：即 “F[i] [v]”表示<strong>前 i 件物品</strong>恰放入一个<strong>容量为v</strong>的背包可以获得的最大价值。则其状态转移方程便是：</p><pre><code>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]+w[i]}</code></pre><p>这个方程非常重要，基本上所有跟背包相关的问题的方程都是由它衍生出来的。所以有必要将它详细解释一下：“将前i件物品放入容量为v的背包中”这个子问题，若只考虑第i件物品的策略（放或不放），那么就可以转化为一个只牵扯前i-1件物品的问题。</p><p>如果不放第i件物品：那么问题就转化为“前i-1件物品放入容量为v的背包中”，价值为”F[i-1] [v]”；</p><p>如果放第i件物品：那么问题就转化为“前i-1件物品放入剩下的容量为v-c[i]的背包中”，此时能获得的最大价值就是F[i-1] [v-c[i] ]再加上通过放入第i件物品获得的价值w[i]。</p><h4 id="优化空间复杂度"><a href="#优化空间复杂度" class="headerlink" title="优化空间复杂度"></a>优化空间复杂度</h4><p>以上方法的时间和空间复杂度均为O(VN)，其中时间复杂度应该已经不能再优化了，但空间复杂度却可以优化到O。</p><p>先考虑上面讲的基本思路如何实现，肯定是有一个主循环i=1..N，每次算出来二维数组f[i] [0..V]的所有值。那么，如果只用一个数组f[0..V]，能不能保证第i次循环结束后f[v]中表示的就是我们定义的状态f[i] [v]呢？f[i] [v]是由f[i-1] [v]和f[i-1] [v-c[i]]两个子问题递推而来，能否保证在推f[i][v]时（也即在第i次主循环中推f[v]时）能够得到f[i-1] [v]和f[i-1] [v-c[i]]的值呢？事实上，这要求在每次主循环中我们以v=V..0的顺序推f[v]，这样才能保证推f[v]时f[v-c[i]]保存的是状态f[i-1] [v-c[i]]的值。伪代码如下：</p><pre><code>for i=1..N    for v=V..0        f[v]=max{f[v],f[v-c[i]]+w[i]};</code></pre><p>其中的f[v]=max{f[v],f[v-c[i]]}一句恰就相当于我们的转移方程<code>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]}</code>，因为现在的f[v-c[i]]就相当于原来的f[i-1] [v-c[i]]。如果将v的循环顺序从上面的逆序改成顺序的话，那么则成了f[i][v]由f[i][v-c[i]]推知，与本题意不符，但它却是另一个重要的背包问题最简捷的解决方案，故学习只用一维数组解01背包问题是十分必要的。</p><p>事实上，使用一维数组解01背包的程序在后面会被多次用到，所以这里抽象出一个处理一件01背包中的物品过程，以后的代码中直接调用不加说明。</p><p>过程ZeroOnePack，表示处理一件01背包中的物品，两个参数cost、weight分别表明这件物品的费用和价值。</p><pre><code>procedure ZeroOnePack(cost,weight)    for v=V..cost        f[v]=max{f[v],f[v-cost]+weight}</code></pre><p>注意这个过程里的处理与前面给出的伪代码有所不同。前面的示例程序写成v=V..0是为了在程序中体现每个状态都按照方程求解了，避免不必要的思维复杂度。而这里既然已经抽象成看作黑箱的过程了，就可以加入优化。费用为cost的物品不会影响状态f[0..cost-1]，这是显然的。</p><p>有了这个过程以后，01背包问题的伪代码就可以这样写：</p><pre><code>for i=1..N    ZeroOnePack(c[i],w[i]);</code></pre><h4 id="初始化的细节问题"><a href="#初始化的细节问题" class="headerlink" title="初始化的细节问题"></a>初始化的细节问题</h4><p>我们看到的求最优解的背包问题题目中，事实上有两种不太相同的问法。有的题目要求“恰好装满背包”时的最优解，有的题目则并没有要求必须把背包装满。一种区别这两种问法的实现方法是在初始化的时候有所不同。</p><p>如果是第一种问法，要求恰好装满背包，那么在初始化时除了f[0]为0其它f[1..V]均设为-∞，这样就可以保证最终得到的f[N]是一种恰好装满背包的最优解。</p><p>如果并没有要求必须把背包装满，而是只希望价格尽量大，初始化时应该将f[0..V]全部设为0。</p><p>为什么呢？可以这样理解：初始化的f数组事实上就是在没有任何物品可以放入背包时的合法状态。如果要求背包恰好装满，那么此时只有容量为0的背包可能被价值为0的nothing“恰好装满”，其它容量的背包均没有合法的解，属于未定义的状态，它们的值就都应该是-∞了。如果背包并非必须被装满，那么任何容量的背包都有一个合法解“什么都不装”，这个解的价值为0，所以初始时状态的值也就全部为0了。</p><p>这个小技巧完全可以推广到其它类型的背包问题，后面也就不再对进行状态转移之前的初始化进行讲解。</p><h4 id="一个常数优化"><a href="#一个常数优化" class="headerlink" title="一个常数优化"></a>一个常数优化</h4><p>前面的伪代码中有 for v=V..1，可以将这个循环的下限进行改进。</p><p>由于只需要最后f[v]的值，倒推前一个物品，其实只要知道f[v-w[n]]即可。以此类推，对以第j个背包，其实只需要知道到f[v-sum{w[j..n]}]即可，即代码中的</p><pre><code>for i=1..N    for v=V..0</code></pre><p>可以改成</p><pre><code>for i=1..n    bound=max{V-sum{w[i..n]},c[i]}    for v=V..bound</code></pre><p>这对于V比较大时是有用的。</p><h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>01背包问题是最基本的背包问题，它包含了背包问题中设计状态、方程的最基本思想，另外，别的类型的背包问题往往也可以转换成01背包问题求解。故一定要仔细体会上面基本思路的得出方法，状态转移方程的意义，以及最后怎样优化的空间复杂度。</p><pre><code></code></pre>]]></content>
       
       
       <categories>
@@ -267,9 +267,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -348,11 +348,11 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
             
             <tag> Spring </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -390,35 +390,6 @@
     
     
     <entry>
-      <title>CORS 跨域资源共享安全漏洞</title>
-      <link href="/2020/09/15/CORS%20%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E/"/>
-      <url>/2020/09/15/CORS%20%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E/</url>
-      
-        <content type="html"><![CDATA[<blockquote><p> 原文地址 [<a href="http://www.cnblogs.com\](https://www.cnblogs.com/sevck/p/9035422.html)" target="_blank" rel="noopener">www.cnblogs.com\](https://www.cnblogs.com/sevck/p/9035422.html)</a></p></blockquote><p>CORS 漏洞其中已经存在很久了，但是国内了解的人不是很多，文章更是少只有少，漏洞平台也没有此分类。</p><p><strong>定义</strong><br>CORS，Cross-Origin Resource Sharing，跨源资源共享。<br>CORS 是 W3C 出的一个标准，其思想是使用自定义的 HTTP 头部让浏览器与服务器进行沟通。因为开发者需要进行跨域进行获取资源，应用场景，在 a.com，想获取 b.com 中的数据，常用的 2 种方法进行跨域<br>一种为 JSONP, 一种为 CORS. 前者再次不在描述，常见的为 JSONP 劫持。</p><p><strong>CORS 请求示例：</strong>  </p><p>代码如下：</p><pre><code>&lt;!DOCTYPE html&gt; &lt;html&gt;    &lt;head&gt;CORS Test&lt;/head&gt;    &lt;body&gt;        &lt;div&gt;&lt;/div&gt;    &lt;script type=&quot;text/javascript&quot;&gt;          //XmlHttpRequest对象          function createXmlHttpRequest(){              if(window.ActiveXObject){ //如果是IE浏览器                  return new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);              }else if(window.XMLHttpRequest){ //非IE浏览器                  return new XMLHttpRequest();              }          }          function getFile() {            var img\_Container = document.getElementById(&quot;img\_Div&quot;);            var xhr = createXmlHttpRequest();            xhr.open(&#39;GET&#39;, &#39;http://oss.youkouyang.com/1.jpg&#39;, true);            xhr.setRequestHeader(&#39;Content-Type&#39;, &#39;image/jpeg&#39;);            xhr.responseType = &quot;blob&quot;;            xhr.onload = function() {                if (this.status == 200) {                    var blob = this.response;                    var img = document.createElement(&quot;img&quot;);                    img.onload = function(e) {                        window.URL.revokeObjectURL(img.src);                     };                    img.src = window.URL.createObjectURL(blob);                    img\_Container.appendChild(img);                    }            }            xhr.send(null);        }    &lt;/script&gt;    &lt;div&gt;        &lt;input type=&quot;button&quot; onclick=&quot;getFile()&quot; value=&quot;Get&quot; /&gt;    &lt;/div&gt;    &lt;/body&gt;&lt;/html&gt;</code></pre><p><strong>CORS 安全机制</strong><br>在 CORS 中，相关的标准和浏览器厂商也推出了很多防范的相关标准。例如 SOP 等等。</p><p><strong>简单请求</strong></p><p>在简单请求中，如果请求符合 2 个标准，则会进行异步请求：<br>1,GET、POST、HEAD..<br>2,Content-Type 验证, pplication/x-www-form-urlencoded;multipart/form-data;text/plain</p><p>在简单请求中，浏览器进行跨域请求，会在请求中携带 Origin，表面这是一个跨域。服务端会在接收中，通过自己的跨域规则进行验证。<br>通过 access-Control-Allow-Origin 和 Access-Control-Allow-Methods 如果验证成功，则会返回资源内容，如果验证失败，则返回 403 状态。</p><p><strong>预先请求</strong><br>在请求中，满足下面任意一个请求中，浏览器会首先发出 OPTION 请求，再去验证是否符合。</p><p>在 OWASP TOP 10 中也有更详细的说明：<br><a href="http://blog.securelayer7.net/owasp-top-10-security-misconfiguration-5-cors-vulnerability-patch/" target="_blank" rel="noopener">http://blog.securelayer7.net/owasp-top-10-security-misconfiguration-5-cors-vulnerability-patch/</a><br>在 DefConChina 中，陈建军分享的议题中解释的更清楚，有意向的可以找 PPT 或者视频</p><p>实战请求 COS 之前发过一次 CORS 的蠕虫：<br><a href="http://evilcos.me/?p=590" target="_blank" rel="noopener">http://evilcos.me/?p=590</a></p><p><strong>防御：</strong><br>在防御过程中，存在很多配置不当，或者配置错误的情况，例如使用 *, 或者使用多个域名 list, 或者使用 null, 或者 nginx 配置规则存在错误等等。</p><p><strong>相关工具：</strong><br>CORScanner // github</p><p><strong>参考：</strong></p><p><a href="https://blog.csdn.net/saytime/article/details/51549888" target="_blank" rel="noopener">https://blog.csdn.net/saytime/article/details/51549888</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 安全 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 安全 </tag>
-            
-            <tag> CROS </tag>
-            
-            <tag> 转载 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>深入浅出 Maven</title>
       <link href="/2020/09/13/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%20Maven/"/>
       <url>/2020/09/13/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BA%20Maven/</url>
@@ -435,9 +406,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> Maven </tag>
             
@@ -464,11 +435,11 @@
       
         <tags>
             
-            <tag> 安全 </tag>
-            
             <tag> 网络协议 </tag>
             
             <tag> SSL </tag>
+            
+            <tag> 安全 </tag>
             
         </tags>
       
@@ -522,9 +493,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> JVM </tag>
             
@@ -535,11 +506,11 @@
     
     
     <entry>
-      <title>资源</title>
-      <link href="/2020/09/03/%E8%B5%84%E6%BA%90/"/>
-      <url>/2020/09/03/%E8%B5%84%E6%BA%90/</url>
+      <title>资源分享</title>
+      <link href="/2020/09/03/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB/"/>
+      <url>/2020/09/03/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB/</url>
       
-        <content type="html"><![CDATA[<h4 id="Markdown写作工具"><a href="#Markdown写作工具" class="headerlink" title="Markdown写作工具"></a>Markdown写作工具</h4><p><strong>写作工具：Typora</strong></p><p>Markdown 写作工具</p><p>下载链接：</p><p>Typora官网：<a href="https://typora.io/" target="_blank" rel="noopener">https://typora.io/</a></p><p>自用：0.9.89版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/icxyogbrykd" target="_blank" rel="noopener">https://wwe.lanzous.com/icxyogbrykd</a></p><p><strong>图片上传工具：Picgo</strong></p><p>搭配Typora，效率神器</p><p>下载链接：</p><p>Typora官网：<a href="https://molunerfinn.com/PicGo" target="_blank" rel="noopener">https://molunerfinn.com/PicGo</a></p><p>自用：2.2.2版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/ie0iWgbryha" target="_blank" rel="noopener">https://wwe.lanzous.com/ie0iWgbryha</a> </p><p><strong>图床：去不图床</strong></p><p>配置说明：<a href="https://dusays.com/241/" target="_blank" rel="noopener">https://dusays.com/241/</a></p><p><strong>Typora + Picgo + 去不图床 设置：</strong></p><p>Typora：</p><ol><li>Ctrl + 逗号 进入偏好设置 -&gt; 图像 </li><li>插入图片时 -&gt; 上传图片 -&gt; 勾选前两项</li><li>上传服务设定 -&gt;  PicGo（app）-&gt;  PicGo本地安装路径</li><li>打开Picgo -&gt; 打开配置文件 -&gt; 修改server端口号为：36677 </li><li>上传区修改图床</li><li>重启Picgo</li><li>回到第三步Typora页面 -&gt; 验证图片上传路径 -&gt; 验证成功</li></ol><h4 id="超赞的壁纸网站"><a href="#超赞的壁纸网站" class="headerlink" title="超赞的壁纸网站"></a>超赞的壁纸网站</h4><p>如果要安利一个壁纸网站的话，那么不管你问我多少遍，我都强烈推荐 <strong><a href="https://wallhaven.cc/search?categories=110&purity=100&sorting=favorites&order=desc" target="_blank" rel="noopener">Wallhaven.cc</a></strong></p><p>Wallhaven 号称「网上最好的壁纸」，这是一点也不谦虚，真是「天生骄傲」，口气这么大，当然肯定有它骄傲的地方。<br>它界面简洁，没有任何广告。虽然这上面的壁纸基本都是用户上传的，但绝对都是一等一的优质高分辨率壁纸。</p><h4 id="科学上网"><a href="#科学上网" class="headerlink" title="科学上网"></a>科学上网</h4><p>jsproxy +cloudflare 实现浏览器的在线代理： <a href="https://myproxy.qsx1c.workers.dev/" target="_blank" rel="noopener">https://myproxy.qsx1c.workers.dev/</a></p><p>搭建过程参考自：<a href="https://yoyling.com/enjoy/jsproxy.html" target="_blank" rel="noopener">https://yoyling.com/enjoy/jsproxy.html</a></p>]]></content>
+        <content type="html"><![CDATA[<h3 id="Markdown写作工具"><a href="#Markdown写作工具" class="headerlink" title="Markdown写作工具"></a>Markdown写作工具</h3><h4 id="写作工具：Typora"><a href="#写作工具：Typora" class="headerlink" title="写作工具：Typora"></a><strong>写作工具：Typora</strong></h4><p>Markdown 写作工具</p><p>下载链接：</p><p>Typora官网：<a href="https://typora.io/" target="_blank" rel="noopener">https://typora.io/</a></p><p>自用：0.9.89版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/icxyogbrykd" target="_blank" rel="noopener">https://wwe.lanzous.com/icxyogbrykd</a></p><h4 id="图片上传工具：Picgo"><a href="#图片上传工具：Picgo" class="headerlink" title="图片上传工具：Picgo"></a><strong>图片上传工具：Picgo</strong></h4><p>搭配Typora，效率神器</p><p>下载链接：</p><p>Typora官网：<a href="https://molunerfinn.com/PicGo" target="_blank" rel="noopener">https://molunerfinn.com/PicGo</a></p><p>自用：2.2.2版本官网安装包（蓝奏云）：<a href="https://wwe.lanzous.com/ie0iWgbryha" target="_blank" rel="noopener">https://wwe.lanzous.com/ie0iWgbryha</a> </p><h4 id="图床：去不图床"><a href="#图床：去不图床" class="headerlink" title="图床：去不图床"></a><strong>图床：去不图床</strong></h4><p>配置说明：<a href="https://dusays.com/241/" target="_blank" rel="noopener">https://dusays.com/241/</a></p><p><strong>Typora + Picgo + 去不图床 设置：</strong></p><p>Typora：</p><ol><li>Ctrl + 逗号 进入偏好设置 -&gt; 图像 </li><li>插入图片时 -&gt; 上传图片 -&gt; 勾选前两项</li><li>上传服务设定 -&gt;  PicGo（app）-&gt;  PicGo本地安装路径</li><li>打开Picgo -&gt; 打开配置文件 -&gt; 修改server端口号为：36677 </li><li>上传区修改图床</li><li>重启Picgo</li><li>回到第三步Typora页面 -&gt; 验证图片上传路径 -&gt; 验证成功</li></ol><h3 id="超赞的壁纸网站"><a href="#超赞的壁纸网站" class="headerlink" title="超赞的壁纸网站"></a>超赞的壁纸网站</h3><p>​        如果要安利一个壁纸网站的话，那么不管你问我多少遍，我都强烈推荐 <strong><a href="https://wallhaven.cc/search?categories=110&purity=100&sorting=favorites&order=desc" target="_blank" rel="noopener">Wallhaven.cc</a></strong></p><h3 id="科学上网"><a href="#科学上网" class="headerlink" title="科学上网"></a>科学上网</h3><p>​    jsproxy +cloudflare 实现浏览器的在线代理： <a href="https://myproxy.qsx1c.workers.dev/" target="_blank" rel="noopener">https://myproxy.qsx1c.workers.dev/</a></p><p>​    搭建过程参考自：<a href="https://yoyling.com/enjoy/jsproxy.html" target="_blank" rel="noopener">https://yoyling.com/enjoy/jsproxy.html</a></p><h3 id="Chrome-插件"><a href="#Chrome-插件" class="headerlink" title="Chrome 插件"></a>Chrome 插件</h3><p>​    广告拦截（各大视频网站的广告基本都能拦截）： <a href="https://github.com/gorhill/uBlock" target="_blank" rel="noopener">uBlock Origin</a></p><p>​    网页代理（免费节点推荐选择 印度）：<a href="https://hoxx.com/" target="_blank" rel="noopener">Hoxx VPN Proxy</a> </p><p>​    新标签页 （很好看，每天自动同步Bing的壁纸）：<a href="[https://www.infinitynewtab.com](https://www.infinitynewtab.com/)">Infinity</a></p><p>​    翻译（聚合了各大翻译源，超级方便、好看、好用，强推！）：<a href="https://saladict.crimx.com/" target="_blank" rel="noopener">Saladict 沙拉查词</a></p><p>​    阅读（如杂志般沉浸式阅读体验，超好用，提取文章主体，收藏，md格式下载）：<a href="https://simpread.pro/" target="_blank" rel="noopener">简阅</a></p><p>​    Tab标签页管理 <a href="https://www.one-tab.com/" target="_blank" rel="noopener">OneTab</a></p><p>​    MEGA云盘 <a href="https://mega.nz/" target="_blank" rel="noopener">MEGA</a></p>]]></content>
       
       
       <categories>
@@ -578,9 +549,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> NoSQL </tag>
             
@@ -823,11 +794,11 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> 排序算法 </tag>
             
@@ -854,9 +825,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -881,9 +852,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> SQL </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -966,13 +937,13 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> Java </tag>
             
             <tag> 数据结构 </tag>
             
             <tag> HashMap </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -997,9 +968,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> 数据结构 </tag>
+            
+            <tag> 转载 </tag>
             
         </tags>
       
@@ -1024,9 +995,9 @@
       
         <tags>
             
-            <tag> 转载 </tag>
-            
             <tag> 数据结构 </tag>
+            
+            <tag> 转载 </tag>
             
             <tag> 二叉树 </tag>
             
