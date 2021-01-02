@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="JVM 初步理解, QSX1C">
+    <meta name="keywords" content="2020 -- 搁浅, QSX1C">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>JVM 初步理解 | QSX1C</title>
+    <title>2020 -- 搁浅 | QSX1C</title>
     <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/awesome/css/all.css">
@@ -224,7 +224,7 @@
 <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/cryptojs/crypto-js.min.js"></script>
 <script>
     (function() {
-        let pwd = '';
+        let pwd = 'a7694c84423cd6f8b877be4e1fff138ba1d4cb705bfc952425a9147a6d0451e8';
         if (pwd && pwd.length > 0) {
             if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
                 alert('密码错误，将返回主页！');
@@ -237,12 +237,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/09/17/c58c9d5125f44.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/09/17/642a7274e3914.png')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">JVM 初步理解</h1>
+                    <h1 class="description center-align post-title">2020 -- 搁浅</h1>
                 </div>
             </div>
         </div>
@@ -359,16 +359,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/java/">
-                                <span class="chip bg-color">Java</span>
-                            </a>
-                        
-                            <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                                <span class="chip bg-color">转载</span>
-                            </a>
-                        
-                            <a href="/tags/jvm/">
-                                <span class="chip bg-color">JVM</span>
+                            <a href="/tags/%E6%80%BB%E7%BB%93/">
+                                <span class="chip bg-color">总结</span>
                             </a>
                         
                     </div>
@@ -379,8 +371,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/java/" class="post-category">
-                                Java
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                总结
                             </a>
                         
                     </div>
@@ -392,7 +384,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2020-09-04
+                    2020-12-31
                 </div>
                 
 
@@ -408,69 +400,83 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>原文地址 [<a href="http://www.zhihu.com\](https://www.zhihu.com/question/20097631/answer/817071740)" target="_blank" rel="noopener">www.zhihu.com\](https://www.zhihu.com/question/20097631/answer/817071740)</a> </p>
-<p>如果 JAVA 开发是降龙十八掌，JVM 就是九阳神功，具备九阳神功的内力基础降龙十八掌的威力会被发挥的淋漓尽致。</p>
-<p><strong>JVM 的内存结构和类加载机制是玩转 JVM 的入口，如果弄通了接下来的路该怎么走你自然就知道了</strong></p>
-<p>下面就从这两个方面来深入解析一下 JVM</p>
-<h3 id="1-JVM-内存结构"><a href="#1-JVM-内存结构" class="headerlink" title="1.JVM 内存结构"></a>1.JVM 内存结构</h3><p>jvm 内存分为五大块：</p>
-<p><img src="https://picb.zhimg.com/50/v2-50e5c491c6642677efb3624a933d7278_hd.jpg?source=1940ef5c" alt=""></p>
-<p>标灰的是线程公有的内存区域，没有标灰的是线程私有。</p>
-<h4 id="1-1-程序计数器"><a href="#1-1-程序计数器" class="headerlink" title="1.1 程序计数器"></a>1.1 程序计数器</h4><p>程序计数器是用来<strong>指示当前线程要执行哪条指令</strong>，并且在执行完该条指令后让程序计数器指向下一条指令，直到将程序执行完毕。指令需要靠 cpu 来执行，在多线程中，多个线程是通过轮流切换分配 cpu 的时间片而执行的，在切换时需要记录当前执行到了哪条指令以便将来继续执行，每一个线程都需要有自己的程序计数器，所以<strong>程序计数器是线程私有的内存。</strong></p>
-<h4 id="1-2-虚拟机栈"><a href="#1-2-虚拟机栈" class="headerlink" title="1.2 虚拟机栈"></a>1.2 虚拟机栈</h4><p>通常我们把 jvm 的内存粗略的分为堆和栈，其中的栈指的就是虚拟机栈<strong>, 虚拟机栈也是线程私有的</strong>。</p>
-<p>虚拟机栈对应的是方法的内存区域，每个方法执行时都会创建一个栈帧，用来存储该方法的局部变量表，操作数栈，动态链接，方法返回地址：</p>
-<p><img src="https://pic4.zhimg.com/50/v2-fafcf8344f53548eba7d3f108c81987d_hd.jpg?source=1940ef5c" alt=""></p>
-<h5 id="1-2-1-局部变量表"><a href="#1-2-1-局部变量表" class="headerlink" title="1.2.1 局部变量表"></a>1.2.1 局部变量表</h5><p><strong>局部变量表中存储的是方法的参数和方法中定义的局部变量</strong>，在编译期间就为局部变量表分配好了内存空间。局部变量表中存储三种类型的数据：</p>
-<p>（1） 基本数据类型</p>
-<p>（2） 引用类型：指向一个对象在内存中的地址</p>
-<p>（3） returnAddress 类型：指向指令的地址（已经很少见了，指向异常处理的指令，现在已经由异常表代替）</p>
-<h5 id="1-2-2-操作数栈"><a href="#1-2-2-操作数栈" class="headerlink" title="1.2.2 操作数栈"></a>1.2.2 操作数栈</h5><p>当虚拟机执行一些指令的时候会对操作数栈进行入栈或出栈的操作，比如 iadd 指令将两个数相加，会先将操作数栈中的两个数弹出来（出栈），相加后再压入栈（入栈）中。</p>
-<h5 id="1-2-3-动态链接"><a href="#1-2-3-动态链接" class="headerlink" title="1.2.3 动态链接"></a>1.2.3 动态链接</h5><p>在运行时常量池中存储了诸如类名，方法名，我们要找到目标类，执行相应的方法就需要用到动态链接，栈帧中有一个指向运行时常量池的引用，通过这个引用可以找到相应的类名和方法名，但是光知道名称是没法执行方法的，需要<strong>通过名称找到相应的类和方法在内存中的地址</strong>，这个过程就是动态链接。</p>
-<h5 id="1-2-4-方法返回地址"><a href="#1-2-4-方法返回地址" class="headerlink" title="1.2.4 方法返回地址"></a>1.2.4 方法返回地址</h5><p>当方法执行完以后如果有返回值，就会把这个返回值返回给该方法的调用者，方法的返回就是我们 java 中用到的 return 命令。<strong>方法返回之后调用者需要继续往下执行就需要知道要执行的地址</strong>，该地址就是方法返回地址，它被记录在了栈帧中，当然在发生异常的情况下不会有返回值，要继续执行的地址可以通过异常处理器表来确定。</p>
-<p>虚拟机栈可能出现两种类型的异常：</p>
-<p>1. 线程请求的栈深度大于虚拟机允许的栈深度会抛出 <strong>StackOverflowError</strong>,（虚拟机栈空间不能动态扩展的情况下）</p>
-<p>2. 如果虚拟机栈空间可以动态扩展（目前多数的虚拟机都可以），当动态扩展无法申请到足够的空间时会抛出 <strong>OutOfMemory</strong> 异常。</p>
-<h4 id="1-3-本地方法栈"><a href="#1-3-本地方法栈" class="headerlink" title="1.3 本地方法栈"></a>1.3 本地方法栈</h4><p>本地方法栈与虚拟机栈的作用是一样的，区别在于虚拟机栈为虚拟机执行 java 方法服务，而本地方法栈为虚拟机执行 native 方法服务，native 方法为本地方法，不是用 java 语言写的有可能是 c 或者 c++ 写的，在 jdk 中就有很多 c 的代码，就是提供给本地方法来调用的。</p>
-<h4 id="1-4-堆"><a href="#1-4-堆" class="headerlink" title="1.4 堆"></a>1.4 堆</h4><p><strong>通常我们把 jvm 的内存粗略的分为堆和栈，其中的堆就是指它，它是虚拟机中占用内存最大的一块，是被所有线程共享的一块区域，</strong>它是用来存放对象实例的。是垃圾收集器管理的主要区域。</p>
-<h4 id="1-5-方法区"><a href="#1-5-方法区" class="headerlink" title="1.5 方法区"></a>1.5 方法区</h4><p>方法区也是被所有线程共享的一块区域，它存储的是类信息，常量，静态变量，编译后的字节码等信息。方法区中还有一块区域 “运行时常量池 “：运行时常量池中存储的是编译期生成的各种字面量和符号引用。字面量相当于 Java 里常量的概念，比如字符串，声明为 final 的常量值等，符号引用包括了：类和接口名，字段名，方法名。</p>
-<h3 id="2-类加载机制"><a href="#2-类加载机制" class="headerlink" title="2.类加载机制"></a>2.类加载机制</h3><h4 id="2-1-java-类的加载过程"><a href="#2-1-java-类的加载过程" class="headerlink" title="2.1 java 类的加载过程"></a>2.1 java 类的加载过程</h4><p>编译后的 Java 类是以字节码的形式存在的，它只有被加载到虚拟机内存中才能被使用，它是如何被加载到内存中的呢？</p>
-<p>下图为类加载到内存的机制：</p>
-<p><img src="https://pic1.zhimg.com/50/v2-896abd276628a7319af05d1ff678106b_hd.jpg?source=1940ef5c" alt=""></p>
-<h5 id="2-1-1-加载"><a href="#2-1-1-加载" class="headerlink" title="2.1.1 加载"></a>2.1.1 加载</h5><p>在加载（注意和类加载是不同的概念）阶段虚拟机需要完成三件事</p>
-<p>（1）. 通过一个类的全限定名（类名全称，带包路径的用点隔开，例如: java.lang.String）来获取其定义的二进制字节流（被编译以后的字节码文件就是二进制的）。</p>
-<p>（2）. 将这个字节流所代表的静态存储结构（字节码文件就是其中一种）转化为方法区的运行时数据结构（能够在虚拟机中存储的结构）。</p>
-<p>（3）. 在 Java 堆中生成一个代表这个类的 java.lang.Class 对象（用于表示这个类的信息），作为对方法区中这些数据的访问入口。</p>
-<h5 id="2-1-2-验证"><a href="#2-1-2-验证" class="headerlink" title="2.1.2 验证"></a>2.1.2 验证</h5><p><strong>验证，准备，解析统称为连接</strong>，作为连接阶段的第一步，验证的主要作用是保证加载进来的二进制流中的信息是符合当前虚拟机要求的，并且不会对虚拟机的安全造成危害。主要包括：</p>
-<p>（1）文件格式验证：主要是验证二进制流是否符合 class 文件格式的规范，并且能被当前的虚拟机处理，例如：主次版本号是否在当前虚拟机处理范围之内，常量池的常量中是否有不被支持的常量类型。只有通过了这个阶段的验证后字节流才会进入内存的方法区中进行存储，从这里我们可以看出加载和验证阶段是交叉进行的，加载还未完成，文件格式验证就已经开始了。</p>
-<p>（2）元数据验证：对字节码描述的信息进行语义分析以保证其描述的信息符合 java 语言规范的要求：例如：这个类是否有父类（所有类除了 Object 都应该有父类）</p>
-<p>（3）字节码验证：确定程序语义是合法的符合逻辑的，如将子类对象赋给父类类型是符合逻辑的，反之，将父类对象赋给子类类型则是不合法的。</p>
-<p>（4）符号引用验证：可以对常量池中各种符号引用的信息进行匹配性校验。例如：符号引用中通过字符串描述的全限定名是否能找到对应的类。</p>
-<h5 id="2-1-3-准备"><a href="#2-1-3-准备" class="headerlink" title="2.1.3 准备"></a>2.1.3 准备</h5><p>准备阶段会为静态变量分配内存并设置初始值，注意：该初始值为数据类型的零值例如：</p>
-<p>Public static int num = 3; 在准备阶段会将 num 值设置为 0 而不是 3. 只有在初始化阶段才会赋值为 3.</p>
-<h5 id="2-1-4-解析"><a href="#2-1-4-解析" class="headerlink" title="2.1.4 解析"></a>2.1.4 解析</h5><p>解析阶段是把类中的符号引用转换为直接引用的过程：</p>
-<p>符号引用：在编译的时候是不知道类所引用的类的具体地址，因此只能使用符号引用来代替，比如：com.Student 类引用了 com.Grade 类，编译时 Student 类并不知道 Grade 类在内存中的实际地址，只能用符号 com.Grade。</p>
-<p>直接引用; 引用的实际内存地址。</p>
-<h5 id="2-1-5-初始化"><a href="#2-1-5-初始化" class="headerlink" title="2.1.5 初始化"></a>2.1.5 初始化</h5><p>初始化阶段是类加载过程的最后一步，在这个阶段会根据程序中的赋值语句给变量赋值，当有继承关系时先初始化父类，再初始化子类。如果该类还没有被加载和连接，那么初始化之前先加加载和连接。</p>
-<p>什么时候会进行初始化呢？</p>
-<p>1. 使用 new 关键字实例化对象的时候</p>
-<p>2. 读取或设置一个类的静态字段的时候</p>
-<p>3. 调用一个类的静态方法的时候</p>
-<p>4. 对类进行反射调用的时候</p>
-<p>5. 当虚拟机启动时执行一个类的 main 方法，会先初始化这个类</p>
-<h4 id="2-2-类加载器"><a href="#2-2-类加载器" class="headerlink" title="2.2 类加载器"></a>2.2 类加载器</h4><p>加载阶段中的第一步：“通过一个类的全限定名来获取其定义的二进制字节流” 是通过类加载器来完成的，类加载器分为三种：</p>
-<h5 id="2-2-1-启动类加载器-BootStrap-ClassLoader"><a href="#2-2-1-启动类加载器-BootStrap-ClassLoader" class="headerlink" title="2.2.1 启动类加载器(BootStrap ClassLoader)"></a>2.2.1 启动类加载器(BootStrap ClassLoader)</h5><p>这个类加载器负责将 jdk\jre\lib 下的类库加载到内存中，启动类加载器无法被应用程序直接使用。</p>
-<h5 id="2-2-2-扩展类加载器-Extension-ClassLoader"><a href="#2-2-2-扩展类加载器-Extension-ClassLoader" class="headerlink" title="2.2.2 扩展类加载器(Extension ClassLoader)"></a>2.2.2 扩展类加载器(Extension ClassLoader)</h5><p>它负责加载 jdk\jre\lib\ext 中的类库。开发者可以直接使用扩展类加载器。</p>
-<h5 id="2-2-3-应用程序类加载器-Application-ClassLoader"><a href="#2-2-3-应用程序类加载器-Application-ClassLoader" class="headerlink" title="2.2.3 应用程序类加载器 (Application ClassLoader)"></a>2.2.3 应用程序类加载器 (Application ClassLoader)</h5><p>它用来加载 classpath 路径（src 路径下的文件在编译后会放到 WEB-INF/classes 路径下。默认的 classpath 是在这里）指定的类。开发者可以直接使用这个类加载器，如果如果应用程序中没有定义自己的类加载器，一般情况下这个就是程序中默认的类加载器。</p>
-<p>我们的应用程序都是由这三种类加载器互相配合进行加载的，如果有必要还可以加入自己定义的类加载器。</p>
-<h4 id="2-3-双亲委派模型"><a href="#2-3-双亲委派模型" class="headerlink" title="2.3 双亲委派模型"></a>2.3 双亲委派模型</h4><p>下图为双亲委派模型的类加载器的层次关系：</p>
-<p><img src="https://pic4.zhimg.com/50/v2-cc54c11c27700e578b026cfc5a4ed26a_hd.jpg?source=1940ef5c" alt=""></p>
-<p>双亲委派模型的的工作过程是：<strong>如果一个类加载器收到了类加载的请求，它会把这个请求委派给父类加载器去完成，每一个层次的加载器都是如此，因此所有的加载请求最终都会传送到顶层的启动类加载器中</strong>。只有当父加载器反馈自己无法完成这个加载请求时（在自己的加载范围内没有搜索到该类）, 子加载器才会尝试自己去加载。例如：</p>
-<p>1. 当应用程序类加载器加载一个类时，它会把类加载请求委派给扩展类加载器。</p>
-<p>2. 扩展类加载器又把这个类加载请求委派给启动类加载器。</p>
-<p>3. 启动类加载器如果加载失败，在 (jdk/jre/lib) 里没有找到这个类，会使用扩展类加载器进行加载。</p>
-<p>4. 扩展类加载器如果加载失败，在（jdk/jre/lib/ext）里没有找到这个类，会使用应用程序类加载器来加载</p>
-<p>5. 应用程序加载器加载失败则会报：ClassNotFoundException 异常。</p>
-<p>使用双亲委派模型的意义：</p>
-<p>例如类 java.lang.Object 存放在 rt.jar 中，无论哪个类加载器要加载这个类，最终都会委派启动类加载器来加载，如果没有双亲委派模型用户自己编写了一个 java.lang.Object 类，放到 ClassPath 中，系统中将会出现多个不同的 Object 类，应用程序也会变得混乱。</p>
+                <h2 id="2020-–-“搁浅”"><a href="#2020-–-“搁浅”" class="headerlink" title="2020 – “搁浅”"></a><strong>2020 – “搁浅”</strong></h2><h3 id="年初-–-悠闲"><a href="#年初-–-悠闲" class="headerlink" title="年初 – 悠闲"></a>年初 – 悠闲</h3><p>从开年，疫情爆发，被困在家里，上网课。</p>
+<p>当时也没感到什么压力，还跟以前一样，家里有事就帮忙做点事，没事就上上网课，打打游戏。学了点PR，用了两周 剪辑了一个现在看来贼拉跨的视频，这是我在B站第一次投稿。后来剪了几个视频，无非是蹭热度、缝合怪罢了。也没涨几个粉，想骗人点关注实在太难了。做视频属实耗费精力了。</p>
+<h3 id="六七月份-–-抉择"><a href="#六七月份-–-抉择" class="headerlink" title="六七月份 – 抉择"></a>六七月份 – 抉择</h3><p>到6月份，课程快结束，也准备去找个跟计算机相关的暑期实习。当时有两个方向：网络安全、Java开发。</p>
+<p>曹老师的网络安全，我还是很感兴趣的，可能每个男孩都一个黑客梦吧。。。 不过最后的CTF靶场测验，老师当时说表现好 可以推荐到知名国企实习，当时很心动，我觉得我的机会来了，，，谁成想，最简单的入口靶机都拿不下来，人傻了，备受打击。</p>
+<p>正好其他课程都是Java开发相关的，做课程设计的时候也学了一些，于是便转投了Java的怀抱。</p>
+<p>一如Java深似海，Java要学的实在是多。悔不当初，但是没办法，自己选择的路，只能是继续学了。反正编程嘛，触类旁通，学的不仅仅是某一门语言，学的是它的思想，语言只是工具罢了。</p>
+<h4 id="为什么没有选择考研？"><a href="#为什么没有选择考研？" class="headerlink" title="为什么没有选择考研？"></a>为什么没有选择考研？</h4><p>其实年初姐姐就劝我考研了，后来看新闻也是说增加研究生录取率，有一阵子真的想去考研的，不过后来还是放弃了，还是想更早的进入企业，到开发的一线去实战。现在看周围同学备战考研，还是有些后悔的，毕竟错过了一个机会，没去努力一把，留了遗憾。期望未来能够尽力不留遗憾。</p>
+<h3 id="7月1日，搭建自己的Blog"><a href="#7月1日，搭建自己的Blog" class="headerlink" title="7月1日，搭建自己的Blog"></a>7月1日，搭建自己的Blog</h3><p>其实很早之前，在网上冲浪的时候，就看到了很多大佬的博客，当时感觉自己找到了宝藏，感觉有一个属于自己的Blog很酷，现在终于实现了，利用Hexo和GitHub搭建了一个自己的博客，记载自己的生活、学习。</p>
+<p>虽然没什么人看，这样也挺好的，可以随心所欲的写一些自己想写的。</p>
+<h3 id="秋招-–-一败涂地"><a href="#秋招-–-一败涂地" class="headerlink" title="秋招 – 一败涂地"></a>秋招 – 一败涂地</h3><hr>
+<p>搁浅了嘛，就看了27部剧</p>
+<h3 id="电视剧"><a href="#电视剧" class="headerlink" title="电视剧"></a>电视剧</h3><h4 id="日剧"><a href="#日剧" class="headerlink" title="日剧"></a>日剧</h4><ul>
+<li><p>《半泽直树》（Ⅰ、Ⅱ）、《Legal High》（Ⅰ、Ⅱ）</p>
+<p>主演都是堺雅人，超好看的。</p>
+<p>李狗嗨里女主是新垣结衣，其实是第一次看她的剧，I了I了。</p>
+</li>
+</ul>
+<h4 id="国产"><a href="#国产" class="headerlink" title="国产"></a>国产</h4><ul>
+<li><p>《朱元璋》</p>
+<p>以史为鉴，多了解点历史，而且胡军演的挺好的，很有英雄气概。</p>
+</li>
+<li><p>《我的团长我的团》</p>
+<p>之前就经常看到推荐这部剧的，但是看了前两集感觉不是很好，完全就是国民党的一群兵痞吗，废物都是，实在看不下去。</p>
+<p>不过后来看了木鱼水心的解说，感觉后面剧情挺有意思的就去看了下，太好看了吧，强烈推荐！</p>
+</li>
+<li><p>《大江大河 2》</p>
+<p>通过三条线展现了，从恢复高考到改革开放，社会的发展与变革。宋运辉的人生简直就是爽文里的男主啊，酸了。</p>
+</li>
+<li><p>《十八岁的天空》</p>
+<p>重温了下当年的经典，以前在电视上看了N多遍，直到现在才真正的看懂。</p>
+<p>还有 《情深深雨蒙蒙》 也是，以前只顾着看杜飞追林心如，感觉很好笑，还以为杜飞是主角。现在才发现原来书桓才是主角，原来里面那么多的勾心斗角。。。</p>
+</li>
+</ul>
+<h4 id="英剧"><a href="#英剧" class="headerlink" title="英剧"></a>英剧</h4><ul>
+<li><p>《黑镜》（Ⅰ、Ⅱ）</p>
+<p>编剧敢写、导演敢拍。太顶了，第一集就让英国首相 Fuck Pig。</p>
+</li>
+<li><p>《美丽新世界》</p>
+<p>同样是英国科幻大片，想象力太丰富了，新世界真的是酒池肉林，期待第二季</p>
+</li>
+</ul>
+<h4 id="美剧"><a href="#美剧" class="headerlink" title="美剧"></a>美剧</h4><ul>
+<li><p>《疑犯追踪》（Ⅰ、Ⅱ、Ⅲ、Ⅳ、Ⅴ）</p>
+<p>正好因为疫情闲在家里，足足五季 ，一百多集。太好看了！</p>
+<p>讲述的911之后，米国制造了一个AI 监控全国 预防恐怖活动，AI之父想要帮助更多被政府忽视的普通刑事案件，因此留了个后门给主角传递一个将死之人的社保号码。</p>
+<p>电视剧居然发行在斯诺登曝光“棱镜门”之前。。。</p>
+</li>
+<li><p>《曼达洛人》（Ⅰ、Ⅱ）</p>
+<p>科幻巨制，经费在燃烧</p>
+</li>
+<li><p>《韦恩》 、《The End Of The Fucking World》（Ⅰ、Ⅱ）</p>
+<p>性格有缺陷，喜欢自残的美国青春期叛逆少年少女离家出走的故事，都挺hape的。</p>
+</li>
+<li><p>《浪子神探》</p>
+<p>轻度烧脑吧，神探，根据犯案现场的线索，描绘凶手的形象。</p>
+</li>
+</ul>
+<h3 id="电影"><a href="#电影" class="headerlink" title="电影"></a>电影</h3><ul>
+<li><p>《阿Q正传》</p>
+<p>只知道阿Q，但是一直不了解，在B站看的这部老片子，感觉很好，都是老艺术家了，演的很好。也终于知道了所谓的“阿Q精神”。</p>
+</li>
+<li><p>《高考 1977》</p>
+<p>恢复高考，不知道改变了多少人的命运</p>
+</li>
+<li><p>《城南旧事》</p>
+<p>名场面 “你是来拉屎的吗” 出自此剧的一个故事的片段。</p>
+</li>
+<li><p>《撞车》</p>
+<p>好像是哪年的奥斯卡吧，讲的美国的种族歧视，也是非常好看的。</p>
+<p>而且我是前半年疫情时候看的，没多久美国就爆发黑人被警察虐杀的事件，就，，，挺残酷的</p>
+</li>
+<li><p>《人工智能》</p>
+<p>“Good Night ，David”  属实好看，而且那只电子熊也是真的可爱。</p>
+</li>
+</ul>
+<hr>
+<h2 id="2021-–-”扬帆-起航“"><a href="#2021-–-”扬帆-起航“" class="headerlink" title="2021 – ”扬帆 起航“"></a>2021 – ”扬帆 起航“</h2><p>2021 未知，期望未来能够尽力不留遗憾就好</p>
 
             </div>
             <hr/>
@@ -484,16 +490,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/java/">
-                                    <span class="chip bg-color">Java</span>
-                                </a>
-                            
-                                <a href="/tags/%E8%BD%AC%E8%BD%BD/">
-                                    <span class="chip bg-color">转载</span>
-                                </a>
-                            
-                                <a href="/tags/jvm/">
-                                    <span class="chip bg-color">JVM</span>
+                                <a href="/tags/%E6%80%BB%E7%BB%93/">
+                                    <span class="chip bg-color">总结</span>
                                 </a>
                             
                         </div>
@@ -661,7 +659,7 @@
         repo: 'topone233.github.io',
         owner: 'topone233',
         admin: "topone233",
-        id: '2020-09-04T10-25-57',
+        id: '2020-12-31T16-37-32',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -685,53 +683,47 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2020/09/10/TCP%E5%8D%8F%E8%AE%AE/">
+                <a href="/2020/12/31/2020%20--%20%E6%90%81%E6%B5%85/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/c336be30d19b8.jpg" class="responsive-img" alt="TCP协议">
+                        <img src="https://7.dusays.com/2020/09/17/642a7274e3914.png" class="responsive-img" alt="2020 -- 搁浅">
                         
-                        <span class="card-title">TCP协议</span>
+                        <span class="card-title">2020 -- 搁浅</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            TCP深入理解
+                            2020年终总结
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-09-10
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" class="post-category">
-                                    网络协议
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                    总结
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">
-                        <span class="chip bg-color">网络协议</span>
-                    </a>
-                    
-                    <a href="/tags/tcp/">
-                        <span class="chip bg-color">TCP</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">
-                        <span class="chip bg-color">滑动窗口</span>
+                    <a href="/tags/%E6%80%BB%E7%BB%93/">
+                        <span class="chip bg-color">总结</span>
                     </a>
                     
                 </div>
@@ -745,30 +737,30 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/09/03/%E8%B5%84%E6%BA%90%E5%88%86%E4%BA%AB/">
+                <a href="/2020/11/05/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%BA%8C)-%E9%94%81%E5%8D%87%E7%BA%A7/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/09/17/7042eedc2f73c.jpg" class="responsive-img" alt="资源分享">
+                        <img src="https://7.dusays.com/2020/11/10/92be439dcdb03.png" class="responsive-img" alt="线程安全(二)-锁升级">
                         
-                        <span class="card-title">资源分享</span>
+                        <span class="card-title">线程安全(二)-锁升级</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            好东西
+                            锁升级- 偏向锁、轻量级锁、重量级锁
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-09-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E8%B5%84%E6%BA%90/" class="post-category">
-                                    资源
+                            <a href="/categories/java/" class="post-category">
+                                    Java
                                 </a>
                             
                             
@@ -778,12 +770,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%B5%84%E6%BA%90/">
-                        <span class="chip bg-color">资源</span>
-                    </a>
-                    
-                    <a href="/tags/%E9%85%8D%E7%BD%AE/">
-                        <span class="chip bg-color">配置</span>
+                    <a href="/tags/java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>

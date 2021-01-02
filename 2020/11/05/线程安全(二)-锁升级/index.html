@@ -221,6 +221,19 @@
 </header>
 
     
+<script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
 
 
 
@@ -766,47 +779,45 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2020/11/05/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%BA%8C)-%E9%94%81%E5%8D%87%E7%BA%A7/">
+                <a href="/2020/12/31/2020%20--%20%E6%90%81%E6%B5%85/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/11/10/92be439dcdb03.png" class="responsive-img" alt="线程安全(二)-锁升级">
+                        <img src="https://7.dusays.com/2020/09/17/642a7274e3914.png" class="responsive-img" alt="2020 -- 搁浅">
                         
-                        <span class="card-title">线程安全(二)-锁升级</span>
+                        <span class="card-title">2020 -- 搁浅</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            锁升级- 偏向锁、轻量级锁、重量级锁
+                            2020年终总结
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-05
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-31
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/java/" class="post-category">
-                                    Java
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                    总结
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">Java</span>
+                    <a href="/tags/%E6%80%BB%E7%BB%93/">
+                        <span class="chip bg-color">总结</span>
                     </a>
                     
                 </div>
