@@ -13,6 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+   <meta name="referrer" content="no-referrer"/>
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
@@ -237,7 +238,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/10/31/8cf9693b91d1e.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683151955-ffec6bdb-bd27-40c9-a83c-47add3a4662f.jpeg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -395,29 +396,33 @@
                 
 
                 
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
             </div>
         </div>
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <ol>
-<li>Java中的内存泄漏是怎么回事？请举例。</li>
+<li><h4 id="Java中的内存泄漏是怎么回事？请举例。"><a href="#Java中的内存泄漏是怎么回事？请举例。" class="headerlink" title="Java中的内存泄漏是怎么回事？请举例。"></a>Java中的内存泄漏是怎么回事？请举例。</h4></li>
 </ol>
 <p>​      存在一些不会被GC回收，然而还占用内存的对象</p>
 <ol start="2">
-<li><p>equals和==的区别是什么？</p>
-<p>简单的说：equals比较值， ==比较的是地址。</p>
+<li><h4 id="equals和-的区别是什么？"><a href="#equals和-的区别是什么？" class="headerlink" title="equals和==的区别是什么？"></a>equals和==的区别是什么？</h4><p>简单的说：equals比较值， ==比较的是地址。</p>
 <p>equals是Object类的方法，其实内部还是调用的 “==”，使用的时候需要重写。</p>
 </li>
-<li><p>下述代码在多线程环境中是否存在问题？如何修改？</p>
-<p>volatile关键字是什么意思？如果删除对该段代码有何影响？</p>
-<pre><code>class Counter {
-    private volatile int count = 0;
+<li><h4 id="下述代码在多线程环境中是否存在问题？如何修改？"><a href="#下述代码在多线程环境中是否存在问题？如何修改？" class="headerlink" title="下述代码在多线程环境中是否存在问题？如何修改？"></a>下述代码在多线程环境中是否存在问题？如何修改？</h4><p>volatile关键字是什么意思？如果删除对该段代码有何影响？</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
-    public int getNext() {
-         return ++count;
-    }
-}</code></pre><ul>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">getNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">return</span> <span class="token operator">++</span>count<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
 <li><p>如果是方法里定义的，一定是线程安全的，因为每个方法栈是线程私有的。</p>
 </li>
 <li><p>如果是类的静态成员变量，i++则不是线程安全的，因为i++会被编译成几句字节码语句执行，而<strong>每个线程都有自己的工作内存</strong>，<strong>每个线程需要对共享变量操作的时候必须先把共享变量从主内存load到自己的工作内存，等完成对共享变量的操作时再保存到主内存</strong>。如果一个线程运算完成后还没写入到主内存，此时这个共享变量的值被另一个线程从主内存读取到了，这个时候读取的数据就是脏数据了，它会覆盖其他线程计算的值。可以通过synchronize块来提供同步。</p>
@@ -426,19 +431,15 @@
 <p>修改方法：将count变量写在getNext()方法内部。或者通过synchronize块来提供同步。</p>
 <p>每次修改volatile变量都会同步到主存中。volatile保证了不同线程对这个变量进行操作时的<strong>可见性</strong>，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p>
 </li>
-<li><p>BlockingQueue相比普通的Queue最大的区别是什么？</p>
-<p>阻塞队列（BlockingQueue）是一个继承自 Queue的接口，被广泛使用在“<strong>生产者-消费者</strong>”问题中，其原因是 BlockingQueue 提供了<strong>可阻塞的插入和移除的方法</strong>。当队列容器已满，生产者线程会被阻塞，直到队列未满；当队列容器为空时，消费者线程会被阻塞，直至队列非空时为止。</p>
+<li><h4 id="BlockingQueue相比普通的Queue最大的区别是什么？"><a href="#BlockingQueue相比普通的Queue最大的区别是什么？" class="headerlink" title="BlockingQueue相比普通的Queue最大的区别是什么？"></a>BlockingQueue相比普通的Queue最大的区别是什么？</h4><p>阻塞队列（BlockingQueue）是一个继承自 Queue的接口，被广泛使用在“<strong>生产者-消费者</strong>”问题中，其原因是 BlockingQueue 提供了<strong>可阻塞的插入和移除的方法</strong>。当队列容器已满，生产者线程会被阻塞，直到队列未满；当队列容器为空时，消费者线程会被阻塞，直至队列非空时为止。</p>
 </li>
-<li><p>Thread.sleep() 可能抛出的 InterruptedException 代表什么？如何处理？</p>
-<p>Thread.sleep()是Thread类的一个静态方法，使当前线程休眠，进入阻塞状态（暂停执行），如果线程在睡眠状态被中断，将会抛出IterruptedException中断异常。</p>
+<li><h4 id="Thread-sleep-可能抛出的-InterruptedException-代表什么？如何处理？"><a href="#Thread-sleep-可能抛出的-InterruptedException-代表什么？如何处理？" class="headerlink" title="Thread.sleep() 可能抛出的 InterruptedException 代表什么？如何处理？"></a>Thread.sleep() 可能抛出的 InterruptedException 代表什么？如何处理？</h4><p>Thread.sleep()是Thread类的一个静态方法，使当前线程休眠，进入阻塞状态（暂停执行），如果线程在睡眠状态被中断，将会抛出IterruptedException中断异常。</p>
 <p>捕获它并在RuntimeException中将其返回，以避免为每个方法声明它。</p>
 <pre><code>catch (InterruptedException e) {
   throw new RuntimeException(&quot;Unexpected interrupt&quot;, exc);
 }</code></pre></li>
-<li><p>为什么要重写clone方法和equals方法？</p>
-</li>
-<li><p>实例变量与静态变量的区别？</p>
-<ul>
+<li><h4 id="为什么要重写clone方法和equals方法？"><a href="#为什么要重写clone方法和equals方法？" class="headerlink" title="为什么要重写clone方法和equals方法？"></a>为什么要重写clone方法和equals方法？</h4></li>
+<li><h4 id="实例变量与静态变量的区别？"><a href="#实例变量与静态变量的区别？" class="headerlink" title="实例变量与静态变量的区别？"></a>实例变量与静态变量的区别？</h4><ul>
 <li>静态变量用static关键字修饰，属于整个类的，也称类变量。<strong>实例变量是属于对象的</strong>。</li>
 <li>静态变量在内存中永远只有一份，而实例变量每个对象都会有一份。</li>
 <li><strong>静态变量存在方法区</strong>，<strong>实例变量存在堆内存</strong>。</li>
@@ -446,16 +447,13 @@
 <li><strong>静态变量还可以通过类名.变量名访问</strong>。Student.schoolName=”小学”;</li>
 </ul>
 </li>
-<li><p>String s=”Hello”; s=s+”world!”;执行后，原始String内容是否改变？</p>
-<p>没有，String是被final修饰的不可变类。这段代码中，s指向一个String对象，内容是“Hello”，然后进行“+”操作，此时s指向另一个String对象，内容为“Hello World!”，原来的对象并不会被改变，只是s这个引用变量不再指向它了。所有的字符串都会存在字符串常量缓冲区中，唯一且不可改变。</p>
+<li><h4 id="String-s-”Hello”-s-s-”world-”-执行后，原始String内容是否改变？"><a href="#String-s-”Hello”-s-s-”world-”-执行后，原始String内容是否改变？" class="headerlink" title="String s=”Hello”; s=s+”world!”;执行后，原始String内容是否改变？"></a>String s=”Hello”; s=s+”world!”;执行后，原始String内容是否改变？</h4><p>没有，String是被final修饰的不可变类。这段代码中，s指向一个String对象，内容是“Hello”，然后进行“+”操作，此时s指向另一个String对象，内容为“Hello World!”，原来的对象并不会被改变，只是s这个引用变量不再指向它了。所有的字符串都会存在字符串常量缓冲区中，唯一且不可改变。</p>
 <p>顺带一提：StringBuffer、StringBuilder是可变字符串，StringBuffer线程安全，性能略低。</p>
 </li>
-<li><p>用最有效率的方法算出2乘以8等于多少</p>
-<p>使用<strong>位运算来实现效率最高</strong>，2乘以8相当于二进制位左移三位。所以实现方式为2&lt;&lt;3</p>
+<li><h4 id="用最有效率的方法算出2乘以8等于多少"><a href="#用最有效率的方法算出2乘以8等于多少" class="headerlink" title="用最有效率的方法算出2乘以8等于多少"></a>用最有效率的方法算出2乘以8等于多少</h4><p>使用<strong>位运算来实现效率最高</strong>，2乘以8相当于二进制位左移三位。所以实现方式为2&lt;&lt;3</p>
 <p>因为<strong>将一个数左移n位，就相当于乘以了2的n次方</strong>，那么，一个数乘以8只要将其左移3位即可，而<strong>位运算cpu直接支持的，效率最高</strong>，所以，2乘以8等於几的最效率的方法是2 &lt;&lt; 3。</p>
 </li>
-<li><p>Checked异常和Runtime异常的区别</p>
-<ul>
+<li><h4 id="Checked异常和Runtime异常的区别"><a href="#Checked异常和Runtime异常的区别" class="headerlink" title="Checked异常和Runtime异常的区别"></a>Checked异常和Runtime异常的区别</h4><ul>
 <li>Runtime异常（运行时异常）：包括RuntimeaException及其所有子类。不要求程序必须对它们作出处理，比如InputMismatchException、ArithmeticException、NullPointerException等。<strong>即使没有使用try-catch或throws进行处理，仍旧可以进行编译和运行</strong>。如果运行时发生异常，会输出异常的堆栈信息并中止程序执行。</li>
 <li>Checked异常（非运行时异常）：除了运行时异常外的其他异常类都是Checked异常。<strong>程序必须捕获或者声明抛出这种异常，否则出现编译错误，无法通过编译</strong>。处理方式包括两种：通过try-catch捕获异常，通过throws声明抛出异常从而交给上一级调用方法处理。</li>
 </ul>
@@ -480,29 +478,30 @@ Public String getPost(HttpServletRequest req) {
 </ul>
 <p>最简单也是最常见的，但是需要注意<strong>循环依赖</strong>的问题。</p>
 <p>创建两个 Bean，要求 CDemo2 在 CDemo1 之前被初始化：</p>
-<pre><code>@Component
-publicclass CDemo1 {
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+publicclass CDemo1 <span class="token punctuation">{</span>
 
-    private String name = &quot;cdemo 1&quot;;
+    <span class="token keyword">private</span> String name <span class="token operator">=</span> <span class="token string">"cdemo 1"</span><span class="token punctuation">;</span>
 
-    public CDemo1(CDemo2 cDemo2) {
-        System.out.println(name);
-    }
-}
+    <span class="token keyword">public</span> <span class="token function">CDemo1</span><span class="token punctuation">(</span>CDemo2 cDemo2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-@Component
-publicclass CDemo2 {
+<span class="token annotation punctuation">@Component</span>
+publicclass CDemo2 <span class="token punctuation">{</span>
 
-    private String name = &quot;cdemo 1&quot;;
+    <span class="token keyword">private</span> String name <span class="token operator">=</span> <span class="token string">"cdemo 1"</span><span class="token punctuation">;</span>
 
-    public CDemo2() {
-        System.out.println(name);
-    }
-}
+    <span class="token keyword">public</span> <span class="token function">CDemo2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
 输出：
-cdemo 2 
-cdemo 1</code></pre><p>虽然这种方式比较直观简单，但是有几个限制</p>
+cdemo <span class="token number">2</span> 
+cdemo <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>虽然这种方式比较直观简单，但是有几个限制</p>
 <ul>
 <li><p>需要有注入关系，如 CDemo2 通过构造方法注入到 CDemo1 中，如果需要指定两个没有注入关系的 bean 之间优先级，则不太合适（比如我希望某个 bean 在所有其他的 Bean 初始化之前执行）</p>
 </li>
@@ -539,7 +538,8 @@ cdemo 1</code></pre><p>虽然这种方式比较直观简单，但是有几个限
 <li><p>XML映射中，如何批量插入传入的集合（Collection<E>）？</p>
 </li>
 <li><p>XML映射中，如何在插入的同时获取MySQL自增字段（AUTO_INCREMENT）的生成值？</p>
-<pre><code>&lt;insert id=”insert” parameterType=”a” userGeneratedKeys=”true” keyProperty=”id”&gt;</code></pre></li>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>insert</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>insert<span class="token punctuation">"</span></span> <span class="token attr-name">parameterType</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>a<span class="token punctuation">"</span></span> <span class="token attr-name">userGeneratedKeys</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span> <span class="token attr-name">keyProperty</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>id<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
 <li><p>如何使key对应的值过5秒后失效？</p>
 <p>Expire key 5</p>
 </li>
@@ -770,7 +770,7 @@ cdemo 1</code></pre><p>虽然这种方式比较直观简单，但是有几个限
                 <a href="/2020/11/02/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%B8%80)-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E9%94%81/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/11/10/99612ad1a1dd5.jpg" class="responsive-img" alt="线程安全(一)-简单使用锁">
+                        <img src="https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683146636-4f030256-ff66-45c1-8ccc-9ba6ed7d5aef.jpeg" class="responsive-img" alt="线程安全(一)-简单使用锁">
                         
                         <span class="card-title">线程安全(一)-简单使用锁</span>
                     </div>
@@ -818,7 +818,7 @@ cdemo 1</code></pre><p>虽然这种方式比较直观简单，但是有几个限
                 <a href="/2020/10/20/SpringBoot%20+%20WebSocket/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/10/20/034bc04e73e00.jpg" class="responsive-img" alt="SpringBoot + WebSocket">
+                        <img src="https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683159953-9efdc9d4-a2a4-4ead-b6d3-8532f303c481.jpeg" class="responsive-img" alt="SpringBoot + WebSocket">
                         
                         <span class="card-title">SpringBoot + WebSocket</span>
                     </div>
@@ -972,6 +972,18 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
             
             
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
             <br>
             
             <span id="sitetime">载入运行时间...</span>
@@ -1021,7 +1033,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
         </div>
-        <div class="col s12 m4 l4 social-link ">
+        <div class="col s12 m4 l4 social-link social-statis">
     <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
@@ -1124,6 +1136,8 @@ $(function () {
     
     <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/clicklove.js" async="async"></script>
     
+    
+    <script async src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/busuanzi.pure.mini.js"></script>
     
 
     

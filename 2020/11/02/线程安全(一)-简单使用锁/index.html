@@ -13,6 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+   <meta name="referrer" content="no-referrer"/>
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
@@ -237,7 +238,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://7.dusays.com/2020/11/10/99612ad1a1dd5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683146636-4f030256-ff66-45c1-8ccc-9ba6ed7d5aef.jpeg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -395,6 +396,11 @@
                 
 
                 
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>Read Count:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
             </div>
         </div>
         <hr class="clearfix">
@@ -495,7 +501,7 @@ public final boolean compareAndSet(int expect, int update) {
 <p>同步方法是被共享的，那么该方法的对象相当于所有的线程来说就是唯一的，保证了锁的<strong>唯一性</strong>。</p>
 </li>
 <li><p>作用于静态方法时，<strong>锁是该方法所在类的class实例对象</strong>，该对象可以通过“类名.class”获取。</p>
-<p>因为Class的相关数据存储在永久带PermGen（jdk1.8则是metaspace），永久带是全局共享的，因此静态方法锁相当于类的一个全局锁。</p>
+<p>因为Class的相关数据存储在永久代PermGen（jdk1.8则是metaspace），永久代是全局共享的，因此静态方法锁相当于类的一个全局锁。</p>
 </li>
 <li><p>同步代码块：作用于一个共享实例对象时，锁住的是<strong>所有以该对象为锁的</strong>代码块。</p>
 <p>（这里需要注意：锁住的是该<strong>共享</strong>实例对象，而不是下面的代码块！锁的是房间门，而不是床！）</p>
@@ -511,7 +517,7 @@ public final boolean compareAndSet(int expect, int update) {
 <li>Contention List：竞争队列，所有请求锁的线程首先被放在这个竞争队列中；</li>
 <li>Entry List：Contention List中那些有资格成为候选资源的线程被移动到Entry List中；</li>
 <li>Wait Set：哪些调用wait方法被阻塞的线程被放置在这里；</li>
-<li>OnDeck：任意时刻，最多只有一个线程正在竞争锁资源，该线程被成为OnDeck；</li>
+<li>OnDeck：任意时刻，最多只有一个线程正在竞争锁资源，该线程被称为OnDeck；</li>
 <li>Owner：当前已经获取到所资源的线程被称为Owner；</li>
 <li>!Owner：当前释放锁的线程。</li>
 </ol>
@@ -763,7 +769,7 @@ public final boolean compareAndSet(int expect, int update) {
                 <a href="/2020/11/05/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8(%E4%BA%8C)-%E9%94%81%E5%8D%87%E7%BA%A7/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/11/10/92be439dcdb03.png" class="responsive-img" alt="线程安全(二)-锁升级">
+                        <img src="https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683146517-27d7ef73-53d6-4a3c-97f7-20d0494a6a9b.jpeg" class="responsive-img" alt="线程安全(二)-锁升级">
                         
                         <span class="card-title">线程安全(二)-锁升级</span>
                     </div>
@@ -811,7 +817,7 @@ public final boolean compareAndSet(int expect, int update) {
                 <a href="/2020/10/26/Java%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">
                     <div class="card-image">
                         
-                        <img src="https://7.dusays.com/2020/10/31/8cf9693b91d1e.jpg" class="responsive-img" alt="Java面试题目">
+                        <img src="https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683151955-ffec6bdb-bd27-40c9-a83c-47add3a4662f.jpeg" class="responsive-img" alt="Java面试题目">
                         
                         <span class="card-title">Java面试题目</span>
                     </div>
@@ -957,6 +963,18 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             
             
             
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
             <br>
             
             <span id="sitetime">载入运行时间...</span>
@@ -1006,7 +1024,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
         </div>
-        <div class="col s12 m4 l4 social-link ">
+        <div class="col s12 m4 l4 social-link social-statis">
     <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
@@ -1109,6 +1127,8 @@ $(function () {
     
     <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/clicklove.js" async="async"></script>
     
+    
+    <script async src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/busuanzi.pure.mini.js"></script>
     
 
     
