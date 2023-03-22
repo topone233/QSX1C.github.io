@@ -243,7 +243,23 @@
 
 
 <script>
-    $('.bg-cover').css('background-image', 'url(https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/banner/4.jpg)');
+    // $('.bg-cover').css('background-image', 'url(https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/banner/4.jpg)');
+	// var imageUrl = new URL('https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1679492079931-48fcfe74-c596-499b-bf62-3c8ff8b263d6.jpeg');
+	// imageUrl.searchParams.append('referrerPolicy', 'no-referrer');
+    // $('.bg-cover').css('background-image', 'url(' + imageUrl.toString() + ')');
+	
+	
+	var imageUrl = 'https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1679492079931-48fcfe74-c596-499b-bf62-3c8ff8b263d6.jpeg';
+    var headers = new Headers();
+    headers.append('Referrer-Policy', 'no-referrer');
+    fetch(imageUrl, { headers: headers })
+        .then(function(response) {
+            return response.blob();
+        })
+        .then(function(blob) {
+            var objectUrl = URL.createObjectURL(blob);
+            $('.bg-cover').css('background-image', 'url(' + objectUrl + ')');
+        });
 </script>
 
 
@@ -335,19 +351,10 @@
                 </a>
                 
                 
-                <a href="/tags/hexo/" title="hexo: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="hexo" style="background-color: #A3E4D7;">hexo
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
                 <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构: 7">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="数据结构" style="background-color: #85C1E9;">数据结构
+                            data-tagname="数据结构" style="background-color: #A3E4D7;">数据结构
                         <span class="tag-length">7</span>
                     </span>
                 </a>
@@ -356,17 +363,26 @@
                 <a href="/tags/hashmap/" title="HashMap: 3">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="HashMap" style="background-color: #F8C471;">HashMap
+                            data-tagname="HashMap" style="background-color: #85C1E9;">HashMap
                         <span class="tag-length">3</span>
                     </span>
                 </a>
                 
                 
-                <a href="/tags/jvm/" title="JVM: 1">
+                <a href="/tags/hexo/" title="hexo: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="JVM" style="background-color: #F9E79F;">JVM
+                            data-tagname="hexo" style="background-color: #F8C471;">hexo
                         <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/sql/" title="SQL: 3">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="SQL" style="background-color: #F9E79F;">SQL
+                        <span class="tag-length">3</span>
                     </span>
                 </a>
                 
@@ -380,20 +396,29 @@
                 </a>
                 
                 
-                <a href="/tags/io/" title="IO: 1">
+                <a href="/tags/jvm/" title="JVM: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="IO" style="background-color: #D5F5E3;">IO
+                            data-tagname="JVM" style="background-color: #FEF9E7;">JVM
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/tags/sql/" title="SQL: 3">
+                <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="多线程: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="SQL" style="background-color: #A3E4D7;">SQL
-                        <span class="tag-length">3</span>
+                            data-tagname="多线程" style="background-color: #FEF9E7;">多线程
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/io/" title="IO: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="IO" style="background-color: #D5F5E3;">IO
+                        <span class="tag-length">1</span>
                     </span>
                 </a>
                 
@@ -407,10 +432,10 @@
                 </a>
                 
                 
-                <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="多线程: 1">
+                <a href="/tags/mysql/" title="MySql: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="多线程" style="background-color: #FEF9E7;">多线程
+                            data-tagname="MySql" style="background-color: #F8C471;">MySql
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -430,15 +455,6 @@
                              chip-active "
                             data-tagname="Redis" style="background-color: #F9EBEA;">Redis
                         <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/mysql/" title="MySql: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="MySql" style="background-color: #F8C471;">MySql
-                        <span class="tag-length">1</span>
                     </span>
                 </a>
                 
@@ -742,18 +758,6 @@
             
             
             
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
             <br>
             
             <span id="sitetime">载入运行时间...</span>
@@ -803,7 +807,7 @@
             <br>
             
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+        <div class="col s12 m4 l4 social-link ">
     <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
@@ -906,8 +910,6 @@ $(function () {
     
     <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/clicklove.js" async="async"></script>
     
-    
-    <script async src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/busuanzi.pure.mini.js"></script>
     
 
     

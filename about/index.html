@@ -250,7 +250,23 @@
 
 
 <script>
-    $('.bg-cover').css('background-image', 'url(https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/banner/4.jpg)');
+    // $('.bg-cover').css('background-image', 'url(https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/medias/banner/4.jpg)');
+	// var imageUrl = new URL('https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1679492079931-48fcfe74-c596-499b-bf62-3c8ff8b263d6.jpeg');
+	// imageUrl.searchParams.append('referrerPolicy', 'no-referrer');
+    // $('.bg-cover').css('background-image', 'url(' + imageUrl.toString() + ')');
+	
+	
+	var imageUrl = 'https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1679492079931-48fcfe74-c596-499b-bf62-3c8ff8b263d6.jpeg';
+    var headers = new Headers();
+    headers.append('Referrer-Policy', 'no-referrer');
+    fetch(imageUrl, { headers: headers })
+        .then(function(response) {
+            return response.blob();
+        })
+        .then(function(blob) {
+            var objectUrl = URL.createObjectURL(blob);
+            $('.bg-cover').css('background-image', 'url(' + objectUrl + ')');
+        });
 </script>
 
 
@@ -436,7 +452,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ["2022-02","2022-03","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12","2023-01","2023-02"]
+            data: ["2022-03","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12","2023-01","2023-02","2023-03"]
         },
         yAxis: {
             type: 'value',
@@ -446,7 +462,7 @@
                 name: 'Number of posts',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,0,0,0,0,0,0,0,0,0,0,0,1],
+                data: [0,0,0,0,0,0,0,0,0,0,0,1,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -488,7 +504,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"总结","value":1},{"name":"Spring","value":7},{"name":"资源","value":2},{"name":"数据结构","value":7},{"name":"Java","value":13},{"name":"SQL","value":2},{"name":"NoSQL","value":4},{"name":"MySql","value":1},{"name":"网络协议","value":2},{"name":"Windows","value":1},{"name":"算法","value":1}],
+                data: [{"name":"总结","value":1},{"name":"Spring","value":7},{"name":"资源","value":2},{"name":"数据结构","value":7},{"name":"SQL","value":2},{"name":"Java","value":13},{"name":"MySql","value":1},{"name":"NoSQL","value":4},{"name":"网络协议","value":2},{"name":"Windows","value":1},{"name":"算法","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -582,18 +598,6 @@
             
             
             
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
             <br>
             
             <span id="sitetime">载入运行时间...</span>
@@ -643,7 +647,7 @@
             <br>
             
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
+        <div class="col s12 m4 l4 social-link ">
     <a href="https://github.com/topone233" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
         <i class="fab fa-github"></i>
     </a>
@@ -746,8 +750,6 @@ $(function () {
     
     <script src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/clicklove.js" async="async"></script>
     
-    
-    <script async src="https://cdn.jsdelivr.net/gh/topone233/topone233.github.io/libs/others/busuanzi.pure.mini.js"></script>
     
 
     
