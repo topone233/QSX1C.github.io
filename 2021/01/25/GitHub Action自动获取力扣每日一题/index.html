@@ -415,15 +415,14 @@
 <h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>没别的，天太冷了，早上赖床不想起，手一滑打开了力扣APP，本想着先看下今天的每日一题（简单一小时、中等看一天、难题一秒钟），手机端不给看每日一题？？？总不能为了看眼题目就让我起床吧？</p>
 <p>嘿嘿，写个定时器，每天早上自动发送每日一题到邮箱。</p>
 <p>躺着把每日一题看喽！</p>
-<p><img src="https://7.dusays.com/2021/01/25/1c794d4b138d0.jpg" alt=""> </p>
-<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p><img src="https://7.dusays.com/2021/01/25/889deb9419ae4.png" alt=""></p>
-<p>代码实现部分直接看这里： <a href="https://blog.csdn.net/malloc_can/article/details/113004579" target="_blank" rel="noopener">https://blog.csdn.net/malloc_can/article/details/113004579</a></p>
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>代码实现部分直接看这里： <a href="https://blog.csdn.net/malloc_can/article/details/113004579" target="_blank" rel="noopener">https://blog.csdn.net/malloc_can/article/details/113004579</a></p>
 <p>讲的很详细，不再赘述了。</p>
 <p>唯一需要修改的一点：</p>
 <p>python 脚本中获取环境变量</p>
-<pre><code>import os
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> os
 
-SCKEY = os.environ[&quot;SCKEY&quot;]</code></pre><h3 id="GitHub-Action"><a href="#GitHub-Action" class="headerlink" title="GitHub Action"></a>GitHub Action</h3><blockquote>
+SCKEY <span class="token operator">=</span> os<span class="token punctuation">.</span>environ<span class="token punctuation">[</span><span class="token string">"SCKEY"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="GitHub-Action"><a href="#GitHub-Action" class="headerlink" title="GitHub Action"></a>GitHub Action</h3><blockquote>
 <p><a href="https://github.com/features/actions" target="_blank" rel="noopener">GitHub Actions</a> 是 GitHub 的<a href="http://www.ruanyifeng.com/blog/2015/09/continuous-integration.html" target="_blank" rel="noopener">持续集成服务</a>，于2018年10月推出。</p>
 <p>持续集成由很多操作组成，比如抓取代码、运行测试、登录远程服务器，发布到第三方服务等等。GitHub 把这些操作就称为 actions。</p>
 <p>很多操作在不同项目里面是类似的，完全可以共享。GitHub 注意到了这一点，想出了一个很妙的点子，允许开发者把每个操作写成独立的脚本文件，存放到代码仓库，使得其他开发者可以引用。</p>
@@ -435,47 +434,48 @@ SCKEY = os.environ[&quot;SCKEY&quot;]</code></pre><h3 id="GitHub-Action"><a href
 <p>​    <a href="https://blog.csdn.net/qq_40748336/article/details/110749375" target="_blank" rel="noopener">基于GITHUB ACTION的定时任务，真香！</a></p>
 <p>​    <a href="http://www.ruanyifeng.com/blog/2019/12/github_actions.html" target="_blank" rel="noopener">GitHub Actions 教程：定时发送天气邮件</a></p>
 <p>​    <a href="https://docs.github.com/en/actions" target="_blank" rel="noopener">官方说明文档</a> </p>
-<p>Action的关键在于 .github/workflows 里的yml文件（完整代码在开头给出的仓库中）。</p>
-<pre><code># Controls when the action will run. 执行的触发条件
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch push时触发
-  #push:
-   # branches: [ main ]
-  #pull_request:
-   # branches: [ main ]
-  # 定时任务，每天在国际标准时间23点（北京时间早上7点）运行
-  schedule:
-    - cron: &#39;0 23 * * *&#39;
+<p>Action的关键在于 .github/workflows 里的yaml文件（完整代码在开头给出的仓库中）。</p>
+<pre class="line-numbers language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># Controls when the action will run. 执行的触发条件</span>
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token comment" spellcheck="true"># Triggers the workflow on push or pull request events but only for the main branch push时触发</span>
+  <span class="token comment" spellcheck="true">#push:</span>
+   <span class="token comment" spellcheck="true"># branches: [ main ]</span>
+  <span class="token comment" spellcheck="true">#pull_request:</span>
+   <span class="token comment" spellcheck="true"># branches: [ main ]</span>
+  <span class="token comment" spellcheck="true"># 定时任务，每天在国际标准时间23点（北京时间早上7点）运行</span>
+  <span class="token key atrule">schedule</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">cron</span><span class="token punctuation">:</span> <span class="token string">'0 23 * * *'</span>
 
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called &quot;build&quot;
-  build:
-    # The type of runner that the job will run on 运行环境
-    runs-on: ubuntu-latest
+<span class="token comment" spellcheck="true"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span>
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token comment" spellcheck="true"># This workflow contains a single job called "build"</span>
+  <span class="token key atrule">build</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># The type of runner that the job will run on 运行环境</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      # 安装python3.7
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2
-        with:
-          python-version: &#39;3.7&#39;
-      - name: Install dependencies
-        run: |
+    <span class="token comment" spellcheck="true"># Steps represent a sequence of tasks that will be executed as part of the job</span>
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token comment" spellcheck="true"># Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
+      <span class="token comment" spellcheck="true"># 安装python3.7</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Set up Python 3.7
+        <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>python@v2
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">python-version</span><span class="token punctuation">:</span> <span class="token string">'3.7'</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Install dependencies
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
           python -m pip install --upgrade pip
-          pip install requests
+          pip install requests</span>
 
-      - name: &#39;Send Email&#39;
-        # 设置两个环境变量，给python脚本使用
-        env:
-          # 从仓库的setting中设置两个secret，加密邮箱用户名和密码
-          username: ${{ secrets.MAILUSERNAME }}
-          pwd: ${{ secrets.MAILPASSWORD }}  
-        run: python request.py</code></pre>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">'Send Email'</span>
+        <span class="token comment" spellcheck="true"># 设置两个环境变量，给python脚本使用</span>
+        <span class="token key atrule">env</span><span class="token punctuation">:</span>
+          <span class="token comment" spellcheck="true"># 从仓库的setting中设置两个secret，加密邮箱用户名和密码</span>
+          <span class="token key atrule">username</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.MAILUSERNAME <span class="token punctuation">}</span><span class="token punctuation">}</span>
+          <span class="token key atrule">pwd</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.MAILPASSWORD <span class="token punctuation">}</span><span class="token punctuation">}</span>  
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> python request.py<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
             </div>
             <hr/>
 

@@ -449,171 +449,174 @@
 </ul>
 <h3 id="SpringBoot-WebSocket"><a href="#SpringBoot-WebSocket" class="headerlink" title="SpringBoot + WebSocket"></a>SpringBoot + WebSocket</h3><p>用SpringBoot + WebSocket实现一个简单的Web群聊。</p>
 <p><a href="https://github.com/topone233/SpringBoot-Demos/tree/main/socket" target="_blank" rel="noopener">去GitHub查看</a></p>
-<h4 id="1-创建项目、添加依赖"><a href="#1-创建项目、添加依赖" class="headerlink" title="1.创建项目、添加依赖"></a>1.创建项目、添加依赖</h4><pre><code>    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;
-        &lt;/dependency&gt;
+<h4 id="1-创建项目、添加依赖"><a href="#1-创建项目、添加依赖" class="headerlink" title="1.创建项目、添加依赖"></a>1.创建项目、添加依赖</h4><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-websocket<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
 
-        &lt;!-- 使用jar包的形式对所需要的前端库统一管理  --&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
-            &lt;artifactId&gt;webjars-locator-core&lt;/artifactId&gt;
-        &lt;/dependency&gt;
+<span class="token comment" spellcheck="true">&lt;!-- 使用jar包的形式对所需要的前端库统一管理  --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.webjars<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>webjars-locator-core<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
 
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
-            &lt;artifactId&gt;sockjs-client&lt;/artifactId&gt;
-            &lt;version&gt;1.1.2&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
-            &lt;artifactId&gt;stomp-websocket&lt;/artifactId&gt;
-            &lt;version&gt;2.3.3&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.webjars&lt;/groupId&gt;
-            &lt;artifactId&gt;jquery&lt;/artifactId&gt;
-            &lt;version&gt;3.3.1&lt;/version&gt;
-        &lt;/dependency&gt;</code></pre><h4 id="2-WebSocketConfig"><a href="#2-WebSocketConfig" class="headerlink" title="2.WebSocketConfig"></a>2.WebSocketConfig</h4><blockquote>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.webjars<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>sockjs-client<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.1.2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.webjars<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>stomp-websocket<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.3.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.webjars<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>jquery<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>3.3.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2-WebSocketConfig"><a href="#2-WebSocketConfig" class="headerlink" title="2.WebSocketConfig"></a>2.WebSocketConfig</h4><blockquote>
 <p>STOMP是一个简单的可互操作的协议，通常被用于通过中间服务器在客户端之间进行异步消息传递。</p>
 </blockquote>
 <p>Spring框架提供了基于WebSocket的STOMP支持。</p>
-<pre><code>/*
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
  * WebSocket配置类
  * spring提供了基于websocket的stomp支持
  * stomp是一个简单的可互操作的协议，通常被用于通过中间服务器在客户端之间进行异步消息传递。
- */
+ */</span>
 
-@Configuration
+<span class="token annotation punctuation">@Configuration</span>
 
-// 此注解用于开启WebSocket消息代理
-@EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
+<span class="token comment" spellcheck="true">// 此注解用于开启WebSocket消息代理</span>
+<span class="token annotation punctuation">@EnableWebSocketMessageBroker</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WebSocketConfig</span> <span class="token keyword">implements</span> <span class="token class-name">WebSocketMessageBrokerConfigurer</span><span class="token punctuation">{</span>
 
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        // 设置消息代理的前缀。即如果消息的前缀是“/topic”就会将消息转发给消息代理（broker）
-        // 再由消息代理将消息广播给当前连接的客户端。
-        config.enableSimpleBroker(&quot;/topic&quot;);
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">configureMessageBroker</span><span class="token punctuation">(</span>MessageBrokerRegistry config<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 设置消息代理的前缀。即如果消息的前缀是“/topic”就会将消息转发给消息代理（broker）</span>
+        <span class="token comment" spellcheck="true">// 再由消息代理将消息广播给当前连接的客户端。</span>
+        config<span class="token punctuation">.</span><span class="token function">enableSimpleBroker</span><span class="token punctuation">(</span><span class="token string">"/topic"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        // 配置一个或多个前缀，通过前缀过滤出需要被注解方法处理的消息。其他的将被直接交给broker处理。
-        config.setApplicationDestinationPrefixes(&quot;/app&quot;);
-    }
+        <span class="token comment" spellcheck="true">// 配置一个或多个前缀，通过前缀过滤出需要被注解方法处理的消息。其他的将被直接交给broker处理。</span>
+        config<span class="token punctuation">.</span><span class="token function">setApplicationDestinationPrefixes</span><span class="token punctuation">(</span><span class="token string">"/app"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // 定义一个前缀为“/chat”的endPoint，并开启sockjs支持。
-        // sockjs可以解决浏览器对websocket的兼容性问题，客户端将通过这里配置的URL来建立websocket连接
-        registry.addEndpoint(&quot;/chat&quot;).withSockJS();
-    }
-}</code></pre><h4 id="3-Controller"><a href="#3-Controller" class="headerlink" title="3.Controller"></a>3.Controller</h4><p>定义一个Controller来实现对消息的处理</p>
-<pre><code>@Controller
-public class GreetingController {
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">registerStompEndpoints</span><span class="token punctuation">(</span>StompEndpointRegistry registry<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 定义一个前缀为“/chat”的endPoint，并开启sockjs支持。</span>
+        <span class="token comment" spellcheck="true">// sockjs可以解决浏览器对websocket的兼容性问题，客户端将通过这里配置的URL来建立websocket连接</span>
+        registry<span class="token punctuation">.</span><span class="token function">addEndpoint</span><span class="token punctuation">(</span><span class="token string">"/chat"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withSockJS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="3-Controller"><a href="#3-Controller" class="headerlink" title="3.Controller"></a>3.Controller</h4><p>定义一个Controller来实现对消息的处理</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Controller</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GreetingController</span> <span class="token punctuation">{</span>
 
-    // 注解的方法将用来接收“/app/hello”路径发送来的消息，处理后将消息转发到@SendTo定义的路径上。
-    @MessageMapping(&quot;/hello&quot;)
+    <span class="token comment" spellcheck="true">// 注解的方法将用来接收“/app/hello”路径发送来的消息，处理后将消息转发到@SendTo定义的路径上。</span>
+    <span class="token annotation punctuation">@MessageMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
 
-    // 将处理过的消息交给消息代理broker，再由broker进行广播
-    @SendTo(&quot;/topic/greetings&quot;)
-    public Message greeting(Message message) throws Exception {
-        return message;
-    }
-}</code></pre><h4 id="4-聊天页面"><a href="#4-聊天页面" class="headerlink" title="4.聊天页面"></a>4.聊天页面</h4><p>在 resources/static下创建 chat.html页面作为聊天页面</p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-    &lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;title&gt;群聊&lt;/title&gt;
-        &lt;script src=&quot;/webjars/jquery/jquery.min.js&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;/webjars/sockjs-client/sockjs.min.js&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;/webjars/stomp-websocket/stomp.min.js&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;/app.js&quot;&gt;&lt;/script&gt;
-    &lt;/head&gt;
+    <span class="token comment" spellcheck="true">// 将处理过的消息交给消息代理broker，再由broker进行广播</span>
+    <span class="token annotation punctuation">@SendTo</span><span class="token punctuation">(</span><span class="token string">"/topic/greetings"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> Message <span class="token function">greeting</span><span class="token punctuation">(</span>Message message<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> message<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="4-聊天页面"><a href="#4-聊天页面" class="headerlink" title="4.聊天页面"></a>4.聊天页面</h4><p>在 resources/static下创建 chat.html页面作为聊天页面</p>
+<pre class="line-numbers language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>群聊<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/webjars/jquery/jquery.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/webjars/sockjs-client/sockjs.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/webjars/stomp-websocket/stomp.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/app.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
 
-    &lt;body&gt;
-        &lt;div&gt;
-            &lt;label for=&quot;name&quot;&gt;请输入用户名&lt;/label&gt;
-            &lt;input type=&quot;text&quot; id=&quot;name&quot; placeholder=&quot;用户名&quot;&gt;
-        &lt;/div&gt;
-        &lt;div&gt;
-            &lt;button id=&quot;connect&quot; type=&quot;button&quot;&gt;连接&lt;/button&gt;
-            &lt;button id=&quot;disconnect&quot; type=&quot;button&quot; disabled=&quot;disabled&quot;&gt;断开连接&lt;/button&gt;
-        &lt;/div&gt;
-        &lt;div id=&quot;chat&quot; style=&quot;display:none;&quot;&gt;
-            &lt;div&gt;
-                &lt;label for=&quot;name&quot;&gt;请输入聊天内容&lt;/label&gt;
-                &lt;input type=&quot;text&quot; id=&quot;content&quot; placeholder=&quot;聊天内容&quot;&gt;
-            &lt;/div&gt;
-            &lt;button id=&quot;send&quot; type=&quot;button&quot;&gt;发送&lt;/button&gt;
-            &lt;div id=&quot;greetings&quot;&gt;
-                &lt;div id=&quot;conversation&quot; style=&quot;display: none&quot;&gt;群聊进行中...&lt;/div&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/body&gt;
-&lt;/html&gt;</code></pre><p>自定义的 app.js</p>
-<pre><code>var stompClient = null;
-function setConnected(connected) {
-    $(&quot;#connect&quot;).prop(&quot;disabled&quot;, connected);
-    $(&quot;#disconnect&quot;).prop(&quot;disabled&quot;, !connected);
-    if (connected) {
-        $(&quot;#conversation&quot;).show();
-        $(&quot;#chat&quot;).show();
-    }
-    else {
-        $(&quot;#conversation&quot;).hide();
-        $(&quot;#chat&quot;).hide();
-    }
-    $(&quot;#greetings&quot;).html(&quot;&quot;);
-}
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>请输入用户名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>用户名<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>connect<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>连接<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>disconnect<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span> <span class="token attr-name">disabled</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>disabled<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>断开连接<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>chat<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">display</span><span class="token punctuation">:</span>none<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>请输入聊天内容<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>content<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>聊天内容<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>send<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>发送<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>greetings<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>conversation<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">display</span><span class="token punctuation">:</span> none</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>群聊进行中...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>自定义的 app.js</p>
+<pre class="line-numbers language-js"><code class="language-js"><span class="token keyword">var</span> stompClient <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">setConnected</span><span class="token punctuation">(</span>connected<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#connect"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">prop</span><span class="token punctuation">(</span><span class="token string">"disabled"</span><span class="token punctuation">,</span> connected<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#disconnect"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">prop</span><span class="token punctuation">(</span><span class="token string">"disabled"</span><span class="token punctuation">,</span> <span class="token operator">!</span>connected<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>connected<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#conversation"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#chat"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#conversation"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#chat"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#greetings"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">html</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-// 建立一个websocket连接，用户必须先输入用户名才能建立
-function connect() {
-    if (!$(&quot;#name&quot;).val()) {
-        return;
-    }
+<span class="token comment" spellcheck="true">// 建立一个websocket连接，用户必须先输入用户名才能建立</span>
+<span class="token keyword">function</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    // 首先使用sockJS建立连接，然后创建一个STOMP实例发起连接请求
-    // 在连接成功的回调方法中，首先调用setConnected(true)方法进行页面的设置
-    var socket = new SockJS(&#39;/chat&#39;);
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        setConnected(true);
+    <span class="token comment" spellcheck="true">// 首先使用sockJS建立连接，然后创建一个STOMP实例发起连接请求</span>
+    <span class="token comment" spellcheck="true">// 在连接成功的回调方法中，首先调用setConnected(true)方法进行页面的设置</span>
+    <span class="token keyword">var</span> socket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SockJS</span><span class="token punctuation">(</span><span class="token string">'/chat'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    stompClient <span class="token operator">=</span> Stomp<span class="token punctuation">.</span><span class="token function">over</span><span class="token punctuation">(</span>socket<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    stompClient<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>frame<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">setConnected</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        // 然后调用STOMP中的subscribe方法订阅服务端发送回来的消息
-        // 并将服务端发送来的消息展示出来（使用showGreeting方法）
-        stompClient.subscribe(&#39;/topic/greetings&#39;, function (greeting) {
-            showGreeting(JSON.parse(greeting.body));
-        });
-    });
-}
+        <span class="token comment" spellcheck="true">// 然后调用STOMP中的subscribe方法订阅服务端发送回来的消息</span>
+        <span class="token comment" spellcheck="true">// 并将服务端发送来的消息展示出来（使用showGreeting方法）</span>
+        stompClient<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">'/topic/greetings'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>greeting<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">showGreeting</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>greeting<span class="token punctuation">.</span>body<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-function disconnect() {
-    if (stompClient != null) {
+<span class="token keyword">function</span> <span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>stompClient <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
-        // 调用STOMP中的disconnect方法断开一个websocket连接
-        stompClient.disconnect();
-    }
-    setConnected(false);
-}
+        <span class="token comment" spellcheck="true">// 调用STOMP中的disconnect方法断开一个websocket连接</span>
+        stompClient<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">setConnected</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-function sendName() {
-    stompClient.send(&quot;/app/hello&quot;, {}, JSON.stringify({&#39;name&#39;: $(&quot;#name&quot;).val(), &#39;content&#39;:$(&quot;#content&quot;).val()}));
-}
+<span class="token keyword">function</span> <span class="token function">sendName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    stompClient<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">"/app/hello"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'name'</span><span class="token punctuation">:</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'content'</span><span class="token punctuation">:</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#content"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-function showGreeting(message) {
-    $(&quot;#greetings&quot;).append(&quot;&lt;div&gt;&quot; +message.name+ &quot;:&quot; + message.content + &quot;&lt;/div&gt;&quot;);
-}
+<span class="token keyword">function</span> <span class="token function">showGreeting</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#greetings"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"&lt;div>"</span> <span class="token operator">+</span>message<span class="token punctuation">.</span>name<span class="token operator">+</span> <span class="token string">":"</span> <span class="token operator">+</span> message<span class="token punctuation">.</span>content <span class="token operator">+</span> <span class="token string">"&lt;/div>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-$(function () {
-    $(&quot;#connect&quot; ).click(function() { connect(); });
-    $(&quot;#disconnect&quot; ).click(function() { disconnect(); });
-    $(&quot;#send&quot; ).click(function() { sendName(); });
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#connect"</span> <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#disconnect"</span> <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#send"</span> <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">sendName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-});</code></pre><h4 id="5-运行"><a href="#5-运行" class="headerlink" title="5.运行"></a>5.运行</h4><p>用两个浏览器或者多用户，运行结果如下：</p>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="5-运行"><a href="#5-运行" class="headerlink" title="5.运行"></a>5.运行</h4><p>用两个浏览器或者多用户，运行结果如下：</p>
 <p>输入自定义的用户名，点击连接，进入聊天室。</p>
 <p>实现两个或两个以上用户进行聊天，聊天内容房间内所有人都可以看到，实现一个简单的Web群聊。</p>
-<p><img src="https://7.dusays.com/2020/10/20/6109785b046c6.png" alt="image-20201020175049840"></p>
 
             </div>
             <hr/>
@@ -853,30 +856,30 @@ $(function () {
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/10/17/SpringBoot%20+%20Redis%E7%BC%93%E5%AD%98/">
+                <a href="/2020/10/15/MySql%20%E5%9F%BA%E7%A1%80%E8%AF%AD%E5%8F%A5/">
                     <div class="card-image">
                         
-                        <img src="https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683158467-42da0cdb-e3e8-4adc-a25b-28dad02e741a.jpeg" class="responsive-img" alt="SpringBoot + Redis缓存">
+                        <img src="https://cdn.nlark.com/yuque/0/2023/jpeg/2919408/1675683153524-0406bafb-1001-4bbc-b1fe-b1eee54b5d7e.jpeg" class="responsive-img" alt="MySql 基础语句">
                         
-                        <span class="card-title">SpringBoot + Redis缓存</span>
+                        <span class="card-title">MySql 基础语句</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            SpringBoot + Redis缓存
+                            MySql 基础使用
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-15
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/spring/" class="post-category">
-                                    Spring
+                            <a href="/categories/mysql/" class="post-category">
+                                    MySql
                                 </a>
                             
                             
@@ -886,16 +889,8 @@ $(function () {
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/spring/">
-                        <span class="chip bg-color">Spring</span>
-                    </a>
-                    
-                    <a href="/tags/redis/">
-                        <span class="chip bg-color">Redis</span>
+                    <a href="/tags/mysql/">
+                        <span class="chip bg-color">MySql</span>
                     </a>
                     
                 </div>
